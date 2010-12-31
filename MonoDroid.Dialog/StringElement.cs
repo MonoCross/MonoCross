@@ -1,13 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -15,10 +7,10 @@ namespace MonoDroid.Dialog
 {
     public class StringElement : Element
     {
+        private readonly Context _context;
         public string Value;
-        private Context _context;
-        private TextView _text;
         private TextView _caption;
+        private TextView _text;
 
         public StringElement(Context context, string caption) : base(caption)
         {
@@ -29,7 +21,7 @@ namespace MonoDroid.Dialog
             : base(caption)
         {
             _context = context;
-            this.Value = value;
+            Value = value;
         }
 
         public StringElement(string caption, Action tapped)
@@ -42,15 +34,25 @@ namespace MonoDroid.Dialog
 
         public override View GetView()
         {
-            var view = new LinearLayout(_context) {Orientation = Orientation.Horizontal};
+            var view = new RelativeLayout(_context);
 
-            _caption = new TextView(_context) { Text = Caption };
-            view.AddView(_caption);
+            var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                                                        ViewGroup.LayoutParams.WrapContent);
+            parms.SetMargins(5, 3, 5, 0);
+            parms.AddRule((int) LayoutRules.AlignParentLeft);
 
-            if (string.IsNullOrEmpty(Value))
+            _caption = new TextView(_context) {Text = Caption, TextSize = 16f};
+            view.AddView(_caption, parms);
+
+            if (!string.IsNullOrEmpty(Value))
             {
-                _text = new TextView(_context) { Text = Value };
-                view.AddView(_text);
+                var tparms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                                                             ViewGroup.LayoutParams.WrapContent);
+                tparms.SetMargins(5, 3, 5, 0);
+                tparms.AddRule((int) LayoutRules.AlignParentRight);
+
+                _text = new TextView(_context) {Text = Value, TextSize = 16f};
+                view.AddView(_text, tparms);
             }
 
             return view;
@@ -69,7 +71,19 @@ namespace MonoDroid.Dialog
 
         public override bool Matches(string text)
         {
-            return (Value != null ? Value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1 : false) || base.Matches(text);
+            return (Value != null ? Value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1 : false) ||
+                   base.Matches(text);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _caption.Dispose();
+                _caption = null;
+                _text.Dispose();
+                _text = null;
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace MonoDroid.Dialog
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             Element element = _elements.ElementAt(position);
-            return new DialogAdapterView(_context, element);
+            return new DialogView(_context, element);
         }
 
         public override int Count

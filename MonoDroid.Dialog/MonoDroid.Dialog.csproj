@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StringElement.cs" />
+    <Compile Include="BooleanElement.cs" />
     <Compile Include="DialogAdapter.cs" />
-    <Compile Include="DialogAdapterView.cs" />
+    <Compile Include="DialogView.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

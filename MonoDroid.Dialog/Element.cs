@@ -56,5 +56,16 @@ namespace MonoDroid.Dialog
         {
             return new View(null);
         }
+
+        public virtual void Selected()
+        {
+        }
+
+        public virtual bool Matches(string text)
+        {
+            if (Caption == null)
+                return false;
+            return Caption.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
     }
 }

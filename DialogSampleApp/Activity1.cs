@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Sax;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using MonoDroid.Dialog;
@@ -15,24 +10,22 @@ namespace DialogSampleApp
     [Activity(Label = "MD.D Sample", MainLauncher = true)]
     public class Activity1 : Activity
     {
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            var lv = new ListView(this) {Adapter = null};
-
             var elements = new List<Element>
                                {
                                    new BooleanElement(this, "Push my button", true),
-                                   new BooleanElement(this, "Push this too", false)
+                                   new BooleanElement(this, "Push this too", false),
+                                   new StringElement(this,"This is the String Element","The Value")
                                };
 
-            var da = new DialogAdapter(this,elements);
-            lv.Adapter = da;
+            var da = new DialogAdapter(this, elements);
+
+            var lv = new ListView(this) {Adapter = da};
             
             SetContentView(lv);
         }
     }
 }
-
