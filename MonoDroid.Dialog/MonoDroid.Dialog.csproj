@@ -39,12 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckboxElement.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="IElementSizing.cs" />
+    <Compile Include="RadioElement.cs" />
+    <Compile Include="RootElement.cs" />
+    <Compile Include="Section.cs" />
     <Compile Include="StringElement.cs" />
     <Compile Include="BooleanElement.cs" />
     <Compile Include="DialogAdapter.cs" />
     <Compile Include="DialogView.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
