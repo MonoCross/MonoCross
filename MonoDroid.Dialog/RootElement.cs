@@ -205,9 +205,6 @@ namespace MonoDroid.Dialog
         /// <param name="idx">
         /// The index where the section is added <see cref="System.Int32"/>
         /// </param>
-        /// <param name="anim">
-        /// The <see cref="UITableViewRowAnimation"/> type.
-        /// </param>
         /// <param name="newSections">
         /// A <see cref="Section[]"/> list of sections to insert
         /// </param>

@@ -1,13 +1,14 @@
 ﻿using Android.Content;
 using Android.Views;
+using Android.Widget;
 
 namespace MonoDroid.Dialog
 {
     public class CheckboxElement : Element
     {
         private readonly Context _context;
-
-        public new bool Value;
+        private CheckBox _cb;
+        public bool Value;
         public string Group;
 
         public CheckboxElement(Context context, string caption)
@@ -28,24 +29,16 @@ namespace MonoDroid.Dialog
             Group = group;
         }
 
-        View ConfigCell(View cell)
-        {
-            //cell.Accessory = Value ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-            return cell;
-        }
-
         public override View GetView()
         {
-            return ConfigCell(base.GetView());
+            _cb = new CheckBox(_context) {Checked = Value, Text = Caption};
+            return _cb;
         }
 
         public override void Selected()
         {
-            //Value = !Value;
-            //var cell = tableView.CellAt(path);
-            //ConfigCell(cell);
-            //base.Selected(dvc, tableView, path);
-            base.Selected();
+            Value = !Value;
+            _cb.Checked = Value;
         }
     }
 }
