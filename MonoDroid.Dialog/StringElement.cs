@@ -32,6 +32,8 @@ namespace MonoDroid.Dialog
 
         public event Action Tapped;
 
+        public object Alignment;
+
         public override View GetView()
         {
             var view = new RelativeLayout(_context);

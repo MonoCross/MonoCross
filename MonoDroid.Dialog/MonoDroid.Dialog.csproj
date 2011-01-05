@@ -39,10 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingContext.cs" />
     <Compile Include="CheckboxElement.cs" />
+    <Compile Include="DateTimeElement.cs" />
+    <Compile Include="EntryElement.cs" />
+    <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="HtmlElement.cs" />
     <Compile Include="IElementSizing.cs" />
+    <Compile Include="ImageElement.cs" />
+    <Compile Include="MultilineElement.cs" />
     <Compile Include="RadioElement.cs" />
+    <Compile Include="Reflect.cs" />
     <Compile Include="RootElement.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="StringElement.cs" />
