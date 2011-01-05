@@ -11,3 +11,8 @@ chaos as more and more elements get added.
 MonoDroid.Dialog is a foundation to create dialog boxes and show table-based 
 information without having to write dozens of delegates and controllers for 
 the user interface.
+
+Pic of the Sample App
+---------------------
+![Rendering of SampleApp](MonoDroid.Dialog/raw/master/sample.png)
+
