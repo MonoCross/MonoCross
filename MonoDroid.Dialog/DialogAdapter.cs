@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Android.Content;
+﻿using System.Linq;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
@@ -9,13 +7,11 @@ namespace MonoDroid.Dialog
 {
     public class DialogAdapter : BaseAdapter
     {
-        private Context _context;
-        private IEnumerable<Element> _elements;
+        private readonly RootElement _rootElement;
 
-        public DialogAdapter(Context context, IEnumerable<Element> elements)
+        public DialogAdapter(RootElement rootElement)
         {
-            _context = context;
-            _elements = elements;
+            _rootElement = rootElement;
         }
 
         public override Object GetItem(int position)
@@ -30,13 +26,13 @@ namespace MonoDroid.Dialog
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            Element element = _elements.ElementAt(position);
-            return new DialogView(_context, element);
+            var section = _rootElement.Sections[position];
+            return section.GetView();
         }
 
         public override int Count
         {
-            get { return _elements.Count(); }
+            get { return _rootElement.Sections.Count(); }
         }
     }
 }

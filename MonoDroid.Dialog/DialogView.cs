@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.Util;
+using Android.Views;
 using Android.Widget;
 
 namespace MonoDroid.Dialog
@@ -19,7 +20,6 @@ namespace MonoDroid.Dialog
 
         private void Initialize(Element element)
         {
-            SetMinimumHeight(44);
             AddView(element.GetView());
         }
     }

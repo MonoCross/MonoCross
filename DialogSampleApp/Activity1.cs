@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Android.App;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
+using Android.Widget;
 using MonoDroid.Dialog;
-using Element = MonoDroid.Dialog.Element;
 
 namespace DialogSampleApp
 {
@@ -14,17 +12,25 @@ namespace DialogSampleApp
         {
             base.OnCreate(bundle);
 
-            var elements = new List<Element>
-                               {
-                                   new BooleanElement(this, "Push my button", true),
-                                   new BooleanElement(this, "Push this too", false),
-                                   new StringElement(this,"This is the String Element","The Value")
-                               };
+            var root = new RootElement(this, "Test Root Elem")
+                           {
+                               new Section(this, "Test Header", "Test Footer")
+                                   {
+                                       new BooleanElement(this, "Push my button", true),
+                                       new BooleanElement(this, "Push this too", false),
+                                       new StringElement(this, "Text label", "The Value"),
+                                   },
+                               new Section(this, "Part II")
+                                   {
+                                       new StringElement(this, "This is the String Element", "The Value"),
+                                       new CheckboxElement(this, "Check this out", true)
+                                   }
+                           };
 
-            var da = new DialogAdapter(this, elements);
+            var da = new DialogAdapter(root);
 
             var lv = new ListView(this) {Adapter = da};
-            
+
             SetContentView(lv);
         }
     }

@@ -15,7 +15,6 @@ namespace MonoDroid.Dialog
         internal Group group;
         public bool UnevenRows;
         public Func<RootElement, View> createOnSelected;
-        internal TableLayout Table;
 
         /// <summary>
         ///  Initializes a RootSection with a caption
@@ -172,10 +171,6 @@ namespace MonoDroid.Dialog
 
             Sections.Add(section);
             section.Parent = this;
-            if (Table == null)
-                return;
-
-           // Table.InsertSections(MakeIndexSet(Sections.Count - 1, 1), UITableViewRowAnimation.None);
         }
 
         //
@@ -228,12 +223,6 @@ namespace MonoDroid.Dialog
                 s.Parent = this;
                 Sections.Insert(pos++, s);
             }
-
-            if (Table == null)
-                return;
-
-            //Table.InsertSections(MakeIndexSet(idx, newSections.Length), anim);
-            //Table.EndUpdates();
         }
 
         /// <summary>
@@ -245,11 +234,6 @@ namespace MonoDroid.Dialog
                 return;
 
             Sections.RemoveAt(idx);
-
-            if (Table == null)
-                return;
-
-            //Table.DeleteSections(NSIndexSet.FromIndex(idx), anim);
         }
 
         public void Remove(Section s)
@@ -267,8 +251,6 @@ namespace MonoDroid.Dialog
             foreach (var s in Sections)
                 s.Dispose();
             Sections = new List<Section>();
-            //if (Table != null)
-            //    Table.ReloadData();
         }
 
         protected override void Dispose(bool disposing)
@@ -277,8 +259,6 @@ namespace MonoDroid.Dialog
             {
                 if (Sections == null)
                     return;
-
-                Table = null;
                 Clear();
                 Sections = null;
             }
@@ -292,8 +272,7 @@ namespace MonoDroid.Dialog
         /// </returns>
         public IEnumerator GetEnumerator()
         {
-            foreach (var s in Sections)
-                yield return s;
+            return Sections.GetEnumerator();
         }
 
         /// <summary>
@@ -318,17 +297,8 @@ namespace MonoDroid.Dialog
 
         public override View GetView()
         {
-            var cell = new View(_context);
-            //var cell = tv.DequeueReusableCell(rkey);
-            //if (cell == null)
-            //{
-            //    var style = summarySection == -1 ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1;
+            var cell = new TextView(_context) {TextSize = 16f, Text = Caption};
 
-            //    cell = new UITableViewCell(style, rkey);
-            //    cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
-            //}
-
-            //cell.TextLabel.Text = Caption;
             var radio = group as RadioGroup;
             if (radio != null)
             {
@@ -344,7 +314,7 @@ namespace MonoDroid.Dialog
 
                         if (current == selected)
                         {
-                            //cell.DetailTextLabel.Text = e.Summary();
+                            cell.Text = e.Summary();
                             goto le;
                         }
                         current++;

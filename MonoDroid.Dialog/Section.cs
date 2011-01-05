@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Android.Content;
 using Android.Views;
+using Android.Widget;
+using Orientation = Android.Widget.Orientation;
 
 namespace MonoDroid.Dialog
 {
 	/// <summary>
-	/// Sections contain individual Element instances that are rendered by MonoTouch.Dialog
+	/// Sections contain individual Element instances that are rendered by MonoDroid.Dialog
 	/// </summary>
 	/// <remarks>
 	/// Sections are used to group elements in the screen and they are the
@@ -82,8 +84,8 @@ namespace MonoDroid.Dialog
 		/// </summary>
 		public string Header
 		{
-			get { return header as string; }
-			set { footer = value; }
+			get { return Caption; }
+			set { Caption = value; }
 		}
 
 		/// <summary>
@@ -217,7 +219,7 @@ namespace MonoDroid.Dialog
 				e.Parent = this;
 			}
 			var root = Parent as RootElement;
-			if (Parent != null && root.Table != null)
+			if (Parent != null)
 			{
 				InsertVisual(idx, newElements.Length);
 			}
@@ -237,7 +239,7 @@ namespace MonoDroid.Dialog
 				count++;
 			}
 			var root = Parent as RootElement;
-			if (root != null && root.Table != null)
+			if (root != null )
 			{
 				InsertVisual(idx, pos - idx);
 			}
@@ -302,7 +304,7 @@ namespace MonoDroid.Dialog
 
 			Elements.RemoveRange(start, count);
 
-			if (root == null || root.Table == null)
+			if (root == null)
 				return;
 
 			int sidx = root.IndexOf(this);
@@ -335,10 +337,56 @@ namespace MonoDroid.Dialog
 
 		public override View GetView()
 		{
-			var cell = new View(_context);
+			var cell = new LinearLayout(_context) {Orientation = Orientation.Vertical};
+			
+			if (HeaderView != null)
+			{
+				cell.AddView(HeaderView);    
+			}
+			else
+			{
+			    TextView tv = BuildTextView(Header, 16);
+                tv.SetBackgroundColor(Android.Graphics.Color.LightGray);
+                tv.SetTextColor(Android.Graphics.Color.Black);
+	        
+			    cell.AddView(tv);
+			}
+
+		    foreach (var element in Elements)
+			{
+				cell.AddView(element.GetView());
+			}
+
+			if (FooterView != null)
+			{
+				cell.AddView(FooterView);
+			}
+			else
+            {
+			    var rel = new RelativeLayout(_context);
+                var rparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+                                                              ViewGroup.LayoutParams.WrapContent);
+                rparams.AddRule((int) LayoutRules.CenterInParent);
+
+                var tv = BuildTextView(Footer, 12);
+			    rel.AddView(tv,rparams);
+                cell.AddView(rel);
+			}
 
 			return cell;
 		}
+
+	    private TextView BuildTextView(string text, int textSize)
+	    {
+	        var tv = new TextView(_context);
+	        if (!string.IsNullOrEmpty(text))
+	        {
+	            tv.Text = text;
+                tv.TextSize = textSize;
+	            tv.SetPadding(5, 3, 5, 0);
+	        }
+	        return tv;
+	    }
 	}
 
 	public struct SizeF
