@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
@@ -345,14 +347,14 @@ namespace MonoDroid.Dialog
 			}
 			else
 			{
-			    TextView tv = BuildTextView(Header, 16);
-                tv.SetBackgroundColor(Android.Graphics.Color.LightGray);
-                tv.SetTextColor(Android.Graphics.Color.Black);
-	        
-			    cell.AddView(tv);
+				TextView tv = BuildTextView(Header, 16);
+				tv.SetBackgroundColor(Android.Graphics.Color.LightGray);
+				tv.SetTextColor(Android.Graphics.Color.Black);
+			
+				cell.AddView(tv);
 			}
 
-		    foreach (var element in Elements)
+			foreach (var element in Elements)
 			{
 				cell.AddView(element.GetView());
 			}
@@ -361,37 +363,31 @@ namespace MonoDroid.Dialog
 			{
 				cell.AddView(FooterView);
 			}
-			else
-            {
-			    var rel = new RelativeLayout(_context);
-                var rparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                                                              ViewGroup.LayoutParams.WrapContent);
-                rparams.AddRule((int) LayoutRules.CenterInParent);
+			else if (!string.IsNullOrEmpty(Footer))
+			{
+				var rel = new RelativeLayout(_context);
+				var rparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
+															  ViewGroup.LayoutParams.WrapContent);
+				rparams.AddRule((int) LayoutRules.CenterInParent);
 
-                var tv = BuildTextView(Footer, 12);
-			    rel.AddView(tv,rparams);
-                cell.AddView(rel);
+				var tv = BuildTextView(Footer, 12);
+				rel.AddView(tv,rparams);
+				cell.AddView(rel);
 			}
 
 			return cell;
 		}
 
-	    private TextView BuildTextView(string text, int textSize)
-	    {
-	        var tv = new TextView(_context);
-	        if (!string.IsNullOrEmpty(text))
-	        {
-	            tv.Text = text;
-                tv.TextSize = textSize;
-	            tv.SetPadding(5, 3, 5, 0);
-	        }
-	        return tv;
-	    }
-	}
-
-	public struct SizeF
-	{
-		public int Height;
-		public int Width;
+		private TextView BuildTextView(string text, int textSize)
+		{
+			var tv = new TextView(_context);
+			if (!string.IsNullOrEmpty(text))
+			{
+				tv.Text = text;
+				tv.TextSize = textSize;
+				tv.SetPadding(5, 3, 5, 0);
+			}
+			return tv;
+		}
 	}
 }

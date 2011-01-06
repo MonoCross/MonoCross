@@ -1,11 +1,12 @@
 ﻿using Android.App;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using MonoDroid.Dialog;
 
 namespace DialogSampleApp
 {
-    [Activity(Label = "MD.D Sample", MainLauncher = true)]
+    [Activity(Label = "MD.D Sample", MainLauncher = true, WindowSoftInputMode = SoftInput.AdjustPan)]
     public class Activity1 : Activity
     {
         protected override void OnCreate(Bundle bundle)
@@ -23,7 +24,8 @@ namespace DialogSampleApp
                                new Section(this, "Part II")
                                    {
                                        new StringElement(this, "This is the String Element", "The Value"),
-                                       new CheckboxElement(this, "Check this out", true)
+                                       new CheckboxElement(this, "Check this out", true),
+                                       new EntryElement(this, "Username", "Enter your login","")
                                    }
                            };
 

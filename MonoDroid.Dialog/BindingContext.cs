@@ -184,13 +184,13 @@ namespace MonoDroid.Dialog
 
                     string value = (string)GetValue(mi, o);
                     if (pa != null)
-                        element = new EntryElement(caption, pa.Placeholder, value, true);
+                        element = new EntryElement(_context, caption, pa.Placeholder, value, true);
                     else if (ea != null)
-                        element = new EntryElement(caption, ea.Placeholder, value);
+                        element = new EntryElement(_context, caption, ea.Placeholder, value);
                     else if (multi)
                         element = new MultilineElement(_context, caption, value);
                     else if (html != null)
-                        element = new HtmlElement(caption, value);
+                        element = new HtmlElement(_context, caption, value);
                     else
                     {
                         var selement = new StringElement(_context, caption, value);
