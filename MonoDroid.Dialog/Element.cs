@@ -1,5 +1,6 @@
 using System;
 using Android.Views;
+using Android.Content;
 
 namespace MonoDroid.Dialog
 {
@@ -52,9 +53,9 @@ namespace MonoDroid.Dialog
             return "";
         }
 
-        public virtual View GetView()
+        public virtual View GetView(Context context)
         {
-            return new View(null);
+            return new View(context);
         }
 
         public virtual void Selected()

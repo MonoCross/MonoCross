@@ -9,20 +9,20 @@ namespace MonoDroid.Dialog
         public string Group;
         internal int RadioIdx;
 
-        public RadioElement(Context context, string caption, string group)
-            : base(context, caption)
+        public RadioElement(string caption, string group)
+            : base(caption)
         {
             Group = group;
         }
 
-        public RadioElement(Context context, string caption)
-            : base(context, caption)
+        public RadioElement(string caption)
+            : base(caption)
         {
         }
 
-        public override View GetView()
+        public override View GetView(Context context)
         {
-            var cell = base.GetView();
+            var cell = base.GetView(context);
             var root = (RootElement)Parent.Parent;
 
             if (!(root.group is RadioGroup))

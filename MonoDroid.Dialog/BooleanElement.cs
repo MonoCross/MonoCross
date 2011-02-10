@@ -41,32 +41,30 @@ namespace MonoDroid.Dialog
     /// </summary>
     public class BooleanElement : BoolElement
     {
-        private readonly Context _context;
         private static string bkey = "BooleanElement";
         private ToggleButton sw;
         private TextView tv;
 
-        public BooleanElement(Context context, string caption, bool value)
+        public BooleanElement(string caption, bool value)
             : base(caption, value)
         {
-            _context = context;
         }
 
-        public BooleanElement(Context context, string caption, bool value, string key)
-            : this(context, caption, value)
+        public BooleanElement(string caption, bool value, string key)
+            : this(caption, value)
         {
         }
 
-        public override View GetView()
+        public override View GetView(Context context)
         {
-            var view = new RelativeLayout(_context);
+            var view = new RelativeLayout(context);
 
             var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
                                                         ViewGroup.LayoutParams.WrapContent);
             parms.SetMargins(5, 3, 5, 0);
             parms.AddRule((int) LayoutRules.CenterVertical);
 
-            tv = new TextView(_context) {Text = Caption, TextSize = 16f};
+            tv = new TextView(context) {Text = Caption, TextSize = 16f};
             view.AddView(tv, parms);
 
             var sparms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
@@ -75,7 +73,7 @@ namespace MonoDroid.Dialog
             sparms.AddRule((int) LayoutRules.CenterVertical);
             sparms.AddRule((int) LayoutRules.AlignParentRight);
 
-            sw = new ToggleButton(_context) {Tag = 1, Checked = Value};
+            sw = new ToggleButton(context) {Tag = 1, Checked = Value};
 
             view.AddView(sw, sparms);
             return view;

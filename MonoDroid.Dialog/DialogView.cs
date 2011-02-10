@@ -9,18 +9,18 @@ namespace MonoDroid.Dialog
     {
         public DialogView(Context context, Element element) : base(context)
         {
-            Initialize(element);
+			Initialize(context, element);
         }
 
         public DialogView(Context context, IAttributeSet attrs, Element element) :
             base(context, attrs)
         {
-            Initialize(element);
+			Initialize(context, element);
         }
 
-        private void Initialize(Element element)
+        private void Initialize(Context context, Element element)
         {
-            AddView(element.GetView());
+            AddView(element.GetView(context));
         }
     }
 }

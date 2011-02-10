@@ -95,7 +95,7 @@ namespace MonoDroid.Dialog
 
             mappings = new Dictionary<Element, MemberAndInstance>();
 
-            Root = new RootElement(_context, title);
+            Root = new RootElement(title);
             Populate(callbacks, o, Root);
         }
 
@@ -184,16 +184,16 @@ namespace MonoDroid.Dialog
 
                     string value = (string)GetValue(mi, o);
                     if (pa != null)
-                        element = new EntryElement(_context, caption, pa.Placeholder, value, true);
+                        element = new EntryElement(caption, pa.Placeholder, value, true);
                     else if (ea != null)
-                        element = new EntryElement(_context, caption, ea.Placeholder, value);
+                        element = new EntryElement(caption, ea.Placeholder, value);
                     else if (multi)
-                        element = new MultilineElement(_context, caption, value);
+                        element = new MultilineElement(caption, value);
                     else if (html != null)
-                        element = new HtmlElement(_context, caption, value);
+                        element = new HtmlElement(caption, value);
                     else
                     {
-                        var selement = new StringElement(_context, caption, value);
+                        var selement = new StringElement(caption, value);
                         element = selement;
 
                         if (align != null)
@@ -230,9 +230,9 @@ namespace MonoDroid.Dialog
                     }
 
                     if (checkbox)
-                        element = new CheckboxElement(_context, caption, (bool)GetValue(mi, o));
+                        element = new CheckboxElement(caption, (bool)GetValue(mi, o));
                     else
-                        element = new BooleanElement(_context, caption, (bool)GetValue(mi, o));
+                        element = new BooleanElement(caption, (bool)GetValue(mi, o));
                 }
                 else if (mType == typeof(DateTime))
                 {
@@ -248,11 +248,11 @@ namespace MonoDroid.Dialog
                     }
 
                     if (asDate)
-                        element = new DateElement(_context, caption, dateTime);
+                        element = new DateElement(caption, dateTime);
                     else if (asTime)
-                        element = new TimeElement(_context, caption, dateTime);
+                        element = new TimeElement(caption, dateTime);
                     else
-                        element = new DateTimeElement(_context, caption, dateTime);
+                        element = new DateTimeElement(caption, dateTime);
                 }
                 else if (mType.IsEnum)
                 {
@@ -268,11 +268,11 @@ namespace MonoDroid.Dialog
                         if (v == evalue)
                             selected = idx;
 
-                        csection.Add(new RadioElement(_context, MakeCaption(fi.Name)));
+                        csection.Add(new RadioElement(MakeCaption(fi.Name)));
                         idx++;
                     }
 
-                    element = new RootElement(_context, caption, new RadioGroup(null, selected)) { csection };
+                    element = new RootElement(caption, new RadioGroup(null, selected)) { csection };
                 }
                 else if (mType == typeof(ImageView))
                 {
@@ -287,13 +287,13 @@ namespace MonoDroid.Dialog
                         throw new Exception("IEnumerable found, but no previous int found");
                     foreach (var e in (IEnumerable)GetValue(mi, o))
                     {
-                        csection.Add(new RadioElement(_context, e.ToString()));
+                        csection.Add(new RadioElement(e.ToString()));
                         count++;
                     }
                     int selected = (int)GetValue(last_radio_index, o);
                     if (selected >= count || selected < 0)
                         selected = 0;
-                    element = new RootElement(_context, caption, new MemberRadioGroup(null, selected, last_radio_index)) { csection };
+                    element = new RootElement(caption, new MemberRadioGroup(null, selected, last_radio_index)) { csection };
                     last_radio_index = null;
                 }
                 else if (typeof(int) == mType)
@@ -312,7 +312,7 @@ namespace MonoDroid.Dialog
                     var nested = GetValue(mi, o);
                     if (nested != null)
                     {
-                        var newRoot = new RootElement(_context, caption);
+                        var newRoot = new RootElement(caption);
                         Populate(callbacks, nested, newRoot);
                         element = newRoot;
                     }

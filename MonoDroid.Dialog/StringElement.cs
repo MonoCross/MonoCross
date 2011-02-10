@@ -7,20 +7,17 @@ namespace MonoDroid.Dialog
 {
     public class StringElement : Element
     {
-        private readonly Context _context;
         public string Value;
         private TextView _caption;
         private TextView _text;
 
-        public StringElement(Context context, string caption) : base(caption)
+        public StringElement(string caption) : base(caption)
         {
-            _context = context;
         }
 
-        public StringElement(Context context, string caption, string value)
+        public StringElement(string caption, string value)
             : base(caption)
         {
-            _context = context;
             Value = value;
         }
 
@@ -34,16 +31,16 @@ namespace MonoDroid.Dialog
 
         public object Alignment;
 
-        public override View GetView()
+        public override View GetView(Context context)
         {
-            var view = new RelativeLayout(_context);
+            var view = new RelativeLayout(context);
 
             var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
                                                         ViewGroup.LayoutParams.WrapContent);
             parms.SetMargins(5, 3, 5, 0);
             parms.AddRule((int) LayoutRules.AlignParentLeft);
 
-            _caption = new TextView(_context) {Text = Caption, TextSize = 16f};
+            _caption = new TextView(context) {Text = Caption, TextSize = 16f};
             view.AddView(_caption, parms);
 
             if (!string.IsNullOrEmpty(Value))
@@ -53,7 +50,7 @@ namespace MonoDroid.Dialog
                 tparms.SetMargins(5, 3, 5, 0);
                 tparms.AddRule((int) LayoutRules.AlignParentRight);
 
-                _text = new TextView(_context) {Text = Value, TextSize = 16f};
+                _text = new TextView(context) {Text = Value, TextSize = 16f};
                 view.AddView(_text, tparms);
             }
 

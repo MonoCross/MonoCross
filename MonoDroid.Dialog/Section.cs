@@ -337,9 +337,9 @@ namespace MonoDroid.Dialog
 			}
 		}
 
-		public override View GetView()
+		public override View GetView(Context context)
 		{
-			var cell = new LinearLayout(_context) {Orientation = Orientation.Vertical};
+			var cell = new LinearLayout(context) {Orientation = Orientation.Vertical};
 			
 			if (HeaderView != null)
 			{
@@ -356,7 +356,7 @@ namespace MonoDroid.Dialog
 
 			foreach (var element in Elements)
 			{
-				cell.AddView(element.GetView());
+				cell.AddView(element.GetView(context));
 			}
 
 			if (FooterView != null)
@@ -365,7 +365,7 @@ namespace MonoDroid.Dialog
 			}
 			else if (!string.IsNullOrEmpty(Footer))
 			{
-				var rel = new RelativeLayout(_context);
+				var rel = new RelativeLayout(context);
 				var rparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
 															  ViewGroup.LayoutParams.WrapContent);
 				rparams.AddRule((int) LayoutRules.CenterInParent);

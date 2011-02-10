@@ -9,7 +9,6 @@ namespace MonoDroid.Dialog
 {
     public class RootElement : Element, IEnumerable
     {
-        private readonly Context _context;
         private static string rkey = "RootElement";
         int summarySection, summaryElement;
         internal Group group;
@@ -22,10 +21,9 @@ namespace MonoDroid.Dialog
         /// <param name="caption">
         ///  The caption to render.
         /// </param>
-        public RootElement(Context context, string caption)
+        public RootElement(string caption)
             : base(caption)
         {
-            _context = context;
             summarySection = -1;
             Sections = new List<Section>();
         }
@@ -38,11 +36,10 @@ namespace MonoDroid.Dialog
         /// <param name="caption">
         ///  The caption to render.
         /// </param>
-        public RootElement(Context context, string caption, Func<RootElement, View> createOnSelected)
+        public RootElement(string caption, Func<RootElement, View> createOnSelected)
             : base(caption)
         {
             summarySection = -1;
-            _context = context;
             this.createOnSelected = createOnSelected;
             Sections = new List<Section>();
         }
@@ -59,10 +56,9 @@ namespace MonoDroid.Dialog
         /// <param name="element">
         /// The element index inside the section that contains the summary for this RootSection.
         /// </param>
-        public RootElement(Context context, string caption, int section, int element)
+        public RootElement(string caption, int section, int element)
             : base(caption)
         {
-            _context = context;
             summarySection = section;
             summaryElement = element;
         }
@@ -77,10 +73,9 @@ namespace MonoDroid.Dialog
         /// The group that contains the checkbox or radio information.  This is used to display
         /// the summary information when a RootElement is rendered inside a section.
         /// </param>
-        public RootElement(Context context, string caption, Group group)
+        public RootElement(string caption, Group group)
             : base(caption)
         {
-            _context = context;
             this.group = group;
         }
 
@@ -295,9 +290,9 @@ namespace MonoDroid.Dialog
             }
         }
 
-        public override View GetView()
+        public override View GetView(Context context)
         {
-            var cell = new TextView(_context) {TextSize = 16f, Text = Caption};
+            var cell = new TextView(context) {TextSize = 16f, Text = Caption};
 
             var radio = group as RadioGroup;
             if (radio != null)
@@ -370,12 +365,12 @@ namespace MonoDroid.Dialog
         /// <summary>
         /// Creates the UIViewController that will be pushed by this RootElement
         /// </summary>
-        protected virtual View MakeViewController()
+        protected virtual View MakeViewController(Context context)
         {
             if (createOnSelected != null)
                 return createOnSelected(this);
 
-            return new DialogView(_context, this);
+            return new DialogView(context, this);
         }
 
         public override void Selected()

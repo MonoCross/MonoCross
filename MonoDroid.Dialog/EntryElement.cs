@@ -30,18 +30,16 @@ namespace MonoDroid.Dialog
 
 		public event EventHandler Changed;
 
-		public EntryElement(Context context, string caption, string hint, string value)
+		public EntryElement(string caption, string hint, string value)
 			: base(caption)
 		{
-			_context = context;
 			Value = value;
 			this.hint = hint;
 		}
 
-		public EntryElement(Context context, string caption, string hint, string value, bool isPassword)
+		public EntryElement(string caption, string hint, string value, bool isPassword)
 			: base(caption)
 		{
-			_context = context;
 			Value = value;
 			this.isPassword = isPassword;
 			this.hint = hint;
@@ -73,14 +71,14 @@ namespace MonoDroid.Dialog
 			return s.EntryAlignment;
 		}
 
-		public override View GetView()
+		public override View GetView(Context context)
 		{
-			var cell = new RelativeLayout(_context);
+			var cell = new RelativeLayout(context);
 
 			if (entry == null)
 			{
 				//SizeF size = ComputeEntryPosition(tv, cell);
-				var _entry = new EditText(_context)
+				var _entry = new EditText(context)
 								 {
 									 Tag = 1,
 									 Hint = hint ?? "",
@@ -89,7 +87,7 @@ namespace MonoDroid.Dialog
 
 				if(isPassword)
 				{
-					_entry.InputType = Android.R.Attr.Password;
+					_entry.InputType = Android.Resource.Attribute.Password;
 				}
 
 				entry = _entry;

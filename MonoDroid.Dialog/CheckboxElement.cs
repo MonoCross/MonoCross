@@ -6,32 +6,30 @@ namespace MonoDroid.Dialog
 {
     public class CheckboxElement : Element
     {
-        private readonly Context _context;
         private CheckBox _cb;
         public bool Value;
         public string Group;
 
-        public CheckboxElement(Context context, string caption)
+        public CheckboxElement(string caption)
             : base(caption)
         {
-            _context = context;
         }
 
-        public CheckboxElement(Context context, string caption, bool value)
-            : this(context, caption)
+        public CheckboxElement(string caption, bool value)
+            : this(caption)
         {
             Value = value;
         }
 
-        public CheckboxElement(Context context, string caption, bool value, string group)
-            : this(context, caption, value)
+        public CheckboxElement(string caption, bool value, string group)
+            : this(caption, value)
         {
             Group = group;
         }
 
-        public override View GetView()
+        public override View GetView(Context context)
         {
-            _cb = new CheckBox(_context) {Checked = Value, Text = Caption};
+            _cb = new CheckBox(context) {Checked = Value, Text = Caption};
             return _cb;
         }
 

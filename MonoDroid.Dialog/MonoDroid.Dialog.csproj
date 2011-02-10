@@ -43,6 +43,7 @@
     <Compile Include="BindingContext.cs" />
     <Compile Include="CheckboxElement.cs" />
     <Compile Include="DateTimeElement.cs" />
+    <Compile Include="DialogActivity.cs" />
     <Compile Include="EntryElement.cs" />
     <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />

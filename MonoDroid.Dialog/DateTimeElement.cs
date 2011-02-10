@@ -6,12 +6,10 @@ namespace MonoDroid.Dialog
     public class DateTimeElement : StringElement
     {
         public DateTime DateValue;
-        private Context _context;
 
-        public DateTimeElement(Context context, string caption, DateTime date)
-            : base(context, caption)
+        public DateTimeElement(string caption, DateTime date)
+            : base(caption)
         {
-            _context = context;
             DateValue = date;
             Value = FormatDate(date);
         }
@@ -31,14 +29,14 @@ namespace MonoDroid.Dialog
 
     public class DateElement : DateTimeElement
     {
-        public DateElement(Context context, string caption, DateTime date) : base(context, caption, date)
+        public DateElement(string caption, DateTime date) : base(caption, date)
         {
         }
     }
 
     public class TimeElement : DateTimeElement
     {
-        public TimeElement(Context context, string caption, DateTime date) : base(context, caption, date)
+        public TimeElement(string caption, DateTime date) : base(caption, date)
         {
         }
     }

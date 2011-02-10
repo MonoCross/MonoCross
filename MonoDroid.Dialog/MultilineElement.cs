@@ -4,7 +4,7 @@ namespace MonoDroid.Dialog
 {
     public class MultilineElement : StringElement, IElementSizing
     {
-        public MultilineElement(Context context, string caption, string value) : base(context, caption)
+        public MultilineElement(string caption, string value) : base(caption)
         {
         }
 
