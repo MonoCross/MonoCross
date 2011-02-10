@@ -9,7 +9,7 @@ namespace MonoDroid.Dialog
 {
     public class RootElement : Element, IEnumerable
     {
-        private static string rkey = "RootElement";
+       // private static string rkey = "RootElement";
         int summarySection, summaryElement;
         internal Group group;
         public bool UnevenRows;
