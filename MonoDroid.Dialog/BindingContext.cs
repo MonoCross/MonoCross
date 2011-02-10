@@ -128,7 +128,7 @@ namespace MonoDroid.Dialog
                         if (section != null)
                             root.Add(section);
                         var sa = attr as SectionAttribute;
-                        section = new Section(_context, sa.Caption, sa.Footer);
+                        section = new Section(sa.Caption, sa.Footer);
                     }
                 }
                 if (skip)
@@ -138,7 +138,7 @@ namespace MonoDroid.Dialog
                     caption = MakeCaption(mi.Name);
 
                 if (section == null)
-                    section = new Section(_context);
+                    section = new Section();
 
                 Element element = null;
                 if (mType == typeof(string))
@@ -256,7 +256,7 @@ namespace MonoDroid.Dialog
                 }
                 else if (mType.IsEnum)
                 {
-                    var csection = new Section(_context);
+                    var csection = new Section();
                     ulong evalue = Convert.ToUInt64(GetValue(mi, o), null);
                     int idx = 0;
                     int selected = 0;
@@ -280,7 +280,7 @@ namespace MonoDroid.Dialog
                 }
                 else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(mType))
                 {
-                    var csection = new Section(_context);
+                    var csection = new Section();
                     int count = 0;
 
                     if (last_radio_index == null)

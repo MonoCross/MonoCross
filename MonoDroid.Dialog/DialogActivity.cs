@@ -17,7 +17,14 @@ namespace MonoDroid.Dialog
 		public DialogActivity(RootElement root)
 			: base()
 		{
+			this.Root = root;
 			this.DialogAdapter = new DialogAdapter(this, root);
+		}
+
+		public RootElement Root
+		{
+			get;
+			set;
 		}
 
 		public DialogAdapter DialogAdapter

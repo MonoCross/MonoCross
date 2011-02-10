@@ -26,7 +26,6 @@ namespace MonoDroid.Dialog
 	/// </remarks>
 	public class Section : Element, IEnumerable
 	{
-		private readonly Context _context;
 		public List<Element> Elements = new List<Element>();
 
 		// X corresponds to the alignment, Y to the height of the password
@@ -37,7 +36,7 @@ namespace MonoDroid.Dialog
 		/// <summary>
 		///  Constructs a Section without header or footers.
 		/// </summary>
-		public Section(Context context) : this(context, "")
+		public Section() : this("")
 		{
 		}
 
@@ -47,10 +46,9 @@ namespace MonoDroid.Dialog
 		/// <param name="caption">
 		/// The header to display
 		/// </param>
-		public Section(Context context, string caption)
+		public Section(string caption)
 			: base(caption)
 		{
-			_context = context;
 		}
 
 		/// <summary>
@@ -62,20 +60,20 @@ namespace MonoDroid.Dialog
 		/// <param name="footer">
 		/// The footer to display.
 		/// </param>
-		public Section(Context context, string caption, string footer)
-			: this(context, caption)
+		public Section(string caption, string footer)
+			: this(caption)
 		{
 			Footer = footer;
 		}
 
-		public Section(Context context, View header)
-			: this(context)
+		public Section(View header)
+			: this()
 		{
 			HeaderView = header;
 		}
 
-		public Section(Context context, View header, View footer)
-			: this(context)
+		public Section(View header, View footer)
+			: this()
 		{
 			HeaderView = header;
 			FooterView = footer;
@@ -347,7 +345,7 @@ namespace MonoDroid.Dialog
 			}
 			else
 			{
-				TextView tv = BuildTextView(Header, 16);
+				TextView tv = BuildTextView(context, Header, 16);
 				tv.SetBackgroundColor(Android.Graphics.Color.LightGray);
 				tv.SetTextColor(Android.Graphics.Color.Black);
 			
@@ -370,7 +368,7 @@ namespace MonoDroid.Dialog
 															  ViewGroup.LayoutParams.WrapContent);
 				rparams.AddRule((int) LayoutRules.CenterInParent);
 
-				var tv = BuildTextView(Footer, 12);
+				var tv = BuildTextView(context, Footer, 12);
 				rel.AddView(tv,rparams);
 				cell.AddView(rel);
 			}
@@ -378,9 +376,9 @@ namespace MonoDroid.Dialog
 			return cell;
 		}
 
-		private TextView BuildTextView(string text, int textSize)
+		private TextView BuildTextView(Context context, string text, int textSize)
 		{
-			var tv = new TextView(_context);
+			var tv = new TextView(context);
 			if (!string.IsNullOrEmpty(text))
 			{
 				tv.Text = text;
