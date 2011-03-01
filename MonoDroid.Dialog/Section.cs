@@ -366,21 +366,12 @@ namespace MonoDroid.Dialog
 
 		public override View GetView(Context context, View convertView, ViewGroup parent)
 		{
-			return BuildTextView(context, this.Caption, 16);
-		}
+			TextView view = (convertView as TextView) 
+				?? new TextView(context, null, Android.Resource.Attribute.ListSeparatorTextViewStyle);
 
-		private TextView BuildTextView(Context context, string text, int textSize)
-		{
-			var tv = new TextView(context, null, Android.Resource.Attribute.ListSeparatorTextViewStyle);
-		
-			if (!string.IsNullOrEmpty(text))
-			{
-				tv.Text = text;
-				//tv.TextSize = textSize;
-				//tv.SetPadding(5, 3, 5, 0);
-				
-			}
-			return tv;
+			view.Text = this.Caption;
+
+			return view;
 		}
 	}
 }

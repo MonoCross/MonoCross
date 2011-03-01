@@ -27,7 +27,7 @@ namespace DialogSampleApp
                                    {
                                        new StringElement("This is the String Element", "The Value"),
                                        new CheckboxElement("Check this out", true),
-                                       new EntryElement("Username", "Enter your login",""),
+                                     //  new EntryElement("Username", "Enter your login",""),
                                    }
                            };
 
