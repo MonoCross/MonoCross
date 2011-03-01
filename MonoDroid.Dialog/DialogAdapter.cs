@@ -62,7 +62,7 @@ namespace MonoDroid.Dialog
 
 				//Get each adapter's count + 1 for the header
 				foreach (var s in Root.Sections)
-					count += s.Adapter.Count + 1; // s.Adapter.Count + 1;
+					count += s.Adapter.Count + 1;
 
 				return count;
 			}
