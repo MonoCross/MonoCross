@@ -14,6 +14,9 @@ namespace MonoDroid.Dialog
 {
 	public class DialogActivity : ListActivity
 	{
+		public event Action<Section, Element> ElementClick;
+		public event Action<Section, Element> ElementLongClick;
+
 		public DialogActivity(RootElement root)
 			: base()
 		{
@@ -38,6 +41,25 @@ namespace MonoDroid.Dialog
 			base.OnCreate(savedInstanceState);
 
 			this.ListAdapter = this.DialogAdapter;
+			this.ListView.ItemClick += new EventHandler<ItemEventArgs>(ListView_ItemClick);
+			this.ListView.ItemLongClick += new EventHandler<ItemEventArgs>(ListView_ItemLongClick);
 		}
+
+		void ListView_ItemLongClick(object sender, ItemEventArgs e)
+		{
+			var elem = this.DialogAdapter[e.Position] as Element;
+
+			if (elem != null && elem.LongClick != null)
+				elem.LongClick();
+		}
+
+		void ListView_ItemClick(object sender, ItemEventArgs e)
+		{
+			var elem = this.DialogAdapter[e.Position] as Element;
+
+			if (elem != null && elem.Click != null)
+				elem.Click();
+		}
+
 	}
 }

@@ -201,7 +201,7 @@ namespace MonoDroid.Dialog
                     }
 
                     if (invoke != null)
-                        ((StringElement)element).Tapped += invoke;
+                        ((StringElement)element).Click += invoke;
                 }
                 else if (mType == typeof(float))
                 {
@@ -320,6 +320,7 @@ namespace MonoDroid.Dialog
 
                 if (element == null)
                     continue;
+
                 section.Add(element);
                 mappings[element] = new MemberAndInstance(mi, o);
             }

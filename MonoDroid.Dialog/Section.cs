@@ -28,6 +28,10 @@ namespace MonoDroid.Dialog
 	{
 		public List<Element> Elements = new List<Element>();
 
+		List<string> ElementTypes = new List<string>();
+
+		public SectionAdapter Adapter;
+
 		// X corresponds to the alignment, Y to the height of the password
 		public SizeF EntryAlignment;
 		private object footer;
@@ -38,6 +42,7 @@ namespace MonoDroid.Dialog
 		/// </summary>
 		public Section() : this("")
 		{
+			Adapter = new SectionAdapter(this);
 		}
 
 		/// <summary>
@@ -49,6 +54,7 @@ namespace MonoDroid.Dialog
 		public Section(string caption)
 			: base(caption)
 		{
+			Adapter = new SectionAdapter(this);
 		}
 
 		/// <summary>
@@ -146,6 +152,11 @@ namespace MonoDroid.Dialog
 		{
 			if (element == null)
 				return;
+
+			var elementType = element.GetType().FullName;
+
+			if (!ElementTypes.Contains(elementType))
+				ElementTypes.Add(elementType);
 
 			Elements.Add(element);
 			element.Parent = this;
@@ -335,55 +346,39 @@ namespace MonoDroid.Dialog
 			}
 		}
 
-		public override View GetView(Context context)
+		public int GetElementViewType(Element e)
 		{
-			var cell = new LinearLayout(context) {Orientation = Orientation.Vertical};
-			
-			if (HeaderView != null)
+			var elementType = e.GetType().FullName;
+
+			for (int i = 0; i < ElementTypes.Count; i++)
 			{
-				cell.AddView(HeaderView);    
-			}
-			else
-			{
-				TextView tv = BuildTextView(context, Header, 16);
-				tv.SetBackgroundColor(Android.Graphics.Color.LightGray);
-				tv.SetTextColor(Android.Graphics.Color.Black);
-			
-				cell.AddView(tv);
+				if (ElementTypes[i].Equals(elementType))
+					return i + 1;
 			}
 
-			foreach (var element in Elements)
-			{
-				cell.AddView(element.GetView(context));
-			}
+			return 0;
+		}
 
-			if (FooterView != null)
-			{
-				cell.AddView(FooterView);
-			}
-			else if (!string.IsNullOrEmpty(Footer))
-			{
-				var rel = new RelativeLayout(context);
-				var rparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-															  ViewGroup.LayoutParams.WrapContent);
-				rparams.AddRule((int) LayoutRules.CenterInParent);
+		public int ElementViewTypeCount
+		{
+			get { return ElementTypes.Count; }
+		}
 
-				var tv = BuildTextView(context, Footer, 12);
-				rel.AddView(tv,rparams);
-				cell.AddView(rel);
-			}
-
-			return cell;
+		public override View GetView(Context context, View convertView, ViewGroup parent)
+		{
+			return BuildTextView(context, this.Caption, 16);
 		}
 
 		private TextView BuildTextView(Context context, string text, int textSize)
 		{
-			var tv = new TextView(context);
+			var tv = new TextView(context, null, Android.Resource.Attribute.ListSeparatorTextViewStyle);
+		
 			if (!string.IsNullOrEmpty(text))
 			{
 				tv.Text = text;
-				tv.TextSize = textSize;
-				tv.SetPadding(5, 3, 5, 0);
+				//tv.TextSize = textSize;
+				//tv.SetPadding(5, 3, 5, 0);
+				
 			}
 			return tv;
 		}

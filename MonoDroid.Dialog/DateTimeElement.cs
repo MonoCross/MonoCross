@@ -20,11 +20,6 @@ namespace MonoDroid.Dialog
             // return fmt.ToString(dt) + " " + dt.ToLocalTime().ToShortTimeString();
             return dt.ToString();
         }
-
-        public override void Selected()
-        {
-            
-        }
     }
 
     public class DateElement : DateTimeElement

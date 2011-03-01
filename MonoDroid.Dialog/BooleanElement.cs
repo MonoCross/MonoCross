@@ -55,7 +55,7 @@ namespace MonoDroid.Dialog
         {
         }
 
-        public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             var view = new RelativeLayout(context);
 

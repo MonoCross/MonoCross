@@ -290,7 +290,7 @@ namespace MonoDroid.Dialog
             }
         }
 
-        public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             var cell = new TextView(context) {TextSize = 16f, Text = Caption};
 
@@ -354,33 +354,33 @@ namespace MonoDroid.Dialog
             return cell;
         }
 
-        /// <summary>
-        ///    This method does nothing by default, but gives a chance to subclasses to
-        ///    customize the UIViewController before it is presented
-        /// </summary>
-        protected virtual void PrepareDialogViewController(View dvc)
-        {
-        }
+		///// <summary>
+		/////    This method does nothing by default, but gives a chance to subclasses to
+		/////    customize the UIViewController before it is presented
+		///// </summary>
+		//protected virtual void PrepareDialogViewController(View dvc)
+		//{
+		//}
 
-        /// <summary>
-        /// Creates the UIViewController that will be pushed by this RootElement
-        /// </summary>
-        protected virtual View MakeViewController(Context context)
-        {
-            if (createOnSelected != null)
-                return createOnSelected(this);
+		///// <summary>
+		///// Creates the UIViewController that will be pushed by this RootElement
+		///// </summary>
+		//protected virtual View MakeViewController(Context context)
+		//{
+		//    if (createOnSelected != null)
+		//        return createOnSelected(this);
 
-            return new DialogView(context, this);
-        }
+		//    return new DialogView(context, this);
+		//}
 
-        public override void Selected()
-        {
-            //tableView.DeselectRow(path, false);
-            //var newDvc = MakeViewController();
-            //PrepareDialogViewController(newDvc);
-            //dvc.ActivateController(newDvc);
-            base.Selected();
-        }
+        //public override void Selected()
+       // {
+        //    //tableView.DeselectRow(path, false);
+       //     //var newDvc = MakeViewController();
+       //     //PrepareDialogViewController(newDvc);
+       //     //dvc.ActivateController(newDvc);
+       //     base.Selected();
+       // }
 
         //public void Reload(Section section, UITableViewRowAnimation animation)
         //{

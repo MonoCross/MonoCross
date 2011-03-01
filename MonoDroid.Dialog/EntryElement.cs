@@ -71,7 +71,7 @@ namespace MonoDroid.Dialog
 			return s.EntryAlignment;
 		}
 
-		public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
 		{
 			var cell = new RelativeLayout(context);
 

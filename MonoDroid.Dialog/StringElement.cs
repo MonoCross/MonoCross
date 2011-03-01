@@ -21,20 +21,21 @@ namespace MonoDroid.Dialog
             Value = value;
         }
 
-        public StringElement(string caption, Action tapped)
+        public StringElement(string caption, Action click)
             : base(caption)
         {
-            Tapped += tapped;
+			this.Click = click;
         }
-
-        public event Action Tapped;
 
         public object Alignment;
 
-        public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var view = new RelativeLayout(context);
-
+			var view = convertView as RelativeLayout;
+			
+			if (view == null)
+				view = new RelativeLayout(context);
+						
             var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
                                                         ViewGroup.LayoutParams.WrapContent);
             parms.SetMargins(5, 3, 5, 0);
@@ -62,11 +63,11 @@ namespace MonoDroid.Dialog
             return Caption;
         }
 
-        public override void Selected()
-        {
-            if (Tapped != null)
-                Tapped();
-        }
+        //public override void Selected()
+       // {
+       //     if (Tapped != null)
+       //         Tapped();
+       // }
 
         public override bool Matches(string text)
         {

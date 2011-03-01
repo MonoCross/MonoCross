@@ -21,6 +21,9 @@ namespace MonoDroid.Dialog
         /// </remarks>
         public Element Parent;
 
+		public Action Click;
+		public Action LongClick;
+
         /// <summary>
         ///  Initializes the element with the given caption.
         /// </summary>
@@ -53,15 +56,16 @@ namespace MonoDroid.Dialog
             return "";
         }
 
-        public virtual View GetView(Context context)
+        public virtual View GetView(Context context, View convertView, ViewGroup parent)
         {
-            return new View(context);
+			var view = new View(context);
+			return view;
         }
 
-        public virtual void Selected()
-        {
-        }
-
+		//public virtual void Selected()
+		//{
+		//}
+				
         public virtual bool Matches(string text)
         {
             if (Caption == null)

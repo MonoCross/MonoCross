@@ -13,23 +13,25 @@ namespace DialogSampleApp
         {
             base.OnCreate(bundle);
 
-            var root = new RootElement(this, "Test Root Elem")
+            var root = new RootElement("Test Root Elem")
                            {
-                               new Section(this, "Test Header", "Test Footer")
+                               new Section("Test Header", "Test Footer")
                                    {
-                                       new BooleanElement(this, "Push my button", true),
-                                       new BooleanElement(this, "Push this too", false),
-                                       new StringElement(this, "Text label", "The Value"),
+                                       new BooleanElement("Push my button", true),
+                                       new BooleanElement("Push this too", false),
+                                       new StringElement("Text label", "The Value"),
+									   new BooleanElement("Push my button", true),
+                                       new BooleanElement("Push this too", false),
                                    },
-                               new Section(this, "Part II")
+                               new Section("Part II")
                                    {
-                                       new StringElement(this, "This is the String Element", "The Value"),
-                                       new CheckboxElement(this, "Check this out", true),
-                                       new EntryElement(this, "Username", "Enter your login","")
+                                       new StringElement("This is the String Element", "The Value"),
+                                       new CheckboxElement("Check this out", true),
+                                       new EntryElement("Username", "Enter your login",""),
                                    }
                            };
 
-            var da = new DialogAdapter(root);
+            var da = new DialogAdapter(this, root);
 
             var lv = new ListView(this) {Adapter = da};
 

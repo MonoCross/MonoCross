@@ -27,16 +27,16 @@ namespace MonoDroid.Dialog
             Group = group;
         }
 
-        public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             _cb = new CheckBox(context) {Checked = Value, Text = Caption};
             return _cb;
         }
 
-        public override void Selected()
-        {
-            Value = !Value;
-            _cb.Checked = Value;
-        }
+		//public override void Selected()
+		//{
+		//    Value = !Value;
+		//    _cb.Checked = Value;
+		//}
     }
 }

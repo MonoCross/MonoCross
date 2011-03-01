@@ -55,10 +55,10 @@
     <Compile Include="Reflect.cs" />
     <Compile Include="RootElement.cs" />
     <Compile Include="Section.cs" />
+    <Compile Include="SectionAdapter.cs" />
+    <Compile Include="DialogAdapter.cs" />
     <Compile Include="StringElement.cs" />
     <Compile Include="BooleanElement.cs" />
-    <Compile Include="DialogAdapter.cs" />
-    <Compile Include="DialogView.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewElement.cs" />

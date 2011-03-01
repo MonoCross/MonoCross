@@ -20,9 +20,9 @@ namespace MonoDroid.Dialog
         {
         }
 
-        public override View GetView(Context context)
+		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var cell = base.GetView(context);
+            var cell = base.GetView(context, convertView, parent);
             var root = (RootElement)Parent.Parent;
 
             if (!(root.group is RadioGroup))
@@ -34,20 +34,20 @@ namespace MonoDroid.Dialog
             return cell;
         }
 
-        public override void Selected()
-        {
-            RootElement root = (RootElement)Parent.Parent;
-            if (RadioIdx != root.RadioSelected)
-            {
-                //var cell = tableView.CellAt(root.PathForRadio(root.RadioSelected));
-                //if (cell != null)
-                //    cell.Accessory = UITableViewCellAccessory.None;
-                //cell = tableView.CellAt(indexPath);
-                //if (cell != null)
-                //    cell.Accessory = UITableViewCellAccessory.Checkmark;
-                root.RadioSelected = RadioIdx;
-            }
-            base.Selected();
-        }
+		//public override void Selected()
+		//{
+		//    RootElement root = (RootElement)Parent.Parent;
+		//    if (RadioIdx != root.RadioSelected)
+		//    {
+		//        //var cell = tableView.CellAt(root.PathForRadio(root.RadioSelected));
+		//        //if (cell != null)
+		//        //    cell.Accessory = UITableViewCellAccessory.None;
+		//        //cell = tableView.CellAt(indexPath);
+		//        //if (cell != null)
+		//        //    cell.Accessory = UITableViewCellAccessory.Checkmark;
+		//        root.RadioSelected = RadioIdx;
+		//    }
+		//    base.Selected();
+		//}
     }
 }
