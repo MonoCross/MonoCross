@@ -147,7 +147,7 @@ namespace MonoDroid.Dialog
                     AlignmentAttribute align = null;
                     EntryAttribute ea = null;
                     object html = null;
-                    Action invoke = null;
+                    EventHandler invoke = null;
                     bool multi = false;
 
                     foreach (object attr in attrs)
@@ -184,9 +184,9 @@ namespace MonoDroid.Dialog
 
                     string value = (string)GetValue(mi, o);
                     if (pa != null)
-                        element = new EntryElement(caption, pa.Placeholder, value, true);
+                        element = new EntryElement(caption, value) { Hint = pa.Placeholder, Password = true };
                     else if (ea != null)
-                        element = new EntryElement(caption, ea.Placeholder, value);
+                        element = new EntryElement(caption, value) { Hint = ea.Placeholder };
                     else if (multi)
                         element = new MultilineElement(caption, value);
                     else if (html != null)
@@ -201,11 +201,11 @@ namespace MonoDroid.Dialog
                     }
 
                     if (invoke != null)
-                        ((StringElement)element).Click += invoke;
+                        ((StringElement)element).Click = invoke;
                 }
                 else if (mType == typeof(float))
                 {
-                    var floatElement = new FloatElement(null, null, (float)GetValue(mi, o));
+                    var floatElement = new FloatElement(null, null, (int)GetValue(mi, o));
                     floatElement.Caption = caption;
                     element = floatElement;
 
@@ -276,7 +276,7 @@ namespace MonoDroid.Dialog
                 }
                 else if (mType == typeof(ImageView))
                 {
-                    element = new ImageElement((ImageView)GetValue(mi, o));
+                    element = new ImageElement(null); // (ImageView)GetValue(mi, o));
                 }
                 else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(mType))
                 {
@@ -374,7 +374,7 @@ namespace MonoDroid.Dialog
                 else if (element is EntryElement)
                 {
                     var entry = (EntryElement)element;
-                    entry.FetchValue();
+                    // TODO: entry.FetchValue();
                     SetValue(mi, obj, entry.Value);
                 }
                 else if (element is ImageElement)
@@ -382,12 +382,12 @@ namespace MonoDroid.Dialog
                 else if (element is RootElement)
                 {
                     var re = element as RootElement;
-                    if (re.group as MemberRadioGroup != null)
+                    if (re._group as MemberRadioGroup != null)
                     {
-                        var group = re.group as MemberRadioGroup;
+                        var group = re._group as MemberRadioGroup;
                         SetValue(group.mi, obj, re.RadioSelected);
                     }
-                    else if (re.group as RadioGroup != null)
+                    else if (re._group as RadioGroup != null)
                     {
                         var mType = GetTypeForMember(mi);
                         var fi = mType.GetFields(BindingFlags.Public | BindingFlags.Static)[re.RadioSelected];

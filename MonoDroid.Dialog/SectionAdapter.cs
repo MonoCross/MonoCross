@@ -19,26 +19,21 @@ namespace MonoDroid.Dialog
 			this.Section = section;
 		}
 
-		public Context Context
-		{
-			get;
-			set;
-		}
+		public Context Context { get; set; }
 
-		public Section Section
-		{
-			get;
-			private set;
-		}
+		public Section Section { get; private set; }
 
 		public override int Count
 		{
-			get { return Section.Elements.Count; }
+			get { return this.Section.Elements.Count; }
 		}
 
 		public override Element this[int position]
 		{
-			get { return Section.Elements[position]; }
+			get
+            {
+                return Section.Elements[position];
+            }
 		}
 
 		public override int ViewTypeCount
@@ -58,7 +53,7 @@ namespace MonoDroid.Dialog
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			return Section.Elements[position].GetView(this.Context, convertView, parent);
+            return Section.Elements[position].GetView(this.Context, convertView, parent);
 		}
 	}
 }

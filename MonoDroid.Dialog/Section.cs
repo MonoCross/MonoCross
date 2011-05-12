@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
@@ -24,7 +23,7 @@ namespace MonoDroid.Dialog
 	/// properties, or as Views to be shown (HeaderView and FooterView).   Internally
 	/// this uses the same storage, so you can only show one or the other.
 	/// </remarks>
-	public class Section : Element, IEnumerable
+    public class Section : Element, IEnumerable<Element>
 	{
 		public List<Element> Elements = new List<Element>();
 
@@ -33,14 +32,14 @@ namespace MonoDroid.Dialog
 		public SectionAdapter Adapter;
 
 		// X corresponds to the alignment, Y to the height of the password
-		public SizeF EntryAlignment;
 		private object footer;
 		private object header;
 
 		/// <summary>
 		///  Constructs a Section without header or footers.
 		/// </summary>
-		public Section() : this("")
+        public Section()
+            : this("")
 		{
 			Adapter = new SectionAdapter(this);
 		}
@@ -129,17 +128,6 @@ namespace MonoDroid.Dialog
 		public Element this[int idx]
 		{
 			get { return Elements[idx]; }
-		}
-
-		/// Enumerator to get all the elements in the Section.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="IEnumerator{T}"/>
-		/// </returns>
-		public IEnumerator GetEnumerator()
-		{
-			foreach (Element e in Elements)
-				yield return e;
 		}
 
 		/// <summary>
@@ -373,5 +361,27 @@ namespace MonoDroid.Dialog
 
 			return view;
 		}
+
+        /// Enumerator to get all the elements in the Section.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator{T}"/>
+        /// </returns>
+        public IEnumerator<Element> GetEnumerator()
+        {
+            foreach (Element e in Elements)
+                yield return e;
+        }
+
+        /// Enumerator to get all the elements in the Section.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator{T}"/>
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (Element e in Elements)
+                yield return e;
+        }
 	}
 }

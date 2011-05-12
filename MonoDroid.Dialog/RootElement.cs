@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Android.App;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
 
 namespace MonoDroid.Dialog
 {
-    public class RootElement : Element, IEnumerable
+    public class RootElement : Element, IEnumerable<Section>, IDialogInterfaceOnClickListener
     {
-       // private static string rkey = "RootElement";
-        int summarySection, summaryElement;
-        internal Group group;
+        TextView _caption;
+        TextView _value;
+
+        int _summarySection, _summaryElement;
+        internal Group _group;
         public bool UnevenRows;
-        public Func<RootElement, View> createOnSelected;
+        public Func<RootElement, View> _createOnSelected;
 
         /// <summary>
         ///  Initializes a RootSection with a caption
@@ -22,9 +25,9 @@ namespace MonoDroid.Dialog
         ///  The caption to render.
         /// </param>
         public RootElement(string caption)
-            : base(caption)
+            : base(caption, (int) DroidResources.ElementLayout.dialog_root)
         {
-            summarySection = -1;
+            _summarySection = -1;
             Sections = new List<Section>();
         }
 
@@ -37,10 +40,10 @@ namespace MonoDroid.Dialog
         ///  The caption to render.
         /// </param>
         public RootElement(string caption, Func<RootElement, View> createOnSelected)
-            : base(caption)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            summarySection = -1;
-            this.createOnSelected = createOnSelected;
+            _summarySection = -1;
+            this._createOnSelected = createOnSelected;
             Sections = new List<Section>();
         }
 
@@ -57,10 +60,10 @@ namespace MonoDroid.Dialog
         /// The element index inside the section that contains the summary for this RootSection.
         /// </param>
         public RootElement(string caption, int section, int element)
-            : base(caption)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            summarySection = section;
-            summaryElement = element;
+            _summarySection = section;
+            _summaryElement = element;
         }
 
         /// <summary>
@@ -74,40 +77,17 @@ namespace MonoDroid.Dialog
         /// the summary information when a RootElement is rendered inside a section.
         /// </param>
         public RootElement(string caption, Group group)
-            : base(caption)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            this.group = group;
+            this._group = group;
         }
 
+        /// <summary>
+        /// Single save point for a context, elements can get this context via GetContext() for navigation operations
+        /// </summary>
+        public Context Context { get; set; }
+
         internal List<Section> Sections = new List<Section>();
-
-        //internal NSIndexPath PathForRadio(int idx)
-        //{
-        //    RadioGroup radio = group as RadioGroup;
-        //    if (radio == null)
-        //        return null;
-
-        //    uint current = 0, section = 0;
-        //    foreach (Section s in Sections)
-        //    {
-        //        uint row = 0;
-
-        //        foreach (Element e in s.Elements)
-        //        {
-        //            if (!(e is RadioElement))
-        //                continue;
-
-        //            if (current == idx)
-        //            {
-        //                return NSIndexPath.Create(section, row);
-        //            }
-        //            row++;
-        //            current++;
-        //        }
-        //        section++;
-        //    }
-        //    return null;
-        //}
 
         public int Count
         {
@@ -153,6 +133,11 @@ namespace MonoDroid.Dialog
             }
         }
 
+        public override string Summary()
+        {
+            return GetSelectedValue();
+        }
+
         /// <summary>
         /// Adds a new section to this RootElement
         /// </summary>
@@ -180,14 +165,6 @@ namespace MonoDroid.Dialog
             foreach (var s in sections)
                 Add(s);
         }
-
-        //NSIndexSet MakeIndexSet(int start, int count)
-        //{
-        //    NSRange range;
-        //    range.Location = start;
-        //    range.Length = count;
-        //    return NSIndexSet.FromNSRange(range);
-        //}
 
         /// <summary>
         /// Inserts a new section into the RootElement
@@ -252,22 +229,12 @@ namespace MonoDroid.Dialog
         {
             if (disposing)
             {
+                Context = null;
                 if (Sections == null)
                     return;
                 Clear();
                 Sections = null;
             }
-        }
-
-        /// <summary>
-        /// Enumerator that returns all the sections in the RootElement.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="IEnumerator"/>
-        /// </returns>
-        public IEnumerator GetEnumerator()
-        {
-            return Sections.GetEnumerator();
         }
 
         /// <summary>
@@ -277,49 +244,68 @@ namespace MonoDroid.Dialog
         {
             get
             {
-                var radio = group as RadioGroup;
+                var radio = _group as RadioGroup;
                 if (radio != null)
                     return radio.Selected;
                 return -1;
             }
             set
             {
-                var radio = group as RadioGroup;
+                var radio = _group as RadioGroup;
                 if (radio != null)
                     radio.Selected = value;
             }
         }
 
-		public override View GetView(Context context, View convertView, ViewGroup parent)
+        private string GetSelectedValue()
         {
-            var cell = new TextView(context) {TextSize = 16f, Text = Caption};
+            var radio = _group as RadioGroup;
+            if (radio == null)
+                return string.Empty;
 
-            var radio = group as RadioGroup;
-            if (radio != null)
+            int selected = radio.Selected;
+            int current = 0;
+            string radioValue = string.Empty;
+            foreach (var s in Sections)
             {
-                int selected = radio.Selected;
-                int current = 0;
-
-                foreach (var s in Sections)
+                foreach (var e in s.Elements)
                 {
-                    foreach (var e in s.Elements)
-                    {
-                        if (!(e is RadioElement))
-                            continue;
+                    if (!(e is RadioElement))
+                        continue;
 
-                        if (current == selected)
-                        {
-                            cell.Text = e.Summary();
-                            goto le;
-                        }
-                        current++;
-                    }
+                    if (current == selected)
+                        return e.Summary();
+
+                    current++;
                 }
             }
-            else if (group != null)
+
+            return string.Empty;
+        }
+
+		public override View GetView(Context context, View convertView, ViewGroup parent)
+        {
+            Context = context;
+
+            LayoutInflater inflater = LayoutInflater.FromContext(context);
+            
+            View cell = new TextView(context) {TextSize = 16f, Text = Caption};
+            var radio = _group as RadioGroup;
+
+            if (radio != null)
+            {
+                string radioValue = GetSelectedValue();
+                cell = DroidResources.LoadStringElementLayout(context, convertView, parent, LayoutId, out _caption, out _value);
+                if (cell != null)
+                {
+                    _caption.Text = Caption;
+                    _value.Text = radioValue;
+                    this.Click = (o, e) => { SelectRadio(); };
+                }
+            }
+            else if (_group != null)
             {
                 int count = 0;
-
                 foreach (var s in Sections)
                 {
                     foreach (var e in s.Elements)
@@ -342,80 +328,66 @@ namespace MonoDroid.Dialog
                 }
                 //cell.DetailTextLabel.Text = count.ToString();
             }
-            else if (summarySection != -1 && summarySection < Sections.Count)
+            else if (_summarySection != -1 && _summarySection < Sections.Count)
             {
-                var s = Sections[summarySection];
+                var s = Sections[_summarySection];
                 //if (summaryElement < s.Elements.Count)
                 //    cell.DetailTextLabel.Text = s.Elements[summaryElement].Summary();
             }
-            le:
             //cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
             return cell;
         }
 
-		///// <summary>
-		/////    This method does nothing by default, but gives a chance to subclasses to
-		/////    customize the UIViewController before it is presented
-		///// </summary>
-		//protected virtual void PrepareDialogViewController(View dvc)
-		//{
-		//}
 
-		///// <summary>
-		///// Creates the UIViewController that will be pushed by this RootElement
-		///// </summary>
-		//protected virtual View MakeViewController(Context context)
-		//{
-		//    if (createOnSelected != null)
-		//        return createOnSelected(this);
+        public void SelectRadio()
+        {
+            List<string> items = new List<string>();
+            foreach (var s in Sections)
+            {
+                foreach (var e in s.Elements)
+                {
+                    if (e is RadioElement)
+                        items.Add(e.Summary());
+                }
+            }
 
-		//    return new DialogView(context, this);
-		//}
+            var dialog = new AlertDialog.Builder(Context);
+            dialog.SetSingleChoiceItems(items.ToArray(), this.RadioSelected, this);
+            dialog.SetTitle(this.Caption);
+            dialog.SetNegativeButton("Cancel", this);
+            dialog.Create().Show();
+        }
 
-        //public override void Selected()
-       // {
-        //    //tableView.DeselectRow(path, false);
-       //     //var newDvc = MakeViewController();
-       //     //PrepareDialogViewController(newDvc);
-       //     //dvc.ActivateController(newDvc);
-       //     base.Selected();
-       // }
+        void IDialogInterfaceOnClickListener.OnClick(IDialogInterface dialog, DialogInterfaceButton which)
+        {
+            if ((int)which >= 0)
+            {
+                this.RadioSelected = (int)which;
+                string radioValue = GetSelectedValue();
+                _value.Text = radioValue;
+            }
 
-        //public void Reload(Section section, UITableViewRowAnimation animation)
-        //{
-        //    if (section == null)
-        //        throw new ArgumentNullException("section");
-        //    if (section.Parent == null || section.Parent != this)
-        //        throw new ArgumentException("Section is not attached to this root");
+            dialog.Dismiss();
+        }
 
-        //    int idx = 0;
-        //    foreach (var sect in Sections)
-        //    {
-        //        if (sect == section)
-        //        {
-        //            Table.ReloadSections(new NSIndexSet((uint)idx), animation);
-        //            return;
-        //        }
-        //        idx++;
-        //    }
-        //}
+        /// <summary>
+        /// Enumerator that returns all the sections in the RootElement.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator"/>
+        /// </returns>
+        public IEnumerator<Section> GetEnumerator()
+        {
+            return Sections.GetEnumerator();
+        }
 
-        //public void Reload(Element element, UITableViewRowAnimation animation)
-        //{
-        //    if (element == null)
-        //        throw new ArgumentNullException("element");
-        //    var section = element.Parent as Section;
-        //    if (section == null)
-        //        throw new ArgumentException("Element is not attached to this root");
-        //    var root = section.Parent as RootElement;
-        //    if (root == null)
-        //        throw new ArgumentException("Element is not attached to this root");
-        //    var path = element.IndexPath;
-        //    if (path == null)
-        //        return;
-        //    Table.ReloadRows(new NSIndexPath[] { path }, animation);
-        //}
-
+        /// <summary>
+        /// Enumerator that returns all the sections in the RootElement.
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Sections.GetEnumerator();
+        }
     }
 }

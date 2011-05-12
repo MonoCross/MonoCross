@@ -22,32 +22,15 @@ namespace MonoDroid.Dialog
 
 		public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var cell = base.GetView(context, convertView, parent);
-            var root = (RootElement)Parent.Parent;
-
-            if (!(root.group is RadioGroup))
+            if (!(((RootElement)Parent.Parent)._group is RadioGroup))
                 throw new Exception("The RootElement's Group is null or is not a RadioGroup");
 
-            bool selected = RadioIdx == ((RadioGroup)(root.group)).Selected;
-            //cell.Accessory = selected ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-
-            return cell;
+            return base.GetView(context, convertView, parent);
         }
 
-		//public override void Selected()
-		//{
-		//    RootElement root = (RootElement)Parent.Parent;
-		//    if (RadioIdx != root.RadioSelected)
-		//    {
-		//        //var cell = tableView.CellAt(root.PathForRadio(root.RadioSelected));
-		//        //if (cell != null)
-		//        //    cell.Accessory = UITableViewCellAccessory.None;
-		//        //cell = tableView.CellAt(indexPath);
-		//        //if (cell != null)
-		//        //    cell.Accessory = UITableViewCellAccessory.Checkmark;
-		//        root.RadioSelected = RadioIdx;
-		//    }
-		//    base.Selected();
-		//}
+        public override string Summary()
+        {
+            return Caption;
+        }
     }
 }

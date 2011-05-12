@@ -1,6 +1,5 @@
 ﻿using System;
 using Android.Content;
-using Android.Text;
 using Android.Views;
 using Android.Widget;
 
@@ -8,74 +7,73 @@ namespace MonoDroid.Dialog
 {
     public abstract class BoolElement : Element
     {
-        private bool val;
+        private bool _val;
 
         public bool Value
         {
-            get { return val; }
+            get { return _val; }
             set
             {
-                bool emit = val != value;
-                val = value;
-                if (emit && ValueChanged != null)
-                    ValueChanged(this, EventArgs.Empty);
+                if (_val != value)
+                {
+                    _val = value;
+                    if (ValueChanged != null)
+                        ValueChanged(this, EventArgs.Empty);
+                }
             }
         }
 
         public event EventHandler ValueChanged;
 
-        public BoolElement(string caption, bool value)
-            : base(caption)
+        public BoolElement(string caption, bool value) : base(caption)
         {
-            val = value;
+            _val = value;
         }
 
+        public BoolElement(string caption, bool value, int layoutId)
+            : base(caption, layoutId)
+        {
+            _val = value;
+        }
+        
         public override string Summary()
         {
-            return val ? "On" : "Off";
+            return _val ? "On" : "Off";
         }
     }
 
     /// <summary>
     /// Used to display toggle button on the screen.
     /// </summary>
-    public class BooleanElement : BoolElement
+    public class BooleanElement : BoolElement, CompoundButton.IOnCheckedChangeListener
     {
-        private static string bkey = "BooleanElement";
-        private ToggleButton sw;
-        private TextView tv;
+        private ToggleButton _toggleButton;
+        private TextView _caption;
+        private TextView _subCaption;
 
         public BooleanElement(string caption, bool value)
-            : base(caption, value)
+            : base(caption, value, (int) DroidResources.ElementLayout.dialog_onofffieldright)
         {
         }
 
-        public BooleanElement(string caption, bool value, string key)
-            : this(caption, value)
+        public BooleanElement(string caption, bool value, int layoutId)
+            : base(caption, value, layoutId)
         {
         }
 
-		public override View GetView(Context context, View convertView, ViewGroup parent)
+        public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var view = new RelativeLayout(context);
+            View toggleButtonView;
+            View view = DroidResources.LoadBooleanElementLayout(context, convertView, parent, LayoutId, out _caption, out _subCaption, out toggleButtonView);
 
-            var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                                                        ViewGroup.LayoutParams.WrapContent);
-            parms.SetMargins(5, 3, 5, 0);
-            parms.AddRule((int) LayoutRules.CenterVertical);
-
-            tv = new TextView(context) {Text = Caption, TextSize = 16f};
-            view.AddView(tv, parms);
-
-            var sparms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,
-                                                         ViewGroup.LayoutParams.WrapContent);
-            sparms.SetMargins(5, 3, 5, 0);
-            sparms.AddRule((int) LayoutRules.CenterVertical);
-            sparms.AddRule((int) LayoutRules.AlignParentRight);
-
-            sw = new ToggleButton(context) {Tag = 1, Checked = Value};
-
-            view.AddView(sw, sparms);
+            if (view != null)
+            {
+                _caption.Text = Caption;
+                _toggleButton = toggleButtonView as ToggleButton;
+                _toggleButton.SetOnCheckedChangeListener(null);
+                _toggleButton.Checked = Value;
+                _toggleButton.SetOnCheckedChangeListener(this);
+            }
             return view;
         }
 
@@ -83,11 +81,16 @@ namespace MonoDroid.Dialog
         {
             if (disposing)
             {
-                sw.Dispose();
-                sw = null;
-                tv.Dispose();
-                tv = null;
+                //_toggleButton.Dispose();
+                _toggleButton = null;
+                //_caption.Dispose();
+                _caption = null;
             }
+        }
+
+        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
+        {
+            this.Value = isChecked;
         }
     }
 }

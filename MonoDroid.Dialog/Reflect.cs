@@ -126,11 +126,11 @@ namespace MonoDroid.Dialog
 
     public class RangeAttribute : Attribute
     {
-        public float High;
-        public float Low;
+        public int High;
+        public int Low;
         public bool ShowCaption;
 
-        public RangeAttribute(float low, float high)
+        public RangeAttribute(int low, int high)
         {
             Low = low;
             High = high;

@@ -1,16 +1,29 @@
 ﻿using Android.Content;
+using Android.Views;
 
 namespace MonoDroid.Dialog
 {
-    public class MultilineElement : StringElement, IElementSizing
+    public class MultilineElement : EntryElement
     {
-        public MultilineElement(string caption, string value) : base(caption)
+        public int Lines { get; set; }
+
+        public MultilineElement(string caption, string value)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_textarea)
         {
+            Lines = 3;
         }
 
-        public float GetHeight()
+        public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            return 0.0f;
+            View view = DroidResources.LoadMultilineElementLayout(context, convertView, parent, LayoutId, out _entry);
+            if (_entry != null)
+            {
+                _entry.SetLines(Lines);
+                _entry.Text = Value;
+                _entry.Hint = Caption;
+            }
+            return view;
         }
+
     }
 }

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E9616034-1C4B-4189-A4FB-8EDDCB53188D}</ProjectGuid>
+    <ProjectGuid>{33044C7B-47A4-4113-A61A-EB429407F818}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +35,6 @@
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
-    <Reference Include="OpenTK" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,9 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingContext.cs" />
+    <Compile Include="BooleanElement.cs" />
+    <Compile Include="ButtonElement.cs" />
     <Compile Include="CheckboxElement.cs" />
     <Compile Include="DateTimeElement.cs" />
     <Compile Include="DialogActivity.cs" />
+    <Compile Include="DialogAdapter.cs" />
+    <Compile Include="DialogHelper.cs" />
+    <Compile Include="DroidResources.cs" />
+    <Compile Include="Element.cs" />
     <Compile Include="EntryElement.cs" />
     <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />
@@ -51,16 +58,13 @@
     <Compile Include="IElementSizing.cs" />
     <Compile Include="ImageElement.cs" />
     <Compile Include="MultilineElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioElement.cs" />
     <Compile Include="Reflect.cs" />
     <Compile Include="RootElement.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionAdapter.cs" />
-    <Compile Include="DialogAdapter.cs" />
     <Compile Include="StringElement.cs" />
-    <Compile Include="BooleanElement.cs" />
-    <Compile Include="Element.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -1,29 +1,11 @@
 using System;
-using Android.Views;
 using Android.Content;
+using Android.Views;
 
 namespace MonoDroid.Dialog
 {
-    public class Element : IDisposable
+    public abstract class Element : Java.Lang.Object, IDisposable
     {
-        /// <summary>
-        ///  The caption to display for this given element
-        /// </summary>
-        public string Caption;
-
-        /// <summary>
-        ///  Handle to the container object.
-        /// </summary>
-        /// <remarks>
-        /// For sections this points to a RootElement, for every
-        /// other object this points to a Section and it is null
-        /// for the root RootElement.
-        /// </remarks>
-        public Element Parent;
-
-		public Action Click;
-		public Action LongClick;
-
         /// <summary>
         ///  Initializes the element with the given caption.
         /// </summary>
@@ -35,14 +17,49 @@ namespace MonoDroid.Dialog
             Caption = caption;
         }
 
+        public Element(string caption, int layoutId)
+        {
+            Caption = caption;
+            LayoutId = layoutId;
+        }
+
+        /// <summary>
+        ///  The caption to display for this given element
+        /// </summary>
+        public string Caption { get; set; }
+
+        public int LayoutId { get; private set; }
+
+        /// <summary>
+        ///  Handle to the container object.
+        /// </summary>
+        /// <remarks>
+        /// For sections this points to a RootElement, for every other object this points to a Section and it is null
+        /// for the root RootElement.
+        /// </remarks>
+        public Element Parent { get; set; }
+
+        /// <summary>
+        /// Override for click the click event
+        /// </summary>
+        public EventHandler Click { get; set; }
+
+        /// <summary>
+        /// Override for long click events, some elements use this for action
+        /// </summary>
+        public EventHandler LongClick { get; set; }
+
+        /// <summary>
+        /// An Object that contains data about the element. The default is null.
+        /// </summary>
+        public Object Tag { get; set; }
+         
         public void Dispose()
         {
             Dispose(true);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-        }
+        protected virtual void Dispose(bool disposing) { }
 
         /// <summary>
         /// Returns a summary of the value represented by this object, suitable 
@@ -53,24 +70,36 @@ namespace MonoDroid.Dialog
         /// </returns>
         public virtual string Summary()
         {
-            return "";
+            return string.Empty;
         }
 
+        /// <summary>
+        /// Overriden my most derived classes, creates a view that creates a View with the contents for display
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="convertView"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         public virtual View GetView(Context context, View convertView, ViewGroup parent)
         {
-			var view = new View(context);
-			return view;
+            return LayoutId == 0 ? new View(context) : null;
         }
 
-		//public virtual void Selected()
-		//{
-		//}
+        public virtual void Selected() { }
 				
         public virtual bool Matches(string text)
         {
-            if (Caption == null)
-                return false;
-            return Caption.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1;
+            return Caption != null && Caption.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
+
+        public Context GetContext()
+        {
+            Element element = this;
+            while (element.Parent != null)
+                element = element.Parent;
+
+            RootElement rootElement = element as RootElement;
+            return rootElement == null ? null : rootElement.Context;
         }
     }
 }

@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -26,11 +18,7 @@ namespace MonoDroid.Dialog
 			this.Root = root;			
 		}
 
-		public RootElement Root
-		{
-			get;
-			set;
-		}
+		public RootElement Root { get; set; }
 
 		public override bool IsEnabled(int position)
 		{
@@ -64,7 +52,7 @@ namespace MonoDroid.Dialog
 				foreach (var s in Root.Sections)
 					count += s.Adapter.Count + 1;
 
-				return count;
+                return count;
 			}
 		}
 
@@ -72,16 +60,31 @@ namespace MonoDroid.Dialog
 		{
 			get
 			{
-				//The headers count as a view type too
-				int viewTypeCount = 1;
-
-				//Get each adapter's ViewTypeCount
-				foreach (var s in Root.Sections)
-					viewTypeCount += s.Adapter.ViewTypeCount;
-
-				return viewTypeCount;
+                // ViewTypeCount is the same as Count for these,
+                // there are as many ViewTypes as Views as everyone is unique!
+                return Count;
 			}
 		}
+
+        public Element ElementAtIndex(int position)
+        {
+            int sectionIndex = 0;
+            foreach (var s in Root.Sections)
+            {
+                if (position == 0)
+                    return this.Root.Sections[sectionIndex];
+
+                // note: plus one for the section header view
+                int size = s.Adapter.Count + 1;
+                if (position < size)
+                    return this.Root.Sections[sectionIndex].Elements[position - 1];
+
+                position -= size;
+                sectionIndex++;
+            }
+
+            return null;
+        }
 
 		public override Section this[int position]
 		{
@@ -117,12 +120,12 @@ namespace MonoDroid.Dialog
 
 		public override long GetItemId(int position)
 		{
-			return position;
+            return position;
 		}
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			int sectionIndex = 0;
+            int sectionIndex = 0;
 
 			foreach (var s in Root.Sections)
 			{
