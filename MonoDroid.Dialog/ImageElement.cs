@@ -67,8 +67,9 @@ namespace MonoDroid.Dialog
             
             var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
             parms.SetMargins(5, 2, 5, 2);
-            parms.AddRule((int) LayoutRules.AlignParentLeft);
-			
+            parms.AddRule( LayoutRules.AlignParentLeft);
+			if(_imageView.Parent != null && _imageView.Parent is ViewGroup)
+				((ViewGroup)_imageView.Parent).RemoveView(_imageView);
 			view.AddView(_imageView, parms);
 
             return view;
@@ -79,7 +80,7 @@ namespace MonoDroid.Dialog
             Context context = GetContext();
             Activity activity = (Activity)context;
             Intent intent = new Intent(Intent.ActionPick, Android.Provider.MediaStore.Images.Media.InternalContentUri);
-            activity.StartActivity(intent);
+            activity.StartActivityForResult(intent,1);
         }
 	}
 }

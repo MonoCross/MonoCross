@@ -14,7 +14,9 @@ namespace MonoDroid.Dialog
             {
                 bool emit = _val != value;
                 _val = value;
-                if (emit && ValueChanged != null)
+				if(_checkbox != null && _checkbox.Checked != _val)
+					_checkbox.Checked = _val;
+                else if (emit && ValueChanged != null)
                     ValueChanged(this, EventArgs.Empty);
             }
         }

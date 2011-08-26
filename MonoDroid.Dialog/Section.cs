@@ -30,7 +30,7 @@ namespace MonoDroid.Dialog
 		List<string> ElementTypes = new List<string>();
 
 		public SectionAdapter Adapter;
-
+		public int StartIndex {get;set;}
 		// X corresponds to the alignment, Y to the height of the password
 		private object footer;
 		private object header;

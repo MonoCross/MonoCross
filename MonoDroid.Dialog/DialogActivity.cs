@@ -19,7 +19,7 @@ namespace MonoDroid.Dialog
 	{
 		public RootElement Root { get; set; }
         private DialogHelper Dialog { get; set; }
-
+		
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);

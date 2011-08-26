@@ -137,7 +137,16 @@ namespace MonoDroid.Dialog
         {
             return GetSelectedValue();
         }
-
+		
+		void SetSectionStartIndex()
+		{
+			int currentIndex = 0;
+			foreach(var section in Sections)
+			{
+				section.StartIndex = currentIndex;
+				currentIndex += section.Count;
+			}
+		}
         /// <summary>
         /// Adds a new section to this RootElement
         /// </summary>
@@ -151,6 +160,7 @@ namespace MonoDroid.Dialog
 
             Sections.Add(section);
             section.Parent = this;
+			SetSectionStartIndex();
         }
 
         //
@@ -164,6 +174,8 @@ namespace MonoDroid.Dialog
         {
             foreach (var s in sections)
                 Add(s);
+			
+			SetSectionStartIndex();
         }
 
         /// <summary>
@@ -195,6 +207,8 @@ namespace MonoDroid.Dialog
                 s.Parent = this;
                 Sections.Insert(pos++, s);
             }
+			
+			SetSectionStartIndex();
         }
 
         /// <summary>
@@ -206,6 +220,8 @@ namespace MonoDroid.Dialog
                 return;
 
             Sections.RemoveAt(idx);
+			
+			SetSectionStartIndex();
         }
 
         public void Remove(Section s)
@@ -216,6 +232,8 @@ namespace MonoDroid.Dialog
             if (idx == -1)
                 return;
             RemoveAt(idx);
+			
+			SetSectionStartIndex();
         }
 
         public void Clear()

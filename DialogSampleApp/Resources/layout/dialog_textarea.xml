@@ -9,4 +9,5 @@ android:gravity="top"
 android:lines="5"
 android:inputType="text|textMultiLine"
 android:textSize="21sp"
+android:background="@android:color/transparent"
 android:textColor="#ff000000"/>

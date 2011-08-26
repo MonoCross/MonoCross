@@ -14,6 +14,7 @@ namespace MonoDroid.Dialog
 {
     public class StringElement : Element
     {
+		public int FontSize {get;set;}
         public string Value
         {
             get { return _value; }
@@ -38,6 +39,14 @@ namespace MonoDroid.Dialog
         {
             Value = value;
         }
+		
+		
+        public StringElement(string caption, string value, EventHandler clicked)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_labelfieldright)
+        {
+            Value = value;
+			this.Click = clicked;
+        }
 
         public StringElement(string caption, string value, int layoutId)
             : base(caption, layoutId)
@@ -51,7 +60,9 @@ namespace MonoDroid.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
+				_caption.TextSize = FontSize;
                 _text.Text = Value;
+				_text.TextSize = FontSize;
             }
             return view;
         }
