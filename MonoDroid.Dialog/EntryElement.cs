@@ -50,6 +50,7 @@ namespace MonoDroid.Dialog
 
         protected EditText _entry;
         private string _val;
+		protected Action _entryClicked{get;set;}
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
 		{

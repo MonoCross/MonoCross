@@ -100,7 +100,7 @@ namespace MonoDroid.Dialog
 
         public static View LoadButtonLayout(Context context, View convertView, ViewGroup parent, int layoutId, out Button button)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            View layout = LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 button = layout.FindViewById<Button>(context.Resources.GetIdentifier("dialog_Button", "id", context.PackageName));
@@ -147,7 +147,7 @@ namespace MonoDroid.Dialog
 
         public static View LoadStringEntryLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out EditText value)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            View layout = LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));

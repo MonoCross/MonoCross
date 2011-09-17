@@ -16,7 +16,7 @@
 		android:singleLine="true"
 		android:text="Fieldset Label"
 	  android:textStyle="bold"
-	  android:textAppearance="?android:attr/textAppearanceSmall"
+	  android:textAppearance="?android:attr/textAppearanceLarge"
 		/>
   <TextView
 		android:id="@+id/dialog_ValueField"
@@ -24,8 +24,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="8dp"
 		android:layout_marginRight="8dp"
-		android:singleLine="true"
 		android:text="FieldValue"
-	  android:textAppearance="?android:attr/textAppearanceLarge"
+		android:textColor="#000000"
+	  android:textAppearance="?android:attr/textAppearanceSmall"
 		/>
 </LinearLayout>
