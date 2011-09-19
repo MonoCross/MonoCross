@@ -21,7 +21,20 @@ namespace MonoDroid.Dialog
             }
         }
         private bool _val;
-
+		
+		public string SubCaption
+		{
+			get
+			{
+				return subCap;
+			}
+			set
+			{
+				subCap = value;
+			}
+		}
+		private string subCap;
+		
         public event EventHandler ValueChanged;
 
         private CheckBox _checkbox;
@@ -40,6 +53,14 @@ namespace MonoDroid.Dialog
             : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
             Value = value;
+        }
+		
+		public CheckboxElement(string caption, bool value, string subCaption, string group)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
+        {
+            Value = value;
+            Group = group;
+			SubCaption = subCaption;
         }
 
         public CheckboxElement(string caption, bool value, string group)
@@ -67,6 +88,7 @@ namespace MonoDroid.Dialog
                 _checkbox.SetOnCheckedChangeListener(null);
                 _checkbox.Checked = Value;
                 _checkbox.SetOnCheckedChangeListener(this);
+				_subCaption.Text = SubCaption;
             }
             return view;
         }
