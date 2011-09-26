@@ -1,101 +1,66 @@
 ﻿using System;
 using Android.Content;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 
 namespace MonoDroid.Dialog
 {
-    public class CheckboxElement : Element, CompoundButton.IOnCheckedChangeListener
+    public class AchievementElement : Element
     {
-        public bool Value
-        {
-            get { return _val; }
-            set
-            {
-                bool emit = _val != value;
-                _val = value;
-				if(_checkbox != null && _checkbox.Checked != _val)
-					_checkbox.Checked = _val;
-                else if (emit && ValueChanged != null)
-                    ValueChanged(this, EventArgs.Empty);
-            }
-        }
-        private bool _val;
-		
-		public string SubCaption
+        
+		public string Description
 		{
-			get
-			{
-				return subCap;
-			}
-			set
-			{
-				subCap = value;
-			}
+			get;
+			set;
 		}
-		private string subCap;
 		
-        public event EventHandler ValueChanged;
+		public int PercentageComplete
+		{
+			get;
+			set;
+		}
+		
+		public Bitmap AchievementImage
+		{
+			get;
+			set;
+		}
 
-        private CheckBox _checkbox;
+
+        private ImageView _achivementImage;
         private TextView _caption;
-        private TextView _subCaption;
+        private TextView _description;
+		private TextView _percentageComplete;
 
         public string Group;
-
-        public CheckboxElement(string caption)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
-        {
-            Value = false;
-        }
-
-        public CheckboxElement(string caption, bool value)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
-        {
-            Value = value;
-        }
 		
-		public CheckboxElement(string caption, bool value, string subCaption, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
+		public AchievementElement(string caption, string description, int percentageComplete, Bitmap achievementImage)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_achievements)
         {
-            Value = value;
-            Group = group;
-			SubCaption = subCaption;
-        }
-
-        public CheckboxElement(string caption, bool value, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
-        {
-            Value = value;
-            Group = group;
-        }
-
-        public CheckboxElement(string caption, bool value, string group, int layoutId)
-            : base(caption, layoutId)
-        {
-            Value = value;
-            Group = group;
+			Description = description;
+			PercentageComplete = percentageComplete;
+			AchievementImage = achievementImage;
         }
         
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            View checkboxView;
-            View view = DroidResources.LoadBooleanElementLayout(context, convertView, parent, LayoutId, out _caption, out _subCaption, out checkboxView);
+            View view = DroidResources.LoadAchievementsElementLayout(context, convertView, parent, LayoutId, out _caption, out _description, out _percentageComplete, out _achivementImage);
             if (view != null)
             {
-                _caption.Text = Caption;
-                _checkbox = checkboxView as CheckBox;
-                _checkbox.SetOnCheckedChangeListener(null);
-                _checkbox.Checked = Value;
-                _checkbox.SetOnCheckedChangeListener(this);
-				_subCaption.Text = SubCaption;
+                _caption.Text = Caption;                
+				_description.Text = Description;
+				_percentageComplete.Text = PercentageComplete.ToString();
+				if ( AchievementImage != null )
+				{
+					_achivementImage.SetImageBitmap(AchievementImage);
+				}
+            }
+			else
+            {
+                Android.Util.Log.Error("AchievementElement", "GetView failed to load template view");
             }
             return view;
-        }
-
-        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
-        {
-            this.Value = isChecked;
         }
     }
 }
