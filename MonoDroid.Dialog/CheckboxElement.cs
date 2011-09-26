@@ -35,6 +35,12 @@ namespace MonoDroid.Dialog
 		}
 		private string subCap;
 		
+		public bool ReadOnly
+		{
+			get;
+			set;
+		}
+		
         public event EventHandler ValueChanged;
 
         private CheckBox _checkbox;
@@ -84,10 +90,12 @@ namespace MonoDroid.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
+				
                 _checkbox = checkboxView as CheckBox;
                 _checkbox.SetOnCheckedChangeListener(null);
                 _checkbox.Checked = Value;
-                _checkbox.SetOnCheckedChangeListener(this);
+				_checkbox.Clickable = !ReadOnly;	
+				
 				_subCaption.Text = SubCaption;
             }
             return view;
