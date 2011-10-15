@@ -29,7 +29,8 @@ namespace MonoDroid.Dialog
 		{
 			Intent intent = new Intent(context, typeof(HtmlActivity));
 			intent.PutExtra("URL",this.Url.ToString());
-			intent.AddFlags(ActivityFlags.NewTask);			
+			intent.PutExtra("Title",Caption);
+			intent.AddFlags(ActivityFlags.NewTask);	
 			context.StartActivity(intent);
 		}
 
@@ -52,6 +53,7 @@ namespace MonoDroid.Dialog
 			
 			Intent i = this.Intent;
 			string url = i.GetStringExtra("URL");
+			this.Title = i.GetStringExtra("Title");
 			
 			WebView webview = new WebView(this);
 			webview.Settings.JavaScriptEnabled = true;
