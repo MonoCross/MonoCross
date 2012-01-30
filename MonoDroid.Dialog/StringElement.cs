@@ -53,6 +53,13 @@ namespace MonoDroid.Dialog
         {
             Value = value;
         }
+		
+		public StringElement(string caption, EventHandler clicked)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_labelfieldright)
+        {
+            Value = null;
+			this.Click = clicked;
+        }
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
@@ -63,6 +70,8 @@ namespace MonoDroid.Dialog
 				_caption.TextSize = FontSize;
                 _text.Text = Value;
 				_text.TextSize = FontSize;
+				if (Click != null)
+					view.Click += Click;
             }
             return view;
         }
