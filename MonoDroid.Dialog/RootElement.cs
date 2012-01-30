@@ -377,7 +377,7 @@ namespace MonoDroid.Dialog
             dialog.Create().Show();
         }
 
-        void IDialogInterfaceOnClickListener.OnClick(IDialogInterface dialog, DialogInterfaceButton which)
+        void IDialogInterfaceOnClickListener.OnClick(IDialogInterface dialog, int which)
         {
             if ((int)which >= 0)
             {

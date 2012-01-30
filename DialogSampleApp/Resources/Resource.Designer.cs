@@ -145,7 +145,7 @@ namespace DialogSampleApp
 			public const int dialog_textfieldright = 2130903057;
 			
 			// aapt resource value: 0x7f030012
-			public const int Main = 2130903058;
+			public const int main = 2130903058;
 			
 			private Layout()
 			{

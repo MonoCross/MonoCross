@@ -23,13 +23,13 @@ namespace MonoDroid.Dialog
 
             dialogView.Adapter = this.DialogAdapter = new DialogAdapter(context, this.Root);
             dialogView.ItemClick += new EventHandler<ItemEventArgs>(ListView_ItemClick);
-            dialogView.ItemLongClick += new EventHandler<ItemEventArgs>(ListView_ItemLongClick);
+            dialogView.ItemLongClick += ListView_ItemLongClick;;
             dialogView.Tag = root;
         }
 
-        void ListView_ItemLongClick(object sender, ItemEventArgs e)
+        void ListView_ItemLongClick (object sender, AdapterView.ItemLongClickEventArgs e)
         {
-            var elem = this.DialogAdapter.ElementAtIndex(e.Position);
+			var elem = this.DialogAdapter.ElementAtIndex(e.Position);
             if (elem != null && elem.LongClick != null)
                 elem.LongClick(sender, e);
         }
