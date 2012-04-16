@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.OS;
+using Android.Widget;
 
 namespace MonoDroid.Dialog
 {
@@ -35,5 +36,17 @@ namespace MonoDroid.Dialog
         {
             return null;
         }
+		
+		public void ReloadData()
+		{
+			if(Root == null) {
+				return;
+			}
+			
+			this.Dialog.ReloadData();
+			
+			
+		}
 	}
+	
 }

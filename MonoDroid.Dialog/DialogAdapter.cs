@@ -146,5 +146,12 @@ namespace MonoDroid.Dialog
 
 			return null;
 		}
+		
+		public void ReloadData()
+		{
+			if(Root != null) {
+				this.NotifyDataSetChanged();
+			}
+		}
 	}
 }

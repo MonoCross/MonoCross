@@ -44,5 +44,15 @@ namespace MonoDroid.Dialog
 				elem.Click();
 			}
         }
+		
+		public void ReloadData()
+		{
+			if(Root == null) {
+				return;
+			}
+			
+			this.DialogAdapter.ReloadData();
+		}
+		
     }
 }

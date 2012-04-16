@@ -7,6 +7,17 @@ using Android.Widget;
 
 namespace MonoDroid.Dialog
 {
+//	public class AwesomeEntryElement : Element, ITextWatcher
+//	{
+//		public string Value {
+//			get; set; 
+//		}
+//		
+//		public AwesomeEntryElement()
+//			: base("")
+//		{
+//		}
+//	}
 	public class EntryElement : Element, ITextWatcher
 	{
 		public string Value
@@ -29,10 +40,13 @@ namespace MonoDroid.Dialog
 		public EntryElement(string caption, string value)
             : this(caption, value, (int)DroidResources.ElementLayout.dialog_textfieldright)
 		{
+			
 		}
 		public EntryElement(string caption, string hint,string value) : this(caption,value)
 		{
 			Hint = hint;
+			
+			
 		}
 
         public EntryElement(string caption, string value, int layoutId)
@@ -54,7 +68,7 @@ namespace MonoDroid.Dialog
 
         protected EditText _entry;
         private string _val;
-		protected Action _entryClicked{get;set;}
+		protected Action _entryClicked{ get;set; }
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
 		{
