@@ -30,6 +30,10 @@ namespace MonoDroid.Dialog
             : this(caption, value, (int)DroidResources.ElementLayout.dialog_textfieldright)
 		{
 		}
+		public EntryElement(string caption, string hint,string value) : this(caption,value)
+		{
+			Hint = hint;
+		}
 
         public EntryElement(string caption, string value, int layoutId)
             : base(caption, layoutId)

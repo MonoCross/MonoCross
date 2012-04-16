@@ -22,3 +22,7 @@ Thumbs.db
 *.rar
 *.tar
 *.zip
+
+DialogSampleApp/DialogSampleApp.pidb
+
+MonoDroid.Dialog/MonoDroid.Dialog.pidb
