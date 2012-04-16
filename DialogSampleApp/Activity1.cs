@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MonoDroid.Dialog;
+using System;
 
 namespace DialogSampleApp
 {
@@ -29,7 +30,11 @@ namespace DialogSampleApp
                 {
                     new Section("Test Header", "Test Footer")
                         {
-                            new ButtonElement("DialogActivity", (o, e) => StartNew()),
+							new StringElement("Do Something", "Foo", () => {
+								Console.WriteLine("Did Something");
+								
+							}),
+                            new ButtonElement("DialogActivity", () => StartNew()),
                             new BooleanElement("Push my button", true),
                             new BooleanElement("Push this too", false),
                             new StringElement("Text label", "The Value"),

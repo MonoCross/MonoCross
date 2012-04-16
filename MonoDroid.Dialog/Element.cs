@@ -42,17 +42,19 @@ namespace MonoDroid.Dialog
         /// <summary>
         /// Override for click the click event
         /// </summary>
-        public EventHandler Click { get; set; }
+        public Action Click { get; set; }
 
         /// <summary>
         /// Override for long click events, some elements use this for action
         /// </summary>
-        public EventHandler LongClick { get; set; }
+        public Action LongClick { get; set; }
 
         /// <summary>
         /// An Object that contains data about the element. The default is null.
         /// </summary>
         public Object Tag { get; set; }
+		
+		
          
         public void Dispose()
         {
@@ -82,10 +84,29 @@ namespace MonoDroid.Dialog
         /// <returns></returns>
         public virtual View GetView(Context context, View convertView, ViewGroup parent)
         {
-            return LayoutId == 0 ? new View(context) : null;
+			var view = LayoutId == 0 ? new View(context) : null;
+			
+			
+//			view.Click += delegate {
+//				
+//			};
+//			
+//			if (view != null)
+//            {
+//                _caption.Text = Caption;
+//				_caption.TextSize = FontSize;
+//                _text.Text = Value;
+//				_text.TextSize = FontSize;
+//				if (Click != null)
+//					view.Click += this.Click; 
+//            }
+            return view;
         }
 
-        public virtual void Selected() { }
+        public virtual void Selected() 
+		{
+			Console.WriteLine("foo");
+		}
 				
         public virtual bool Matches(string text)
         {

@@ -141,8 +141,8 @@ namespace MonoDroid.Dialog
                     section = new Section();
 
                 Element element = null;
-                if (mType == typeof(string))
-                {
+				
+                if (mType == typeof(string)) {
                     PasswordAttribute pa = null;
                     AlignmentAttribute align = null;
                     EntryAttribute ea = null;
@@ -150,8 +150,7 @@ namespace MonoDroid.Dialog
                     EventHandler invoke = null;
                     bool multi = false;
 
-                    foreach (object attr in attrs)
-                    {
+                    foreach (object attr in attrs) {
                         if (attr is PasswordAttribute)
                             pa = attr as PasswordAttribute;
                         else if (attr is EntryAttribute)
@@ -163,22 +162,19 @@ namespace MonoDroid.Dialog
                         else if (attr is AlignmentAttribute)
                             align = attr as AlignmentAttribute;
 
-                        if (attr is OnTapAttribute)
-                        {
+                        if (attr is OnTapAttribute) {
                             string mname = ((OnTapAttribute)attr).Method;
 
-                            if (callbacks == null)
-                            {
+                            if (callbacks == null) {
                                 throw new Exception("Your class contains [OnTap] attributes, but you passed a null object for `context' in the constructor");
                             }
 
                             var method = callbacks.GetType().GetMethod(mname);
                             if (method == null)
                                 throw new Exception("Did not find method " + mname);
-                            invoke = delegate
-                                         {
-                                             method.Invoke(method.IsStatic ? null : callbacks, new object[0]);
-                                         };
+                            invoke = delegate {
+                                 method.Invoke(method.IsStatic ? null : callbacks, new object[0]);
+                             };
                         }
                     }
 
@@ -201,7 +197,9 @@ namespace MonoDroid.Dialog
                     }
 
                     if (invoke != null)
-                        ((StringElement)element).Click = invoke;
+					{
+						//                        ((StringElement)element).Click += invoke;
+					}
                 }
                 else if (mType == typeof(float))
                 {

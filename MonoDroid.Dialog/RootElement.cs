@@ -318,7 +318,8 @@ namespace MonoDroid.Dialog
                 {
                     _caption.Text = Caption;
                     _value.Text = radioValue;
-                    this.Click = (o, e) => { SelectRadio(); };
+//                    this.Click = (o, e) => { SelectRadio(); };
+					this.Click += delegate { SelectRadio(); };
                 }
             }
             else if (_group != null)

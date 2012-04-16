@@ -8,7 +8,7 @@ namespace MonoDroid.Dialog
 {
 	public class ButtonElement : StringElement
 	{
-		public ButtonElement (string caption, EventHandler tapped)
+		public ButtonElement (string caption, Action tapped)
             : base(caption, (int)DroidResources.ElementLayout.dialog_button)
 		{
 			this.Click = tapped;
@@ -21,7 +21,7 @@ namespace MonoDroid.Dialog
 			if (view != null) {
 				button.Text = Caption;
 				if (Click != null)
-					button.Click += Click;
+					button.Click += delegate { Click(); };
 			}
 			
 			return view;

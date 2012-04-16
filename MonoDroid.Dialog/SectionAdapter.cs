@@ -53,7 +53,14 @@ namespace MonoDroid.Dialog
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-            return Section.Elements[position].GetView(this.Context, convertView, parent);
+            var element = Section.Elements[position];
+			var view = element.GetView(this.Context, convertView, parent);
+			
+			view.Click += delegate {
+				element.Selected();
+			};
+			
+			return view;
 		}
 	}
 }
