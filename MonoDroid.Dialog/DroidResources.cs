@@ -89,6 +89,12 @@ namespace MonoDroid.Dialog
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
                 value = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+				if(label == null || value == null)
+				{
+					layout = LoadLayout(context, parent, layoutId);
+					label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
+					value = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+				}
             }
             else
             {
