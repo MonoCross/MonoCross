@@ -14,7 +14,7 @@ namespace MonoDroid.Dialog
 {
 	public class SectionAdapter : BaseAdapter<Element>
 	{
-		public SectionAdapter(Section section)
+		public SectionAdapter (Section section)
 		{
 			this.Section = section;
 		}
@@ -23,42 +23,34 @@ namespace MonoDroid.Dialog
 
 		public Section Section { get; private set; }
 
-		public override int Count
-		{
+		public override int Count {
 			get { return this.Section.Elements.Count; }
 		}
 
-		public override Element this[int position]
-		{
-			get
-            {
-                return Section.Elements[position];
-            }
+		public override Element this [int position] {
+			get {
+				return Section.Elements [position];
+			}
 		}
 
-		public override int ViewTypeCount
-		{
+		public override int ViewTypeCount {
 			get { return this.Section.ElementViewTypeCount;	}
 		}
 
-		public override int GetItemViewType(int position)
+		public override int GetItemViewType (int position)
 		{
-			return this.Section.GetElementViewType(this[position]);
+			return this.Section.GetElementViewType (this [position]);
 		}			
 
-		public override long GetItemId(int position)
+		public override long GetItemId (int position)
 		{
 			return position;
 		}
 
-		public override View GetView(int position, View convertView, ViewGroup parent)
+		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
-            var element = Section.Elements[position];
-			var view = element.GetView(this.Context, convertView, parent);
-			
-			view.Click += delegate {
-				element.Selected();
-			};
+			var element = Section.Elements [position];
+			var view = element.GetView (this.Context, convertView, parent);
 			
 			return view;
 		}

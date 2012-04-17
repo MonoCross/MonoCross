@@ -39,10 +39,8 @@ namespace MonoDroid.Dialog
         void ListView_ItemClick(object sender, ItemEventArgs e)
         {
             var elem = this.DialogAdapter.ElementAtIndex(e.Position);
-            if (elem != null && elem.Click != null) {
-				//                elem.Click(sender, e);
-				elem.Click();
-			}
+			if(elem != null)
+				elem.Selected();
         }
 		
 		public void ReloadData()
