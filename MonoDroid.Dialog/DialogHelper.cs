@@ -31,7 +31,6 @@ namespace MonoDroid.Dialog
         {
 			var elem = this.DialogAdapter.ElementAtIndex(e.Position);
             if (elem != null && elem.LongClick != null) {
-				//                elem.LongClick(sender, e);
 				elem.LongClick();
 			}
         }

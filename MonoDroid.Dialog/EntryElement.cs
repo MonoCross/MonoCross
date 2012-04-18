@@ -4,22 +4,14 @@ using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.App;
 
 namespace MonoDroid.Dialog
 {
-//	public class AwesomeEntryElement : Element, ITextWatcher
-//	{
-//		public string Value {
-//			get; set; 
-//		}
-//		
-//		public AwesomeEntryElement()
-//			: base("")
-//		{
-//		}
-//	}
+	
+	
 	public class EntryElement : Element, ITextWatcher
-	{
+	{	
 		public string Value
 		{
 			get { return _val; }
@@ -42,17 +34,16 @@ namespace MonoDroid.Dialog
 		{
 			
 		}
+		
 		public EntryElement(string caption, string hint,string value) : this(caption,value)
 		{
 			Hint = hint;
-			
-			
 		}
 
-        public EntryElement(string caption, string value, int layoutId)
+        public EntryElement(string caption, string @value, int layoutId)
             : base(caption, layoutId)
         {
-            _val = value;
+            _val = @value;
             Lines = 1;
         }
         
@@ -68,13 +59,15 @@ namespace MonoDroid.Dialog
 
         protected EditText _entry;
         private string _val;
-		protected Action _entryClicked{ get;set; }
+		protected Action _entryClicked { get;set; }
+		
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
 		{
             Log.Debug("MDD", "EntryElement: GetView: ConvertView: " + ((convertView == null) ? "false" : "true") +
                 " Value: " + Value + " Hint: " + Hint + " Password: " + (Password ? "true" : "false"));
-
+			
+			
             TextView label;
             var view = DroidResources.LoadStringEntryLayout(context, convertView, parent, LayoutId, out label, out _entry);
             if (view != null)
@@ -125,12 +118,32 @@ namespace MonoDroid.Dialog
 
         public void AfterTextChanged(IEditable s)
         {
+			Console.Write("foo");
             // nothing needed
         }
 
         public void BeforeTextChanged(Java.Lang.ICharSequence s, int start, int count, int after)
         {
+			Console.Write("foo");
             // nothing needed
         }
+		
+		public override void Selected ()
+		{
+			base.Selected ();
+			
+			if(_entry != null) {
+				var context = this.GetContext();
+				var entryDialog = new AlertDialog.Builder(context)
+					.SetTitle("Enter Text")
+					.SetView(_entry)
+					.SetPositiveButton("OK", (o, e) => {
+							this.Value = _entry.Text;
+					})
+					.Create();
+				
+				entryDialog.Show();
+			}
+		}
     }
 }
