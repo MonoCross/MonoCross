@@ -96,7 +96,10 @@ namespace MonoDroid.Dialog
                 _checkbox.Checked = Value;
 				_checkbox.Clickable = !ReadOnly;	
 				
-				_subCaption.Text = SubCaption;
+				if (_subCaption != null )
+				{
+					_subCaption.Text = SubCaption;
+				}
             }
             return view;
         }
