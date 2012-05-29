@@ -26,3 +26,5 @@ Thumbs.db
 DialogSampleApp/DialogSampleApp.pidb
 
 MonoDroid.Dialog/MonoDroid.Dialog.pidb
+
+.DS_Store

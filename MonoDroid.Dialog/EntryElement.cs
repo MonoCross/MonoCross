@@ -82,9 +82,9 @@ namespace MonoDroid.Dialog
                 _entry.Hint = this.Hint;
 
                 if (this.Password)
-                    _entry.InputType = InputTypes.ClassText | InputTypes.TextVariationPassword;
+                    _entry.InputType = (InputTypes.ClassText | InputTypes.TextVariationPassword);
                 else if (this.Numeric)
-                    _entry.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
+                    _entry.InputType = (InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned);
                 else
                     _entry.InputType = InputTypes.ClassText;
 
