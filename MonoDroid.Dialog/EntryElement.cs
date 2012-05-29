@@ -82,11 +82,11 @@ namespace MonoDroid.Dialog
                 _entry.Hint = this.Hint;
 
                 if (this.Password)
-                    _entry.InputType = (int)(InputTypes.ClassText | InputTypes.TextVariationPassword);
+                    _entry.InputType = (InputTypes.ClassText | InputTypes.TextVariationPassword);
                 else if (this.Numeric)
-                    _entry.InputType = (int)(InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned);
+                    _entry.InputType = (InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned);
                 else
-                    _entry.InputType = (int)InputTypes.ClassText;
+                    _entry.InputType = InputTypes.ClassText;
 
                 // continuation of crazy ass hack, stash away the listener value so we can look it up later
                 _entry.Tag = this;
