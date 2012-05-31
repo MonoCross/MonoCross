@@ -1,21 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
 using Android.Dialog;
+using Android.OS;
+using Android.Views;
 
 namespace DialogSampleApp
 {
     [Activity(Label = "My Activity", Theme = "@android:style/Theme.Black.NoTitleBar", WindowSoftInputMode = SoftInput.AdjustPan)]
-    public class Activity4 : Activity {
+    public class EntryActivity : Activity
+    {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -38,7 +30,8 @@ namespace DialogSampleApp
             section.Add(new EntryElement("Label 5", "Value 5"));
             section.Add(new EntryElement("Label 6", "Value 6"));
 
-            section.Add(new WebContentElement("http://www.google.com") {
+            section.Add(new WebContentElement("http://www.google.com")
+            {
                 WebContent = "<html><body><h1>My First Heading</h1><p>My first paragraph.</p></body></html>"
             });
 

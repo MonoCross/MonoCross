@@ -1,21 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
 using Android.Dialog;
+using Android.OS;
 
 namespace DialogSampleApp
 {
     [Activity(Label = "My Activity", Theme = "@android:style/Theme.Black.NoTitleBar")]
-    public class Activity3 : Activity {
+    public class NameActivity : Activity {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);

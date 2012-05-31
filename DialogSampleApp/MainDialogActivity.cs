@@ -14,21 +14,21 @@ namespace DialogSampleApp
     //       as in this sample...
     //
     [Activity(Label = "Android.Dialog Sample", MainLauncher = true, WindowSoftInputMode = SoftInput.AdjustPan)]
-    public class MainActivity : DialogActivity
+    public class MainDialogActivity : DialogActivity
     {
         protected void StartNew()
         {
-            StartActivity(typeof(Activity2));
+            StartActivity(typeof(DialogListViewActivity));
         }
 
         protected void ClickList()
         {
-            StartActivity(typeof(Activity3));
+            StartActivity(typeof(NameActivity));
         }
 
         protected void ClickElementTest()
         {
-            StartActivity(typeof(Activity4));
+            StartActivity(typeof(EntryActivity));
         }
 
         protected override void OnCreate(Bundle bundle)

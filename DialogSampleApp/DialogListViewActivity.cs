@@ -14,7 +14,7 @@ namespace DialogSampleApp
         ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation,
         LaunchMode = LaunchMode.SingleTop,
         Theme = "@android:style/Theme.Light.NoTitleBar")]
-    public class Activity2 : Activity
+    public class DialogListViewActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
         {

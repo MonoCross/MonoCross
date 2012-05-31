@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity1.cs" />
-    <Compile Include="Activity2.cs" />
-    <Compile Include="Activity3.cs" />
-    <Compile Include="Activity4.cs" />
+    <Compile Include="MainDialogActivity.cs" />
+    <Compile Include="DialogListViewActivity.cs" />
+    <Compile Include="NameActivity.cs" />
+    <Compile Include="EntryActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
