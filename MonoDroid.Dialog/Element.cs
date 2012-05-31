@@ -2,9 +2,9 @@ using System;
 using Android.Content;
 using Android.Views;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
-    public abstract class Element : Java.Lang.Object, IDisposable
+    public abstract class Element : Java.Lang.Object
     {
         /// <summary>
         ///  Initializes the element with the given caption.
@@ -42,26 +42,19 @@ namespace MonoDroid.Dialog
         /// <summary>
         /// Override for click the click event
         /// </summary>
-        public Action Click { get; set; }
+        public EventHandler Click { get; set; }
 
         /// <summary>
         /// Override for long click events, some elements use this for action
         /// </summary>
-        public Action LongClick { get; set; }
+        public EventHandler LongClick { get; set; }
 
         /// <summary>
         /// An Object that contains data about the element. The default is null.
         /// </summary>
         public Object Tag { get; set; }
-		
-		
-         
-        public void Dispose()
-        {
-            Dispose(true);
-        }
 
-        protected virtual void Dispose(bool disposing) { }
+        //protected virtual void Dispose(bool disposing) { }
 
         /// <summary>
         /// Returns a summary of the value represented by this object, suitable 
@@ -84,30 +77,11 @@ namespace MonoDroid.Dialog
         /// <returns></returns>
         public virtual View GetView(Context context, View convertView, ViewGroup parent)
         {
-			var view = LayoutId == 0 ? new View(context) : null;
-			
-			
-//			view.Click += delegate {
-//				
-//			};
-//			
-//			if (view != null)
-//            {
-//                _caption.Text = Caption;
-//				_caption.TextSize = FontSize;
-//                _text.Text = Value;
-//				_text.TextSize = FontSize;
-//				if (Click != null)
-//					view.Click += this.Click; 
-//            }
-            return view;
+            return LayoutId == 0 ? new View(context) : null;
         }
 
-        public virtual void Selected() 
-		{
-			Console.WriteLine("foo");
-		}
-				
+        public virtual void Selected() { }
+
         public virtual bool Matches(string text)
         {
             return Caption != null && Caption.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1;
@@ -115,11 +89,11 @@ namespace MonoDroid.Dialog
 
         public Context GetContext()
         {
-            Element element = this;
+            var element = this;
             while (element.Parent != null)
                 element = element.Parent;
 
-            RootElement rootElement = element as RootElement;
+            var rootElement = element as RootElement;
             return rootElement == null ? null : rootElement.Context;
         }
     }

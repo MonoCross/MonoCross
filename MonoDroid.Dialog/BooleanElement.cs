@@ -3,7 +3,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public abstract class BoolElement : Element
     {
@@ -25,7 +25,8 @@ namespace MonoDroid.Dialog
 
         public event EventHandler ValueChanged;
 
-        public BoolElement(string caption, bool value) : base(caption)
+        public BoolElement(string caption, bool value)
+            : base(caption)
         {
             _val = value;
         }
@@ -35,7 +36,7 @@ namespace MonoDroid.Dialog
         {
             _val = value;
         }
-        
+
         public override string Summary()
         {
             return _val ? "On" : "Off";
@@ -47,12 +48,12 @@ namespace MonoDroid.Dialog
     /// </summary>
     public class BooleanElement : BoolElement, CompoundButton.IOnCheckedChangeListener
     {
-        private ToggleButton _toggleButton;
-        private TextView _caption;
-        private TextView _subCaption;
+        protected ToggleButton _toggleButton;
+        protected TextView _caption;
+        protected TextView _subCaption;
 
         public BooleanElement(string caption, bool value)
-            : base(caption, value, (int) DroidResources.ElementLayout.dialog_onofffieldright)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_onofffieldright)
         {
         }
 
@@ -69,7 +70,7 @@ namespace MonoDroid.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
-                _toggleButton = toggleButtonView as ToggleButton;
+                _toggleButton = (ToggleButton)toggleButtonView;
                 _toggleButton.SetOnCheckedChangeListener(null);
                 _toggleButton.Checked = Value;
                 _toggleButton.SetOnCheckedChangeListener(this);
@@ -79,18 +80,16 @@ namespace MonoDroid.Dialog
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                //_toggleButton.Dispose();
-                _toggleButton = null;
-                //_caption.Dispose();
-                _caption = null;
-            }
+            if (!disposing) return;
+            //_toggleButton.Dispose();
+            _toggleButton = null;
+            //_caption.Dispose();
+            _caption = null;
         }
 
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
-            this.Value = isChecked;
+            Value = isChecked;
         }
     }
 }

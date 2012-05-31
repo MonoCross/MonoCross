@@ -1,6 +1,6 @@
 using System;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
     public class EntryAttribute : Attribute

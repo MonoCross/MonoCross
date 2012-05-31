@@ -34,13 +34,13 @@
       android:textAppearance="?android:attr/textAppearanceSmall"
       />
   </LinearLayout>
-  <!--LinearLayout>
+  <LinearLayout>
 	  <ImageView
 			android:id="@+id/dialog_ImageRight"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right|center_vertical"
-			android:src="@drawable/dialog_disclosure"
+			android:src="@drawable/spinner_default_holo_dark"
 			android:layout_marginLeft="3dp"
 			android:layout_marginRight="3dp"
 			/>
@@ -55,7 +55,7 @@
 	      android:text="0"
 	      android:textAppearance="?android:attr/textAppearanceSmall"
 	      />
-  </LinearLayout-->
+  </LinearLayout>
   <CheckBox
     android:id="@+id/dialog_BoolField"
     android:layout_width="wrap_content"

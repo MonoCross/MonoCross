@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public class RootElement : Element, IEnumerable<Section>, IDialogInterfaceOnClickListener
     {
         TextView _caption;
         TextView _value;
 
-        int _summarySection, _summaryElement;
+        int _summarySection;
         internal Group _group;
         public bool UnevenRows;
         public Func<RootElement, View> _createOnSelected;
+        public event EventHandler RadioSelectionChanged;
 
         /// <summary>
         ///  Initializes a RootSection with a caption
@@ -25,7 +27,7 @@ namespace MonoDroid.Dialog
         ///  The caption to render.
         /// </param>
         public RootElement(string caption)
-            : base(caption, (int) DroidResources.ElementLayout.dialog_root)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
             _summarySection = -1;
             Sections = new List<Section>();
@@ -63,7 +65,6 @@ namespace MonoDroid.Dialog
             : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
             _summarySection = section;
-            _summaryElement = element;
         }
 
         /// <summary>
@@ -105,6 +106,14 @@ namespace MonoDroid.Dialog
             }
         }
 
+        public event EventHandler ValueChanged;
+
+        private void HandleValueChangedEvent(object sender, EventArgs args)
+        {
+            if (ValueChanged != null)
+                ValueChanged(sender, args);
+        }
+
         internal int IndexOf(Section target)
         {
             int idx = 0;
@@ -137,16 +146,7 @@ namespace MonoDroid.Dialog
         {
             return GetSelectedValue();
         }
-		
-		void SetSectionStartIndex()
-		{
-			int currentIndex = 0;
-			foreach(var section in Sections)
-			{
-				section.StartIndex = currentIndex;
-				currentIndex += section.Count;
-			}
-		}
+
         /// <summary>
         /// Adds a new section to this RootElement
         /// </summary>
@@ -160,7 +160,8 @@ namespace MonoDroid.Dialog
 
             Sections.Add(section);
             section.Parent = this;
-			SetSectionStartIndex();
+
+            section.ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
         }
 
         //
@@ -174,8 +175,6 @@ namespace MonoDroid.Dialog
         {
             foreach (var s in sections)
                 Add(s);
-			
-			SetSectionStartIndex();
         }
 
         /// <summary>
@@ -205,10 +204,9 @@ namespace MonoDroid.Dialog
             foreach (var s in newSections)
             {
                 s.Parent = this;
+                s.ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
                 Sections.Insert(pos++, s);
             }
-			
-			SetSectionStartIndex();
         }
 
         /// <summary>
@@ -220,8 +218,6 @@ namespace MonoDroid.Dialog
                 return;
 
             Sections.RemoveAt(idx);
-			
-			SetSectionStartIndex();
         }
 
         public void Remove(Section s)
@@ -232,8 +228,6 @@ namespace MonoDroid.Dialog
             if (idx == -1)
                 return;
             RemoveAt(idx);
-			
-			SetSectionStartIndex();
         }
 
         public void Clear()
@@ -301,58 +295,52 @@ namespace MonoDroid.Dialog
             return string.Empty;
         }
 
-		public override View GetView(Context context, View convertView, ViewGroup parent)
+        public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             Context = context;
 
-            LayoutInflater inflater = LayoutInflater.FromContext(context);
-            
-            View cell = new TextView(context) {TextSize = 16f, Text = Caption};
+            View cell = new TextView(context) { TextSize = 16f, Text = Caption };
             var radio = _group as RadioGroup;
 
             if (radio != null)
             {
-                string radioValue = GetSelectedValue();
+                var radioValue = GetSelectedValue();
                 cell = DroidResources.LoadStringElementLayout(context, convertView, parent, LayoutId, out _caption, out _value);
                 if (cell != null)
                 {
                     _caption.Text = Caption;
                     _value.Text = radioValue;
-//                    this.Click = (o, e) => { SelectRadio(); };
-					this.Click += delegate { SelectRadio(); };
+                    Click = (o, e) => SelectRadio();
                 }
             }
-            else if (_group != null)
-            {
-                int count = 0;
-                foreach (var s in Sections)
-                {
-                    foreach (var e in s.Elements)
-                    {
-                        var ce = e as CheckboxElement;
-                        if (ce != null)
-                        {
-                            if (ce.Value)
-                                count++;
-                            continue;
-                        }
-                        var be = e as BoolElement;
-                        if (be != null)
-                        {
-                            if (be.Value)
-                                count++;
-                            continue;
-                        }
-                    }
-                }
-                //cell.DetailTextLabel.Text = count.ToString();
-            }
-            else if (_summarySection != -1 && _summarySection < Sections.Count)
-            {
-                var s = Sections[_summarySection];
-                //if (summaryElement < s.Elements.Count)
-                //    cell.DetailTextLabel.Text = s.Elements[summaryElement].Summary();
-            }
+            //else if (_group != null)
+            //{
+            //    int count = 0;
+            //    foreach (var s in Sections)
+            //    {
+            //        foreach (var e in s.Elements)
+            //        {
+            //            var ce = e as CheckboxElement;
+            //            if (ce != null)
+            //            {
+            //                if (ce.Value)
+            //                    count++;
+            //                continue;
+            //            }
+            //            var be = e as BoolElement;
+            //            if (be == null) continue;
+            //            if (be.Value)
+            //                count++;
+            //        }
+            //    }
+            //    cell.DetailTextLabel.Text = count.ToString();
+            //}
+            //else if (_summarySection != -1 && _summarySection < Sections.Count)
+            //{
+            //    var s = Sections[_summarySection];
+            //    if (summaryElement < s.Elements.Count)
+            //        cell.DetailTextLabel.Text = s.Elements[summaryElement].Summary();
+            //}
             //cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
             return cell;
@@ -361,33 +349,26 @@ namespace MonoDroid.Dialog
 
         public void SelectRadio()
         {
-            List<string> items = new List<string>();
-            foreach (var s in Sections)
-            {
-                foreach (var e in s.Elements)
-                {
-                    if (e is RadioElement)
-                        items.Add(e.Summary());
-                }
-            }
-
             var dialog = new AlertDialog.Builder(Context);
-            dialog.SetSingleChoiceItems(items.ToArray(), this.RadioSelected, this);
-            dialog.SetTitle(this.Caption);
+            dialog.SetSingleChoiceItems(Sections.SelectMany(s => s.Elements).OfType<RadioElement>().Select(e => e.Summary()).ToArray(), RadioSelected, this);
+            dialog.SetTitle(Caption);
             dialog.SetNegativeButton("Cancel", this);
             dialog.Create().Show();
         }
 
         void IDialogInterfaceOnClickListener.OnClick(IDialogInterface dialog, int which)
         {
-            if ((int)which >= 0)
+            if (which >= 0)
             {
-                this.RadioSelected = (int)which;
-                string radioValue = GetSelectedValue();
+                RadioSelected = which;
+                var radioValue = GetSelectedValue();
                 _value.Text = radioValue;
             }
 
             dialog.Dismiss();
+
+            if (RadioSelectionChanged != null)
+                RadioSelectionChanged(this, new EventArgs());
         }
 
         /// <summary>

@@ -1,19 +1,17 @@
-﻿using System;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public class FloatElement : Element, SeekBar.IOnSeekBarChangeListener
-	{
-		public bool ShowCaption;
-		public int Value;
-		public int MinValue, MaxValue;
-	    public Bitmap Left;
-	    public Bitmap Right;
+    {
+        public bool ShowCaption;
+        public int Value;
+        public int MinValue, MaxValue;
+        public Bitmap Left;
+        public Bitmap Right;
 
         public FloatElement(string caption)
             : this(caption, (int)DroidResources.ElementLayout.dialog_floatimage)
@@ -30,7 +28,7 @@ namespace MonoDroid.Dialog
             MinValue = 0;
             MaxValue = 10;
         }
-        
+
         public FloatElement(Bitmap left, Bitmap right, int value)
             : this(left, right, value, (int)DroidResources.ElementLayout.dialog_floatimage)
         {
@@ -84,7 +82,7 @@ namespace MonoDroid.Dialog
             }
             else
             {
-                Android.Util.Log.Error("FloatElement", "GetView failed to load template view");
+                Util.Log.Error("FloatElement", "GetView failed to load template view");
             }
 
             return view;

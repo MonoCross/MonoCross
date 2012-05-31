@@ -1,4 +1,4 @@
-﻿namespace MonoDroid.Dialog
+﻿namespace Android.Dialog
 {
     internal interface IElementSizing
     {

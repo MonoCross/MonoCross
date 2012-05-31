@@ -6,13 +6,12 @@ using System.Text;
 using Android.Content;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public class BindingContext : IDisposable
     {
         public RootElement Root;
         Dictionary<Element, MemberAndInstance> mappings;
-        private Context _context;
 
         class MemberAndInstance
         {
@@ -86,10 +85,8 @@ namespace MonoDroid.Dialog
             return null;
         }
 
-        public BindingContext(Context context, object callbacks, object o, string title)
+        public BindingContext(object callbacks, object o, string title)
         {
-            _context = context;
-
             if (o == null)
                 throw new ArgumentNullException("o");
 
@@ -141,8 +138,8 @@ namespace MonoDroid.Dialog
                     section = new Section();
 
                 Element element = null;
-				
-                if (mType == typeof(string)) {
+                if (mType == typeof(string))
+                {
                     PasswordAttribute pa = null;
                     AlignmentAttribute align = null;
                     EntryAttribute ea = null;
@@ -150,7 +147,8 @@ namespace MonoDroid.Dialog
                     EventHandler invoke = null;
                     bool multi = false;
 
-                    foreach (object attr in attrs) {
+                    foreach (object attr in attrs)
+                    {
                         if (attr is PasswordAttribute)
                             pa = attr as PasswordAttribute;
                         else if (attr is EntryAttribute)
@@ -162,19 +160,22 @@ namespace MonoDroid.Dialog
                         else if (attr is AlignmentAttribute)
                             align = attr as AlignmentAttribute;
 
-                        if (attr is OnTapAttribute) {
+                        if (attr is OnTapAttribute)
+                        {
                             string mname = ((OnTapAttribute)attr).Method;
 
-                            if (callbacks == null) {
+                            if (callbacks == null)
+                            {
                                 throw new Exception("Your class contains [OnTap] attributes, but you passed a null object for `context' in the constructor");
                             }
 
                             var method = callbacks.GetType().GetMethod(mname);
                             if (method == null)
                                 throw new Exception("Did not find method " + mname);
-                            invoke = delegate {
-                                 method.Invoke(method.IsStatic ? null : callbacks, new object[0]);
-                             };
+                            invoke = delegate
+                            {
+                                method.Invoke(method.IsStatic ? null : callbacks, new object[0]);
+                            };
                         }
                     }
 
@@ -184,7 +185,7 @@ namespace MonoDroid.Dialog
                     else if (ea != null)
                         element = new EntryElement(caption, value) { Hint = ea.Placeholder };
                     else if (multi)
-                        element = new MultilineElement(caption, value);
+                        element = new MultilineEntryElement(caption, value);
                     else if (html != null)
                         element = new HtmlElement(caption, value);
                     else
@@ -197,9 +198,7 @@ namespace MonoDroid.Dialog
                     }
 
                     if (invoke != null)
-					{
-						//                        ((StringElement)element).Click += invoke;
-					}
+                        ((StringElement)element).Click = invoke;
                 }
                 else if (mType == typeof(float))
                 {
@@ -274,7 +273,7 @@ namespace MonoDroid.Dialog
                 }
                 else if (mType == typeof(ImageView))
                 {
-                    element = new ImageElement(null); // (ImageView)GetValue(mi, o));
+                    element = new ImageElement((ImageView)GetValue(mi, o));
                 }
                 else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(mType))
                 {

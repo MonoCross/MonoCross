@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <android.dialog.DialogListView
+	      android:id="@+id/android:list"
+	      android:layout_width="fill_parent"
+	      android:layout_height="0dip"
+	      android:layout_weight="1"
+	      android:focusable="false"
+	      android:descendantFocusability="afterDescendants"
+	      />
+    <LinearLayout
+        android:id="@+id/button_bar"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_gravity="bottom"
+		    android:layout_marginTop="4dip"
+		    android:visibility="visible"
+		    android:background="@android:drawable/bottom_bar">
+        <Button
+		    	  android:id="@+id/button_done"
+		    	  android:text="Save"
+		    	  android:layout_width="0dip"
+		  	    android:layout_height="fill_parent"
+		  	    android:layout_weight="1"
+		  	    android:layout_marginTop="4dip"
+		  	    />
+        <Button
+		      	android:id="@+id/button_revert"
+		      	android:text="Don't Save"
+		     	  android:layout_width="0dip"
+		      	android:layout_height="fill_parent"
+		    	  android:layout_weight="1"
+			      android:layout_marginTop="4dip"
+			      />
+    </LinearLayout>
+</LinearLayout>

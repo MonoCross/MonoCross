@@ -1,157 +1,99 @@
+using System.Linq;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
-	public class DialogAdapter : BaseAdapter<Section>
-	{
-		const int TYPE_SECTION_HEADER = 0;
+    public class DialogAdapter : BaseAdapter<Section>
+    {
+        private readonly Context _context;
 
-		Context context;
-		LayoutInflater inflater;
+        public DialogAdapter(Context context, RootElement root)
+        {
+            _context = context;
+            Root = root;
+            Root.Context = _context;
+        }
 
-		public DialogAdapter(Context context, RootElement root)
-		{
-			this.context = context;
-			this.inflater = LayoutInflater.From(context);
-			this.Root = root;			
-		}
+        public RootElement Root { get; set; }
 
-		public RootElement Root { get; set; }
+        public override bool IsEnabled(int position)
+        {
+            return true; // everything is enabled!!! (maybe return false for sections...)
+        }
 
-		public override bool IsEnabled(int position)
-		{
-			// start counting from here
-			int typeOffset = TYPE_SECTION_HEADER + 1;
+        public override int Count
+        {
+            get
+            {
+                //Get each adapter's count + 1 for the header
+                return Root.Sections.Sum(s => s.Elements.Count + 1);
+            }
+        }
 
-			foreach (var s in Root.Sections)
-			{
-				if (position == 0)
-					return false;
-
-				int size = s.Adapter.Count + 1;
-
-				if (position < size)
-					return true;
-
-				position -= size;
-				typeOffset += s.Adapter.ViewTypeCount;
-			}
-
-			return false;
-		}
-
-		public override int Count
-		{
-			get
-			{
-				int count = 0;
-
-				//Get each adapter's count + 1 for the header
-				foreach (var s in Root.Sections)
-					count += s.Adapter.Count + 1;
-
-                return count;
-			}
-		}
-
-		public override int ViewTypeCount
-		{
-			get
-			{
+        public override int ViewTypeCount
+        {
+            get
+            {
                 // ViewTypeCount is the same as Count for these,
                 // there are as many ViewTypes as Views as everyone is unique!
                 return Count;
-			}
-		}
+            }
+        }
 
+        /// <summary>
+        /// Return the Element for the flattened/dereferenced position value.
+        /// </summary>
+        /// <param name="position">The direct index to the Element.</param>
+        /// <returns>The Element object at the specified position or null if too out of bounds.</returns>
         public Element ElementAtIndex(int position)
         {
+            System.Diagnostics.Debug.Assert(position >= 0, "Element position specified is negative.");
+            System.Diagnostics.Debug.Assert(position < Count, "Element position specified is greater than the number of elements available.");
+
             int sectionIndex = 0;
+            int sectionOffset = position;
             foreach (var s in Root.Sections)
             {
-                if (position == 0)
-                    return this.Root.Sections[sectionIndex];
+                if (sectionOffset == 0)
+                    return Root.Sections[sectionIndex];
 
-                // note: plus one for the section header view
-                int size = s.Adapter.Count + 1;
-                if (position < size)
-                    return this.Root.Sections[sectionIndex].Elements[position - 1];
+                var sectionElementCount = s.Elements.Count + 1;
+                if (sectionOffset < sectionElementCount)
+                    return Root.Sections[sectionIndex].Elements[sectionOffset - 1];
 
-                position -= size;
+                sectionOffset -= sectionElementCount;
                 sectionIndex++;
             }
 
             return null;
         }
 
-		public override Section this[int position]
-		{
-			get { return this.Root.Sections[position]; }
-		}
+        public override Section this[int position]
+        {
+            get { return Root.Sections[position]; }
+        }
 
-		public override bool AreAllItemsEnabled()
-		{
-			return false;
-		}
+        public override bool AreAllItemsEnabled()
+        {
+            return false;
+        }
 
-		public override int GetItemViewType(int position)
-		{
-			// start counting from here
-			int typeOffset = TYPE_SECTION_HEADER + 1;
-
-			foreach (var s in Root.Sections)
-			{
-				if (position == 0)
-					return (TYPE_SECTION_HEADER);
-
-				int size = s.Adapter.Count + 1;
-
-				if (position < size)
-					return (typeOffset + s.Adapter.GetItemViewType(position - 1));
-
-				position -= size;
-				typeOffset += s.Adapter.ViewTypeCount;
-			}
-
-			return -1;
-		}
-
-		public override long GetItemId(int position)
-		{
+        public override int GetItemViewType(int position)
+        {
             return position;
-		}
+        }
 
-		public override View GetView(int position, View convertView, ViewGroup parent)
-		{
-            int sectionIndex = 0;
+        public override long GetItemId(int position)
+        {
+            return position;
+        }
 
-			foreach (var s in Root.Sections)
-			{
-				if (s.Adapter.Context == null)
-					s.Adapter.Context = this.context;
-
-				if (position == 0)
-					return s.GetView(context, convertView, parent);
-
-				int size = s.Adapter.Count + 1;
-
-				if (position < size)
-					return (s.Adapter.GetView(position - 1, convertView, parent));
-
-				position -= size;
-				sectionIndex++;
-			}
-
-			return null;
-		}
-		
-		public void ReloadData()
-		{
-			if(Root != null) {
-				this.NotifyDataSetChanged();
-			}
-		}
-	}
+        public override View GetView(int position, View convertView, ViewGroup parent)
+        {
+            var element = ElementAtIndex(position);
+            return element.GetView(_context, convertView, parent);
+        }
+    }
 }

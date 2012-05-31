@@ -2,7 +2,7 @@
 using Android.Content;
 using Android.Views;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public class RadioElement : StringElement
     {
@@ -20,7 +20,7 @@ namespace MonoDroid.Dialog
         {
         }
 
-		public override View GetView(Context context, View convertView, ViewGroup parent)
+        public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             if (!(((RootElement)Parent.Parent)._group is RadioGroup))
                 throw new Exception("The RootElement's Group is null or is not a RadioGroup");

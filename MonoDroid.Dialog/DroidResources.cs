@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Android.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Webkit;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public static class DroidResources
     {
-        public enum ElementLayout: int
+        public enum ElementLayout
         {
+            dialog_achievements,
             dialog_boolfieldleft,
             dialog_boolfieldright,
             dialog_boolfieldsubleft,
@@ -32,11 +35,14 @@ namespace MonoDroid.Dialog
 
             dialog_textfieldbelow,
             dialog_textfieldright,
+            dialogLS_textfieldbelow_buttonright,
+            dialog_multiline_labelfieldbelow,
+            dialog_html,
         }
 
         public static View LoadFloatElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out SeekBar slider, out ImageView left, out ImageView right)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
@@ -46,7 +52,7 @@ namespace MonoDroid.Dialog
             }
             else
             {
-                label = null; 
+                label = null;
                 slider = null;
                 left = right = null;
             }
@@ -58,18 +64,19 @@ namespace MonoDroid.Dialog
         {
             try
             {
-                LayoutInflater inflater = LayoutInflater.FromContext(context);
+                var inflater = LayoutInflater.FromContext(context);
                 if (_resourceMap.ContainsKey((ElementLayout)layoutId))
                 {
-                    string layoutName = _resourceMap[(ElementLayout)layoutId];
-                    int layoutIndex = context.Resources.GetIdentifier(layoutName, "layout", context.PackageName);
-                    return inflater.Inflate(layoutIndex, parent, false);
+                    var layoutName = _resourceMap[(ElementLayout)layoutId];
+                    layoutId = context.Resources.GetIdentifier(layoutName, "layout", context.PackageName);
                 }
                 else
                 {
                     // TODO: figure out what context to use to get this right, currently doesn't inflate application resources
-                    return inflater.Inflate(layoutId, parent, false);
+                    Log.Info("Android.Dialog", "LoadLayout: Failed to map resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 }
+
+                return inflater.Inflate(layoutId, parent, false);
             }
             catch (InflateException ex)
             {
@@ -84,20 +91,15 @@ namespace MonoDroid.Dialog
 
         public static View LoadStringElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out TextView value)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
                 value = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
-				if(label == null || value == null)
-				{
-					layout = LoadLayout(context, parent, layoutId);
-					label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-					value = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
-				}
             }
             else
             {
+                Log.Error("Android.Dialog", "LoadStringElementLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 label = null;
                 value = null;
             }
@@ -106,13 +108,14 @@ namespace MonoDroid.Dialog
 
         public static View LoadButtonLayout(Context context, View convertView, ViewGroup parent, int layoutId, out Button button)
         {
-            View layout = LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 button = layout.FindViewById<Button>(context.Resources.GetIdentifier("dialog_Button", "id", context.PackageName));
             }
             else
             {
+                Log.Error("Android.Dialog", "LoadButtonLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 button = null;
             }
             return layout;
@@ -120,13 +123,14 @@ namespace MonoDroid.Dialog
 
         public static View LoadMultilineElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out EditText value)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 value = layout.FindViewById<EditText>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
             }
             else
             {
+                Log.Error("Android.Dialog", "LoadMultilineElementLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 value = null;
             }
             return layout;
@@ -134,16 +138,17 @@ namespace MonoDroid.Dialog
 
         public static View LoadBooleanElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out TextView subLabel, out View value)
         {
-            View layout = convertView ?? LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
                 value = layout.FindViewById<View>(context.Resources.GetIdentifier("dialog_BoolField", "id", context.PackageName));
-                int id = context.Resources.GetIdentifier("dialog_LabelSubtextField", "id", context.PackageName);
-                subLabel = (id >= 0) ? layout.FindViewById<TextView>(id): null;
+                var id = context.Resources.GetIdentifier("dialog_LabelSubtextField", "id", context.PackageName);
+                subLabel = (id >= 0) ? layout.FindViewById<TextView>(id) : null;
             }
             else
             {
+                Log.Error("Android.Dialog", "LoadBooleanElementLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 label = null;
                 value = null;
                 subLabel = null;
@@ -153,7 +158,7 @@ namespace MonoDroid.Dialog
 
         public static View LoadStringEntryLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out EditText value)
         {
-            View layout = LoadLayout(context, parent, layoutId);
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
                 label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
@@ -161,17 +166,73 @@ namespace MonoDroid.Dialog
             }
             else
             {
+                Log.Error("Android.Dialog", "LoadStringEntryLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
                 label = null;
                 value = null;
             }
             return layout;
         }
 
-        private static Dictionary<ElementLayout, string> _resourceMap;
+        public static View LoadHtmlLayout(Context context, View convertView, ViewGroup parent, int layoutId, out WebView webView)
+        {
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
+            if (layout != null)
+            {
+                webView = layout.FindViewById<WebView>(context.Resources.GetIdentifier("dialog_HtmlField", "id", context.PackageName));
+            }
+            else
+            {
+                Log.Error("Android.Dialog", "LoadHtmlLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
+                webView = null;
+            }
+            return layout;
+        }
+
+        public static View LoadEntryButtonLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out EditText value, out ImageButton button)
+        {
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
+            if (layout != null)
+            {
+                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
+                value = layout.FindViewById<EditText>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+                button = layout.FindViewById<ImageButton>(context.Resources.GetIdentifier("dialog_Button", "id", context.PackageName));
+            }
+            else
+            {
+                Log.Error("Android.Dialog", "LoadStringEntryLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
+                label = null;
+                value = null;
+                button = null;
+            }
+            return layout;
+        }
+
+        public static View LoadAchievementsElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView caption, out TextView description, out TextView percentageComplete, out ImageView achivementImage)
+        {
+            var layout = convertView ?? LoadLayout(context, parent, layoutId);
+            if (layout == null)
+            {
+                Log.Error("Android.Dialog", "LoadAchievementsElementLayout: Failed to load resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
+                achivementImage = null;
+                caption = null;
+                description = null;
+                percentageComplete = null;
+            }
+            else
+            {
+                achivementImage = layout.FindViewById<ImageView>(context.Resources.GetIdentifier("dialog_ImageRight", "id", context.PackageName));
+                caption = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
+                description = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelSubtextField", "id", context.PackageName));
+                percentageComplete = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelPercentageField", "id", context.PackageName));
+            }
+            return layout;
+        }
+
+        private static readonly Dictionary<ElementLayout, string> _resourceMap;
 
         static DroidResources()
         {
-            _resourceMap = new Dictionary<ElementLayout, string>()
+            _resourceMap = new Dictionary<ElementLayout, string>
             {
                 // Label templates
                 { ElementLayout.dialog_labelfieldbelow, "dialog_labelfieldbelow"},
@@ -190,6 +251,7 @@ namespace MonoDroid.Dialog
                 // Entry templates
                 { ElementLayout.dialog_textfieldbelow, "dialog_textfieldbelow"},
                 { ElementLayout.dialog_textfieldright, "dialog_textfieldright"},
+                { ElementLayout.dialogLS_textfieldbelow_buttonright, "dialog_textfieldbelow_buttonright"},
 
                 // Slider
                 { ElementLayout.dialog_floatimage, "dialog_floatimage"},
@@ -209,6 +271,8 @@ namespace MonoDroid.Dialog
                 { ElementLayout.dialog_selectlist, "dialog_selectlist"},
                 { ElementLayout.dialog_selectlistfield, "dialog_selectlistfield"},
                 { ElementLayout.dialog_textarea, "dialog_textarea"},
+                { ElementLayout.dialog_multiline_labelfieldbelow, "dialog_multiline_labelfieldbelow"},
+                { ElementLayout.dialog_html, "dialog_html"},
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace MonoDroid.Dialog
+﻿namespace Android.Dialog
 {
     /// <summary>
     /// Used by root elements to fetch information when they need to

@@ -14,9 +14,9 @@
 		android:layout_marginLeft="2dp"
 		android:ellipsize="end"
 		android:singleLine="true"
-		android:text="Fieldset Label"
-	  android:textAppearance="?android:attr/textAppearanceSmall"
-	  android:textStyle="bold"
+		android:text="Label"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+	  	android:textStyle="bold"
 		/>
   <EditText
 		android:id="@+id/dialog_ValueField"

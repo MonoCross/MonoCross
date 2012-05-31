@@ -2,8 +2,7 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using MonoDroid.Dialog;
-using System;
+using Android.Dialog;
 
 namespace DialogSampleApp
 {
@@ -14,52 +13,80 @@ namespace DialogSampleApp
     //       change in a future version (it's slated for 1.0 post release) but for now, just add them 
     //       as in this sample...
     //
-    [Activity(Label = "MD.D Sample", MainLauncher = true, WindowSoftInputMode = SoftInput.AdjustPan)]
-    public class Activity1 : Activity
+    [Activity(Label = "Android.Dialog Sample", MainLauncher = true, WindowSoftInputMode = SoftInput.AdjustPan)]
+    public class MainActivity : DialogActivity
     {
         protected void StartNew()
         {
             StartActivity(typeof(Activity2));
         }
 
+        protected void ClickList()
+        {
+            StartActivity(typeof(Activity3));
+        }
+
+        protected void ClickElementTest()
+        {
+            StartActivity(typeof(Activity4));
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            var root = new RootElement("Test Root Elem")
+            Root = new RootElement("Test Root Elem")
+            {
+                new Section
                 {
-                    new Section("Test Header", "Test Footer")
+                    new StringElement("Label", "Only Element in a Blank Section"),
+                },
+                new Section("Test Header", "Test Footer")
+                {
+                    new ButtonElement("DialogActivity", (o, e) => StartNew()),
+                    new StringElement("DialogActivity List", (int)DroidResources.ElementLayout.dialog_labelfieldright)
+                    {
+                        Click = (o, e) => ClickList(),
+                    },
+                    new BooleanElement("Push my button", true),
+                    new BooleanElement("Push this too", false),
+                    new StringElement("Text label", "Click for EntryElement Test")
+                    {
+                        Click = (o, e) => ClickElementTest(),
+                    },
+                    new BooleanElement("Push my button", true),
+                    new BooleanElement("Push this too", false),
+                },
+                new Section("Part II")
+                {
+                    new StringElement("This is the String Element", "The Value"),
+                    new CheckboxElement("Check this out", true),
+                    new EntryElement("Username", string.Empty){ Hint = "Enter Login", },
+                    new EntryElement("Password", string.Empty) {
+                        Hint = "Enter Password",
+                        Password = true,
+                    },
+                },
+                new Section("Group")
+                {
+                    new RootElement ("Radio Group",  new Android.Dialog.RadioGroup ("dessert", 2))
+                    {
+                        new Section
                         {
-							new StringElement("Do Something", "Foo", () => {
-								Console.WriteLine("Did Something");
-								
-							}),
-                            new ButtonElement("DialogActivity", () => StartNew()),
-                            new BooleanElement("Push my button", true),
-                            new BooleanElement("Push this too", false),
-                            new StringElement("Text label", "The Value"),
-							new BooleanElement("Push my button", true),
-                            new BooleanElement("Push this too", false),
+                            new RadioElement ("Ice Cream Sandwich", "dessert"),
+                            new RadioElement ("Honeycomb", "dessert"),
+                            new RadioElement ("Gingerbread", "dessert"),
                         },
-                    new Section("Part II")
-                        {
-                            new StringElement("This is the String Element", "The Value"),
-                            new CheckboxElement("Check this out", true),
-                            new EntryElement("Username",""){
-                                Hint = "Enter Login"
-                            },
-                            new EntryElement("Password", "") {
-                                Hint = "Enter Password",
-                                Password = true,
-                            },
-                        }
-                };
+                    }
+                },
+            };
 
-            var da = new DialogAdapter(this, root);
+            ValueChanged += root_ValueChanged;
+        }
 
-            var lv = new ListView(this) {Adapter = da};
-
-            SetContentView(lv);
+        void root_ValueChanged(object sender, System.EventArgs e)
+        {
+            Toast.MakeText(this, "Changed", ToastLength.Short).Show();
         }
     }
 }

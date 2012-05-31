@@ -13,6 +13,7 @@
     android:layout_alignParentTop="true"
     android:layout_alignParentBottom="true"
     android:layout_marginRight="12dp"
+		android:focusable="false"
     />    
   <TextView
     android:id="@+id/dialog_LabelSubtextField"

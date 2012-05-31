@@ -3,7 +3,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 
-namespace MonoDroid.Dialog
+namespace Android.Dialog
 {
     public class CheckboxElement : Element, CompoundButton.IOnCheckedChangeListener
     {
@@ -14,33 +14,33 @@ namespace MonoDroid.Dialog
             {
                 bool emit = _val != value;
                 _val = value;
-				if(_checkbox != null && _checkbox.Checked != _val)
-					_checkbox.Checked = _val;
+                if (_checkbox != null && _checkbox.Checked != _val)
+                    _checkbox.Checked = _val;
                 else if (emit && ValueChanged != null)
                     ValueChanged(this, EventArgs.Empty);
             }
         }
         private bool _val;
-		
-		public string SubCaption
-		{
-			get
-			{
-				return subCap;
-			}
-			set
-			{
-				subCap = value;
-			}
-		}
-		private string subCap;
-		
-		public bool ReadOnly
-		{
-			get;
-			set;
-		}
-		
+
+        public string SubCaption
+        {
+            get
+            {
+                return subCap;
+            }
+            set
+            {
+                subCap = value;
+            }
+        }
+        private string subCap;
+
+        public bool ReadOnly
+        {
+            get;
+            set;
+        }
+
         public event EventHandler ValueChanged;
 
         private CheckBox _checkbox;
@@ -60,13 +60,13 @@ namespace MonoDroid.Dialog
         {
             Value = value;
         }
-		
-		public CheckboxElement(string caption, bool value, string subCaption, string group)
+
+        public CheckboxElement(string caption, bool value, string subCaption, string group)
             : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
         {
             Value = value;
             Group = group;
-			SubCaption = subCaption;
+            SubCaption = subCaption;
         }
 
         public CheckboxElement(string caption, bool value, string group)
@@ -82,7 +82,7 @@ namespace MonoDroid.Dialog
             Value = value;
             Group = group;
         }
-        
+
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             View checkboxView;
@@ -90,23 +90,28 @@ namespace MonoDroid.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
-				
-                _checkbox = checkboxView as CheckBox;
-                _checkbox.SetOnCheckedChangeListener(null);
+
+                _checkbox = (CheckBox)checkboxView;
+                _checkbox.SetOnCheckedChangeListener(this);
                 _checkbox.Checked = Value;
-				_checkbox.Clickable = !ReadOnly;	
-				
-				if (_subCaption != null )
-				{
-					_subCaption.Text = SubCaption;
-				}
+                _checkbox.Clickable = !ReadOnly;
+
+                if (_subCaption != null)
+                {
+                    _subCaption.Text = SubCaption;
+                }
             }
             return view;
         }
 
+        public override string Summary()
+        {
+            return _val ? "On" : "Off";
+        }
+
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
-            this.Value = isChecked;
+            Value = isChecked;
         }
     }
 }
