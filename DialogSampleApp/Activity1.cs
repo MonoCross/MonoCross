@@ -54,8 +54,6 @@ namespace DialogSampleApp
                     {
                         Click = (o, e) => ClickElementTest(),
                     },
-                    new BooleanElement("Push my button", true),
-                    new BooleanElement("Push this too", false),
                 },
                 new Section("Part II")
                 {

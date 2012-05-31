@@ -14,6 +14,9 @@
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -155,7 +158,7 @@
     <AndroidResource Include="Resources\layout\dialog_multiline_labelfieldbelow.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoDroid.Dialog\Android.Dialog.csproj">
+    <ProjectReference Include="..\Android.Dialog\Android.Dialog.csproj">
       <Project>{33044C7B-47A4-4113-A61A-EB429407F818}</Project>
       <Name>Android.Dialog</Name>
     </ProjectReference>
