@@ -14,5 +14,5 @@ the user interface.
 
 Pic of the Sample App
 ---------------------
-![Rendering of SampleApp](MonoDroid.Dialog/raw/master/sample.png)
+![Rendering of SampleApp](Android.Dialog/raw/master/sample.png)
 
