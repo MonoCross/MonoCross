@@ -14,11 +14,11 @@ namespace Android.Dialog
             {
                 _root = value;
                 _root.ValueChanged += HandleValueChangedEvent;
-                Adapter = new DialogAdapter(Context, _root);
+                Adapter = _dialogAdapter = new DialogAdapter(Context, _root);
             }
         }
         private RootElement _root;
-
+        private DialogAdapter _dialogAdapter;
 
         public DialogListView(Context context) :
             base(context, null)
@@ -44,14 +44,14 @@ namespace Android.Dialog
         {
             ItemClick += (sender, eventArgs) =>
             {
-                var elem = ((DialogAdapter)Adapter).ElementAtIndex(eventArgs.Position);
+                var elem = _dialogAdapter.ElementAtIndex(eventArgs.Position);
                 if (elem != null && elem.Click != null)
                     elem.Click(sender, eventArgs);
             };
 
             ItemLongClick += (sender, eventArgs) =>
             {
-                var elem = ((DialogAdapter)Adapter).ElementAtIndex(eventArgs.Position);
+                var elem = _dialogAdapter.ElementAtIndex(eventArgs.Position);
                 if (elem != null && elem.LongClick != null)
                     elem.LongClick(sender, eventArgs);
             };

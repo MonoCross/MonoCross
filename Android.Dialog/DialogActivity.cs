@@ -28,10 +28,11 @@ namespace Android.Dialog
                 _root.Context = this;
                 _root.ValueChanged += HandleValueChangedEvent;
 
-                this.ListAdapter = new DialogAdapter(this, _root);
+                ListAdapter = _dialogAdapter = new DialogAdapter(this, _root);
             }
         }
-        RootElement _root;
+        private RootElement _root;
+        private DialogAdapter _dialogAdapter;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,16 +49,14 @@ namespace Android.Dialog
 
         void ListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
-            var dialogAdapter = (DialogAdapter)ListAdapter;
-            var elem = dialogAdapter.ElementAtIndex(e.Position);
+            var elem = _dialogAdapter.ElementAtIndex(e.Position);
             if (elem != null && elem.LongClick != null)
                 elem.LongClick(sender, e);
         }
 
         void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var dialogAdapter = (DialogAdapter)ListAdapter;
-            var elem = dialogAdapter.ElementAtIndex(e.Position);
+            var elem = _dialogAdapter.ElementAtIndex(e.Position);
             if (elem != null && elem.Click != null)
                 elem.Click(sender, e);
         }
