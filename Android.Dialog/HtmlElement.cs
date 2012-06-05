@@ -50,8 +50,7 @@ namespace Android.Dialog
         {
             base.OnCreate(bundle);
 
-            Intent i = this.Intent;
-            string url = i.GetStringExtra("URL");
+            string url = Intent.GetStringExtra("URL");
 
             WebView webview = new WebView(this);
             webview.Settings.JavaScriptEnabled = true;

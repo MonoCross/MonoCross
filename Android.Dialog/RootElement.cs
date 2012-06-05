@@ -161,7 +161,7 @@ namespace Android.Dialog
             Sections.Add(section);
             section.Parent = this;
 
-            section.ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+            section.ValueChanged += HandleValueChangedEvent;
         }
 
         //
@@ -204,7 +204,7 @@ namespace Android.Dialog
             foreach (var s in newSections)
             {
                 s.Parent = this;
-                s.ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+                s.ValueChanged += HandleValueChangedEvent;
                 Sections.Insert(pos++, s);
             }
         }
@@ -277,19 +277,12 @@ namespace Android.Dialog
 
             int selected = radio.Selected;
             int current = 0;
-            string radioValue = string.Empty;
-            foreach (var s in Sections)
+            foreach (RadioElement e in Sections.SelectMany(s => s.Elements).OfType<RadioElement>())
             {
-                foreach (var e in s.Elements)
-                {
-                    if (!(e is RadioElement))
-                        continue;
+                if (current == selected)
+                    return e.Summary();
 
-                    if (current == selected)
-                        return e.Summary();
-
-                    current++;
-                }
+                current++;
             }
 
             return string.Empty;
