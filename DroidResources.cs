@@ -80,11 +80,11 @@ namespace Android.Dialog
             }
             catch (InflateException ex)
             {
-                Log.Error("MDD", "Inflate failed: " + ex.Cause.Message);
+                Log.Error("Android.Dialog", "Inflate failed: " + ex.Cause.Message);
             }
             catch (Exception ex)
             {
-                Log.Error("MDD", "LoadLayout failed: " + ex.Message);
+                Log.Error("Android.Dialog", "LoadLayout failed: " + ex.Message);
             }
             return null;
         }
