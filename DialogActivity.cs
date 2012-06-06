@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.OS;
@@ -7,16 +6,6 @@ using Android.Widget;
 
 namespace Android.Dialog
 {
-    public class DialogInstanceData : Java.Lang.Object
-    {
-        public DialogInstanceData()
-        {
-            _dialogState = new Dictionary<string, string>();
-        }
-
-        private Dictionary<String, String> _dialogState;
-    }
-
     public class DialogActivity : ListActivity
     {
         public RootElement Root
@@ -84,6 +73,12 @@ namespace Android.Dialog
         public override Java.Lang.Object OnRetainNonConfigurationInstance()
         {
             return null;
+        }
+
+        public void ReloadData()
+        {
+            if (Root == null) return;
+            _dialogAdapter.ReloadData();
         }
     }
 }

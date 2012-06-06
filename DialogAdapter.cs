@@ -37,7 +37,7 @@ namespace Android.Dialog
             get
             {
                 // ViewTypeCount is the same as Count for these,
-                // there are as many ViewTypes as Views as everyone is unique!
+                // there are as many ViewTypes as Views as every one is unique!
                 return Count;
             }
         }
@@ -49,21 +49,18 @@ namespace Android.Dialog
         /// <returns>The Element object at the specified position or null if too out of bounds.</returns>
         public Element ElementAtIndex(int position)
         {
-            System.Diagnostics.Debug.Assert(position >= 0, "Element position specified is negative.");
-            System.Diagnostics.Debug.Assert(position < Count, "Element position specified is greater than the number of elements available.");
-
             int sectionIndex = 0;
-            int sectionOffset = position;
             foreach (var s in Root.Sections)
             {
-                if (sectionOffset == 0)
+                if (position == 0)
                     return Root.Sections[sectionIndex];
 
-                var sectionElementCount = s.Elements.Count + 1;
-                if (sectionOffset < sectionElementCount)
-                    return Root.Sections[sectionIndex].Elements[sectionOffset - 1];
+                // note: plus one for the section header view
+                var size = s.Elements.Count + 1;
+                if (position < size)
+                    return Root.Sections[sectionIndex].Elements[position - 1];
 
-                sectionOffset -= sectionElementCount;
+                position -= size;
                 sectionIndex++;
             }
 
@@ -94,6 +91,14 @@ namespace Android.Dialog
         {
             var element = ElementAtIndex(position);
             return element.GetView(_context, convertView, parent);
+        }
+
+        public void ReloadData()
+        {
+            if (Root != null)
+            {
+                NotifyDataSetChanged();
+            }
         }
     }
 }

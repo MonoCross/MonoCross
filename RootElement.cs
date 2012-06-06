@@ -14,7 +14,7 @@ namespace Android.Dialog
         TextView _caption;
         TextView _value;
 
-        int _summarySection;
+
         internal Group _group;
         public bool UnevenRows;
         public Func<RootElement, View> _createOnSelected;
@@ -29,7 +29,6 @@ namespace Android.Dialog
         public RootElement(string caption)
             : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            _summarySection = -1;
             Sections = new List<Section>();
         }
 
@@ -44,7 +43,6 @@ namespace Android.Dialog
         public RootElement(string caption, Func<RootElement, View> createOnSelected)
             : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            _summarySection = -1;
             this._createOnSelected = createOnSelected;
             Sections = new List<Section>();
         }
@@ -64,7 +62,6 @@ namespace Android.Dialog
         public RootElement(string caption, int section, int element)
             : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            _summarySection = section;
         }
 
         /// <summary>
@@ -160,7 +157,6 @@ namespace Android.Dialog
 
             Sections.Add(section);
             section.Parent = this;
-
             section.ValueChanged += HandleValueChangedEvent;
         }
 

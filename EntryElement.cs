@@ -32,6 +32,12 @@ namespace Android.Dialog
         {
         }
 
+        public EntryElement(string caption, string hint, string value)
+            : this(caption, value)
+        {
+            Hint = hint;
+        }
+
         public EntryElement(string caption, string value, int layoutId)
             : base(caption, layoutId)
         {
@@ -77,14 +83,15 @@ namespace Android.Dialog
                 //_entry.EditorAction += new EventHandler<TextView.EditorActionEventArgs>(_entry_EditorAction);
                 _entry.ImeOptions = ImeAction.Unspecified;
 
-                if (Password)
-                    _entry.InputType = InputTypes.ClassText | InputTypes.TextVariationPassword;
-                else if (Numeric)
+                if (Numeric)
                     _entry.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
                 else if (IsEmail)
                     _entry.InputType = InputTypes.TextVariationEmailAddress | InputTypes.ClassText;
                 else
                     _entry.InputType = InputTypes.ClassText;
+
+                if (Password)
+                    _entry.InputType |= InputTypes.TextVariationPassword;
 
                 if (Lines > 1)
                 {
@@ -119,7 +126,6 @@ namespace Android.Dialog
             if (e.ActionId == ImeAction.Go)
             {
                 Send();
-                //return true;
             }
         }
 

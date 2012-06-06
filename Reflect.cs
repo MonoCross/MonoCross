@@ -7,7 +7,8 @@ namespace Android.Dialog
     {
         public string Placeholder;
 
-        public EntryAttribute() : this(null)
+        public EntryAttribute()
+            : this(null)
         {
         }
 
@@ -55,7 +56,8 @@ namespace Android.Dialog
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
     public class PasswordAttribute : EntryAttribute
     {
-        public PasswordAttribute(string placeholder) : base(placeholder)
+        public PasswordAttribute(string placeholder)
+            : base(placeholder)
         {
         }
     }

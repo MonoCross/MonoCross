@@ -62,5 +62,11 @@ namespace Android.Dialog
             if (ValueChanged != null)
                 ValueChanged(sender, args);
         }
+
+        public void ReloadData()
+        {
+            if (Root == null) return;
+            _dialogAdapter.ReloadData();
+        }
     }
 }

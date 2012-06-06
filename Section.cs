@@ -26,7 +26,7 @@ namespace Android.Dialog
     {
         public List<Element> Elements = new List<Element>();
 
-        List<string> ElementTypes = new List<string>();
+        private readonly List<string> ElementTypes = new List<string>();
 
         // X corresponds to the alignment, Y to the height of the password
         private object footer;
@@ -153,22 +153,35 @@ namespace Android.Dialog
             Elements.Add(element);
             element.Parent = this;
 
-            if (Parent != null)
-                InsertVisual(Elements.Count - 1, 1);
-
             // bind value changed to our local handler so section itself is aware of events, allows cascacding upward notifications
             if (element is EntryElement)
-                (element as EntryElement).ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+                (element as EntryElement).ValueChanged += HandleValueChangedEvent;
             else if (element is BooleanElement)
-                (element as BooleanElement).ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+                (element as BooleanElement).ValueChanged += HandleValueChangedEvent;
             else if (element is CheckboxElement)
-                (element as CheckboxElement).ValueChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+                (element as CheckboxElement).ValueChanged += HandleValueChangedEvent;
             else if (element is RootElement)
-                (element as RootElement).RadioSelectionChanged += (o, args) => { HandleValueChangedEvent(o, args); };
+                (element as RootElement).RadioSelectionChanged += HandleValueChangedEvent;
+        }
+
+        /// <summary>Add version that can be used with LINQ</summary>
+        /// <param name="elements">
+        /// An enumerable list that can be produced by something like:
+        ///    from x in ... select (Element) new MyElement (...)
+        /// </param>
+        public int Add(IEnumerable<Element> elements)
+        {
+            int count = 0;
+            foreach (Element e in elements)
+            {
+                Add(e);
+                count++;
+            }
+            return count;
         }
 
         /// <summary>
-        /// Inserts a series of elements into the Section using the specified animation
+        /// Inserts a series of elements into the Section
         /// </summary>
         /// <param name="idx">
         /// The index where the elements are inserted
@@ -181,52 +194,33 @@ namespace Android.Dialog
             if (newElements == null)
                 return;
 
-            int pos = idx;
-            foreach (Element e in newElements)
+            foreach (var e in newElements)
             {
-                Elements.Insert(pos++, e);
+                Elements.Insert(idx++, e);
                 e.Parent = this;
-            }
-            if (Parent != null)
-            {
-                InsertVisual(idx, newElements.Length);
             }
         }
 
+        /// <summary>
+        /// Inserts a <see cref="IEnumerable{T}"/> of Elements into the Section
+        /// </summary>
+        /// <param name="idx">The index to insert the elements.</param>
+        /// <param name="newElements">A series of elements.</param>
+        /// <returns></returns>
         public int Insert(int idx, IEnumerable<Element> newElements)
         {
             if (newElements == null)
                 return 0;
 
-            int pos = idx;
             int count = 0;
-            foreach (Element e in newElements)
+            foreach (var e in newElements)
             {
-                Elements.Insert(pos++, e);
+                Elements.Insert(idx++, e);
                 e.Parent = this;
                 count++;
             }
-            var root = Parent as RootElement;
-            if (root != null)
-            {
-                InsertVisual(idx, pos - idx);
-            }
+
             return count;
-        }
-
-        private void InsertVisual(int idx, int count)
-        {
-            //var root = Parent as RootElement;
-
-            //if (root == null || root.TableView == null)
-            //    return;
-
-            //int sidx = root.IndexOf(this);
-            //var paths = new NSIndexPath[count];
-            //for (int i = 0; i < count; i++)
-            //    paths[i] = NSIndexPath.FromRowSection(idx + i, sidx);
-
-            //root.TableView.InsertRows(paths);
         }
 
         public void Remove(Element e)
@@ -236,11 +230,9 @@ namespace Android.Dialog
             for (int i = Elements.Count; i > 0; )
             {
                 i--;
-                if (Elements[i] == e)
-                {
-                    RemoveRange(i, 1);
-                    return;
-                }
+                if (Elements[i] != e) continue;
+                RemoveRange(i, 1);
+                return;
             }
         }
 
@@ -265,17 +257,17 @@ namespace Android.Dialog
             if (count == 0)
                 return;
 
-            var root = Parent as RootElement;
 
             if (start + count > Elements.Count)
                 count = Elements.Count - start;
 
             Elements.RemoveRange(start, count);
 
-            if (root == null)
-                return;
+            //var root = Parent as RootElement;
+            //if (root == null)
+            //    return;
 
-            int sidx = root.IndexOf(this);
+            //int sidx = root.IndexOf(this);
             //var paths = new NSIndexPath[count];
             //for (int i = 0; i < count; i++)
             //    paths[i] = NSIndexPath.FromRowSection(start + i, sidx);
@@ -288,19 +280,17 @@ namespace Android.Dialog
                 e.Dispose();
             Elements = new List<Element>();
 
-            var root = Parent as RootElement;
+            //var root = Parent as RootElement;
             //if (root != null && root.TableView != null)
             //    root.TableView.ReloadData();
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                Parent = null;
-                Clear();
-                Elements = null;
-            }
+            if (!disposing) return;
+            Parent = null;
+            Clear();
+            Elements = null;
         }
 
         public int GetElementViewType(Element e)

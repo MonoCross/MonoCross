@@ -6,6 +6,8 @@ namespace Android.Dialog
 {
     public class DateTimeElement : StringElement
     {
+        public int MinuteInterval { get; set; }
+
         public DateTime? DateValue
         {
             get

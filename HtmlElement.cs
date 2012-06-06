@@ -29,6 +29,7 @@ namespace Android.Dialog
         {
             Intent intent = new Intent(context, typeof(HtmlActivity));
             intent.PutExtra("URL", Url.ToString());
+            intent.PutExtra("Title", Caption);
             intent.AddFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
         }
@@ -36,9 +37,7 @@ namespace Android.Dialog
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             var view = base.GetView(context, convertView, parent);
-
             Click = (o, e) => OpenUrl(context);
-
             return view;
         }
     }
@@ -51,9 +50,11 @@ namespace Android.Dialog
             base.OnCreate(bundle);
 
             string url = Intent.GetStringExtra("URL");
+            Title = Intent.GetStringExtra("Title");
 
             WebView webview = new WebView(this);
             webview.Settings.JavaScriptEnabled = true;
+            webview.Settings.BuiltInZoomControls = true;
             SetContentView(webview);
             webview.LoadUrl(url);
         }

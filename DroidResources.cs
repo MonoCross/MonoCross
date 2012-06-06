@@ -273,6 +273,7 @@ namespace Android.Dialog
                 { ElementLayout.dialog_textarea, "dialog_textarea"},
                 { ElementLayout.dialog_multiline_labelfieldbelow, "dialog_multiline_labelfieldbelow"},
                 { ElementLayout.dialog_html, "dialog_html"},
+                { ElementLayout.dialog_achievements, "dialog_achievements"},
             };
         }
     }

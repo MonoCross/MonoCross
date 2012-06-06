@@ -22,18 +22,7 @@ namespace Android.Dialog
         }
         private bool _val;
 
-        public string SubCaption
-        {
-            get
-            {
-                return subCap;
-            }
-            set
-            {
-                subCap = value;
-            }
-        }
-        private string subCap;
+        public string SubCaption { get; set; }
 
         public bool ReadOnly
         {
