@@ -5,7 +5,7 @@ using Android.Widget;
 
 namespace Android.Dialog
 {
-    public class CheckboxElement : Element, CompoundButton.IOnCheckedChangeListener
+    public class CheckboxElement : BoolElement, CompoundButton.IOnCheckedChangeListener
     {
         public bool Value
         {
@@ -39,36 +39,31 @@ namespace Android.Dialog
         public string Group;
 
         public CheckboxElement(string caption)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, false, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
-            Value = false;
         }
 
         public CheckboxElement(string caption, bool value)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
-            Value = value;
         }
 
         public CheckboxElement(string caption, bool value, string subCaption, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
         {
-            Value = value;
             Group = group;
             SubCaption = subCaption;
         }
 
         public CheckboxElement(string caption, bool value, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
-            Value = value;
             Group = group;
         }
 
         public CheckboxElement(string caption, bool value, string group, int layoutId)
-            : base(caption, layoutId)
+            : base(caption, value, layoutId)
         {
-            Value = value;
             Group = group;
         }
 
@@ -81,8 +76,9 @@ namespace Android.Dialog
                 _caption.Text = Caption;
 
                 _checkbox = (CheckBox)checkboxView;
-                _checkbox.SetOnCheckedChangeListener(this);
+                _checkbox.SetOnCheckedChangeListener(null);
                 _checkbox.Checked = Value;
+                _checkbox.SetOnCheckedChangeListener(this);
                 _checkbox.Clickable = !ReadOnly;
 
                 if (_subCaption != null)
@@ -93,14 +89,15 @@ namespace Android.Dialog
             return view;
         }
 
-        public override string Summary()
-        {
-            return _val ? "On" : "Off";
-        }
-
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
             Value = isChecked;
+        }
+
+        public override void Selected()
+        {
+            if (!ReadOnly)
+                _checkbox.Toggle();
         }
     }
 }

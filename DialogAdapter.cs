@@ -20,7 +20,8 @@ namespace Android.Dialog
 
         public override bool IsEnabled(int position)
         {
-            return true; // everything is enabled!!! (maybe return false for sections...)
+            var element = ElementAtIndex(position);
+            return element is Section || element == null;
         }
 
         public override int Count
@@ -28,7 +29,7 @@ namespace Android.Dialog
             get
             {
                 //Get each adapter's count + 1 for the header
-                return Root.Sections.Sum(s => s.Elements.Count + 1);
+                return Root.Sections.Sum(s => s.Elements.Count + 2);
             }
         }
 
@@ -56,10 +57,11 @@ namespace Android.Dialog
                     return Root.Sections[sectionIndex];
 
                 // note: plus one for the section header view
-                var size = s.Elements.Count + 1;
+                var size = s.Elements.Count + 2;
+                if (position == size - 1)
+                    return null;
                 if (position < size)
                     return Root.Sections[sectionIndex].Elements[position - 1];
-
                 position -= size;
                 sectionIndex++;
             }
@@ -90,6 +92,13 @@ namespace Android.Dialog
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var element = ElementAtIndex(position);
+            if (element == null)
+            {
+                element = ElementAtIndex(position - 1);
+                while (!(element is Section))
+                    element = element.Parent;
+                return ((Section)element).GetFooterView(_context, convertView, parent);
+            }
             return element.GetView(_context, convertView, parent);
         }
 

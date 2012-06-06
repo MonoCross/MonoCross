@@ -67,7 +67,7 @@ namespace Android.Dialog
         }
 
         /// <summary>
-        /// Overriden my most derived classes, creates a view that creates a View with the contents for display
+        /// Overriden my most derived classes, creates a View with the contents for display
         /// </summary>
         /// <param name="context"></param>
         /// <param name="convertView"></param>

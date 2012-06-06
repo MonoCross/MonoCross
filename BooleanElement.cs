@@ -9,6 +9,9 @@ namespace Android.Dialog
     {
         private bool _val;
 
+        public string TextOff { get; set; }
+        public string TextOn { get; set; }
+
         public bool Value
         {
             get { return _val; }
@@ -29,17 +32,21 @@ namespace Android.Dialog
             : base(caption)
         {
             _val = value;
+            TextOn = "On";
+            TextOff = "Off";
         }
 
         public BoolElement(string caption, bool value, int layoutId)
             : base(caption, layoutId)
         {
             _val = value;
+            TextOn = "On";
+            TextOff = "Off";
         }
 
         public override string Summary()
         {
-            return _val ? "On" : "Off";
+            return _val ? TextOn : TextOff;
         }
     }
 
@@ -74,6 +81,20 @@ namespace Android.Dialog
                 _toggleButton.SetOnCheckedChangeListener(null);
                 _toggleButton.Checked = Value;
                 _toggleButton.SetOnCheckedChangeListener(this);
+
+                if (TextOff != null)
+                {
+                    _toggleButton.TextOff = TextOff;
+                    if (!Value)
+                        _toggleButton.Text = TextOff;
+                }
+
+                if (TextOn != null)
+                {
+                    _toggleButton.TextOn = TextOn;
+                    if (Value)
+                        _toggleButton.Text = TextOn;
+                }
             }
             return view;
         }

@@ -29,11 +29,6 @@ namespace Android.Dialog
 
             ListView.ItemClick += ListView_ItemClick;
             ListView.ItemLongClick += ListView_ItemLongClick;
-
-            if (LastNonConfigurationInstance != null)
-            {
-                // apply value changes that are saved
-            }
         }
 
         void ListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)

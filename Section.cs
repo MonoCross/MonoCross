@@ -12,7 +12,7 @@ namespace Android.Dialog
     /// </summary>
     /// <remarks>
     /// Sections are used to group elements in the screen and they are the
-    /// only valid direct child of the RootElement.    Sections can contain
+    /// only valid direct child of the RootElement. Sections can contain
     /// any of the standard elements, including new RootElements.
     /// 
     /// RootElements embedded in a section are used to navigate to a new
@@ -28,7 +28,6 @@ namespace Android.Dialog
 
         private readonly List<string> ElementTypes = new List<string>();
 
-        // X corresponds to the alignment, Y to the height of the password
         private object footer;
         private object header;
 
@@ -36,10 +35,7 @@ namespace Android.Dialog
         ///  Constructs a Section without header or footers and an hidden section block
         /// </summary>
         public Section()
-            : this((string)null)
-        {
-            //Adapter = new SectionAdapter(this);
-        }
+            : this((string)null) { }
 
         /// <summary>
         ///  Constructs a Section with the specified header
@@ -313,27 +309,64 @@ namespace Android.Dialog
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            if (Caption == null)
+            if (HeaderView != null)
             {
-                // invisible/empty section, could be re-shown by setting the caption and refreshing the list
-                return new View(context, null)
+                return HeaderView;
+            }
+
+            if (Caption != null)
+            {
+                var view = (convertView as TextView) ?? new TextView(context, null, Resource.Attribute.ListSeparatorTextViewStyle);
+                if (Caption.Length >= 0)
                 {
-                    LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.MatchParent, 0),
-                    Visibility = ViewStates.Gone,
-                };
+                    view.Text = Caption;
+                    view.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    view.Text = string.Empty;
+                    view.Visibility = ViewStates.Visible;
+                }
+                return view;
             }
-            var view = (convertView as TextView) ?? new TextView(context, null, Resource.Attribute.ListSeparatorTextViewStyle);
-            if (Caption.Length >= 0)
+
+            // invisible/empty section header, could be re-shown by setting the caption and refreshing the list
+            return new View(context, null)
             {
-                view.Text = Caption;
-                view.Visibility = ViewStates.Visible;
-            }
-            else
+                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.MatchParent, 0),
+                Visibility = ViewStates.Gone,
+            };
+        }
+
+        public View GetFooterView(Context context, View convertView, ViewGroup parent)
+        {
+            if (FooterView != null)
             {
-                view.Text = string.Empty;
-                view.Visibility = ViewStates.Visible;
+                return FooterView;
             }
-            return view;
+
+            if (Footer != null)
+            {
+                var view = (convertView as TextView) ?? new TextView(context, null, Resource.Attribute.ListSeparatorTextViewStyle);
+                if (Caption.Length >= 0)
+                {
+                    view.Text = Footer;
+                    view.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    view.Text = string.Empty;
+                    view.Visibility = ViewStates.Visible;
+                }
+                return view;
+            }
+
+            // invisible/empty section footer, could be re-shown by setting the footer and refreshing the list
+            return new View(context, null)
+            {
+                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.MatchParent, 0),
+                Visibility = ViewStates.Gone,
+            };
         }
 
         /// <summary>
