@@ -12,7 +12,11 @@ Android.Dialog is a foundation to create dialog boxes and show table-based
 information without having to write dozens of delegates and controllers for 
 the user interface.
 
-Pic of the Sample App
+To use this library, reference it from the project that you want to use it from,
+and add these layouts to your Resources/Layout folder: [Android.Dialog Layouts](DialogLayouts)
+Expect an easier way to manage this after Mono for Android 4.4 is released.
+
+Pic of the Sample App ([located here](DialogSampleApp))
 ---------------------
 ![Rendering of SampleApp](DialogSampleApp/raw/master/sample.png)
 
