@@ -347,7 +347,8 @@ namespace Android.Dialog
 
             if (Footer != null)
             {
-                var view = (convertView as TextView) ?? new TextView(context, null, Resource.Attribute.ListSeparatorTextViewStyle);
+                var view = (convertView as TextView) ?? new TextView(context);
+                view.Gravity = GravityFlags.Center;
                 if (Caption.Length >= 0)
                 {
                     view.Text = Footer;
