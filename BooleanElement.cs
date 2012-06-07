@@ -112,5 +112,11 @@ namespace Android.Dialog
         {
             Value = isChecked;
         }
+
+        public override void Selected()
+        {
+            if (_toggleButton != null)
+                _toggleButton.Toggle();
+        }
     }
 }

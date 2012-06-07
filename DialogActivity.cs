@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 using Android.App;
-using Android.OS;
-using Android.Widget;
 
 namespace Android.Dialog
 {
@@ -15,35 +13,22 @@ namespace Android.Dialog
             {
                 _root = value;
                 _root.Context = this;
+                _root.ValueChanged -= HandleValueChangedEvent;
                 _root.ValueChanged += HandleValueChangedEvent;
 
+                if (_dialogAdapter != null)
+                {
+                    ListView.ItemClick -= _dialogAdapter.ListView_ItemClick;
+                    ListView.ItemLongClick -= _dialogAdapter.ListView_ItemLongClick;
+                }
+
                 ListAdapter = _dialogAdapter = new DialogAdapter(this, _root);
+                ListView.ItemClick += _dialogAdapter.ListView_ItemClick;
+                ListView.ItemLongClick += _dialogAdapter.ListView_ItemLongClick;
             }
         }
         private RootElement _root;
         private DialogAdapter _dialogAdapter;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            ListView.ItemClick += ListView_ItemClick;
-            ListView.ItemLongClick += ListView_ItemLongClick;
-        }
-
-        void ListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
-        {
-            var elem = _dialogAdapter.ElementAtIndex(e.Position);
-            if (elem != null && elem.LongClick != null)
-                elem.LongClick(sender, e);
-        }
-
-        void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            var elem = _dialogAdapter.ElementAtIndex(e.Position);
-            if (elem != null && elem.Click != null)
-                elem.Click(sender, e);
-        }
 
         public void HandleValueChangedEvents(EventHandler eventHandler)
         {

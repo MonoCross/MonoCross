@@ -5,7 +5,7 @@ using Android.Widget;
 
 namespace Android.Dialog
 {
-    public class CheckboxElement : BoolElement, CompoundButton.IOnCheckedChangeListener
+    public class CheckboxElement : Element, CompoundButton.IOnCheckedChangeListener
     {
         public bool Value
         {
@@ -39,31 +39,36 @@ namespace Android.Dialog
         public string Group;
 
         public CheckboxElement(string caption)
-            : base(caption, false, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
+
         }
 
         public CheckboxElement(string caption, bool value)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
+            Value = value;
         }
 
         public CheckboxElement(string caption, bool value, string subCaption, string group)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
         {
+            Value = value;
             Group = group;
             SubCaption = subCaption;
         }
 
         public CheckboxElement(string caption, bool value, string group)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
         {
+            Value = value;
             Group = group;
         }
 
         public CheckboxElement(string caption, bool value, string group, int layoutId)
-            : base(caption, value, layoutId)
+            : base(caption, layoutId)
         {
+            Value = value;
             Group = group;
         }
 

@@ -13,8 +13,19 @@ namespace Android.Dialog
             set
             {
                 _root = value;
+                _root.Context = Context;
+                _root.ValueChanged -= HandleValueChangedEvent;
                 _root.ValueChanged += HandleValueChangedEvent;
+
+                if (_dialogAdapter != null)
+                {
+                    ItemClick -= _dialogAdapter.ListView_ItemClick;
+                    ItemLongClick -= _dialogAdapter.ListView_ItemLongClick;
+                }
+
                 Adapter = _dialogAdapter = new DialogAdapter(Context, _root);
+                ItemClick += _dialogAdapter.ListView_ItemClick;
+                ItemLongClick += _dialogAdapter.ListView_ItemLongClick;
             }
         }
         private RootElement _root;
@@ -23,39 +34,19 @@ namespace Android.Dialog
         public DialogListView(Context context) :
             base(context, null)
         {
-            Initialize();
         }
 
         public DialogListView(Context context, IAttributeSet attrs) :
             base(context, attrs)
         {
-            Initialize();
         }
 
         public DialogListView(Context context, IAttributeSet attrs, int defStyle) :
             base(context, attrs, defStyle)
         {
-            Initialize();
         }
 
         public event EventHandler ValueChanged;
-
-        private void Initialize()
-        {
-            ItemClick += (sender, eventArgs) =>
-            {
-                var elem = _dialogAdapter.ElementAtIndex(eventArgs.Position);
-                if (elem != null && elem.Click != null)
-                    elem.Click(sender, eventArgs);
-            };
-
-            ItemLongClick += (sender, eventArgs) =>
-            {
-                var elem = _dialogAdapter.ElementAtIndex(eventArgs.Position);
-                if (elem != null && elem.LongClick != null)
-                    elem.LongClick(sender, eventArgs);
-            };
-        }
 
         private void HandleValueChangedEvent(object sender, EventArgs args)
         {

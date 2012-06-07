@@ -28,7 +28,7 @@ namespace Android.Dialog
         {
             get
             {
-                //Get each adapter's count + 1 for the header
+                //Get each adapter's count + 2 for the header and footer
                 return Root.Sections.Sum(s => s.Elements.Count + 2);
             }
         }
@@ -56,7 +56,7 @@ namespace Android.Dialog
                 if (position == 0)
                     return Root.Sections[sectionIndex];
 
-                // note: plus one for the section header view
+                // note: plus two for the section header and footer views
                 var size = s.Elements.Count + 2;
                 if (position == size - 1)
                     return null;
@@ -108,6 +108,32 @@ namespace Android.Dialog
             {
                 NotifyDataSetChanged();
             }
+        }
+
+        /// <summary>
+        /// Handles the ItemClick event of the ListView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Android.Widget.AdapterView.ItemClickEventArgs"/> instance containing the event data.</param>
+        public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var elem = ElementAtIndex(e.Position);
+            if (elem == null) return;
+            elem.Selected();
+            if (elem.Click != null)
+                elem.Click(sender, e);
+        }
+
+        /// <summary>
+        /// Handles the ItemLongClick event of the ListView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Android.Widget.AdapterView.ItemLongClickEventArgs"/> instance containing the event data.</param>
+        public void ListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {
+            var elem = ElementAtIndex(e.Position);
+            if (elem != null && elem.LongClick != null)
+                elem.LongClick(sender, e);
         }
     }
 }
