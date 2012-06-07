@@ -1,0 +1,1 @@
+EntryElements that are offscreen can't be navigated to by the return key on the keyboard from another EntryElement
