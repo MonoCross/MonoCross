@@ -29,7 +29,7 @@ namespace Android.Dialog
             get
             {
                 //Get each adapter's count + 2 for the header and footer
-                return Root.Sections.Sum(s => s.Elements.Count + 2);
+                return Root.Sections.Sum(s => s.Count() + 2);
             }
         }
 
@@ -57,11 +57,11 @@ namespace Android.Dialog
                     return Root.Sections[sectionIndex];
 
                 // note: plus two for the section header and footer views
-                var size = s.Elements.Count + 2;
+                var size = s.Count() + 2;
                 if (position == size - 1)
                     return null;
                 if (position < size)
-                    return Root.Sections[sectionIndex].Elements[position - 1];
+                    return Root.Sections[sectionIndex][position - 1];
                 position -= size;
                 sectionIndex++;
             }

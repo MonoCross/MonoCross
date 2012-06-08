@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using Android.Content;
+using Android.Util;
 using Android.Views;
 
 namespace Android.Dialog
@@ -14,8 +16,12 @@ namespace Android.Dialog
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var view = LayoutInflater.FromContext(context).Inflate(LayoutId, parent, false);
-            if (Populate != null)
+            var view = convertView ?? LayoutInflater.FromContext(context).Inflate(LayoutId, parent, false);
+            if (view == null)
+            {
+                Log.Error("Android.Dialog", "ViewElement: Failed to load resource: " + LayoutId.ToString(CultureInfo.InvariantCulture));
+            }
+            else if (Populate != null)
                 Populate(view);
             return view;
         }

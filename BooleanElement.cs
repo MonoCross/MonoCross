@@ -32,16 +32,12 @@ namespace Android.Dialog
             : base(caption)
         {
             _val = value;
-            TextOn = "On";
-            TextOff = "Off";
         }
 
         public BoolElement(string caption, bool value, int layoutId)
             : base(caption, layoutId)
         {
             _val = value;
-            TextOn = "On";
-            TextOff = "Off";
         }
 
         public override string Summary()

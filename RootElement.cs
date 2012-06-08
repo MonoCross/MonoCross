@@ -126,16 +126,13 @@ namespace Android.Dialog
         internal void Prepare()
         {
             int current = 0;
-            foreach (Section s in Sections)
+            foreach (var element in Sections.SelectMany(s => s))
             {
-                foreach (Element e in s.Elements)
-                {
-                    var re = e as RadioElement;
-                    if (re != null)
-                        re.RadioIdx = current++;
-                    if (UnevenRows == false && e is IElementSizing)
-                        UnevenRows = true;
-                }
+                var re = element as RadioElement;
+                if (re != null)
+                    re.RadioIdx = current++;
+                if (UnevenRows == false && element is IElementSizing)
+                    UnevenRows = true;
             }
         }
 
@@ -273,7 +270,7 @@ namespace Android.Dialog
 
             int selected = radio.Selected;
             int current = 0;
-            foreach (RadioElement e in Sections.SelectMany(s => s.Elements).OfType<RadioElement>())
+            foreach (RadioElement e in Sections.SelectMany(s => s).OfType<RadioElement>())
             {
                 if (current == selected)
                     return e.Summary();
@@ -339,7 +336,7 @@ namespace Android.Dialog
         public void SelectRadio()
         {
             var dialog = new AlertDialog.Builder(Context);
-            dialog.SetSingleChoiceItems(Sections.SelectMany(s => s.Elements).OfType<RadioElement>().Select(e => e.Summary()).ToArray(), RadioSelected, this);
+            dialog.SetSingleChoiceItems(Sections.SelectMany(s => s).OfType<RadioElement>().Select(e => e.Summary()).ToArray(), RadioSelected, this);
             dialog.SetTitle(Caption);
             dialog.SetNegativeButton("Cancel", this);
             dialog.Create().Show();
@@ -347,17 +344,17 @@ namespace Android.Dialog
 
         void IDialogInterfaceOnClickListener.OnClick(IDialogInterface dialog, int which)
         {
-            if (which >= 0)
+            if (which >= 0 && RadioSelected != which)
             {
                 RadioSelected = which;
                 var radioValue = GetSelectedValue();
                 _value.Text = radioValue;
+
+                if (RadioSelectionChanged != null)
+                    RadioSelectionChanged(this, EventArgs.Empty);
             }
 
             dialog.Dismiss();
-
-            if (RadioSelectionChanged != null)
-                RadioSelectionChanged(this, new EventArgs());
         }
 
         /// <summary>

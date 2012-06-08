@@ -19,7 +19,7 @@ namespace Android.Dialog
     /// deeper level.
     /// 
     /// You can assign a header and a footer either as strings (Header and Footer)
-    /// properties, or as Views to be shown (HeaderView and FooterView).   Internally
+    /// properties, or as ViewElements to be shown (HeaderView and FooterView).   Internally
     /// this uses the same storage, so you can only show one or the other.
     /// </remarks>
     public class Section : Element, IEnumerable<Element>
@@ -63,13 +63,13 @@ namespace Android.Dialog
             Footer = footer;
         }
 
-        public Section(View header)
+        public Section(ViewElement header)
             : this()
         {
             HeaderView = header;
         }
 
-        public Section(View header, View footer)
+        public Section(ViewElement header, ViewElement footer)
             : this()
         {
             HeaderView = header;
@@ -97,18 +97,18 @@ namespace Android.Dialog
         /// <summary>
         /// The section's header view.  
         /// </summary>
-        public View HeaderView
+        public Element HeaderView
         {
-            get { return header as View; }
+            get { return header as ViewElement; }
             set { header = value; }
         }
 
         /// <summary>
         /// The section's footer view.
         /// </summary>
-        public View FooterView
+        public Element FooterView
         {
-            get { return footer as View; }
+            get { return footer as ViewElement; }
             set { footer = value; }
         }
 
@@ -311,7 +311,7 @@ namespace Android.Dialog
         {
             if (HeaderView != null)
             {
-                return HeaderView;
+                return HeaderView.GetView(context, convertView, parent);
             }
 
             if (Caption != null)
@@ -342,7 +342,7 @@ namespace Android.Dialog
         {
             if (FooterView != null)
             {
-                return FooterView;
+                return FooterView.GetView(context, convertView, parent); ;
             }
 
             if (Footer != null)
