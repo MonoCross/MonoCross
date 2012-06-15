@@ -63,17 +63,27 @@ namespace Android.Dialog
             Footer = footer;
         }
 
-        public Section(ViewElement header)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Section"/> class.
+        /// </summary>
+        /// <param name="header">The header as an <see cref="Element"/>.</param>
+        /// <remarks>The header can be customized as a custom <see cref="View"/> with a <see cref="ViewElement"/></remarks>
+        public Section(Element header)
             : this()
         {
             HeaderView = header;
         }
 
-        public Section(ViewElement header, ViewElement footer)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Section"/> class.
+        /// </summary>
+        /// <param name="header">The header, either a <see cref="String"/> for a simple header, or a custom <see cref="Element"/> (likely a <see cref="ViewElement"/>).</param>
+        /// <param name="footer">The footer, either a <see cref="String"/> for a simple footer, or a custom <see cref="Element"/> (likely a <see cref="ViewElement"/>).</param>
+        public Section(object header, object footer)
             : this()
         {
-            HeaderView = header;
-            FooterView = footer;
+            this.header = header;
+            this.footer = footer;
         }
 
         /// <summary>
@@ -90,7 +100,7 @@ namespace Android.Dialog
         /// </summary>
         public string Footer
         {
-            get { return footer as string; }
+            get { return footer == null ? null : footer.ToString(); }
             set { footer = value; }
         }
 

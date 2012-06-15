@@ -45,9 +45,12 @@ namespace Android.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
-                _caption.TextSize = FontSize;
                 _text.Text = Value;
-                _text.TextSize = FontSize;
+                if (FontSize > 0)
+                {
+                    _caption.TextSize = FontSize;
+                    _text.TextSize = FontSize;
+                }
             }
             return view;
         }
