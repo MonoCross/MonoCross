@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using System.Globalization;
+using Android.Content;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
@@ -7,9 +8,28 @@ namespace Android.Dialog
 {
     public class FloatElement : Element, SeekBar.IOnSeekBarChangeListener
     {
+        private const int precision = 10000000;
         public bool ShowCaption;
-        public int Value;
-        public int MinValue, MaxValue;
+        private int _value, _maxValue, _minValue;
+
+        public float Value
+        {
+            get { return (float)_value / precision; }
+            set { _value = (int)(value * precision); }
+        }
+
+        public float MaxValue
+        {
+            get { return (float)_maxValue / precision; }
+            set { _maxValue = (int)(value * precision); }
+        }
+
+        public float MinValue
+        {
+            get { return (float)_minValue / precision; }
+            set { _minValue = (int)(value * precision); }
+        }
+
         public Bitmap Left;
         public Bitmap Right;
 
@@ -18,7 +38,7 @@ namespace Android.Dialog
         {
             Value = 0;
             MinValue = 0;
-            MaxValue = 10;
+            MaxValue = 1;
         }
 
         public FloatElement(string caption, int layoutId)
@@ -26,7 +46,7 @@ namespace Android.Dialog
         {
             Value = 0;
             MinValue = 0;
-            MaxValue = 10;
+            MaxValue = 1;
         }
 
         public FloatElement(Bitmap left, Bitmap right, int value)
@@ -40,7 +60,7 @@ namespace Android.Dialog
             Left = left;
             Right = right;
             MinValue = 0;
-            MaxValue = 10;
+            MaxValue = 1;
             Value = value;
         }
 
@@ -69,8 +89,8 @@ namespace Android.Dialog
                     else
                         right.Visibility = ViewStates.Gone;
                 }
-                slider.Max = MaxValue - MinValue;
-                slider.Progress = Value - MinValue;
+                slider.Max = _maxValue - _minValue;
+                slider.Progress = _value - _minValue;
                 slider.SetOnSeekBarChangeListener(this);
                 if (label != null)
                 {
@@ -88,9 +108,14 @@ namespace Android.Dialog
             return view;
         }
 
+        public override string Summary()
+        {
+            return Value.ToString(CultureInfo.InvariantCulture);
+        }
+
         void SeekBar.IOnSeekBarChangeListener.OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
         {
-            Value = MinValue + progress;
+            _value = _minValue + progress;
         }
 
         void SeekBar.IOnSeekBarChangeListener.OnStartTrackingTouch(SeekBar seekBar)

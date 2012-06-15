@@ -104,5 +104,10 @@ namespace Android.Dialog
             if (!ReadOnly)
                 _checkbox.Toggle();
         }
+
+        public override string Summary()
+        {
+            return Value ? "On" : "Off"; //Because iOS, that's why.
+        }
     }
 }
