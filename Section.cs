@@ -343,7 +343,7 @@ namespace Android.Dialog
             // invisible/empty section header, could be re-shown by setting the caption and refreshing the list
             return new View(context, null)
             {
-                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.MatchParent, 0),
+                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.FillParent, 0),
                 Visibility = ViewStates.Gone,
             };
         }
@@ -375,7 +375,7 @@ namespace Android.Dialog
             // invisible/empty section footer, could be re-shown by setting the footer and refreshing the list
             return new View(context, null)
             {
-                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.MatchParent, 0),
+                LayoutParameters = new ListView.LayoutParams(ListView.LayoutParams.FillParent, 0),
                 Visibility = ViewStates.Gone,
             };
         }

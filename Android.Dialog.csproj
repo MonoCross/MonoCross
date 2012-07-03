@@ -12,7 +12,7 @@
     <RootNamespace>Android.Dialog</RootNamespace>
     <AssemblyName>Android.Dialog</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v2.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v1.6</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,6 +55,7 @@
     <Compile Include="DateTimeElement.cs" />
     <Compile Include="DialogActivity.cs" />
     <Compile Include="DialogAdapter.cs" />
+    <Compile Include="DialogListFragment.cs" />
     <Compile Include="DialogListView.cs" />
     <Compile Include="DroidResources.cs" />
     <Compile Include="Element.cs" />
