@@ -20,3 +20,8 @@ Pic of the Sample App ([located here](DialogSampleApp))
 ---------------------
 ![Rendering of SampleApp](DialogSampleApp/raw/master/sample.png)
 
+Supported versions of Android
+----------------
+- Android 1.6-4.1
+- ARM/x86
+- NOT Google TV ([Issue on Google Code](http://code.google.com/p/googletv-issues/issues/detail?id=12))
