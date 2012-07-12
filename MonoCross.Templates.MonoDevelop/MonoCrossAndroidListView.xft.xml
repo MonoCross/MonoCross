@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross Android List View</_Name>
+		<Icon>md-text-file-icon</Icon>
+		<_Category>MonoCross</_Category>
+		<LanguageName>C#</LanguageName>
+		<ProjectType>MonoDroid</ProjectType>
+		<_Description>Creates a MonoCross View based on a Android ListActivity.</_Description>
+	</TemplateConfiguration>
+	
+	<Conditions>
+	</Conditions>
+	
+	<TemplateFiles>
+		<File name="${Name}.cs" ><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+using MonoCross.Navigation;
+using MonoCross.Droid;
+
+namespace ${Namespace}
+{
+	[Activity (Label = "${Name}")]			
+	// TODO: Change the "ModelClassNameHere" below to be the class of the Model for this View
+    public class CustomerListView : MXListActivityView<List<ModelClassNameHere>>
+    {
+        class Adapter : ArrayAdapter<ModelClassNameHere>
+	    {
+            List<ModelClassNameHere> items;
+
+            public CustomerAdapter(Context context, int textViewResourceId, List<ModelClassNameHere> items)
+                : base(context, textViewResourceId, items)
+            {
+	            this.items = items;
+	        }
+	
+	        public override View GetView(int position, View convertView, ViewGroup parent)
+	        {
+	            View v = convertView;
+	            if (v == null) {
+	                LayoutInflater li = (LayoutInflater)this.Context.GetSystemService(Context.LayoutInflaterService);
+	                v = li.Inflate(Android.Resource.Layout.SimpleListItem2, null);
+	            }
+
+                ModelClassNameHere o = items[position];
+	            if (o != null) {
+	                TextView tt = (TextView)v.FindViewById(Android.Resource.Id.Text1);
+	                if (tt != null)
+	                    tt.Text = o.Property1;
+	                TextView bt = (TextView)v.FindViewById(Android.Resource.Id.Text2);
+	                if (bt != null && o.Property2 != null)
+	                    bt.Text = o.Property2;
+	            }
+	            return v;
+	        }
+	    }
+        public override void Render()
+        {
+            ListView.Adapter = new Adapter(this, 0, Model);
+        }
+	}
+}
+]]></File>
+	</TemplateFiles>
+</Template>
+
+
+

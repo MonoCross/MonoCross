@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHybrid.Droid", "WebHybrid.Droid.csproj", "{62AE6209-7132-4EEC-8818-7F5B57D203AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{DA36EBB8-9B2C-45DA-AE56-E022E3E88406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Droid", "..\..\MonoCross.Droid\MonoCross.Droid.csproj", "{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation.MD", "..\..\MonoCross.Navigation\MonoCross.Navigation.MD.csproj", "{0D2CC54A-4716-40B9-8110-453F528810FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDroid.Dialog", "..\..\MonoDroid.Dialog\MonoDroid.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Utilities.MD", "..\..\MonoCross.Utilities\MonoCross.Utilities.MD.csproj", "{1657B775-3827-40DA-98AF-F8D9CAB44FDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D2CC54A-4716-40B9-8110-453F528810FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2CC54A-4716-40B9-8110-453F528810FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2CC54A-4716-40B9-8110-453F528810FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2CC54A-4716-40B9-8110-453F528810FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33044C7B-47A4-4113-A61A-EB429407F818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33044C7B-47A4-4113-A61A-EB429407F818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33044C7B-47A4-4113-A61A-EB429407F818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33044C7B-47A4-4113-A61A-EB429407F818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{62AE6209-7132-4EEC-8818-7F5B57D203AB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9} = {DA36EBB8-9B2C-45DA-AE56-E022E3E88406}
+		{0D2CC54A-4716-40B9-8110-453F528810FC} = {DA36EBB8-9B2C-45DA-AE56-E022E3E88406}
+		{33044C7B-47A4-4113-A61A-EB429407F818} = {DA36EBB8-9B2C-45DA-AE56-E022E3E88406}
+		{1657B775-3827-40DA-98AF-F8D9CAB44FDA} = {DA36EBB8-9B2C-45DA-AE56-E022E3E88406}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = WebHybrid.Droid.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

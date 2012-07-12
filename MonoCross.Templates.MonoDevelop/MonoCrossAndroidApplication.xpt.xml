@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross Android Application Project</_Name>
+		<_Category>C#/MonoCross</_Category>
+		<Icon>monodroid-project|md-library-overlay</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Creates a MonoCross Application library project for Android.</_Description>
+	</TemplateConfiguration>
+	
+	<Actions>
+	</Actions>
+	
+	<Combine name = "${ProjectName}" directory = ".">
+		<Options>
+		</Options>
+		
+		<Project name = "${ProjectName}" directory = "." type = "MonoDroid">
+			<Options Target = "Library" />
+			<References>
+				<Reference type="Gac" refto="System, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="System.Xml, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="System.Core, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="Mono.Android" />
+				<Reference type="Assembly" refto="MonoCross/MonoCross.Navigation.MD.dll" />
+			</References>
+			<Files>
+				<Directory name="MonoCross">
+					<RawFile name="MonoCross.Navigation.MD.dll" src="Assemblies/MonoCross.Navigation.MD.dll" />
+				</Directory>
+				<File name="App.cs" src="MonoCrossAndroidApplication/App.cs" />
+				<Directory name="Controllers">
+					<File name="MessageController.cs" src="MonoCrossAndroidApplication/Controllers/MessageController.cs" />
+				</Directory>
+				<Directory name="Models">
+				</Directory>
+				<Directory name="Properties">
+					<FileTemplateReference TemplateID="CSharpAssemblyInfo" name="MonoCrossAndroidApplication/Properties/AssemblyInfo.cs" />
+				</Directory>
+			</Files>
+		</Project>
+	</Combine>
+</Template>

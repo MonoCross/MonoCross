@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross Touch View</_Name>
+		<Icon>md-text-file-icon</Icon>
+		<_Category>MonoCross</_Category>
+		<LanguageName>C#</LanguageName>
+		<ProjectType>IPhone</ProjectType>
+		<_Description>Creates a MonoCross View based on a generic MonoTouch UIViewController.</_Description>
+	</TemplateConfiguration>
+	
+	<Conditions>
+	</Conditions>
+	
+	<TemplateFiles>
+		<File name="${Name}.cs" ><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using MonoTouch.Foundation;
+			
+using MonoCross.Navigation;
+using MonoCross.Touch;
+
+namespace ${Namespace}
+{
+	// TODO: Change the "ModelClassNameHere" below to be the class of the Model for this View
+	public class ${Name} : MXTouchViewController<ModelClassNameHere>
+	{
+        public override void Render()
+        {
+        	// TODO: implement your view population here, note that this is called from the
+        	//       OnCreate override and you can create views or whatever else you need
+        	//       to do.  this is a generic view/activity class
+        }
+	}
+}
+]]></File>
+	</TemplateFiles>
+</Template>
+
+
+

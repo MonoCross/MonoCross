@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DEA9870F-BE56-4C68-89F3-B2DCCAEABF6F}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Droid.Container</RootNamespace>
+    <AssemblyName>Droid.Container</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v2.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidLinkMode>Full</AndroidLinkMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="MonoCross.Droid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>MonoCross\MonoCross.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoCross.Navigation.MD, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>MonoCross\MonoCross.Navigation.MD.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoDroid.Dialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>MonoCross\MonoDroid.Dialog.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Views\MessageView.cs" />
+    <Compile Include="MainReceiver.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\Layout\Splash.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\ListItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidJavaSource Include="SplashScreenActivity.java">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidJavaSource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Drawable\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MonoCross\MonoCross.Droid.dll" />
+    <Content Include="MonoCross\MonoCross.Navigation.MD.dll" />
+    <Content Include="MonoCross\MonoDroid.Dialog.dll" />
+    <Content Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <AndroidResource Include="Resources\Drawable\dialog_disclosure.png" />
+    <AndroidResource Include="Resources\Drawable\dialog_expander_ic_minimized.9.png" />
+    <AndroidResource Include="Resources\Layout\dialog_boolfieldleft.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_textfieldright.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_boolfieldright.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_boolfieldsubleft.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_boolfieldsubright.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_button.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_datefield.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_fieldsetlabel.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_floatimage.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_labelfieldbelow.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_labelfieldright.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_onofffieldright.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_panel.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_root.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_selectlist.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_selectlistfield.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_textarea.xml" />
+    <AndroidResource Include="Resources\Layout\dialog_textfieldbelow.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

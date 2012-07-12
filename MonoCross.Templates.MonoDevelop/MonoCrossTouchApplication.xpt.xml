@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross MonoTouch Application Project</_Name>
+		<_Category>C#/MonoCross</_Category>
+		<Icon>md-project-library</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Creates a MonoCross Application library project for iOS.</_Description>
+	</TemplateConfiguration>
+	
+	<Actions>
+	</Actions>
+	
+	<Combine name = "${ProjectName}" directory = ".">
+		<Options>
+		</Options>
+		
+		<Project name = "${ProjectName}" directory = "." type = "IPhone">
+			<Options Target = "Library" />
+			<Files>
+				<Directory name="MonoCross">
+					<RawFile name="MonoCross.Navigation.MT.dll" src="Assemblies/MonoCross.Navigation.MT.dll" />
+				</Directory>
+				<File name="App.cs" src="MonoCrossTouchApplication/App.cs" />
+				<Directory name="Controllers">
+					<File name="MessageController.cs" src="MonoCrossTouchApplication/Controllers/MessageController.cs" />
+				</Directory>
+				<Directory name="Models">
+				</Directory>
+				<Directory name="Properties">
+					<FileTemplateReference TemplateID="CSharpAssemblyInfo" name="MonoCrossTouchApplication/Properties/AssemblyInfo.cs" />
+				</Directory>
+			</Files>
+			<References>
+				<Reference type="Gac" refto="System, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="System.Xml, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="System.Core, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+				<Reference type="Gac" refto="monotouch" />
+				<Reference type="Assembly" refto="MonoCross/MonoCross.Navigation.MT.dll" />
+			</References>
+		</Project>
+	</Combine>
+</Template>

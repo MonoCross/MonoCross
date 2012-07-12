@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross Touch Dialog View</_Name>
+		<Icon>md-text-file-icon</Icon>
+		<_Category>MonoCross</_Category>
+		<LanguageName>C#</LanguageName>
+		<ProjectType>IPhone</ProjectType>
+		<_Description>Creates a MonoCross View based on a MonoTouch.Dialog.</_Description>
+	</TemplateConfiguration>
+	
+	<Conditions>
+	</Conditions>
+	
+	<TemplateFiles>
+		<File name="${Name}.cs" ><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using MonoTouch.Dialog;
+using MonoTouch.Foundation;
+
+using MonoCross.Navigation;
+using MonoCross.Touch;
+
+namespace ${Namespace}
+{
+	// TODO: Change the "ModelClassNameHere" below to be the class of the Model for this View
+	public class ${Name} : MXTouchDialogView<ModelClassNameHere>
+	{
+        public override void Render()
+        {
+        	// TODO: implement your view/form population here, note that this is called from the
+        	//       OnCreate override and you can create views or whatever else you need
+        	//       to do.  
+
+            this.Root = new RootElement("Form Name")
+			{
+	            new Section("Form Section")
+    	        {
+        	    	new StringElement("Item Title", "Item Value"),
+        	    }
+     	    };
+    	}
+	}
+}
+]]></File>
+	</TemplateFiles>
+</Template>
+
+
+

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceAccess.MT.NET", "DeviceAccess.MT\DeviceAccess.MT.NET.csproj", "{E56444FB-DADE-42A8-B7C0-834EA93C66DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceAccess.WP", "DeviceAccess.WP\DeviceAccess.WP.csproj", "{3C17511D-0A38-42AD-A532-32A9D91D7B95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceAccess.MD", "DeviceAccess.MD\DeviceAccess.MD.csproj", "{C0BBE885-5A9F-418C-81AB-945DE61C3535}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E56444FB-DADE-42A8-B7C0-834EA93C66DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E56444FB-DADE-42A8-B7C0-834EA93C66DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E56444FB-DADE-42A8-B7C0-834EA93C66DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E56444FB-DADE-42A8-B7C0-834EA93C66DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C17511D-0A38-42AD-A532-32A9D91D7B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C17511D-0A38-42AD-A532-32A9D91D7B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C17511D-0A38-42AD-A532-32A9D91D7B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C17511D-0A38-42AD-A532-32A9D91D7B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0BBE885-5A9F-418C-81AB-945DE61C3535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0BBE885-5A9F-418C-81AB-945DE61C3535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0BBE885-5A9F-418C-81AB-945DE61C3535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0BBE885-5A9F-418C-81AB-945DE61C3535}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

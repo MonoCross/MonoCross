@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>MonoCross Android DialogView</_Name>
+		<Icon>md-text-file-icon</Icon>
+		<_Category>MonoCross</_Category>
+		<LanguageName>C#</LanguageName>
+		<ProjectType>MonoDroid</ProjectType>
+		<_Description>Creates a MonoCross View based on a MonoDroid.Dialog Android Activity.</_Description>
+	</TemplateConfiguration>
+	
+	<Conditions>
+	</Conditions>
+	
+	<TemplateFiles>
+		<File name="${Name}.cs" ><![CDATA[
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+using MonoCross.Navigation;
+using MonoCross.Droid;
+
+using Android.Dialog;
+
+namespace ${Namespace}
+{
+	[Activity (Label = "${Name}")]			
+	// TODO: Change the "ModelClassNameHere" below to be the class of the Model for this View
+	public class ${Name} : MXDialogActivityView<ModelClassNameHere>
+	{
+        public override void Render()
+        {
+        	// TODO: implement your view/form population here, note that this is called from the
+        	//       OnCreate override and you can create views or whatever else you need
+        	//       to do.  
+
+            this.Root = new RootElement("Form Name")
+			{
+	            new Section("Form Section")
+    	        {
+        	    	new StringElement("Item Title", "Item Value"),
+        	    }
+     	    };
+    	}
+	}
+}
+]]></File>
+	</TemplateFiles>
+</Template>
+
+
+
