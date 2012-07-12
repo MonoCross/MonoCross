@@ -45,6 +45,7 @@ namespace Android.Dialog
             if (view != null)
             {
                 _caption.Text = Caption;
+                _caption.Visibility = Caption == null ? ViewStates.Gone : ViewStates.Visible;
                 _text.Text = Value;
                 if (FontSize > 0)
                 {
