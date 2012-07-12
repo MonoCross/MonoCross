@@ -4,7 +4,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9F9A6018-0216-4F07-B18D-BECDF3FF45DB}</ProjectGuid>
+    <ProjectGuid>{4275E2E0-8941-4CCC-BBE7-413868F1A581}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MonoCross.Navigation</RootNamespace>
