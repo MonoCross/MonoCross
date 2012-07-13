@@ -192,11 +192,10 @@ namespace MonoCross.Navigation
                     if (container.ThreadedLoad)
 					{
 	                    // new thread to execute the Load() method for the layer
-	                    new Thread((object args) =>
+	                    new Thread(() =>
 	                    {
 							try
 							{
-                                //Dictionary<string, string> parameters = (Dictionary<string, string>)args;
                                 container.LoadController(fromView, controller, parameters);
 							}
 							catch (Exception ex)
@@ -204,7 +203,7 @@ namespace MonoCross.Navigation
                                 container.OnControllerLoadFailed(controller, ex);
 							}
 								
-						}).Start(parameters);
+						}).Start();
 					}
 					else
 					{
