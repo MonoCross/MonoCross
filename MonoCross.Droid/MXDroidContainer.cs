@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.Content;
 
@@ -22,9 +20,8 @@ namespace MonoCross.Droid
 
         public static void Initialize(MXApplication theApp, Context applicationContext)
         {
-            MXContainer.InitializeContainer(new MXDroidContainer(theApp));
-            MXContainer.Instance.ThreadedLoad = true;
-
+            InitializeContainer(new MXDroidContainer(theApp));
+            Instance.ThreadedLoad = true;
             ApplicationContext = applicationContext;
         }
 
@@ -38,6 +35,17 @@ namespace MonoCross.Droid
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadFailed: " + ex.Message);
         }
 
+
+        /// <summary>
+        /// Gets or sets the last active Context.
+        /// </summary>
+        /// <value>
+        /// The last active <see cref="Context"/>.
+        /// </value>
+        /// <remarks>This is useful for figuring out your fromView if you've implemented a <see cref="NavigationHandler"/>.
+        /// However, this isn't a reliable source to get the currently visible activity. </remarks>
+        public Context LastContext { get; set; }
+
         protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
         {
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete");
@@ -48,25 +56,18 @@ namespace MonoCross.Droid
                 // stash the model away so we can get it back when the view shows up!
                 ViewModels[controller.ModelType] = controller.GetModel();
 
-                Activity activity = fromView as Activity;
+                LastContext = fromView as Activity ?? ApplicationContext;
                 if (NavigationHandler != null)
                 {
                     // allow first crack at the view creation to the person over-riding
                     NavigationHandler(viewType);
                 }
-                else if (activity != null)
+                else if (LastContext != null)
                 {
-                    // use the context we have to start the next view
-                    Intent intent = new Intent(activity, viewType);
+                    // use the last context to instantiate the new view
+                    Intent intent = new Intent(LastContext, viewType);
                     intent.AddFlags(ActivityFlags.NewTask);
-                    activity.StartActivity(intent);
-                }
-                else if (ApplicationContext != null)
-                {
-                    // use the application context to instantiate the new new
-                    Intent intent = new Intent(ApplicationContext, viewType);
-                    intent.AddFlags(ActivityFlags.NewTask);
-                    ApplicationContext.StartActivity(intent);
+                    LastContext.StartActivity(intent);
                 }
                 else
                 {
