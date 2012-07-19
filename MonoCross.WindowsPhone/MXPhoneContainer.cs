@@ -25,6 +25,9 @@ namespace MonoCross.WindowsPhone
         {
         }
 
+        public delegate Uri RenderLayerDelegate(IMXView view);
+        public static event RenderLayerDelegate RenderLayer;
+
         public static Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();
 
         protected static void StartViewForController(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
@@ -53,6 +56,12 @@ namespace MonoCross.WindowsPhone
             ViewModels[controller.ModelType] = controller.GetModel();
 
             var page = fromView as PhoneApplicationPage;
+            if (!(controller.View is PhoneApplicationPage) && controller.View != null && RenderLayer != null)
+            {
+                controller.View.Render();
+                viewUri = RenderLayer(controller.View);
+            }
+
             if (page != null)
             {
                 // NOTE: assumes XAML file matches type name and no sub directories

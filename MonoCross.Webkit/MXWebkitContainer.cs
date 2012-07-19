@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 
 using MonoCross.Navigation;
 
@@ -28,6 +29,9 @@ namespace MonoCross.Webkit
             MXContainer.GetSessionId = delegate { return HttpContext.Current.Session.SessionID; };
         }
 
+        public delegate HtmlGenericControl RenderLayerDelegate(IMXView view);
+        public static event RenderLayerDelegate RenderLayer;
+
         public override MXViewMap Views
         {
             get 
@@ -48,7 +52,7 @@ namespace MonoCross.Webkit
 
         protected static void SetModelFromParameters(string url, Dictionary<string, string> parameters)
         {
-            IMXController controller = MXWebkitContainer.Instance.GetController(url, parameters);
+            IMXController controller = MXWebkitContainer.Instance.GetController(url, ref parameters);
             if (controller.GetModel() != null)
             {
                 foreach (string key in parameters.Keys)
@@ -114,6 +118,18 @@ namespace MonoCross.Webkit
         protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
         {
             controller.RenderView();
+            if (controller.View.GetType().BaseType.GetGenericTypeDefinition() != typeof(MXWebkitView<>) && RenderLayer != null)
+            {
+               HtmlGenericControl control = RenderLayer(controller.View);
+               if (controller.Uri == App.NavigateOnLoad)
+               {
+                   MXWebkitView<object>.WriteToResponse(controller.ModelType.ToString(), control.Attributes["title"], control);
+               }
+               else
+               {
+                   MXWebkitView<object>.WriteAjaxToResponse(controller.ModelType.ToString(), control.Attributes["title"], control);
+               }
+            }
         }
 
         /*

@@ -46,7 +46,7 @@ namespace MonoCross.Webkit
         {
             string html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Root.html"));
             html = html.Replace("{AppTitle}", MXContainer.Instance.App.Title);
-            html = html.Replace("{ViewId}", viewId);
+            html = html.Replace("{ViewID}", viewId);
             html = html.Replace("{ViewTitle}", viewTitle);
             using (System.IO.StringWriter strwriter = new System.IO.StringWriter())
             {
@@ -64,7 +64,7 @@ namespace MonoCross.Webkit
         {
             string html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Root.html"));
             html = html.Replace("{AppTitle}", MXContainer.Instance.App.Title);
-            html = html.Replace("{ViewId}", viewId);
+            html = html.Replace("{ViewID}", viewId);
             html = html.Replace("{ViewTitle}", viewTitle);
             using (System.IO.StringWriter strwriter = new System.IO.StringWriter())
             {
