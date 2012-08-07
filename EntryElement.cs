@@ -72,15 +72,8 @@ namespace Android.Dialog
             var view = DroidResources.LoadStringEntryLayout(context, convertView, parent, LayoutId, out label, out _entry);
             if (view != null)
             {
-                // Warning! Crazy ass hack ahead!
-                // since we can't know when out convertedView was was swapped from inside us, we store the
-                // old textwatcher in the tag element so it can be removed!!!! (barf, rech, yucky!)
-                if (_entry.Tag != null)
-                    _entry.RemoveTextChangedListener((ITextWatcher)_entry.Tag);
-
                 _entry.Text = Value;
                 _entry.Hint = Hint;
-                //_entry.EditorAction += new EventHandler<TextView.EditorActionEventArgs>(_entry_EditorAction);
                 _entry.ImeOptions = ImeAction.Unspecified;
 
                 if (Numeric)
@@ -102,12 +95,16 @@ namespace Android.Dialog
                 {
                     _entry.ImeOptions = ImeAction.Go;
                     _entry.SetImeActionLabel("Go", ImeAction.Go);
-                    _entry.EditorAction += _entry_EditorAction;
                 }
 
-                // continuation of crazy ass hack, stash away the listener value so we can look it up later
+                if (_entry.Tag != this)
+                {
+                    _entry.AddTextChangedListener(this);
+                    if (Send != null)
+                        _entry.EditorAction += _entry_EditorAction;
+                }
+
                 _entry.Tag = this;
-                _entry.AddTextChangedListener(this);
                 if (label == null)
                 {
                     _entry.Hint = Caption;
