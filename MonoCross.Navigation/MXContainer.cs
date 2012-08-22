@@ -191,7 +191,11 @@ namespace MonoCross.Navigation
                     if (container.ThreadedLoad)
                     {
                         // new thread to execute the Load() method for the layer
+#if NETFX_CORE
+                        System.Threading.Tasks.Task.Factory.StartNew(() => TryLoadController(container, fromView, controller, parameters), System.Threading.Tasks.TaskCreationOptions.LongRunning);
+#else
                         new Thread(() => TryLoadController(container, fromView, controller, parameters)).Start();
+#endif
                     }
                     else
                     {
@@ -321,8 +325,10 @@ namespace MonoCross.Navigation
 
             public void Add(MXViewPerspective perspective, Type viewType)
             {
+#if !NETFX_CORE
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
+#endif
                 _typeMap.Add(perspective, viewType);
                 _viewMap.Add(perspective, null);
 
