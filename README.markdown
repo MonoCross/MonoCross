@@ -2,4 +2,4 @@ MonoCross is a refinement of the Model-View-Controller (MVC) pattern for mobile 
 
 The pattern enables cross-platform portability of business logic and data access code, (Model + Controller), while supporting full, native and/or platform-specific presentation (Views).
 
-For more information on using the pattern, [visit the WIKI](https://github.com/ToeJam/MonoCross/wiki)
+For more information on using the pattern, [visit the WIKI](https://github.com/ToeJam/MonoCross/wiki/MonoCross-Resources)
