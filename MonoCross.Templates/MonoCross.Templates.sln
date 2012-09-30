@@ -15,21 +15,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Webkit", "..\Mono
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template Projects", "Template Projects", "{03B48B9B-9706-4072-9183-E267452DCC31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Application", "MonoCross Application\MonoCross Application.csproj", "{FF99DCBA-27C0-44B3-8182-B797BF7F5B04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Application", "MonoCross.Application\MonoCross Application.csproj", "{FF99DCBA-27C0-44B3-8182-B797BF7F5B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Console Container", "MonoCross Console Container\MonoCross Console Container.csproj", "{949DD877-568A-4006-843D-04AB375463B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Console Container", "MonoCross.Console.Container\MonoCross Console Container.csproj", "{949DD877-568A-4006-843D-04AB375463B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Webkit Container", "MonoCross Webkit Container\MonoCross Webkit Container.csproj", "{7A0C2DF8-ED92-4395-A5DD-C5DF8407D049}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Webkit Container", "MonoCross.Webkit.Container\MonoCross Webkit Container.csproj", "{7A0C2DF8-ED92-4395-A5DD-C5DF8407D049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Android Application", "MonoCross Android Application\MonoCross Android Application.csproj", "{4774C6DB-7419-4768-8BBC-2A9AA6B0F3DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Android Application", "MonoCross.Android.Application\MonoCross Android Application.csproj", "{4774C6DB-7419-4768-8BBC-2A9AA6B0F3DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Android Container", "MonoCross Android Container\MonoCross Android Container.csproj", "{DEA9870F-BE56-4C68-89F3-B2DCCAEABF6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Android Container", "MonoCross.Android.Container\MonoCross Android Container.csproj", "{DEA9870F-BE56-4C68-89F3-B2DCCAEABF6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webkit.Dialog", "..\Webkit.Dialog\Webkit.Dialog.csproj", "{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android.Dialog", "..\Android.Dialog\Android.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Templates", "MonoCross Templates\MonoCross Templates.csproj", "{7732C29F-868D-4FA2-AD7B-7088E49F0275}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross Templates", "MonoCross.Templates\MonoCross Templates.csproj", "{7732C29F-868D-4FA2-AD7B-7088E49F0275}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
