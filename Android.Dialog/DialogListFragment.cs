@@ -7,27 +7,22 @@ namespace Android.Dialog
     {
         public RootElement Root
         {
-            get { return _root; }
+            get { return _dialogAdapter == null ? null : _dialogAdapter.Root; }
             set
             {
-                _root = value;
-                _root.Context = Activity;
-                _root.ValueChanged -= HandleValueChangedEvent;
-                _root.ValueChanged += HandleValueChangedEvent;
+                value.Context = Activity;
+                value.ValueChanged -= HandleValueChangedEvent;
+                value.ValueChanged += HandleValueChangedEvent;
 
                 if (_dialogAdapter != null)
                 {
-                    ListView.ItemClick -= _dialogAdapter.ListView_ItemClick;
-                    ListView.ItemLongClick -= _dialogAdapter.ListView_ItemLongClick;
+                    _dialogAdapter.DeregisterListView();
                 }
 
-                ListAdapter = _dialogAdapter = new DialogAdapter(Activity, _root);
-                ListView.ItemClick += _dialogAdapter.ListView_ItemClick;
-                ListView.ItemLongClick += _dialogAdapter.ListView_ItemLongClick;
+                ListAdapter = _dialogAdapter = new DialogAdapter(Activity, value, ListView);
             }
         }
 
-        private RootElement _root;
         private DialogAdapter _dialogAdapter;
 
         public event EventHandler ValueChanged;

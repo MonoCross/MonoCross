@@ -16,8 +16,8 @@ namespace Android.Dialog
                 _val = value;
                 if (_checkbox != null && _checkbox.Checked != _val)
                     _checkbox.Checked = _val;
-                else if (emit && ValueChanged != null)
-                    ValueChanged(this, EventArgs.Empty);
+                else if (emit && Changed != null)
+                    Changed(this, EventArgs.Empty);
             }
         }
         private bool _val;
@@ -30,7 +30,7 @@ namespace Android.Dialog
             set;
         }
 
-        public event EventHandler ValueChanged;
+        public event EventHandler Changed;
 
         private CheckBox _checkbox;
         private TextView _caption;

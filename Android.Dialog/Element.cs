@@ -50,6 +50,15 @@ namespace Android.Dialog
         public EventHandler LongClick { get; set; }
 
         /// <summary>
+        /// Alternative alias to the click event, naming more like MonoTouch Dialog.
+        /// </summary>
+        public EventHandler Tapped 
+        { 
+            get { return Click; }
+            set { Click = value; }
+        }
+
+        /// <summary>
         /// An Object that contains data about the element. The default is null.
         /// </summary>
         public Object Tag { get; set; }
@@ -67,7 +76,7 @@ namespace Android.Dialog
         }
 
         /// <summary>
-        /// Overriden my most derived classes, creates a View with the contents for display
+        /// Overriden by most derived classes, creates a View with the contents for display
         /// </summary>
         /// <param name="context"></param>
         /// <param name="convertView"></param>
@@ -94,5 +103,17 @@ namespace Android.Dialog
             var rootElement = element as RootElement;
             return rootElement == null ? null : rootElement.Context;
         }
+
+        #region MonoTouch Dialog Mimicry
+
+        // Not used in any way, just there to match MT Dialog api.
+        public UITableViewCellAccessory Accessory
+        {
+            get { return accessory; }
+            set { accessory = value; }
+        }
+        private UITableViewCellAccessory accessory;
+
+        #endregion
     }
 }

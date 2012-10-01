@@ -8,38 +8,33 @@ namespace Android.Dialog
     {
         public RootElement Root
         {
-            get { return _root; }
+            get { return _dialogAdapter == null ? null : _dialogAdapter.Root; }
             set
             {
-                _root = value;
-                _root.Context = this;
-                _root.ValueChanged -= HandleValueChangedEvent;
-                _root.ValueChanged += HandleValueChangedEvent;
+                value.Context = this;
+                value.ValueChanged -= HandleValueChangedEvent;
+                value.ValueChanged += HandleValueChangedEvent;
 
                 if (_dialogAdapter != null)
                 {
-                    ListView.ItemClick -= _dialogAdapter.ListView_ItemClick;
-                    ListView.ItemLongClick -= _dialogAdapter.ListView_ItemLongClick;
+                    _dialogAdapter.DeregisterListView();
                 }
 
-                ListAdapter = _dialogAdapter = new DialogAdapter(this, _root);
-                ListView.ItemClick += _dialogAdapter.ListView_ItemClick;
-                ListView.ItemLongClick += _dialogAdapter.ListView_ItemLongClick;
+                ListAdapter = _dialogAdapter = new DialogAdapter(this, value, ListView);
             }
         }
-        private RootElement _root;
         private DialogAdapter _dialogAdapter;
 
         public void HandleValueChangedEvents(EventHandler eventHandler)
         {
-            foreach (var element in _root.Sections.SelectMany(section => section))
+            foreach (var element in Root.Sections.SelectMany(section => section))
             {
                 if (element is EntryElement)
-                    (element as EntryElement).ValueChanged += eventHandler;
+                    (element as EntryElement).Changed += eventHandler;
                 if (element is BooleanElement)
-                    (element as BooleanElement).ValueChanged += eventHandler;
+                    (element as BooleanElement).Changed += eventHandler;
                 if (element is CheckboxElement)
-                    (element as CheckboxElement).ValueChanged += eventHandler;
+                    (element as CheckboxElement).Changed += eventHandler;
             }
         }
 

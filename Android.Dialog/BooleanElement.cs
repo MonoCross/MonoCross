@@ -20,13 +20,13 @@ namespace Android.Dialog
                 if (_val != value)
                 {
                     _val = value;
-                    if (ValueChanged != null)
-                        ValueChanged(this, EventArgs.Empty);
+                    if (Changed != null)
+                        Changed(this, EventArgs.Empty);
                 }
             }
         }
 
-        public event EventHandler ValueChanged;
+        public event EventHandler Changed;
 
         public BoolElement(string caption, bool value)
             : base(caption)

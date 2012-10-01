@@ -60,6 +60,7 @@
     <Compile Include="DroidResources.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="EntryElement.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="HtmlElement.cs" />
