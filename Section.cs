@@ -161,11 +161,11 @@ namespace Android.Dialog
 
             // bind value changed to our local handler so section itself is aware of events, allows cascacding upward notifications
             if (element is EntryElement)
-                (element as EntryElement).ValueChanged += HandleValueChangedEvent;
+                (element as EntryElement).Changed += HandleValueChangedEvent;
             else if (element is BooleanElement)
-                (element as BooleanElement).ValueChanged += HandleValueChangedEvent;
+                (element as BooleanElement).Changed += HandleValueChangedEvent;
             else if (element is CheckboxElement)
-                (element as CheckboxElement).ValueChanged += HandleValueChangedEvent;
+                (element as CheckboxElement).Changed += HandleValueChangedEvent;
             else if (element is RootElement)
                 (element as RootElement).RadioSelectionChanged += HandleValueChangedEvent;
         }

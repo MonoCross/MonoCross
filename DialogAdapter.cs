@@ -9,11 +9,18 @@ namespace Android.Dialog
     {
         private readonly Context _context;
 
-        public DialogAdapter(Context context, RootElement root)
+        public DialogAdapter(Context context, RootElement root, ListView listView = null)
         {
             _context = context;
             Root = root;
             Root.Context = _context;
+
+            // This is only really required when using a DialogAdapter with a ListView, in a non DialogActivity based activity.
+            if (listView != null)
+            {
+                listView.ItemClick += ListView_ItemClick;
+                listView.ItemLongClick += ListView_ItemLongClick;
+            }
         }
 
         public RootElement Root { get; set; }
