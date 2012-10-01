@@ -16,6 +16,7 @@ namespace Android.Dialog
     
     public enum UIKeyboardType
     {
+        Default,
         NumberPad,
         DecimalPad,
         ASCIICapable,
@@ -43,6 +44,7 @@ namespace Android.Dialog
     {
         public static readonly Dictionary<UIKeyboardType, InputTypes> KeyboardTypeMap = new Dictionary<UIKeyboardType, InputTypes>
         {
+            { UIKeyboardType.Default, InputTypes.ClassText },
             { UIKeyboardType.DecimalPad, InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned },
             { UIKeyboardType.NumberPad, InputTypes.ClassNumber },
             { UIKeyboardType.PhonePad, InputTypes.ClassPhone },
@@ -69,7 +71,7 @@ namespace Android.Dialog
 
         public static InputTypes InputTypesFromUIKeyboardType(this UIKeyboardType keyboardType)
         {
-            return KeyboardTypeMap.ContainsKey(keyboardType) ? KeyboardTypeMap[keyboardType] :InputTypes.ClassText;
+            return KeyboardTypeMap.ContainsKey(keyboardType) ? KeyboardTypeMap[keyboardType] : InputTypes.ClassText;
         }
     }
 }
