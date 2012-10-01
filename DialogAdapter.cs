@@ -16,10 +16,31 @@ namespace Android.Dialog
             Root.Context = _context;
 
             // This is only really required when using a DialogAdapter with a ListView, in a non DialogActivity based activity.
-            if (listView != null)
+            List = listView;
+            RegisterListView();
+        }
+
+        public ListView List { get; set; }
+
+        private readonly object _syncLock = new object();
+        public void RegisterListView()
+        {
+            lock (_syncLock)
             {
-                listView.ItemClick += ListView_ItemClick;
-                listView.ItemLongClick += ListView_ItemLongClick;
+                if (List == null) return;
+                List.ItemClick += ListView_ItemClick;
+                List.ItemLongClick += ListView_ItemLongClick;
+            }
+        }
+
+        public void DeregisterListView()
+        {
+            lock (_syncLock)
+            {
+                if (List == null) return;
+                List.ItemClick -= ListView_ItemClick;
+                List.ItemLongClick -= ListView_ItemLongClick;
+                List = null;
             }
         }
 
@@ -141,6 +162,12 @@ namespace Android.Dialog
             var elem = ElementAtIndex(e.Position);
             if (elem != null && elem.LongClick != null)
                 elem.LongClick(sender, e);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            DeregisterListView();
+            base.Dispose(disposing);
         }
     }
 }
