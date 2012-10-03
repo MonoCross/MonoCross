@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{02D6B168-A9C0-4CB1-BCFF-D2A3428579F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android.Dialog", "..\..\..\Android.Dialog\Android.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android.Dialog", "..\..\Android.Dialog\Android.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
