@@ -19,8 +19,21 @@ namespace Android.Dialog
                     _dialogAdapter.DeregisterListView();
                 }
 
-                ListAdapter = _dialogAdapter = new DialogAdapter(Activity, value, ListView);
+                _dialogAdapter = new DialogAdapter(Activity, value);
             }
+        }
+
+        public override Views.View OnCreateView(Views.LayoutInflater p0, Views.ViewGroup p1, OS.Bundle p2)
+        {
+            ListAdapter = _dialogAdapter;
+            return base.OnCreateView(p0, p1, p2);
+        }
+
+        public override void OnViewCreated(Views.View p0, OS.Bundle p1)
+        {
+            _dialogAdapter.List = ListView;
+            _dialogAdapter.RegisterListView();
+            base.OnViewCreated(p0, p1);
         }
 
         private DialogAdapter _dialogAdapter;
