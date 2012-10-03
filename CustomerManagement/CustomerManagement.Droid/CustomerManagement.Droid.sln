@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Droid", "CustomerManagement.Droid.csproj", "{4A9648A5-460A-48FC-B85B-609FC478EC04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Shared.MD", "..\..\CustomerManagement.Shared\CustomerManagement.Shared.MD.csproj", "{27513705-0A31-4A9F-9393-76B6C3CEA1AD}"
@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Droid", "..\..\MonoCross.Droid\MonoCross.Droid.csproj", "{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Utilities.MD", "..\..\MonoCross.Utilities\MonoCross.Utilities.MD.csproj", "{1657B775-3827-40DA-98AF-F8D9CAB44FDA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation.MD", "..\..\MonoCross.Navigation\MonoCross.Navigation.MD.csproj", "{0D2CC54A-4716-40B9-8110-453F528810FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.MD", "..\CustomerManagement\CustomerManagement.MD.csproj", "{E96F8E77-2C7E-480D-8830-D8FEA6AD38AC}"
@@ -21,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{02D6B168-A9C0-4CB1-BCFF-D2A3428579F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android.Dialog", "..\..\Android.Dialog\Android.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android.Dialog", "..\..\..\Android.Dialog\Android.Dialog.csproj", "{33044C7B-47A4-4113-A61A-EB429407F818}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1657B775-3827-40DA-98AF-F8D9CAB44FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D2CC54A-4716-40B9-8110-453F528810FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D2CC54A-4716-40B9-8110-453F528810FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D2CC54A-4716-40B9-8110-453F528810FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,7 +65,6 @@ Global
 		{4A9648A5-460A-48FC-B85B-609FC478EC04} = {FFE0FE20-C040-4B94-9C7F-646AACCDBA27}
 		{69AA2818-CD47-4DD4-8E51-CFE4DADC0725} = {02D6B168-A9C0-4CB1-BCFF-D2A3428579F4}
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9} = {427890BB-22DF-4371-85DC-2B06C6C4D393}
-		{1657B775-3827-40DA-98AF-F8D9CAB44FDA} = {427890BB-22DF-4371-85DC-2B06C6C4D393}
 		{0D2CC54A-4716-40B9-8110-453F528810FC} = {427890BB-22DF-4371-85DC-2B06C6C4D393}
 		{33044C7B-47A4-4113-A61A-EB429407F818} = {427890BB-22DF-4371-85DC-2B06C6C4D393}
 	EndGlobalSection

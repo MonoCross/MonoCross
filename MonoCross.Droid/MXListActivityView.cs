@@ -40,4 +40,3 @@ namespace MonoCross.Droid
         public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(this.Model); }
     }
 }
-

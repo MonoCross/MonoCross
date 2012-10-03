@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
+using Android.Support.V4.App;
 using MonoCross.Droid;
 using MonoCross.Navigation;
 
@@ -18,34 +13,46 @@ using CustomerManagement.Shared.Model;
 
 namespace CustomerManagement.Droid
 {
-    [Activity(Label = "SplashScreenActivity", Theme = "@android:style/Theme.Black.NoTitleBar", MainLauncher = true, Icon = "@drawable/icon", NoHistory = true)]
-    public class SplashScreenActivity: Activity
+    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon")]
+    public class MainActivity : FragmentActivity
     {
+        private bool firstRun = true;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             // assign a layout with an image
-            SetContentView(Resource.Layout.Splash);
+            SetContentView(Resource.Layout.Main);
 
             CheckFiles(ApplicationContext);
 
             // initialize app
-            MXDroidContainer.Initialize(new CustomerManagement.App(), this.ApplicationContext);
+            MXDroidContainer.Initialize(new App(), ApplicationContext);
+            MXDroidContainer.NavigationHandler = FragmentHandler;
 
             // initialize views
-            MXDroidContainer.AddView<List<Customer>>(typeof(Views.CustomerListView), ViewPerspective.Default);
-            MXDroidContainer.AddView<Customer>(typeof(Views.CustomerView), ViewPerspective.Default);
-            MXDroidContainer.AddView<Customer>(typeof(Views.CustomerEditView), ViewPerspective.Update);
+            MXContainer.AddView<List<Customer>>(typeof(Views.CustomerListView), ViewPerspective.Default);
+            MXContainer.AddView<Customer>(typeof(Views.CustomerView), ViewPerspective.Default);
+            MXContainer.AddView<Customer>(typeof(Views.CustomerEditView), ViewPerspective.Update);
 
             // navigate to first view
-            MXDroidContainer.Navigate(null, MXContainer.Instance.App.NavigateOnLoad);
+            MXContainer.Navigate(null, MXContainer.Instance.App.NavigateOnLoad);
         }
 
-        protected override void OnResume()
+        /// <summary>
+        /// Custom navigation handler for Fragments
+        /// </summary>
+        /// <param name="viewType">The Type of the view receiving navigation</param>
+        private void FragmentHandler(Type viewType)
         {
-			base.OnResume();
-			
+            RunOnUiThread(() =>
+            {
+                var transaction = SupportFragmentManager.BeginTransaction();
+                transaction.Replace(Resource.Id.main, (Fragment)Activator.CreateInstance(viewType));
+                if (firstRun) firstRun = false;
+                else transaction.AddToBackStack(null);
+                transaction.Commit();
+            });
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace CustomerManagement.Droid
         /// </summary>
         public void CopyStream(Stream input, Stream output)
         {
-            byte[] buffer = new byte[8 * 1024];
+            var buffer = new byte[8 * 1024];
             int len;
             while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
             {

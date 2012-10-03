@@ -1,34 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 
 using MonoCross.Navigation;
 using Android.Dialog;
 
 namespace MonoCross.Droid
 {
-    public class MXDialogActivityView
-    {
-        public MXDialogActivityView ()
-        {
-        }
-    }
-
     public abstract class MXDialogActivityView<T> : DialogActivity, IMXView
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-			// fetch the model before rendering!!!
+            // fetch the model before rendering!!!
             Model = (T)MXDroidContainer.ViewModels[typeof(T)];
 
             // render the model within the view
@@ -45,7 +29,6 @@ namespace MonoCross.Droid
 
         public event ModelEventHandler ViewModelChanged;
         public virtual void OnViewModelChanged(object model) { }
-        public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(this.Model); }
+        public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(Model); }
     }
 }
-

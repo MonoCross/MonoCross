@@ -17,6 +17,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v2.2</TargetFrameworkVersion>
+    <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +52,7 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SplashScreenActivity.cs" />
+    <Compile Include="MainActivity.cs" />
     <Compile Include="Views\CustomerEditView.cs" />
     <Compile Include="Views\CustomerListView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -70,16 +74,16 @@
     <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_edit.png" />
     <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_mark.png" />
     <AndroidResource Include="Resources\Drawable-hdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Layout\Main.axml" />
+    <AndroidResource Include="Resources\Layout\Main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Android.Dialog\Android.Dialog.csproj">
-      <Project>{33044C7B-47A4-4113-A61A-EB429407F818}</Project>
+    <ProjectReference Include="..\..\..\Android.Dialog\Android.Dialog.csproj">
+      <Project>{33044c7b-47a4-4113-a61a-eb429407f818}</Project>
       <Name>Android.Dialog</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\CustomerManagement.Data\CustomerManagement.Data.MD.csproj">
@@ -173,6 +177,7 @@
     </AndroidAsset>
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\Menu\customer_edit_menu.xml" />
+    <AndroidJavaLibrary Include="SupportLib\android-support-v4.jar" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
