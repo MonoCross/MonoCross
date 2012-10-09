@@ -14,12 +14,11 @@ namespace Android.Dialog
                 value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
 
-                if (_dialogAdapter != null)
-                {
-                    _dialogAdapter.DeregisterListView();
-                }
+                if (_dialogAdapter == null)
+                    _dialogAdapter = new DialogAdapter(Activity, value);
+                else
+                    _dialogAdapter.Root = value;
 
-                _dialogAdapter = new DialogAdapter(Activity, value);
             }
         }
 
@@ -31,6 +30,7 @@ namespace Android.Dialog
 
         public override void OnViewCreated(Views.View p0, OS.Bundle p1)
         {
+            if (_dialogAdapter == null) return;
             _dialogAdapter.List = ListView;
             _dialogAdapter.RegisterListView();
             base.OnViewCreated(p0, p1);

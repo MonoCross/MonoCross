@@ -1,5 +1,7 @@
 using System.Linq;
+using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Views;
 using Android.Widget;
 
@@ -12,7 +14,7 @@ namespace Android.Dialog
         public DialogAdapter(Context context, RootElement root, ListView listView = null)
         {
             _context = context;
-            Root = root;
+            _root = root;
             Root.Context = _context;
 
             // This is only really required when using a DialogAdapter with a ListView, in a non DialogActivity based activity.
@@ -44,7 +46,16 @@ namespace Android.Dialog
             }
         }
 
-        public RootElement Root { get; set; }
+        private RootElement _root;
+        public RootElement Root
+        {
+            get { return _root; }
+            set
+            {
+                _root = value;
+                ReloadData();
+            }
+        }
 
         public override bool IsEnabled(int position)
         {
@@ -132,10 +143,13 @@ namespace Android.Dialog
 
         public void ReloadData()
         {
-            if (Root != null)
+            ((Activity)_context).RunOnUiThread(() =>
             {
-                NotifyDataSetChanged();
-            }
+                if (Root != null)
+                {
+                    NotifyDataSetChanged();
+                }
+            });
         }
 
         /// <summary>
