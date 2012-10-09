@@ -4,16 +4,19 @@ using System.IO;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Views;
 using MonoCross.Droid;
 using MonoCross.Navigation;
 
 using CustomerManagement.Shared.Model;
+using Fragment = Android.Support.V4.App.Fragment;
 
 namespace CustomerManagement.Droid
 {
-    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainActivity : FragmentActivity
     {
         private bool firstRun = true;
