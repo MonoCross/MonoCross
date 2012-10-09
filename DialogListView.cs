@@ -16,12 +16,10 @@ namespace Android.Dialog
                 value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
 
-                if (_dialogAdapter != null)
-                {
-                    _dialogAdapter.DeregisterListView();
-                }
-
-                Adapter = _dialogAdapter = new DialogAdapter(Context, value, this);
+                if (_dialogAdapter == null)
+                    Adapter = _dialogAdapter = new DialogAdapter(Context, value, this);
+                else
+                    _dialogAdapter.Root = value;
             }
         }
         private DialogAdapter _dialogAdapter;
