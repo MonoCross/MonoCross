@@ -58,14 +58,17 @@ namespace CustomerManagement.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060011
-			public const int add_customer = 2131099665;
-			
 			// aapt resource value: 0x7f060012
-			public const int change_customer = 2131099666;
+			public const int add_customer = 2131099666;
 			
 			// aapt resource value: 0x7f060013
-			public const int delete_customer = 2131099667;
+			public const int change_customer = 2131099667;
+			
+			// aapt resource value: 0x7f060014
+			public const int delete_customer = 2131099668;
+			
+			// aapt resource value: 0x7f06000f
+			public const int detail_fragment = 2131099663;
 			
 			// aapt resource value: 0x7f060000
 			public const int dialog_BoolField = 2131099648;
@@ -106,11 +109,11 @@ namespace CustomerManagement.Droid
 			// aapt resource value: 0x7f06000c
 			public const int iFormFieldValue = 2131099660;
 			
-			// aapt resource value: 0x7f06000f
-			public const int main = 2131099663;
-			
 			// aapt resource value: 0x7f060010
-			public const int save_customer = 2131099664;
+			public const int master_fragment = 2131099664;
+			
+			// aapt resource value: 0x7f060011
+			public const int save_customer = 2131099665;
 			
 			// aapt resource value: 0x7f06000d
 			public const int text1 = 2131099661;

@@ -17,6 +17,7 @@ namespace CustomerManagement.Droid.Views
         public override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            MXContainer.AddView<Customer>(this);
             SetHasOptionsMenu(true);
         }
 
@@ -41,6 +42,12 @@ namespace CustomerManagement.Droid.Views
                     new StringElement("Contacts ", Model.Contacts.Count.ToString(CultureInfo.InvariantCulture)),
                 },
             };
+        }
+
+        public override void OnDestroy()
+        {
+            MXContainer.AddView<Customer>(GetType());
+            base.OnDestroy();
         }
 
         void LaunchWeb()
@@ -84,6 +91,11 @@ namespace CustomerManagement.Droid.Views
                     return true;
             }
             return base.OnOptionsItemSelected(item);
+        }
+
+        public override void OnViewModelChanged(object model)
+        {
+            Render();
         }
     }
 }

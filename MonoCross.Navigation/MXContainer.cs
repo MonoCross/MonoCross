@@ -329,8 +329,8 @@ namespace MonoCross.Navigation
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
 #endif
-                _typeMap.Add(perspective, viewType);
-                _viewMap.Add(perspective, null);
+                _typeMap[perspective] = viewType;
+                _viewMap[perspective] = null;
 
 
                 MXViewPerspective vp = new MXViewPerspective(perspective.ModelType, perspective.Perspective);
@@ -340,8 +340,8 @@ namespace MonoCross.Navigation
 
             public void Add(MXViewPerspective perspective, IMXView view)
             {
-                _viewMap.Add(perspective, view);
-                _typeMap.Add(perspective, view.GetType());
+                _viewMap[perspective] = view;
+                _typeMap[perspective] = view.GetType();
             }
 
             public Type GetViewType(MXViewPerspective viewPerspective)

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -17,12 +16,21 @@ namespace CustomerManagement.Droid.Views
     {
         class CustomerAdapter : ArrayAdapter<Customer>
         {
-            List<Customer> items;
+            private List<Customer> _items = null;
+            public List<Customer> Items
+            {
+                get { return _items; }
+                set
+                {
+                    _items = value;
+                    ((Activity)Context).RunOnUiThread(NotifyDataSetChanged);
+                }
+            }
 
             public CustomerAdapter(Context context, int textViewResourceId, List<Customer> items)
                 : base(context, textViewResourceId, items)
             {
-                this.items = items;
+                _items = items;
             }
 
             public override View GetView(int position, View convertView, ViewGroup parent)
@@ -34,7 +42,7 @@ namespace CustomerManagement.Droid.Views
                     v = li.Inflate(Android.Resource.Layout.SimpleListItem2, null);
                 }
 
-                Customer o = items[position];
+                Customer o = Items[position];
                 if (o != null)
                 {
                     TextView tt = (TextView)v.FindViewById(Android.Resource.Id.Text1);
@@ -46,17 +54,27 @@ namespace CustomerManagement.Droid.Views
                 }
                 return v;
             }
+
+            public override int Count
+            {
+                get { return Items.Count; }
+            }
         }
+
+        private CustomerAdapter _adapter;
 
         public override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            //Register view for model updates
+            MXContainer.AddView<List<Customer>>(this);
             SetHasOptionsMenu(true);
         }
 
         public override void OnListItemClick(ListView l, View v, int position, long id)
         {
             base.OnListItemClick(l, v, position, id);
+            ((MainActivity)Activity).ReloadDetail = true;
             this.Navigate(string.Format("Customers/{0}", Model[position].ID));
         }
 
@@ -71,16 +89,21 @@ namespace CustomerManagement.Droid.Views
             switch (item.ItemId)
             {
                 case Resource.Id.add_customer:
+                    ((MainActivity) Activity).ReloadDetail = true;
                     AddCustomer();
                     return true;
             }
             return base.OnOptionsItemSelected(item);
         }
 
-        public override View OnCreateView(LayoutInflater p0, ViewGroup p1, Android.OS.Bundle p2)
+        public override void Render()
         {
-            ListAdapter = new CustomerAdapter(Activity, 0, Model);
-            return base.OnCreateView(p0, p1, p2);
+            ListAdapter = _adapter = new CustomerAdapter(Activity, 0, Model);
+        }
+
+        public override void OnViewModelChanged(object model)
+        {
+            _adapter.Items = (List<Customer>)model;
         }
 
         void AddCustomer()

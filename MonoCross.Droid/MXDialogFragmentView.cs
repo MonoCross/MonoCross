@@ -12,15 +12,21 @@ namespace MonoCross.Droid
             base.OnCreate(bundle);
 
             // fetch the model before rendering!!!
-            Model = (T)MXDroidContainer.ViewModels[typeof(T)];
-
+            _model = (T)MXDroidContainer.ViewModels[typeof(T)];
+            ViewModelChanged += OnViewModelChanged;
             // render the model within the view
             Render();
         }
 
-        public T Model { get; set; }
+        private T _model;
+        public T Model
+        {
+            get { return _model; }
+            set { _model = value; NotifyModelChanged(); }
+        }
         public Type ModelType { get { return typeof(T); } }
         public abstract void Render();
+
         public void SetModel(object model)
         {
             Model = (T)model;
@@ -28,6 +34,10 @@ namespace MonoCross.Droid
 
         public event ModelEventHandler ViewModelChanged;
         public virtual void OnViewModelChanged(object model) { }
-        public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(Model); }
+        public void NotifyModelChanged()
+        {
+            if (ViewModelChanged != null) ViewModelChanged(Model);
+            ReloadData();
+        }
     }
 }

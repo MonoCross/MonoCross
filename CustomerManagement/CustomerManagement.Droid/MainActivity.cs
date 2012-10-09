@@ -8,6 +8,8 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
+using Android.Widget;
+using CustomerManagement.Droid.Views;
 using MonoCross.Droid;
 using MonoCross.Navigation;
 
@@ -16,10 +18,13 @@ using Fragment = Android.Support.V4.App.Fragment;
 
 namespace CustomerManagement.Droid
 {
-    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.AdjustPan)]
+    [Activity(Label = "@string/ApplicationName",
+        MainLauncher = true,
+        Icon = "@drawable/icon",
+        ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize,
+        WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainActivity : FragmentActivity
     {
-        private bool firstRun = true;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -34,13 +39,15 @@ namespace CustomerManagement.Droid
             MXDroidContainer.NavigationHandler = FragmentHandler;
 
             // initialize views
-            MXContainer.AddView<List<Customer>>(typeof(Views.CustomerListView), ViewPerspective.Default);
-            MXContainer.AddView<Customer>(typeof(Views.CustomerView), ViewPerspective.Default);
-            MXContainer.AddView<Customer>(typeof(Views.CustomerEditView), ViewPerspective.Update);
+            MXContainer.AddView<List<Customer>>(typeof(CustomerListView), ViewPerspective.Default);
+            MXContainer.AddView<Customer>(typeof(CustomerView), ViewPerspective.Default);
+            MXContainer.AddView<Customer>(typeof(CustomerEditView), ViewPerspective.Update);
 
             // navigate to first view
             MXContainer.Navigate(null, MXContainer.Instance.App.NavigateOnLoad);
         }
+
+        public bool ReloadDetail { get; set; }
 
         /// <summary>
         /// Custom navigation handler for Fragments
@@ -50,11 +57,36 @@ namespace CustomerManagement.Droid
         {
             RunOnUiThread(() =>
             {
-                var transaction = SupportFragmentManager.BeginTransaction();
-                transaction.Replace(Resource.Id.main, (Fragment)Activator.CreateInstance(viewType));
-                if (firstRun) firstRun = false;
-                else transaction.AddToBackStack(null);
-                transaction.Commit();
+                var perspective = MXContainer.Instance.Views.GetViewPerspectiveForViewType(viewType);
+                var mxView = MXContainer.Instance.Views.GetView(perspective);
+                var view = FindViewById<FrameLayout>(Resource.Id.master_fragment);
+
+                if (mxView == null)
+                {
+                    if (view == null) ReloadDetail = false;
+                    var targetFragment = view != null && view.ChildCount < 1 ? Resource.Id.master_fragment : Resource.Id.detail_fragment;
+                    view = FindViewById<FrameLayout>(Resource.Id.detail_fragment);
+                    var transaction = SupportFragmentManager.BeginTransaction();
+                    if (view != null && view.ChildCount > 0 && !ReloadDetail)
+                    {
+                        transaction.SetTransition(Android.Support.V4.App.FragmentTransaction.TransitFragmentOpen);
+                        transaction.AddToBackStack(null);
+                    }
+                    transaction.Replace(targetFragment, (Fragment)Activator.CreateInstance(viewType));
+                    transaction.Commit();
+                }
+                else
+                {
+                    SupportFragmentManager.PopBackStackImmediate(null, Android.Support.V4.App.FragmentManager.PopBackStackInclusive);
+
+                    if (view != null && !ReloadDetail)
+                    {
+                        var transaction = SupportFragmentManager.BeginTransaction();
+                        transaction.Remove(SupportFragmentManager.FindFragmentById(Resource.Id.detail_fragment));
+                        transaction.Commit();
+                    }
+                }
+                ReloadDetail = false;
             });
         }
 

@@ -13,15 +13,24 @@ namespace MonoCross.Droid
 
             // fetch the model before rendering!!!
             Model = (T)MXDroidContainer.ViewModels[typeof(T)];
+            ViewModelChanged += OnViewModelChanged;
         }
 
-        public T Model { get; set; }
+        private T _model;
+        public T Model
+        {
+            get { return _model; }
+            set { _model = value; NotifyModelChanged(); }
+        }
         public Type ModelType { get { return typeof(T); } }
 
-        /// <summary>
-        /// Required for interface. Use OnCreateView to build Fragment UI.
-        /// </summary>
-        public virtual void Render() { }
+        public abstract void Render();
+
+        public override Android.Views.View OnCreateView(Android.Views.LayoutInflater p0, Android.Views.ViewGroup p1, Bundle p2)
+        {
+            Render();
+            return base.OnCreateView(p0, p1, p2);
+        }
 
         public void SetModel(object model)
         {
