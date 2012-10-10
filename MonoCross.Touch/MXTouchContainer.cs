@@ -306,6 +306,12 @@ namespace MonoCross.Touch
 				foreach (MXTouchViewGroup vg in ViewGroups)
 				{
 					viewGroupItem = vg.Items.Find( item => item.ViewType == controller.View.GetType() );
+
+					//use interface to group more than one view in one tab (gruop-item)
+					// example: ICustomerViewGroup implemented in CustomerListView, CustomerView, CustomerEditView
+					if (viewGroupItem == null)
+						viewGroupItem = vg.Items.Find( item => controller.View.GetType().GetInterface(item.ViewType.ToString()) != null );
+
 					if (viewGroupItem != null) {
 						viewGroup = vg;
 						break;
