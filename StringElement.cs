@@ -42,7 +42,7 @@ namespace Android.Dialog
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             var view = DroidResources.LoadStringElementLayout(context, convertView, parent, LayoutId, out _caption, out _text);
-            if (view != null)
+            if (view != null && _caption != null && _text != null)
             {
                 _caption.Text = Caption;
                 _caption.Visibility = Caption == null ? ViewStates.Gone : ViewStates.Visible;
@@ -79,6 +79,15 @@ namespace Android.Dialog
         }
     }
 
+    #region Compatibility classes
+    public class MultilineElement : StringElement
+    {
+        public MultilineElement(string caption) : base(caption) { }
+        public MultilineElement(string caption, int layoutId) : base(caption, layoutId) { }
+        public MultilineElement(string caption, string value) : base(caption, value) { }
+        public MultilineElement(string caption, string value, int layoutId) : base(caption, value, layoutId) { }
+    }
+
     public class StringMultilineElement : StringElement
     {
         public StringMultilineElement(string caption) : base(caption) { }
@@ -86,4 +95,13 @@ namespace Android.Dialog
         public StringMultilineElement(string caption, string value) : base(caption, value) { }
         public StringMultilineElement(string caption, string value, int layoutId) : base(caption, value, layoutId) { }
     }
+
+    public class StyledMultilineElement : StringElement
+    {
+        public StyledMultilineElement(string caption) : base(caption) { }
+        public StyledMultilineElement(string caption, int layoutId) : base(caption, layoutId) { }
+        public StyledMultilineElement(string caption, string value) : base(caption, value) { }
+        public StyledMultilineElement(string caption, string value, int layoutId) : base(caption, value, layoutId) { }
+    }
+    #endregion
 }

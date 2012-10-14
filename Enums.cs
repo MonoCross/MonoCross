@@ -8,12 +8,12 @@ namespace Android.Dialog
     {
         DisclosureIndicator,
     }
-    
+
     public enum UITextFieldViewMode
     {
         WhileEditing,
     }
-    
+
     public enum UIKeyboardType
     {
         Default,
@@ -25,7 +25,7 @@ namespace Android.Dialog
         NamePhonePad,
         NumbersAndPunctuation,
     }
-    
+
     public enum UIReturnKeyType
     {
         Default,
@@ -38,7 +38,7 @@ namespace Android.Dialog
         Send,
         Yahoo,
         Done,
-    }    
+    }
 
     public static class AndroidDialogEnumHelper
     {

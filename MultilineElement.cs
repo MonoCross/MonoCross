@@ -7,19 +7,16 @@ namespace Android.Dialog
     {
         public int MaxLength { get; set; }
         public MultilineEntryElement(string caption, string value)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_textarea)
+            : base(caption, value, (int)DroidResources.ElementLayout.dialog_textfieldbelow)
         {
             Lines = 3;
         }
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
-            var view = DroidResources.LoadMultilineElementLayout(context, convertView, parent, LayoutId, out _entry);
+            var view = base.GetView(context, convertView, parent);
             if (_entry != null)
             {
-                _entry.SetLines(Lines);
-                _entry.Text = Value;
-                _entry.Hint = Caption;
                 _entry.TextChanged += delegate
                 {
                     if (MaxLength > 0 && _entry.Text.Length > MaxLength)

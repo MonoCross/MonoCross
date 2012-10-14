@@ -75,7 +75,13 @@ namespace Android.Dialog
         }
 
         public string Hint { get; set; }
-        public int Lines { get; set; }
+
+        public int Rows { get; set; }
+        public int Lines
+        {
+            get { return Rows; }
+            set { Rows = value; }
+        }
 
         /// <summary>
         /// An action to perform when Enter is hit
