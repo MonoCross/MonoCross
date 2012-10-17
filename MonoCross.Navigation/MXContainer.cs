@@ -114,7 +114,7 @@ namespace MonoCross.Navigation
                 string sessionId = string.Empty;
                 if (GetSessionId != null)
                     sessionId = GetSessionId();
-                return instances[sessionId] ?? null;
+                return instances.ContainsKey(sessionId) ? instances[sessionId] : null;
             }
         }
         // kept in a map for use in server environments (WebKit)

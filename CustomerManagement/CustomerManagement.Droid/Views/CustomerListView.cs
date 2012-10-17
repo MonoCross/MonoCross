@@ -101,7 +101,7 @@ namespace CustomerManagement.Droid.Views
             ListAdapter = _adapter = new CustomerAdapter(Activity, 0, Model);
         }
 
-        public override void OnViewModelChanged(object model)
+        protected override void OnViewModelChanged(object model)
         {
             _adapter.Items = (List<Customer>)model;
         }
