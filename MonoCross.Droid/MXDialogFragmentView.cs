@@ -1,7 +1,9 @@
-using System;
 using Android.Dialog;
 using Android.OS;
 using MonoCross.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoCross.Droid
 {
@@ -12,7 +14,22 @@ namespace MonoCross.Droid
             base.OnCreate(bundle);
 
             // fetch the model before rendering!!!
-            _model = (T)MXDroidContainer.ViewModels[typeof(T)];
+            var t = typeof(T);
+            if (MXDroidContainer.ViewModels.ContainsKey(t))
+            {
+                _model = (T)MXDroidContainer.ViewModels[t];
+            }
+            else
+            {
+                var mapping = MXContainer.Instance.App.NavigationMap.FirstOrDefault(layer => layer.Controller.ModelType == t);
+                if (mapping == null)
+                {
+                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t);
+                }
+                mapping.Controller.Load(new Dictionary<string, string>());
+                _model = (T)mapping.Controller.GetModel();
+            }
+			
             ViewModelChanged += OnViewModelChanged;
             // render the model within the view
             Render();
@@ -33,8 +50,12 @@ namespace MonoCross.Droid
         }
 
         public event ModelEventHandler ViewModelChanged;
-        public virtual void OnViewModelChanged(object model) { }
-        public void NotifyModelChanged()
+        protected virtual void OnViewModelChanged(object model) { }
+
+        /// <summary>
+        /// Fires OnViewModelChanged and refreshes the view
+        /// </summary>
+        private void NotifyModelChanged()
         {
             if (ViewModelChanged != null) ViewModelChanged(Model);
             ReloadData();

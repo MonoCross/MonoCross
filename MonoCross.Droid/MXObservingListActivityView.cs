@@ -37,7 +37,21 @@ namespace MonoCross.Droid
             base.OnCreate(bundle);
 
             // fetch the model before rendering!!!
-            SetModel((T)MXDroidContainer.ViewModels[typeof(T)]);
+            var t = typeof(T);
+            if (MXDroidContainer.ViewModels.ContainsKey(t))
+            {
+                SetModel(MXDroidContainer.ViewModels[t]);
+            }
+            else
+            {
+                var mapping = MXContainer.Instance.App.NavigationMap.FirstOrDefault(layer => layer.Controller.ModelType == t);
+                if (mapping == null)
+                {
+                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t);
+                }
+                mapping.Controller.Load(new Dictionary<string, string>());
+                SetModel(mapping.Controller.GetModel());
+            }
 
             // render the model within the view
             Render();
