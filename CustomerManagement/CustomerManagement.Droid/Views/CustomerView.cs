@@ -50,6 +50,7 @@ namespace CustomerManagement.Droid.Views
             base.OnDestroy();
         }
 
+        #region Launchers
         void LaunchWeb()
         {
             var newIntent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(Model.Website));
@@ -72,7 +73,8 @@ namespace CustomerManagement.Droid.Views
             var newIntent = new Intent(Intent.ActionDial, Android.Net.Uri.Parse("tel:" + phoneNumber));
             StartActivity(newIntent);
         }
-
+        #endregion
+        #region Menu
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             inflater.Inflate(Resource.Menu.customer_menu, menu);
@@ -92,8 +94,9 @@ namespace CustomerManagement.Droid.Views
             }
             return base.OnOptionsItemSelected(item);
         }
+        #endregion
 
-        public override void OnViewModelChanged(object model)
+        protected override void OnViewModelChanged(object model)
         {
             Render();
         }

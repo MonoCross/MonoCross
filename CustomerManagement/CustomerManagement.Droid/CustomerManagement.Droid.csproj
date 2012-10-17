@@ -64,13 +64,13 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\Splash.axml" />
-    <AndroidResource Include="Resources\Menu\customer_list_menu.xml" />
-    <AndroidResource Include="Resources\Menu\customer_menu.xml" />
+    <AndroidResource Include="Resources\Menu\customer_list_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Menu\customer_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\Layout\dialog_multiline_labelfieldbelow.xml" />
-    <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_add.png" />
-    <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_delete.png" />
-    <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_edit.png" />
-    <AndroidResource Include="Resources\Drawable-hdpi\ic_menu_mark.png" />
     <AndroidResource Include="Resources\Drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\Layout\Main.axml">
       <SubType>Designer</SubType>
@@ -173,8 +173,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <Content Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\Menu\customer_edit_menu.xml" />
+    <AndroidResource Include="Resources\Menu\customer_edit_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidJavaLibrary Include="SupportLib\android-support-v4.jar" />
+    <AndroidResource Include="Resources\Drawable-hdpi\content_edit.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\content_edit.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\content_discard.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\content_new.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\navigation_accept.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\content_new.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\navigation_accept.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\content_discard.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\content_new.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\navigation_accept.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\content_discard.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\content_edit.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

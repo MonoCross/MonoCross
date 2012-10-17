@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/save_customer" android:icon="@drawable/ic_menu_mark" android:titleCondensed="Save" android:title="Save Customer"/>
+  <item android:id="@+id/save_customer" android:icon="@drawable/navigation_accept" android:titleCondensed="Save" android:title="Save Customer"/>
 </menu>
