@@ -78,7 +78,7 @@ namespace Android.Dialog
             {
                 // ViewTypeCount is the same as Count for these,
                 // there are as many ViewTypes as Views as every one is unique!
-                return Count;
+                return Count > 0 ? Count : 1;
             }
         }
 

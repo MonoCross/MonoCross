@@ -109,7 +109,7 @@ namespace Android.Dialog
         /// </summary>
         public Element HeaderView
         {
-            get { return header as ViewElement; }
+            get { return header as Element; }
             set { header = value; }
         }
 
@@ -118,7 +118,7 @@ namespace Android.Dialog
         /// </summary>
         public Element FooterView
         {
-            get { return footer as ViewElement; }
+            get { return footer as Element; }
             set { footer = value; }
         }
 
