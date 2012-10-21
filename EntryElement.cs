@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.Content;
 using Android.Text;
 using Android.Views;
@@ -8,7 +7,7 @@ using Android.Views.InputMethods;
 
 namespace Android.Dialog
 {
-    public class EntryElement : Element, ITextWatcher
+    public class EntryElement : Element, ITextWatcher, View.IOnFocusChangeListener
     {
         public string Value
         {
@@ -18,8 +17,8 @@ namespace Android.Dialog
                 if (_entry != null && _val != value)
                 {
                     _val = value;
-                    if (_entry.Text != value)
-                        _entry.Text = value;
+                    if (_entry.Text != _val)
+                        _entry.Text = _val;
                     if (Changed != null)
                         Changed(this, EventArgs.Empty);
                 }
@@ -127,14 +126,21 @@ namespace Android.Dialog
                 }
                 else _entry.ImeOptions = ReturnKeyType.ImeActionFromUIReturnKeyType();
 
-                if (_entry.Tag != this)
+                if (_entry.Tag == null)
                 {
+                    _entry.Tag = this;
+                    _entry.AddTextChangedListener(this);
+                }
+                else if (_entry.Tag != this)
+                {
+                    _entry.RemoveTextChangedListener((ITextWatcher)_entry.Tag);
                     _entry.AddTextChangedListener(this);
                     if (Send != null)
                         _entry.EditorAction += _entry_EditorAction;
                 }
 
-                _entry.Tag = this;
+                _entry.OnFocusChangeListener = this;
+
                 if (label == null)
                 {
                     _entry.Hint = Caption;
@@ -185,6 +191,24 @@ namespace Android.Dialog
         public void BeforeTextChanged(Java.Lang.ICharSequence s, int start, int count, int after)
         {
             // nothing needed
+        }
+
+        #endregion
+
+        #region IOnFocusChangeListener Implementation
+
+        public void SetCanFocus(View v, bool canFocus)
+        {
+            if (v == null) return;
+            v.FocusableInTouchMode = canFocus;
+            v.Focusable = canFocus;
+            v.Clickable = canFocus;
+        }
+
+        public void OnFocusChange(View v, bool isFocused)
+        {
+            var parent = (View)v.Parent.Parent;
+            SetCanFocus(parent, !isFocused);
         }
 
         #endregion

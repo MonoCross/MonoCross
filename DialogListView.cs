@@ -9,20 +9,21 @@ namespace Android.Dialog
     {
         public RootElement Root
         {
-            get { return _dialogAdapter == null ? null : _dialogAdapter.Root; }
+            get { return DialogAdapter == null ? null : DialogAdapter.Root; }
             set
             {
                 value.Context = Context;
                 value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
 
-                if (_dialogAdapter == null)
-                    Adapter = _dialogAdapter = new DialogAdapter(Context, value, this);
+                if (DialogAdapter == null)
+                    Adapter = DialogAdapter = new DialogAdapter(Context, value, this);
                 else
-                    _dialogAdapter.Root = value;
+                    DialogAdapter.Root = value;
             }
         }
-        private DialogAdapter _dialogAdapter;
+
+        public DialogAdapter DialogAdapter { get; set; }
 
         public DialogListView(Context context) :
             base(context, null)
@@ -50,7 +51,7 @@ namespace Android.Dialog
         public void ReloadData()
         {
             if (Root == null) return;
-            _dialogAdapter.ReloadData();
+            DialogAdapter.ReloadData();
         }
     }
 }
