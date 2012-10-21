@@ -1,13 +1,13 @@
-using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Views;
 using Android.Widget;
+using System;
+using System.Linq;
 
 namespace Android.Dialog
 {
-    public class DialogAdapter : BaseAdapter<Section>
+    public class DialogAdapter : BaseAdapter<Section>, AdapterView.IOnItemClickListener, AdapterView.IOnItemLongClickListener
     {
         private readonly Context _context;
 
@@ -30,8 +30,11 @@ namespace Android.Dialog
             lock (_syncLock)
             {
                 if (List == null) return;
-                List.ItemClick += ListView_ItemClick;
-                List.ItemLongClick += ListView_ItemLongClick;
+                var elements = Root.Sections.SelectMany(e => e).ToList();
+                if (elements.Any(e => e.Click != null))
+                    List.OnItemClickListener = this;
+                if (elements.Any(e => e.LongClick != null))
+                    List.OnItemLongClickListener = this;
             }
         }
 
@@ -40,8 +43,10 @@ namespace Android.Dialog
             lock (_syncLock)
             {
                 if (List == null) return;
-                List.ItemClick -= ListView_ItemClick;
-                List.ItemLongClick -= ListView_ItemLongClick;
+                if (List.OnItemClickListener == this)
+                    List.OnItemClickListener = null;
+                if (List.OnItemLongClickListener == this)
+                    List.OnItemLongClickListener = null;
                 List = null;
             }
         }
@@ -152,31 +157,39 @@ namespace Android.Dialog
             });
         }
 
+        #region Implementation of IOnItemClickListener
+
         /// <summary>
         /// Handles the ItemClick event of the ListView control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="Android.Widget.AdapterView.ItemClickEventArgs"/> instance containing the event data.</param>
-        public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        public void OnItemClick(AdapterView parent, View view, int position, long id)
         {
-            var elem = ElementAtIndex(e.Position);
+            var elem = ElementAtIndex(position);
             if (elem == null) return;
             elem.Selected();
             if (elem.Click != null)
-                elem.Click(sender, e);
+                elem.Click(parent, EventArgs.Empty);
         }
+
+        #endregion
+
+        #region Implementation of IOnItemLongClickListener
 
         /// <summary>
         /// Handles the ItemLongClick event of the ListView control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="Android.Widget.AdapterView.ItemLongClickEventArgs"/> instance containing the event data.</param>
-        public void ListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        public bool OnItemLongClick(AdapterView parent, View view, int position, long id)
         {
-            var elem = ElementAtIndex(e.Position);
+            var elem = ElementAtIndex(position);
             if (elem != null && elem.LongClick != null)
-                elem.LongClick(sender, e);
+            {
+                elem.LongClick(parent, EventArgs.Empty);
+                return true;
+            }
+            return false;
         }
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {
