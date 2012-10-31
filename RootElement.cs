@@ -14,7 +14,6 @@ namespace Android.Dialog
         TextView _caption;
         TextView _value;
 
-
         internal Group _group;
         public bool UnevenRows;
         public Func<RootElement, View> _createOnSelected;
@@ -77,7 +76,9 @@ namespace Android.Dialog
         public RootElement(string caption, Group group)
             : base(caption, (int)DroidResources.ElementLayout.dialog_root)
         {
-            this._group = group;
+            _group = group;
+            if (_group is RadioGroup)
+                Click = (o, e) => SelectRadio();
         }
 
         /// <summary>
@@ -296,7 +297,6 @@ namespace Android.Dialog
                 {
                     _caption.Text = Caption;
                     _value.Text = radioValue;
-                    Click = (o, e) => SelectRadio();
                 }
             }
             //else if (_group != null)
