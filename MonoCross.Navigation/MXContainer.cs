@@ -390,7 +390,12 @@ namespace MonoCross.Navigation
 
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
-                return _typeMap.First(keyValuePair => keyValuePair.Value == viewType).Key;
+                //use interface to group more than one view in one tab (gruop-item)
+                //example: ICustomerViewGroup implemented in CustomerListView, CustomerView, CustomerEditView
+                KeyValuePair<MXViewPerspective, Type> kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType );
+                if(Object.ReferenceEquals(kvp.Key,null))
+    				kvp = _typeMap.FirstOrDefault( keyValuePair => !Object.ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString()),null) );
+                return kvp.Key;
             }
 
             internal void RenderView(MXViewPerspective viewPerspective, object model)
