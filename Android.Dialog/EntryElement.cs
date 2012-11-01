@@ -57,20 +57,18 @@ namespace Android.Dialog
         {
             get
             {
-                var type = AndroidDialogEnumHelper.KeyboardTypeMap[UIKeyboardType.EmailAddress];
-                return (_entry.InputType & type) == type;
+                return KeyboardType == UIKeyboardType.EmailAddress;
             }
-            set { if (value) _entry.InputType = AndroidDialogEnumHelper.KeyboardTypeMap[UIKeyboardType.EmailAddress]; }
+            set { if (value) KeyboardType = UIKeyboardType.EmailAddress; }
         }
 
         public bool Numeric
         {
             get
             {
-                var type = AndroidDialogEnumHelper.KeyboardTypeMap[UIKeyboardType.DecimalPad];
-                return (_entry.InputType & type) == type;
+                return KeyboardType == UIKeyboardType.DecimalPad;
             }
-            set { if (value) _entry.InputType = AndroidDialogEnumHelper.KeyboardTypeMap[UIKeyboardType.DecimalPad]; }
+            set { if (value) KeyboardType = UIKeyboardType.DecimalPad; }
         }
 
         public string Hint { get; set; }
