@@ -65,7 +65,7 @@ namespace Android.Dialog
         public override bool IsEnabled(int position)
         {
             var element = ElementAtIndex(position);
-            return !(element is Section) && element != null;
+            return !(element is Section) && element != null && element.IsSelectable;
         }
 
         public override int Count

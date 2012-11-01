@@ -243,6 +243,11 @@ namespace Android.Dialog
             }
         }
 
+        public override bool IsSelectable
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// The currently selected Radio item in the whole Root.
         /// </summary>

@@ -61,6 +61,11 @@ namespace Android.Dialog
             return Value;
         }
 
+        public override bool IsSelectable
+        {
+            get { return true; }
+        }
+
         public override bool Matches(string text)
         {
             return Value != null && Value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) != -1 || base.Matches(text);

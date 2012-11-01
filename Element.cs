@@ -52,8 +52,8 @@ namespace Android.Dialog
         /// <summary>
         /// Alternative alias to the click event, naming more like MonoTouch Dialog.
         /// </summary>
-        public EventHandler Tapped 
-        { 
+        public EventHandler Tapped
+        {
             get { return Click; }
             set { Click = value; }
         }
@@ -73,6 +73,17 @@ namespace Android.Dialog
         public virtual string Summary()
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Returns whether this element should be enabled in the ListView
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if this item should be enabled in a ListView; otherwise <c>false</c>.
+        /// </returns>
+        public virtual bool IsSelectable
+        {
+            get { return false; }
         }
 
         /// <summary>
