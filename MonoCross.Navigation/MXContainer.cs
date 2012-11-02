@@ -286,10 +286,10 @@ namespace MonoCross.Navigation
                     }
                 }
 
-                //Add default view parameters without overwriting current ones new comment here
+                //Add default view parameters without overwriting current ones
                 if (navigation.Parameters.Count > 0)
                 {
-                    foreach (KeyValuePair<string, string> param in navigation.Parameters)
+                    foreach (var param in navigation.Parameters)
                     {
                         if (!parameters.ContainsKey(param.Key))
                         {
@@ -297,18 +297,18 @@ namespace MonoCross.Navigation
                         }
                     }
                 }
+
+                controller.Uri = url;
+                controller.Parameters = parameters;
             }
             else
             {
 #if DEBUG
-                //				throw new Exception("URI match not found for: " + url);
+                //throw new Exception("URI match not found for: " + url);
 #else
                 // should log the message at least
 #endif
             }
-
-            controller.Uri = url;
-            controller.Parameters = parameters;
 
             return controller;
         }
@@ -353,21 +353,21 @@ namespace MonoCross.Navigation
 
             public IMXView GetView(MXViewPerspective viewPerspective)
             {
-                IMXView view = null;
+                IMXView view;
                 _viewMap.TryGetValue(viewPerspective, out view);
                 return view;
             }
 
             public IMXView GetOrCreateView(MXViewPerspective viewPerspective)
             {
-                IMXView view = null;
+                IMXView view;
                 if (_viewMap.TryGetValue(viewPerspective, out view))
                 {
                     // if we have a type registered and haven't yet created an instance, this will be null
                     if (view != null)
                         return view;
                 }
-                Type viewType = null;
+                Type viewType;
                 if (_typeMap.TryGetValue(viewPerspective, out viewType))
                 {
                     // Instantiate an instance of the view from it's type
@@ -378,7 +378,7 @@ namespace MonoCross.Navigation
                 else
                 {
                     // No view
-                    throw new ArgumentException("No View Perspective found for: " + viewPerspective.ToString(), "viewPerspective");
+                    throw new ArgumentException("No View Perspective found for: " + viewPerspective, "viewPerspective");
                 }
                 return view;
             }
@@ -391,7 +391,11 @@ namespace MonoCross.Navigation
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
                 // Check typemap values for either a concrete type or an interface
-                KeyValuePair<MXViewPerspective, Type> kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType || !Object.ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString()), null));
+                var kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType
+#if !NETFX_CORE
+                    || !ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString(), false), null)
+#endif
+                    );
                 return kvp.Key;
             }
 
@@ -401,7 +405,7 @@ namespace MonoCross.Navigation
                 if (view == null)
                 {
                     // No view perspective found for model
-                    throw new ArgumentException("No View Perspective found for: " + viewPerspective.ToString(), "viewPerspective");
+                    throw new ArgumentException("No View Perspective found for: " + viewPerspective, "viewPerspective");
                 }
                 view.SetModel(model);
                 view.Render();
