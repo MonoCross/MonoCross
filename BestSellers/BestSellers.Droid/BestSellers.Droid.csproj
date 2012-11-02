@@ -116,6 +116,9 @@
     <AndroidResource Include="Resources\Layout\dialog_selectlistfield.xml" />
     <AndroidResource Include="Resources\Layout\dialog_textarea.xml" />
     <AndroidResource Include="Resources\Layout\dialog_textfieldbelow.xml" />
+    <AndroidJavaLibrary Include="Resources\SupportLib\android-support-v4.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidJavaLibrary>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -391,7 +391,11 @@ namespace MonoCross.Navigation
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
                 // Check typemap values for either a concrete type or an interface
-                KeyValuePair<MXViewPerspective, Type> kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType || !Object.ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString()), null));
+                KeyValuePair<MXViewPerspective, Type> kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType 
+#if !SILVERLIGHT && !WINDOWS_PHONE
+                    || !Object.ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString()), null)
+#endif
+                    );
                 return kvp.Key;
             }
 
