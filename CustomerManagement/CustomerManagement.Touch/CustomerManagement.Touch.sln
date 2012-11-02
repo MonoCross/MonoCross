@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation.MT", "..\..\MonoCross.Navigation\MonoCross.Navigation.MT.csproj", "{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Utilities.MT", "..\..\MonoCross.Utilities\MonoCross.Utilities.MT.csproj", "{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Touch", "..\..\MonoCross.Touch\MonoCross.Touch.csproj", "{4F743690-64BD-4B1F-BD75-872C910A94E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTouch.Dialog", "..\..\MonoTouch.Dialog\MonoTouch.Dialog.csproj", "{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}"
@@ -81,14 +79,6 @@ Global
 		{47B205F6-5FDC-44B6-897D-4DE19422FC73}.Release|iPhone.Build.0 = Release|iPhone
 		{47B205F6-5FDC-44B6-897D-4DE19422FC73}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{47B205F6-5FDC-44B6-897D-4DE19422FC73}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Debug|iPhone.Build.0 = Debug|iPhone
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Release|iPhone.ActiveCfg = Release|iPhone
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Release|iPhone.Build.0 = Release|iPhone
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{4F743690-64BD-4B1F-BD75-872C910A94E2}.AdHoc|iPhone.ActiveCfg = Debug|iPhone
 		{4F743690-64BD-4B1F-BD75-872C910A94E2}.AdHoc|iPhone.Build.0 = Debug|iPhone
 		{4F743690-64BD-4B1F-BD75-872C910A94E2}.AdHoc|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
@@ -156,7 +146,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B} = {E17E8F72-4627-41FE-AAB8-8FCE04B7BF56}
-		{4EED28EE-8E66-4E60-A5C0-1CA4BA840688} = {E17E8F72-4627-41FE-AAB8-8FCE04B7BF56}
 		{4F743690-64BD-4B1F-BD75-872C910A94E2} = {E17E8F72-4627-41FE-AAB8-8FCE04B7BF56}
 		{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50} = {E17E8F72-4627-41FE-AAB8-8FCE04B7BF56}
 		{47B205F6-5FDC-44B6-897D-4DE19422FC73} = {E17E8F72-4627-41FE-AAB8-8FCE04B7BF56}

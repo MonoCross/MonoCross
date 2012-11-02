@@ -37,12 +37,12 @@ namespace CustomerManagement.Touch
                 {
                     new StringElement("ID", Model.ID),
                     new StringElement("Name", Model.Name ?? string.Empty),
-                    new StringElement("Website", Model.Website ?? string.Empty, delegate { LaunchWeb();}),
-                    new StringElement("Primary Phone", Model.PrimaryPhone ?? string.Empty, delegate { LaunchDial();})
+					new HtmlElement("Website", Model.Website ?? string.Empty),
+					new HtmlElement("Primary Phone", Model.PrimaryPhone ?? string.Empty)
                 },
                 new Section("General Info")
                 {
-					new StyledMultilineElement("Address", addressString, UITableViewCellStyle.Subtitle, delegate { LaunchMaps(); } ),
+					new StyledMultilineElement("Address", addressString, UITableViewCellStyle.Subtitle),
                     new StringElement("Previous Orders ", Model.Orders != null ? Model.Orders.Count.ToString() : string.Empty),
                     new StringElement("Other Addresses ", Model.Addresses != null ? Model.Addresses.Count.ToString() : string.Empty),
                     new StringElement("Contacts ", Model.Contacts != null ? Model.Contacts.Count.ToString() : string.Empty),

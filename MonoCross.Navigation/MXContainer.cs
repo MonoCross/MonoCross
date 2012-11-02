@@ -325,7 +325,7 @@ namespace MonoCross.Navigation
 
             public void Add(MXViewPerspective perspective, Type viewType)
             {
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINDOWS_PHONE
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
 #endif
