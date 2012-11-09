@@ -1,7 +1,7 @@
 <strong>Latest News:</strong> v1.2 has been released and is now available for public consumption.
 <br>
 <h2>What is Monocross</h2>
-Monocross is a C# .NET cross-platform mobile framework maintained and developed by a community of users and developers. Released under the MIT license, anyone is free to download, contribute and share the framework. With an open development model the mobile landscape changes.
+Monocross is a C# .NET cross-platform mobile framework maintained and developed by a community of users and developers. Released under the MIT license, anyone is free to download, contribute and share the framework. With Monocross you can build native apps that use any platform-specific APIs or HTML5 to provide rich web-based functionality, all while using the same business logic and data code, whether running on the device or the server.  With Monocross you have the flexibility to write apps for multiple device platforms and architectures with a custom user interface for each platform.
 <br><br>
 <img src="http://itr-mobility.com/wp-content/uploads/2011/07/iFactrBenefits-MultiPlatform.jpg" align="right" width="450" height="335"/>
 <h3>Multi-Platform Support</h3>
