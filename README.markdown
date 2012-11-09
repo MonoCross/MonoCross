@@ -1,3 +1,5 @@
+<strong>Latest News:</strong> v1.2 has been released and is now available for public consumption.
+<br>
 <h2>What is Monocross</h2>
 Monocross is a C# .NET cross-platform mobile framework maintained and developed by a community of users and developers. Released under the MIT license, anyone is free to download, contribute and share the framework. With an open development model the mobile landscape changes.
 <br><br>
@@ -11,17 +13,15 @@ Output native code for iPhone/iPad/iPad mini/iPod, Android, Windows Mobile, Wind
 <h3>Single Codebase</h3>
 At the foundation of the Monocross mobile framework is an abstract mobile application model where all app specific business logic is developed.  The output for each mobile device platform is then generated from that single codebase, independent of whether the business logic is executed natively on the device or remotely on the server.  As a result, supporting application changes and enhancements are significantly reduced.
 
-<br>
-<img src="http://monocross.net/images/blank.png" height="260" align="right"/>
+<img src="http://monocross.net/images/blank.png" height="60"/>
 
 <img src="http://itr-mobility.com/wp-content/uploads/2011/07/iFactrBenefits-DevelopmentConsistency.jpg" width="370" height="260" align="right"/>
+<img src="http://monocross.net/images/blank.png" width="80" height="300" align="right"/>
 <h3>Development Consistency</h3>
 Unlike other development efforts targeting fully native platform-specific code that require Objective-C/Cocoa developers for iPhone & iPad, Java developers for Android, a different flavor of Java developers for Blackberry, C# .NET developers for Windows Phone, Modern, and Classic, the development and on-going support of Monocross applications only require C# .NET capabilities.
 <br>
-<h3>Latest News</h3>
-v1.2 has been released and is now available for public consumption.
 
-
+<img src="http://monocross.net/images/blank.png" height="100"/>
 <h2>Get Involved</h2>
 First, 'git' on over to GitHub and register. Then fork the main repo found at https://github.com/Monocross/Monocross This will allow you to make changes to your own repo and send us patches and enhancements, that benefit everyone.
 
