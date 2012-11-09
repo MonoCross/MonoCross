@@ -23,7 +23,7 @@ Unlike other development efforts targeting fully native platform-specific code t
 
 <img src="http://monocross.net/images/blank.png" height="100"/>
 <h2>Get Involved</h2>
-First, 'git' on over to GitHub and register. Then fork the main repo found at https://github.com/Monocross/Monocross This will allow you to make changes to your own repo and send us patches and enhancements, that benefit everyone.
+First, 'Git' registered. Then fork the main repo found at https://github.com/Monocross/Monocross This will allow you to make changes to your own repo and send us patches and enhancements, that benefit everyone.
 
 Participate in the forums found on the [Monocross.net](http://monocross.net) website, where you can find the answers to the most frequently asked questions, find monocross related jobs, and discuss your code.
 
