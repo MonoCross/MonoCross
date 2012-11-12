@@ -392,7 +392,7 @@ namespace MonoCross.Navigation
             {
                 // Check typemap values for either a concrete type or an interface
                 var kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType
-#if !NETFX_CORE
+#if !NETFX_CORE && !NETCF
                     || !ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString(), false), null)
 #endif
                     );
