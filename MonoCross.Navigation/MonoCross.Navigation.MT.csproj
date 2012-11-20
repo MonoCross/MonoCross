@@ -44,6 +44,7 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
+    <DocumentationFile>bin\iPhone\Debug\MonoCross.Navigation.MT.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -54,6 +55,7 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DefineConstants>MONO</DefineConstants>
+    <DocumentationFile>bin\iPhone\Release\MonoCross.Navigation.MT.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
