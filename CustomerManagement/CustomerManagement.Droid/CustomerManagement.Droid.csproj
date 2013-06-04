@@ -29,7 +29,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +49,7 @@
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="mscorlib" />
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web.Services" />
@@ -176,7 +181,6 @@
     <AndroidResource Include="Resources\Menu\customer_edit_menu.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidJavaLibrary Include="SupportLib\android-support-v4.jar" />
     <AndroidResource Include="Resources\Drawable-hdpi\content_edit.png" />
     <AndroidResource Include="Resources\Drawable-mdpi\content_edit.png" />
     <AndroidResource Include="Resources\Drawable-mdpi\content_discard.png" />
