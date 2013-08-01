@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Android.Content;
 using Android.Util;
@@ -11,44 +10,15 @@ namespace Android.Dialog
 {
     public static class DroidResources
     {
-        public enum ElementLayout
-        {
-            dialog_achievements,
-            dialog_boolfieldleft,
-            dialog_boolfieldright,
-            dialog_boolfieldsubleft,
-            dialog_boolfieldsubright,
-
-            dialog_button,
-            dialog_datefield,
-            dialog_fieldsetlabel,
-            dialog_labelfieldbelow,
-            dialog_labelfieldright,
-            dialog_onofffieldright,
-            dialog_panel,
-            dialog_root,
-            dialog_selectlist,
-            dialog_selectlistfield,
-            dialog_textarea,
-
-            dialog_floatimage,
-
-            dialog_textfieldbelow,
-            dialog_textfieldright,
-            dialogLS_textfieldbelow_buttonright,
-            dialog_multiline_labelfieldbelow,
-            dialog_html,
-        }
-
         public static View LoadFloatElementLayout(Context context, View convertView, ViewGroup parent, int layoutId, out TextView label, out SeekBar slider, out ImageView left, out ImageView right)
         {
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                slider = layout.FindViewById<SeekBar>(context.Resources.GetIdentifier("dialog_SliderField", "id", context.PackageName));
-                left = layout.FindViewById<ImageView>(context.Resources.GetIdentifier("dialog_ImageLeft", "id", context.PackageName));
-                right = layout.FindViewById<ImageView>(context.Resources.GetIdentifier("dialog_ImageRight", "id", context.PackageName));
+                label = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                slider = layout.FindViewById<SeekBar>(Resource.Id.dialog_SliderField);
+                left = layout.FindViewById<ImageView>(Resource.Id.dialog_ImageLeft);
+                right = layout.FindViewById<ImageView>(Resource.Id.dialog_ImageRight);
             }
             else
             {
@@ -64,19 +34,7 @@ namespace Android.Dialog
         {
             try
             {
-                var inflater = LayoutInflater.FromContext(context);
-                if (_resourceMap.ContainsKey((ElementLayout)layoutId))
-                {
-                    var layoutName = _resourceMap[(ElementLayout)layoutId];
-                    layoutId = context.Resources.GetIdentifier(layoutName, "layout", context.PackageName);
-                }
-                else
-                {
-                    // TODO: figure out what context to use to get this right, currently doesn't inflate application resources
-                    Log.Info("Android.Dialog", "LoadLayout: Failed to map resource: " + layoutId.ToString(CultureInfo.InvariantCulture));
-                }
-
-                return inflater.Inflate(layoutId, parent, false);
+                return LayoutInflater.FromContext(context).Inflate(layoutId, parent, false);
             }
             catch (InflateException ex)
             {
@@ -94,8 +52,8 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                value = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+                label = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                value = layout.FindViewById<TextView>(Resource.Id.dialog_ValueField);
             }
             else
             {
@@ -111,7 +69,7 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                button = layout.FindViewById<Button>(context.Resources.GetIdentifier("dialog_Button", "id", context.PackageName));
+                button = layout.FindViewById<Button>(Resource.Id.dialog_Button);
             }
             else
             {
@@ -126,7 +84,7 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                value = layout.FindViewById<EditText>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+                value = layout.FindViewById<EditText>(Resource.Id.dialog_ValueField);
             }
             else
             {
@@ -141,10 +99,9 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                value = layout.FindViewById<View>(context.Resources.GetIdentifier("dialog_BoolField", "id", context.PackageName));
-                var id = context.Resources.GetIdentifier("dialog_LabelSubtextField", "id", context.PackageName);
-                subLabel = (id >= 0) ? layout.FindViewById<TextView>(id) : null;
+                label = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                value = layout.FindViewById<View>(Resource.Id.dialog_BoolField);
+                subLabel = layout.FindViewById<TextView>(Resource.Id.dialog_LabelSubtextField);
             }
             else
             {
@@ -161,8 +118,8 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                value = layout.FindViewById<EditText>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
+                label = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                value = layout.FindViewById<EditText>(Resource.Id.dialog_ValueField);
             }
             else
             {
@@ -178,7 +135,7 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                webView = layout.FindViewById<WebView>(context.Resources.GetIdentifier("dialog_HtmlField", "id", context.PackageName));
+                webView = layout.FindViewById<WebView>(Resource.Id.dialog_HtmlField);
             }
             else
             {
@@ -193,9 +150,9 @@ namespace Android.Dialog
             var layout = convertView ?? LoadLayout(context, parent, layoutId);
             if (layout != null)
             {
-                label = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                value = layout.FindViewById<EditText>(context.Resources.GetIdentifier("dialog_ValueField", "id", context.PackageName));
-                button = layout.FindViewById<ImageButton>(context.Resources.GetIdentifier("dialog_Button", "id", context.PackageName));
+                label = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                value = layout.FindViewById<EditText>(Resource.Id.dialog_ValueField);
+                button = layout.FindViewById<ImageButton>(Resource.Id.dialog_Button);
             }
             else
             {
@@ -220,61 +177,12 @@ namespace Android.Dialog
             }
             else
             {
-                achivementImage = layout.FindViewById<ImageView>(context.Resources.GetIdentifier("dialog_ImageRight", "id", context.PackageName));
-                caption = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelField", "id", context.PackageName));
-                description = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelSubtextField", "id", context.PackageName));
-                percentageComplete = layout.FindViewById<TextView>(context.Resources.GetIdentifier("dialog_LabelPercentageField", "id", context.PackageName));
+                achivementImage = layout.FindViewById<ImageView>(Resource.Id.dialog_ImageRight);
+                caption = layout.FindViewById<TextView>(Resource.Id.dialog_LabelField);
+                description = layout.FindViewById<TextView>(Resource.Id.dialog_LabelSubtextField);
+                percentageComplete = layout.FindViewById<TextView>(Resource.Id.dialog_LabelPercentageField);
             }
             return layout;
-        }
-
-        private static readonly Dictionary<ElementLayout, string> _resourceMap;
-
-        static DroidResources()
-        {
-            _resourceMap = new Dictionary<ElementLayout, string>
-            {
-                // Label templates
-                { ElementLayout.dialog_labelfieldbelow, "dialog_labelfieldbelow"},
-                { ElementLayout.dialog_labelfieldright, "dialog_labelfieldright"},
-
-                // Boolean and Checkbox templates
-                { ElementLayout.dialog_boolfieldleft, "dialog_boolfieldleft"},
-                { ElementLayout.dialog_boolfieldright, "dialog_boolfieldright"},
-                { ElementLayout.dialog_boolfieldsubleft, "dialog_boolfieldsubleft"},
-                { ElementLayout.dialog_boolfieldsubright, "dialog_boolfieldsubright"},
-                { ElementLayout.dialog_onofffieldright, "dialog_onofffieldright"},
-
-                // Root templates
-                { ElementLayout.dialog_root, "dialog_root"},
-
-                // Entry templates
-                { ElementLayout.dialog_textfieldbelow, "dialog_textfieldbelow"},
-                { ElementLayout.dialog_textfieldright, "dialog_textfieldright"},
-                { ElementLayout.dialogLS_textfieldbelow_buttonright, "dialog_textfieldbelow_buttonright"},
-
-                // Slider
-                { ElementLayout.dialog_floatimage, "dialog_floatimage"},
-
-                // Button templates
-                { ElementLayout.dialog_button, "dialog_button"},
-
-                // Date
-                { ElementLayout.dialog_datefield, "dialog_datefield"},
-
-                //
-                { ElementLayout.dialog_fieldsetlabel, "dialog_fieldsetlabel"},
-
-                { ElementLayout.dialog_panel, "dialog_panel"},
-
-                //
-                { ElementLayout.dialog_selectlist, "dialog_selectlist"},
-                { ElementLayout.dialog_selectlistfield, "dialog_selectlistfield"},
-                { ElementLayout.dialog_textarea, "dialog_textarea"},
-                { ElementLayout.dialog_multiline_labelfieldbelow, "dialog_multiline_labelfieldbelow"},
-                { ElementLayout.dialog_html, "dialog_html"},
-                { ElementLayout.dialog_achievements, "dialog_achievements"},
-            };
         }
     }
 }

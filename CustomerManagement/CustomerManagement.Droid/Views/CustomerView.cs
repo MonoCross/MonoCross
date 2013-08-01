@@ -25,11 +25,11 @@ namespace CustomerManagement.Droid.Views
         {
             Root = new RootElement("Customer Info") {
                 new Section("Contact Info") {
-                    new StringElement("Name", Model.Name, (int)DroidResources.ElementLayout.dialog_labelfieldbelow),
-                    new StringElement("Website", Model.Website, (int)DroidResources.ElementLayout.dialog_labelfieldbelow) {
+                    new StringElement("Name", Model.Name, Resource.Layout.dialog_labelfieldbelow),
+                    new StringElement("Website", Model.Website, Resource.Layout.dialog_labelfieldbelow) {
 						Click = (o, e) => LaunchWeb(),
 					},
-                    new StringElement("Primary Phone", Model.PrimaryPhone, (int)DroidResources.ElementLayout.dialog_labelfieldbelow) {
+                    new StringElement("Primary Phone", Model.PrimaryPhone, Resource.Layout.dialog_labelfieldbelow) {
 						Click = (o, e) => LaunchDial(),
 					},
                 },

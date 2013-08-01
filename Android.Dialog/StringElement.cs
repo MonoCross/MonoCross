@@ -18,7 +18,7 @@ namespace Android.Dialog
         public object Alignment;
 
         public StringElement(string caption)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_multiline_labelfieldbelow)
+            : base(caption, Resource.Layout.dialog_multiline_labelfieldbelow)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Android.Dialog
         }
 
         public StringElement(string caption, string value)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_multiline_labelfieldbelow)
+            : base(caption, Resource.Layout.dialog_multiline_labelfieldbelow)
         {
             Value = value;
         }

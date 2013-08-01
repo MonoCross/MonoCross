@@ -34,7 +34,7 @@ namespace Android.Dialog
         public string Group;
 
         public AchievementElement(string caption, string description, int percentageComplete, Bitmap achievementImage)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_achievements)
+            : base(caption, Resource.Layout.dialog_achievements)
         {
             Description = description;
             PercentageComplete = percentageComplete;

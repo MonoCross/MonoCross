@@ -34,7 +34,7 @@ namespace Android.Dialog
         public Bitmap Right;
 
         public FloatElement(string caption)
-            : this(caption, (int)DroidResources.ElementLayout.dialog_floatimage)
+            : this(caption, Resource.Layout.dialog_floatimage)
         {
             Value = 0;
             MinValue = 0;
@@ -50,7 +50,7 @@ namespace Android.Dialog
         }
 
         public FloatElement(Bitmap left, Bitmap right, int value)
-            : this(left, right, value, (int)DroidResources.ElementLayout.dialog_floatimage)
+            : this(left, right, value, Resource.Layout.dialog_floatimage)
         {
         }
 

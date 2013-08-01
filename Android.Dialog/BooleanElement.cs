@@ -56,7 +56,7 @@ namespace Android.Dialog
         protected TextView _subCaption;
 
         public BooleanElement(string caption, bool value)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_onofffieldright)
+            : base(caption, value, Resource.Layout.dialog_onofffieldright)
         {
         }
 

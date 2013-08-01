@@ -326,7 +326,7 @@ namespace Android.Dialog
 
             if (Caption != null)
             {
-                var view = (convertView as TextView) ?? new TextView(context, null, Resource.Attribute.ListSeparatorTextViewStyle);
+                var view = (convertView as TextView) ?? new TextView(context, null, Android.Resource.Attribute.ListSeparatorTextViewStyle);
                 if (Caption.Length >= 0)
                 {
                     view.Text = Caption;

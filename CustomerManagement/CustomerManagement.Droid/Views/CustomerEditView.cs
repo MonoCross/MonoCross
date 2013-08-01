@@ -27,15 +27,15 @@ namespace CustomerManagement.Droid.Views
             if (Model.PrimaryAddress == null)
                 Model.PrimaryAddress = new Address();
 
-            _nameEntry = new EntryElement("Name", Model.Name ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _webEntry = new EntryElement("Website", Model.Website ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _phoneEntry = new EntryElement("Primary Phone", Model.PrimaryPhone ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
+            _nameEntry = new EntryElement("Name", Model.Name ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _webEntry = new EntryElement("Website", Model.Website ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _phoneEntry = new EntryElement("Primary Phone", Model.PrimaryPhone ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
 
-            _address1Entry = new EntryElement("Address", Model.PrimaryAddress.Street1 ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _address2Entry = new EntryElement("Address2", Model.PrimaryAddress.Street2 ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _cityEntry = new EntryElement("City ", Model.PrimaryAddress.City ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _stateEntry = new EntryElement("State ", Model.PrimaryAddress.State ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
-            _zipEntry = new EntryElement("ZIP", Model.PrimaryAddress.Zip ?? string.Empty, (int)DroidResources.ElementLayout.dialog_textfieldbelow);
+            _address1Entry = new EntryElement("Address", Model.PrimaryAddress.Street1 ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _address2Entry = new EntryElement("Address2", Model.PrimaryAddress.Street2 ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _cityEntry = new EntryElement("City ", Model.PrimaryAddress.City ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _stateEntry = new EntryElement("State ", Model.PrimaryAddress.State ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
+            _zipEntry = new EntryElement("ZIP", Model.PrimaryAddress.Zip ?? string.Empty, Resource.Layout.dialog_textfieldbelow);
 
             Root = new RootElement("Customer Info")
             {

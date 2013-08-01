@@ -7,7 +7,7 @@ namespace Android.Dialog
     {
         public int MaxLength { get; set; }
         public MultilineEntryElement(string caption, string value)
-            : base(caption, value, (int)DroidResources.ElementLayout.dialog_textfieldbelow)
+            : base(caption, value, Resource.Layout.dialog_textfieldbelow)
         {
             Lines = 3;
         }

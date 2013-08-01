@@ -39,19 +39,19 @@ namespace Android.Dialog
         public string Group;
 
         public CheckboxElement(string caption)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, Resource.Layout.dialog_boolfieldright)
         {
 
         }
 
         public CheckboxElement(string caption, bool value)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, Resource.Layout.dialog_boolfieldright)
         {
             Value = value;
         }
 
         public CheckboxElement(string caption, bool value, string subCaption, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldsubright)
+            : base(caption, Resource.Layout.dialog_boolfieldsubright)
         {
             Value = value;
             Group = group;
@@ -59,7 +59,7 @@ namespace Android.Dialog
         }
 
         public CheckboxElement(string caption, bool value, string group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_boolfieldright)
+            : base(caption, Resource.Layout.dialog_boolfieldright)
         {
             Value = value;
             Group = group;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.Content;
+using Android.Content.Res;
 using Android.Text;
 using Android.Views;
 using Android.Widget;
@@ -30,7 +31,7 @@ namespace Android.Dialog
         public event EventHandler Changed;
 
         public EntryElement(string caption, string value)
-            : this(caption, value, (int)DroidResources.ElementLayout.dialog_textfieldright)
+            : this(caption, value, Resource.Layout.dialog_textfieldright)
         {
         }
 

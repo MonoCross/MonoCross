@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:paddingTop="5dp"
+  android:paddingBottom="8dp"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:minHeight="?android:attr/listPreferredItemHeight"
+  android:orientation="vertical">
+  <TextView android:id="@+id/dialog_LabelField"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
+    android:layout_marginLeft="2dp"
+    android:ellipsize="end"
+    android:singleLine="true"
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:textStyle="bold"
+    />
+  <EditText
+    android:id="@+id/dialog_ValueField"
+    android:padding="12dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:maxWidth="350dp"
+    android:gravity="top"
+    android:lines="5"
+    android:inputType="text|textMultiLine"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    />
+</LinearLayout>

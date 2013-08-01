@@ -8,7 +8,7 @@ namespace Android.Dialog
     public class ButtonElement : StringElement, View.IOnClickListener
     {
         public ButtonElement(string caption, EventHandler tapped)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_button)
+            : base(caption, Resource.Layout.dialog_button)
         {
             Click = tapped;
         }

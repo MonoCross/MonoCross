@@ -26,7 +26,7 @@ namespace Android.Dialog
         ///  The caption to render.
         /// </param>
         public RootElement(string caption)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
+            : base(caption, Resource.Layout.dialog_root)
         {
             Sections = new List<Section>();
         }
@@ -40,7 +40,7 @@ namespace Android.Dialog
         ///  The caption to render.
         /// </param>
         public RootElement(string caption, Func<RootElement, View> createOnSelected)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
+            : base(caption, Resource.Layout.dialog_root)
         {
             this._createOnSelected = createOnSelected;
             Sections = new List<Section>();
@@ -59,7 +59,7 @@ namespace Android.Dialog
         /// The element index inside the section that contains the summary for this RootSection.
         /// </param>
         public RootElement(string caption, int section, int element)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
+            : base(caption, Resource.Layout.dialog_root)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Android.Dialog
         /// the summary information when a RootElement is rendered inside a section.
         /// </param>
         public RootElement(string caption, Group group)
-            : base(caption, (int)DroidResources.ElementLayout.dialog_root)
+            : base(caption, Resource.Layout.dialog_root)
         {
             _group = group;
             if (_group is RadioGroup)

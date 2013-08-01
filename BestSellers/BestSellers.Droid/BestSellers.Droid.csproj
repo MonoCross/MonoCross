@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -96,29 +97,6 @@
     <Content Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </Content>
-    <AndroidResource Include="Resources\Drawable\dialog_disclosure.png" />
-    <AndroidResource Include="Resources\Drawable\dialog_expander_ic_minimized.9.png" />
-    <AndroidResource Include="Resources\Layout\dialog_boolfieldleft.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_textfieldright.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_boolfieldright.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_boolfieldsubleft.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_boolfieldsubright.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_button.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_datefield.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_fieldsetlabel.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_floatimage.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_labelfieldbelow.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_labelfieldright.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_onofffieldright.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_panel.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_root.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_selectlist.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_selectlistfield.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_textarea.xml" />
-    <AndroidResource Include="Resources\Layout\dialog_textfieldbelow.xml" />
-    <AndroidJavaLibrary Include="Resources\SupportLib\android-support-v4.jar">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AndroidJavaLibrary>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
