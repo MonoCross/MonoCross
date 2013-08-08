@@ -105,6 +105,9 @@ namespace MonoCross.Navigation
                 sessionId = GetSessionId();
 
             Session[sessionId] = theContainer;
+#warning Don't go to market with this!
+			//TODO: Uncomment to see work in Windows
+            //Instance = theContainer;
         }
 
 
@@ -116,16 +119,16 @@ namespace MonoCross.Navigation
         {
             get
             {
-                if (Session.ContainsKey(SessionDictionary.AppKey))
-                    return (MXContainer)Session[SessionDictionary.AppKey];
+                if (Session.ContainsKey(SessionDictionary.ContainerKey))
+                    return (MXContainer)Session[SessionDictionary.ContainerKey];
                 return null;
             }
             set
             {
-                if (!Session.ContainsKey(SessionDictionary.AppKey))
-                    Session.Add(SessionDictionary.AppKey, value);
+                if (!Session.ContainsKey(SessionDictionary.ContainerKey))
+                    Session.Add(SessionDictionary.ContainerKey, value);
                 else
-                    Session[SessionDictionary.AppKey] = value;
+                    Session[SessionDictionary.ContainerKey] = value;
             }
         }
 

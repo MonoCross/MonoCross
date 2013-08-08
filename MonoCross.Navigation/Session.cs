@@ -26,9 +26,9 @@ namespace MonoCross.Navigation
     public class SessionDictionary : SerializableDictionary<string, object>, ISession
     {
         /// <summary>
-        /// The key used for the application object.
+        /// The key used for the container object.
         /// </summary>
-        public const string AppKey = "theApp";
+        public const string ContainerKey = "theContainer";
 
         /// <summary>
         /// The key used for the navigation map object.
@@ -42,12 +42,12 @@ namespace MonoCross.Navigation
         {
             object theApp;
             object navMap;
-            this.TryGetValue(AppKey, out theApp);
+            this.TryGetValue(ContainerKey, out theApp);
             this.TryGetValue(NavKey, out navMap);
 
             base.Clear();
             if (theApp != null)
-                Add(AppKey, theApp);
+                Add(ContainerKey, theApp);
             if (navMap != null)
                 Add(NavKey, navMap);
         }
