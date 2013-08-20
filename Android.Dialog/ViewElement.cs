@@ -16,6 +16,7 @@ namespace Android.Dialog
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             var view = convertView ?? LayoutInflater.FromContext(context).Inflate(LayoutId, parent, false);
             if (view == null)
             {

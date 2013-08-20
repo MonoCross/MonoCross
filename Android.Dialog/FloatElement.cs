@@ -71,6 +71,7 @@ namespace Android.Dialog
             ImageView left;
             ImageView right;
 
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             View view = DroidResources.LoadFloatElementLayout(context, convertView, parent, LayoutId, out label, out slider, out left, out right);
 
             if (view != null)

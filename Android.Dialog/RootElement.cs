@@ -297,6 +297,7 @@ namespace Android.Dialog
             if (radio != null)
             {
                 var radioValue = GetSelectedValue();
+                if (convertView != null && convertView.Id != LayoutId) convertView = null;
                 cell = DroidResources.LoadStringElementLayout(context, convertView, parent, LayoutId, out _caption, out _value);
                 if (cell != null)
                 {

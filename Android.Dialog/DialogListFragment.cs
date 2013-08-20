@@ -40,7 +40,7 @@ namespace Android.Dialog
 
         public event EventHandler ValueChanged;
 
-        private void HandleValueChangedEvent(object sender, EventArgs args)
+        protected void HandleValueChangedEvent(object sender, EventArgs args)
         {
             if (ValueChanged != null)
                 ValueChanged(sender, args);

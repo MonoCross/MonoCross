@@ -9,7 +9,7 @@ namespace Android.Dialog
 {
     public class DialogAdapter : BaseAdapter<Section>, AdapterView.IOnItemClickListener, AdapterView.IOnItemLongClickListener
     {
-        private readonly Context _context;
+        private Context _context;
 
         public DialogAdapter(Context context, RootElement root, ListView listView = null)
         {

@@ -75,6 +75,7 @@ namespace Android.Dialog
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             View checkboxView;
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             View view = DroidResources.LoadBooleanElementLayout(context, convertView, parent, LayoutId, out _caption, out _subCaption, out checkboxView);
             if (view != null)
             {

@@ -68,6 +68,7 @@ namespace Android.Dialog
 
             Click = delegate { SelectImage(); };
 
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             var view = convertView as RelativeLayout ?? new RelativeLayout(context);
 
             var parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,

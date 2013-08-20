@@ -44,6 +44,11 @@ namespace Android.Dialog
         {
             return _val ? TextOn : TextOff;
         }
+
+        public override bool IsSelectable
+        {
+            get { return true; }
+        }
     }
 
     /// <summary>
@@ -68,6 +73,7 @@ namespace Android.Dialog
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
             View toggleButtonView;
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             View view = DroidResources.LoadBooleanElementLayout(context, convertView, parent, LayoutId, out _caption, out _subCaption, out toggleButtonView);
 
             if (view != null)
