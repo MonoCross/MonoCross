@@ -6,6 +6,9 @@ namespace Android.Dialog
 {
     public class DateTimeElement : StringElement
     {
+        //BUG: http://stackoverflow.com/questions/11383592/android-android-4-1-emulator-invoking-ondateset-twice-from-datepicker-dialog
+        private bool _loaded = false;
+
         public int MinuteInterval { get; set; }
 
         public DateTime? DateValue
@@ -50,6 +53,7 @@ namespace Android.Dialog
                 return;
             }
             var val = DateValue.HasValue ? DateValue.Value : DateTime.Now;
+            _loaded = true;
             new DatePickerDialog(context, DateCallback ?? OnDateTimeSet, val.Year, val.Month - 1, val.Day).Show();
         }
 
@@ -75,6 +79,8 @@ namespace Android.Dialog
         // the event received when the user "sets" the date in the dialog
         protected void OnDateTimeSet(object sender, DatePickerDialog.DateSetEventArgs e)
         {
+            if (!_loaded) return;
+            _loaded = false;
             DateTime current = DateValue.HasValue ? DateValue.Value : DateTime.Now;
             DateValue = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, current.Hour, current.Minute, 0);
             EditTime();
