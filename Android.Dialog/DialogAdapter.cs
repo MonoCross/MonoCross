@@ -57,8 +57,16 @@ namespace Android.Dialog
             get { return _root; }
             set
             {
-                _root = value;
-                ReloadData();
+                if (List == null)
+                {
+                    _root = value;
+                    ReloadData();
+                }
+                else
+                {
+                    List.Adapter = new DialogAdapter(_root.Context, value, List);
+                    DeregisterListView();
+                }
             }
         }
 

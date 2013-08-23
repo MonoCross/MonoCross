@@ -14,11 +14,14 @@ namespace Android.Dialog
                 value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
 
-                if (DialogAdapter == null)
+                try
+                {
+                    if (ListView != null) ListAdapter = DialogAdapter = new DialogAdapter(Activity, value, ListView);
+                }
+                catch
+                {
                     DialogAdapter = new DialogAdapter(Activity, value);
-                else
-                    DialogAdapter.Root = value;
-
+                }
             }
         }
 
@@ -30,14 +33,13 @@ namespace Android.Dialog
 
         public override void OnViewCreated(Views.View p0, OS.Bundle p1)
         {
-            if (DialogAdapter == null) return;
+            if (DialogAdapter == null || DialogAdapter.List != null) return;
             DialogAdapter.List = ListView;
             DialogAdapter.RegisterListView();
             base.OnViewCreated(p0, p1);
         }
 
         public DialogAdapter DialogAdapter { get; set; }
-
         public event EventHandler ValueChanged;
 
         protected void HandleValueChangedEvent(object sender, EventArgs args)

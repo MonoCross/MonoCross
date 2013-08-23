@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Android.App;
 
 namespace Android.Dialog
@@ -30,19 +29,6 @@ namespace Android.Dialog
             }
         }
         private DialogAdapter _dialogAdapter;
-
-        public void HandleValueChangedEvents(EventHandler eventHandler)
-        {
-            foreach (var element in Root.Sections.SelectMany(section => section))
-            {
-                if (element is EntryElement)
-                    (element as EntryElement).Changed += eventHandler;
-                if (element is BooleanElement)
-                    (element as BooleanElement).Changed += eventHandler;
-                if (element is CheckboxElement)
-                    (element as CheckboxElement).Changed += eventHandler;
-            }
-        }
 
         public event EventHandler ValueChanged;
         private void HandleValueChangedEvent(object sender, EventArgs args)

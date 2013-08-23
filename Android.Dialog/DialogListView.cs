@@ -15,11 +15,7 @@ namespace Android.Dialog
                 value.Context = Context;
                 value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
-
-                if (DialogAdapter == null)
-                    Adapter = DialogAdapter = new DialogAdapter(Context, value, this);
-                else
-                    DialogAdapter.Root = value;
+                Adapter = DialogAdapter = new DialogAdapter(Context, value, this);
             }
         }
 
