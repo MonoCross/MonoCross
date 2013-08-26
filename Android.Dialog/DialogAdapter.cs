@@ -9,13 +9,10 @@ namespace Android.Dialog
 {
     public class DialogAdapter : BaseAdapter<Section>, AdapterView.IOnItemClickListener, AdapterView.IOnItemLongClickListener
     {
-        private Context _context;
-
         public DialogAdapter(Context context, RootElement root, ListView listView = null)
         {
-            _context = context;
             _root = root;
-            Root.Context = _context;
+            Root.Context = context;
 
             // This is only really required when using a DialogAdapter with a ListView, in a non DialogActivity based activity.
             List = listView;
@@ -57,17 +54,8 @@ namespace Android.Dialog
             get { return _root; }
             set
             {
-                if (List == null)
-                {
-                    _root = value;
-                    ReloadData();
-                }
-                else
-                {
-                    var list = List;
-                    DeregisterListView();
-                    list.Adapter = new DialogAdapter(_root.Context, value, list);
-                }
+                _root = value;
+                ReloadData();
             }
         }
 
@@ -92,7 +80,7 @@ namespace Android.Dialog
             {
                 // ViewTypeCount is the same as Count for these,
                 // there are as many ViewTypes as Views as every one is unique!
-                return Count > 0 ? Count : 1;
+                return (Count > 0 ? Count : 1) + 5; //plus addition of some previously unknown types
             }
         }
 
@@ -150,20 +138,14 @@ namespace Android.Dialog
                 element = ElementAtIndex(position - 1);
                 while (!(element is Section))
                     element = element.Parent;
-                return ((Section)element).GetFooterView(_context, convertView, parent);
+                return ((Section)element).GetFooterView(Root.Context, convertView, parent);
             }
-            return element.GetView(_context, convertView, parent);
+            return element.GetView(Root.Context, convertView, parent);
         }
 
         public void ReloadData()
         {
-            ((Activity)_context).RunOnUiThread(() =>
-            {
-                if (Root != null)
-                {
-                    NotifyDataSetChanged();
-                }
-            });
+            ((Activity)Root.Context).RunOnUiThread(NotifyDataSetChanged);
         }
 
         #region Implementation of IOnItemClickListener

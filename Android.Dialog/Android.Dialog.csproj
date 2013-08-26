@@ -64,6 +64,7 @@
     <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="HtmlElement.cs" />
+    <Compile Include="IDialogView.cs" />
     <Compile Include="IElementSizing.cs" />
     <Compile Include="ImageElement.cs" />
     <Compile Include="MultilineElement.cs" />

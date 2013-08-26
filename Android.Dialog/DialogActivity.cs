@@ -3,35 +3,38 @@ using Android.App;
 
 namespace Android.Dialog
 {
-    public class DialogActivity : ListActivity
+    public class DialogActivity : ListActivity, IDialogView
     {
         protected override void OnResume()
         {
             base.OnResume();
-            ReloadData(); 
+            this.ReloadData();
         }
 
         public RootElement Root
         {
-            get { return _dialogAdapter == null ? null : _dialogAdapter.Root; }
+            get { return DialogAdapter == null ? null : DialogAdapter.Root; }
             set
             {
-                value.Context = this;
-                value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
-
-                if (_dialogAdapter != null)
+                if (Root == null) DialogAdapter = new DialogAdapter(this, value, ListView);
+                else
                 {
-                    _dialogAdapter.DeregisterListView();
+                    Root.ValueChanged -= HandleValueChangedEvent;
+                    value.Context = this;
+                    DialogAdapter.Root = value;
                 }
-
-                ListAdapter = _dialogAdapter = new DialogAdapter(this, value, ListView);
             }
         }
-        private DialogAdapter _dialogAdapter;
+
+        public DialogAdapter DialogAdapter
+        {
+            get { return ListAdapter as DialogAdapter; }
+            set { ListAdapter = value; }
+        }
 
         public event EventHandler ValueChanged;
-        private void HandleValueChangedEvent(object sender, EventArgs args)
+        protected void HandleValueChangedEvent(object sender, EventArgs args)
         {
             if (ValueChanged != null)
                 ValueChanged(sender, args);
@@ -40,12 +43,6 @@ namespace Android.Dialog
         public override Java.Lang.Object OnRetainNonConfigurationInstance()
         {
             return null;
-        }
-
-        public void ReloadData()
-        {
-            if (Root == null) return;
-            _dialogAdapter.ReloadData();
         }
     }
 }
