@@ -64,8 +64,9 @@ namespace Android.Dialog
                 }
                 else
                 {
-                    List.Adapter = new DialogAdapter(_root.Context, value, List);
+                    var list = List;
                     DeregisterListView();
+                    list.Adapter = new DialogAdapter(_root.Context, value, list);
                 }
             }
         }
