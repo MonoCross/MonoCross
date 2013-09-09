@@ -100,14 +100,7 @@ namespace MonoCross.Navigation
 
         protected static void InitializeContainer(MXContainer theContainer)
         {
-            string sessionId = string.Empty;
-            if (GetSessionId != null)
-                sessionId = GetSessionId();
-
-            Session[sessionId] = theContainer;
-#warning Don't go to market with this!
-			//TODO: Uncomment to see work in Windows
-            //Instance = theContainer;
+            Instance = theContainer;
         }
 
 
@@ -119,16 +112,13 @@ namespace MonoCross.Navigation
         {
             get
             {
-                if (Session.ContainsKey(SessionDictionary.ContainerKey))
-                    return (MXContainer)Session[SessionDictionary.ContainerKey];
-                return null;
+                object instance = null;
+                Session.TryGetValue(GetSessionId == null ? string.Empty : GetSessionId(), out instance);
+                return (instance as MXContainer);
             }
             set
             {
-                if (!Session.ContainsKey(SessionDictionary.ContainerKey))
-                    Session.Add(SessionDictionary.ContainerKey, value);
-                else
-                    Session[SessionDictionary.ContainerKey] = value;
+                Session[GetSessionId == null ? string.Empty : GetSessionId()] = (value as MXContainer);
             }
         }
 
