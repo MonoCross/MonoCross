@@ -93,7 +93,7 @@ namespace MonoCross.Touch
 			foreach (var tabItem in viewGroup.Items) {
 				var navCtrl = new UINavigationController();
 
-				navCtrl.NavigationBar.TintColor = UIColor.Red;
+				//navCtrl.NavigationBar.TintColor = UIColor.Red;
 				
 				//navCtrl.NavigationBar.TintColor = UIColor.Black; ?? get from where??
 				navCtrl.TabBarItem = new UITabBarItem (tabItem.Title, UIImage.FromFile(tabItem.Icon), index);
