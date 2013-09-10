@@ -75,12 +75,12 @@ namespace MonoCross.Navigation
             _theApp = theApp;
         }
 
+        /*
         /// <summary>
         /// Initializes the specified target factory instance.
         /// </summary>
         /// <param name="newInstance">A <see cref="T"/> representing the target factory value.</param>
         /// 
-        /*
         protected static void Initialize(MXContainer newInstance)
         {
             if (newInstance == null)
@@ -404,11 +404,11 @@ namespace MonoCross.Navigation
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
                 // Check typemap values for either a concrete type or an interface
-                var kvp = _typeMap.FirstOrDefault( keyValuePair => keyValuePair.Value == viewType
+                var kvp = _typeMap.FirstOrDefault(keyValuePair => keyValuePair.Value == viewType
 #if !NETFX_CORE && !NETCF
-                    || !ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString(), false), null)
+ || !ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString(), false), null)
 #endif
-                    );
+);
                 return kvp.Key;
             }
 

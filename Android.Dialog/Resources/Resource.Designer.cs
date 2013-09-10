@@ -59,6 +59,9 @@ namespace Android.Dialog
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f040010
+			public static int button_bar = 2130968592;
+			
 			// aapt resource value: 0x7f040004
 			public static int dialog_BoolField = 2130968580;
 			
@@ -100,6 +103,18 @@ namespace Android.Dialog
 			
 			// aapt resource value: 0x7f040006
 			public static int dialog_ValueField = 2130968582;
+			
+			// aapt resource value: 0x7f04000e
+			public static int drawing_element_imageview = 2130968590;
+			
+			// aapt resource value: 0x7f040012
+			public static int drawingfield_clear = 2130968594;
+			
+			// aapt resource value: 0x7f04000f
+			public static int drawingfield_drawingview = 2130968591;
+			
+			// aapt resource value: 0x7f040011
+			public static int drawingfield_save = 2130968593;
 			
 			static Id()
 			{
@@ -176,6 +191,12 @@ namespace Android.Dialog
 			
 			// aapt resource value: 0x7f030014
 			public static int dialog_textfieldright = 2130903060;
+			
+			// aapt resource value: 0x7f030015
+			public static int drawing_element = 2130903061;
+			
+			// aapt resource value: 0x7f030016
+			public static int drawing_field = 2130903062;
 			
 			static Layout()
 			{

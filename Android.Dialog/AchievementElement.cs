@@ -43,6 +43,7 @@ namespace Android.Dialog
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             View view = DroidResources.LoadAchievementsElementLayout(context, convertView, parent, LayoutId, out _caption, out _description, out _percentageComplete, out _achivementImage);
             if (view != null)
             {

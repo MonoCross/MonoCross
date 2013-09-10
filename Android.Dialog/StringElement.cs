@@ -41,6 +41,7 @@ namespace Android.Dialog
 
         public override View GetView(Context context, View convertView, ViewGroup parent)
         {
+            if (convertView != null && convertView.Id != LayoutId) convertView = null;
             var view = DroidResources.LoadStringElementLayout(context, convertView, parent, LayoutId, out _caption, out _text);
             if (view != null && _caption != null && _text != null)
             {

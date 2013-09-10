@@ -1,0 +1,20 @@
+﻿<src:ListViewGlue 
+  x:Class="CustomerManagement.WPF.Views.CustomerListView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:src="clr-namespace:CustomerManagement.WPF.Views"
+  xmlns:model
+    ="clr-namespace:CustomerManagement.Shared.Model;assembly=CustomerManagement.Shared"
+  mc:Ignorable="d" 
+  d:DesignHeight="296" d:DesignWidth="401"
+  Title="Customer List">
+  <ListBox Name="lbxCustomers">
+    <ListBox.ItemTemplate>
+      <DataTemplate>
+        <TextBlock Text="{Binding Path=Name}" />
+      </DataTemplate>
+    </ListBox.ItemTemplate>
+  </ListBox>
+</src:ListViewGlue>

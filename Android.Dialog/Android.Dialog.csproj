@@ -12,7 +12,6 @@
     <RootNamespace>Android.Dialog</RootNamespace>
     <AssemblyName>Android.Dialog</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v1.6</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <AndroidStoreUncompressedFileExtensions />
@@ -35,7 +34,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
@@ -58,6 +56,7 @@
     <Compile Include="DialogAdapter.cs" />
     <Compile Include="DialogListFragment.cs" />
     <Compile Include="DialogListView.cs" />
+    <Compile Include="DrawingFragment.cs" />
     <Compile Include="DroidResources.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="EntryElement.cs" />
@@ -65,6 +64,7 @@
     <Compile Include="FloatElement.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="HtmlElement.cs" />
+    <Compile Include="IDialogView.cs" />
     <Compile Include="IElementSizing.cs" />
     <Compile Include="ImageElement.cs" />
     <Compile Include="MultilineElement.cs" />
@@ -77,9 +77,15 @@
     <Compile Include="StringElement.cs" />
     <Compile Include="ViewElement.cs" />
     <Compile Include="WebContentElement.cs" />
+    <Compile Include="DrawingActivity.cs" />
+    <Compile Include="DrawingElement.cs" />
+    <Compile Include="DrawingView.cs" />
+    <Compile Include="Utility\ImageUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Layout\dialog_boolfieldleft.xml" />
+    <AndroidResource Include="Resources\Layout\drawing_element.axml" />
+    <AndroidResource Include="Resources\Layout\drawing_field.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Layout\dialog_boolfieldright.xml" />

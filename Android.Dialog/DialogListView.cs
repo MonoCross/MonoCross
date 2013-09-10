@@ -5,25 +5,29 @@ using Android.Widget;
 
 namespace Android.Dialog
 {
-    public class DialogListView : ListView
+    public class DialogListView : ListView, IDialogView
     {
         public RootElement Root
         {
             get { return DialogAdapter == null ? null : DialogAdapter.Root; }
             set
             {
-                value.Context = Context;
-                value.ValueChanged -= HandleValueChangedEvent;
                 value.ValueChanged += HandleValueChangedEvent;
-
-                if (DialogAdapter == null)
-                    Adapter = DialogAdapter = new DialogAdapter(Context, value, this);
+                if (Root == null) DialogAdapter = new DialogAdapter(Context, value, this);
                 else
+                {
+                    Root.ValueChanged -= HandleValueChangedEvent;
+                    value.Context = Context;
                     DialogAdapter.Root = value;
+                }
             }
         }
 
-        public DialogAdapter DialogAdapter { get; set; }
+        public DialogAdapter DialogAdapter
+        {
+            get { return Adapter as DialogAdapter; }
+            set { Adapter = value; }
+        }
 
         public DialogListView(Context context) :
             base(context, null)
@@ -42,16 +46,10 @@ namespace Android.Dialog
 
         public event EventHandler ValueChanged;
 
-        private void HandleValueChangedEvent(object sender, EventArgs args)
+        protected void HandleValueChangedEvent(object sender, EventArgs args)
         {
             if (ValueChanged != null)
                 ValueChanged(sender, args);
-        }
-
-        public void ReloadData()
-        {
-            if (Root == null) return;
-            DialogAdapter.ReloadData();
         }
     }
 }
