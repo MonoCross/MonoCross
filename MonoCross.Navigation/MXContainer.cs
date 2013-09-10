@@ -100,25 +100,42 @@ namespace MonoCross.Navigation
 
         protected static void InitializeContainer(MXContainer theContainer)
         {
-            string sessionId = string.Empty;
-            if (GetSessionId != null)
-                sessionId = GetSessionId();
-
-            instances[sessionId] = theContainer;
+            Instance = theContainer;
         }
 
+
+        /// <summary>
+        /// Gets or sets the application instance.
+        /// </summary>
+        /// <value>The application instance.</value>
         public static MXContainer Instance
         {
             get
             {
-                string sessionId = string.Empty;
-                if (GetSessionId != null)
-                    sessionId = GetSessionId();
-                return instances.ContainsKey(sessionId) ? instances[sessionId] : null;
+                object instance = null;
+                Session.TryGetValue(GetSessionId == null ? string.Empty : GetSessionId(), out instance);
+                return (instance as MXContainer);
+            }
+            set
+            {
+                Session[GetSessionId == null ? string.Empty : GetSessionId()] = (value as MXContainer);
             }
         }
-        // kept in a map for use in server environments (WebKit)
-        private static Dictionary<string, MXContainer> instances = new Dictionary<string, MXContainer>();
+
+        /// <summary>
+        /// Gets the current session settings.
+        /// </summary>
+        public static ISession Session
+        {
+            get
+            {
+                if (_session == null)
+                    _session = new SessionDictionary();
+
+                return _session;
+            }
+        }
+        static SessionDictionary _session;
 
         // Model to View associations
         public static void AddView<Model>(IMXView view)
@@ -149,10 +166,6 @@ namespace MonoCross.Navigation
                 Views.Add(viewPerspective, view);
         }
 
-        public static MXNavigation MatchUrl(string url)
-        {
-            return Instance.App.NavigationMap.FirstOrDefault(pattern => Regex.Match(url, pattern.RegexPattern()).Value == url);
-        }
 
         public static void Navigate(string url)
         {
@@ -264,7 +277,7 @@ namespace MonoCross.Navigation
             // Console.WriteLine("Navigating to: " + url);
 
             // get map object
-            navigation = MatchUrl(url);
+            navigation = App.NavigationMap.MatchUrl(url);
 
             // If there is no result, assume the URL is external and create a new Browser View
             if (navigation != null)

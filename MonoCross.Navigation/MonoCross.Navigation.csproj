@@ -36,8 +36,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Session.cs" />
     <Compile Include="MXApplication.cs" />
     <Compile Include="MXContainer.cs" />
     <Compile Include="MXNavigation.cs" />
