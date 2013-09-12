@@ -38,9 +38,21 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Raises the controller load begin event.
         /// </summary>
+		[Obsolete("Use OnControllerLoadBegin(IMXController, IMXView) instead")]
         protected virtual void OnControllerLoadBegin(IMXController controller)
         {
+
         }
+
+		/// <summary>
+		/// Called when a controller is about to be loaded.
+		/// </summary>
+		/// <param name="controller">The controller to be loaded.</param>
+		/// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
+		protected virtual void OnControllerLoadBegin(IMXController controller, IMXView fromView)
+		{
+			OnControllerLoadBegin(controller);
+		}
 
         /// <summary>
         /// Raises the controller load failed event.
@@ -191,7 +203,7 @@ namespace MonoCross.Navigation
             // Initiate load for the associated controller passing all parameters
             if (controller != null)
             {
-                container.OnControllerLoadBegin(controller);
+                container.OnControllerLoadBegin(controller, fromView);
 
                 container.CancelLoad = false;
 
@@ -264,7 +276,7 @@ namespace MonoCross.Navigation
 
             // return if no url provided
             if (url == null)
-                throw new ArgumentException("url is NULL");
+                throw new ArgumentNullException("url is NULL");
 
             // set last navigation
             LastNavigationDate = DateTime.Now;
