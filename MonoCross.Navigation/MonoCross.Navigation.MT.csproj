@@ -74,5 +74,7 @@
     <Compile Include="MXViewPerspective.cs" />
     <Compile Include="MXApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Session.cs" />
   </ItemGroup>
 </Project>
