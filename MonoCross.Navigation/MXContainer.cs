@@ -38,21 +38,21 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Raises the controller load begin event.
         /// </summary>
-		[Obsolete("Use OnControllerLoadBegin(IMXController, IMXView) instead")]
+        [Obsolete("Use OnControllerLoadBegin(IMXController, IMXView) instead")]
         protected virtual void OnControllerLoadBegin(IMXController controller)
         {
 
         }
 
-		/// <summary>
-		/// Called when a controller is about to be loaded.
-		/// </summary>
-		/// <param name="controller">The controller to be loaded.</param>
-		/// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
-		protected virtual void OnControllerLoadBegin(IMXController controller, IMXView fromView)
-		{
-			OnControllerLoadBegin(controller);
-		}
+        /// <summary>
+        /// Called when a controller is about to be loaded.
+        /// </summary>
+        /// <param name="controller">The controller to be loaded.</param>
+        /// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
+        protected virtual void OnControllerLoadBegin(IMXController controller, IMXView fromView)
+        {
+            OnControllerLoadBegin(controller);
+        }
 
         /// <summary>
         /// Raises the controller load failed event.
@@ -66,6 +66,9 @@ namespace MonoCross.Navigation
         /// and the derived classs should check if it exists and do something with it if needed for the platform, either free it,
         /// pop off the views in a stack above it or whatever makes sense to the platform  
         /// </summary>
+        /// <param name="fromView">
+        /// The view that raised the navigation.
+        /// </param>
         /// <param name='controller'>
         /// Controller.
         /// </param>
@@ -177,7 +180,6 @@ namespace MonoCross.Navigation
             else
                 Views.Add(viewPerspective, view);
         }
-
 
         public static void Navigate(string url)
         {
