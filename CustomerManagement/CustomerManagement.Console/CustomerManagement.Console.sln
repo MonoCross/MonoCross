@@ -1,6 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{670A39D3-0217-4F9A-A2D7-2D128C128556}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{3A2AEFAD-EA81-41FC-99DA-B8439936E0C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{778CD8C9-1548-4483-B30A-066AE89DE58E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Console", "CustomerManagement.Console.csproj", "{9FB65696-9CC2-458D-9BDC-1740ED5286D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Shared", "..\..\CustomerManagement.Shared\CustomerManagement.Shared.csproj", "{77EFE548-9D3B-4635-925C-4A9D7281BFE3}"
@@ -11,13 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Data", "..\..\CustomerManagement.Data\CustomerManagement.Data.csproj", "{A4982B76-3CBC-4184-8B05-DF46CF5960B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{670A39D3-0217-4F9A-A2D7-2D128C128556}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement", "..\CustomerManagement\CustomerManagement.csproj", "{183C1DE6-903B-419C-B19A-26145CA4A93A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{3A2AEFAD-EA81-41FC-99DA-B8439936E0C6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{778CD8C9-1548-4483-B30A-066AE89DE58E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.REST", "..\..\CustomerManagement.DataServices\CustomerManagement.REST\CustomerManagement.REST.csproj", "{DF10A435-255A-4540-8CB8-87B46A2C44AD}"
 EndProject
@@ -114,9 +116,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9FB65696-9CC2-458D-9BDC-1740ED5286D1} = {3A2AEFAD-EA81-41FC-99DA-B8439936E0C6}
-		{4618CCFC-5895-4C44-AD25-8BF312A96B86} = {670A39D3-0217-4F9A-A2D7-2D128C128556}
 		{A658FEA2-1B62-4A50-A1C5-0A6ADE4655D3} = {670A39D3-0217-4F9A-A2D7-2D128C128556}
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86} = {670A39D3-0217-4F9A-A2D7-2D128C128556}
+		{9FB65696-9CC2-458D-9BDC-1740ED5286D1} = {3A2AEFAD-EA81-41FC-99DA-B8439936E0C6}
 		{A4982B76-3CBC-4184-8B05-DF46CF5960B2} = {778CD8C9-1548-4483-B30A-066AE89DE58E}
 		{DF10A435-255A-4540-8CB8-87B46A2C44AD} = {778CD8C9-1548-4483-B30A-066AE89DE58E}
 	EndGlobalSection

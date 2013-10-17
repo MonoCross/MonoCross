@@ -58,7 +58,7 @@ namespace MonoCross.Droid
         private void NotifyModelChanged()
         {
             if (ViewModelChanged != null) ViewModelChanged(Model);
-            ReloadData();
+            this.ReloadData();
         }
     }
 }

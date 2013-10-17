@@ -25,6 +25,7 @@ namespace MonoCross.Droid
             ApplicationContext = applicationContext;
         }
 
+        [Obsolete]
         protected override void OnControllerLoadBegin(IMXController controller)
         {
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadBegin");

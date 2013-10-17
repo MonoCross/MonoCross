@@ -24,7 +24,7 @@ namespace MonoCross.Navigation
 
         public virtual IMXView View { get; set; }
 
-		public object GetModel() { return Model; }
+        public object GetModel() { return Model; }
         public abstract string Load(Dictionary<string, string> parameters);
         public virtual void RenderView() { if (View != null) View.Render(); }
     }
