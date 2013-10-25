@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BestSellers.MD</RootNamespace>
+    <RootNamespace>BestSellers</RootNamespace>
     <AssemblyName>BestSellers.MD</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,6 +50,12 @@
     <Compile Include="Model\CategoryList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
+      <Project>{fb6b0fe8-51d8-4f5b-aa6a-280250820233}</Project>
+      <Name>MonocCross.Navigation</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -58,10 +64,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.MD.csproj">
-      <Project>{0D2CC54A-4716-40B9-8110-453F528810FC}</Project>
-      <Name>MonoCross.Navigation.MD</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

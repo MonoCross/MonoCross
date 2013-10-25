@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using System.Globalization;
 using System.Net;
@@ -22,7 +20,7 @@ namespace BestSellers
                     var s = words[index];
                     if (s.Length > 0)
                     {
-                        words[index] = s[0].ToString().ToUpper() + s.Substring(1);
+                        words[index] = s[0].ToString(CultureInfo.InvariantCulture).ToUpper() + s.Substring(1);
                     }
                 }
                 result = string.Join(" ", words);
@@ -60,10 +58,7 @@ namespace BestSellers
             get
             {
                 long isbn;
-                if (Int64.TryParse(ISBN10, out isbn))
-                    return ISBN10;
-                else
-                    return ISBN13;
+                return Int64.TryParse(ISBN10, out isbn) ? ISBN10 : ISBN13;
             }
         }
 
@@ -79,82 +74,97 @@ namespace BestSellers
 
         public Book() { }
 
-		public static Book Find(string category, string bookId)
+        public static Book Find(string category, string bookId)
         {
             string urlBooks = "http://api.nytimes.com/svc/books/v2/lists.xml?list={0}&isbn={1}&api-key=d8ad3be01d98001865e96ee55c1044db:8:57889697";
 
             urlBooks = String.Format(urlBooks, category.Replace(" ", "-"), bookId);
-			
-			XDocument loaded = null;
-			try
-			{
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlBooks);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            XDocument loaded = null;
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(urlBooks);
+                var response = (HttpWebResponse)request.GetResponse();
                 Stream stream = response.GetResponseStream();
                 loaded = XDocument.Load(stream);
-			}
-			catch (WebException)
-			{
-			}
-			
-			Book book = null;
-			if (loaded != null)
-			{
-				var books = from item in loaded.Descendants("book")
-                    select new Book()
-                    {
-                        Category = item.Element("display_name").Value,
-                        BestSellersDate = item.Element("bestsellers_date").Value,
-                        Rank = item.Element("rank").Value,
-                        RankLastWeek = item.Element("rank_last_week").Value,
-                        WeeksOnList = item.Element("weeks_on_list").Value,
-                        PublishedDate = item.Element("published_date").Value,
+            }
+            catch (WebException)
+            {
+            }
 
-                        Title = item.Descendants("book_detail").Elements("title").First().Value.ToTitleCase(),
-                        Contributor = item.Descendants("book_detail").Elements("contributor").First().Value,
-                        ContributorNote = item.Descendants("book_detail").Elements("contributor_note").First().Value,
-                        Author = item.Descendants("book_detail").Elements("author").First().Value,
-                        ISBN13 = item.Descendants("book_detail").Elements("primary_isbn13").First().Value,
-                        ISBN10 = item.Descendants("book_detail").Elements("primary_isbn10").First().Value,
-                        Publisher = item.Descendants("book_detail").Elements("publisher").First().Value,
-                        AgeGroup = item.Descendants("book_detail").Elements("age_group").First().Value,
-                        Price = item.Descendants("book_detail").Elements("price").First().Value,
-                        Description = item.Descendants("book_detail").Elements("description").First().Value,
+            if (loaded == null)
+                return new Book
+                 {
+                     AgeGroup = string.Empty,
+                     ArticleChapterLink = string.Empty,
+                     BestSellersDate = string.Empty,
+                     BookReviewLink = string.Empty,
+                     Category = string.Empty,
+                     Contributor = string.Empty,
+                     ContributorNote = string.Empty,
+                     Description = string.Empty,
+                     FirstChapterLink = string.Empty,
+                     ISBN10 = string.Empty,
+                     ISBN13 = string.Empty,
+                     Price = string.Empty,
+                     PublishedDate = string.Empty,
+                     Publisher = string.Empty,
+                     Rank = string.Empty,
+                     RankLastWeek = string.Empty,
+                     SundayReviewLink = string.Empty,
+                     Title = string.Empty,
+                     WeeksOnList = string.Empty,
+                 };
 
-                        BookReviewLink = item.Descendants("review").Elements("book_review_link").First().Value,
-                        FirstChapterLink = item.Descendants("review").Elements("first_chapter_link").First().Value,
-                        SundayReviewLink = item.Descendants("review").Elements("sunday_review_link").First().Value,
-                        ArticleChapterLink = item.Descendants("review").Elements("article_chapter_link").First().Value,
-                    };
+            var books = from item in loaded.Descendants("book")
+                        select new Book
+                        {
+                            Category = item.Element("display_name").Value,
+                            BestSellersDate = item.Element("bestsellers_date").Value,
+                            Rank = item.Element("rank").Value,
+                            RankLastWeek = item.Element("rank_last_week").Value,
+                            WeeksOnList = item.Element("weeks_on_list").Value,
+                            PublishedDate = item.Element("published_date").Value,
 
-				book = (Book)books.Take(1).FirstOrDefault();
-			}
+                            Title = item.Descendants("book_detail").Elements("title").First().Value.ToTitleCase(),
+                            Contributor = item.Descendants("book_detail").Elements("contributor").First().Value,
+                            ContributorNote = item.Descendants("book_detail").Elements("contributor_note").First().Value,
+                            Author = item.Descendants("book_detail").Elements("author").First().Value,
+                            ISBN13 = item.Descendants("book_detail").Elements("primary_isbn13").First().Value,
+                            ISBN10 = item.Descendants("book_detail").Elements("primary_isbn10").First().Value,
+                            Publisher = item.Descendants("book_detail").Elements("publisher").First().Value,
+                            AgeGroup = item.Descendants("book_detail").Elements("age_group").First().Value,
+                            Price = item.Descendants("book_detail").Elements("price").First().Value,
+                            Description = item.Descendants("book_detail").Elements("description").First().Value,
 
-			if (book == null)
-			{
-				// not found for whatever reason
-				book = new Book();
-				book.AgeGroup = string.Empty;
-				book.ArticleChapterLink = string.Empty;
-				book.BestSellersDate = string.Empty;
-				book.BookReviewLink = string.Empty;
-				book.Category = string.Empty;
-				book.Contributor = string.Empty;
-				book.ContributorNote = string.Empty;
-				book.Description = string.Empty;
-				book.FirstChapterLink = string.Empty;
-				book.ISBN10 = string.Empty;
-				book.ISBN13 = string.Empty;
-				book.Price = string.Empty;
-				book.PublishedDate = string.Empty;
-				book.Publisher = string.Empty;
-				book.Rank = string.Empty;
-				book.RankLastWeek = string.Empty;
-				book.SundayReviewLink = string.Empty;
-				book.Title = string.Empty;
-				book.WeeksOnList = string.Empty;				
-			}
-			return book;
+                            BookReviewLink = item.Descendants("review").Elements("book_review_link").First().Value,
+                            FirstChapterLink = item.Descendants("review").Elements("first_chapter_link").First().Value,
+                            SundayReviewLink = item.Descendants("review").Elements("sunday_review_link").First().Value,
+                            ArticleChapterLink = item.Descendants("review").Elements("article_chapter_link").First().Value,
+                        };
+
+            return books.Take(1).FirstOrDefault() ?? new Book
+            {
+                AgeGroup = string.Empty,
+                ArticleChapterLink = string.Empty,
+                BestSellersDate = string.Empty,
+                BookReviewLink = string.Empty,
+                Category = string.Empty,
+                Contributor = string.Empty,
+                ContributorNote = string.Empty,
+                Description = string.Empty,
+                FirstChapterLink = string.Empty,
+                ISBN10 = string.Empty,
+                ISBN13 = string.Empty,
+                Price = string.Empty,
+                PublishedDate = string.Empty,
+                Publisher = string.Empty,
+                Rank = string.Empty,
+                RankLastWeek = string.Empty,
+                SundayReviewLink = string.Empty,
+                Title = string.Empty,
+                WeeksOnList = string.Empty,
+            };
         }
     }
 }

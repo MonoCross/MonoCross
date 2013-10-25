@@ -10,12 +10,19 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BestSellers.Droid</RootNamespace>
-    <AssemblyName>BestSellers.Droid</AssemblyName>
+    <AssemblyName>BestSellers.Android</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <DeployExternal>false</DeployExternal>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize />
+    <JavaOptions />
+    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,16 +60,12 @@
     <Compile Include="Views\BookListView.cs" />
     <Compile Include="Views\BookView.cs" />
     <Compile Include="Views\CategoryListView.cs" />
-    <Compile Include="MainReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\Layout\Splash.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\Layout\ListItem.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -67,12 +74,12 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\Icon.png" />
+    <AndroidResource Include="Resources\Drawable\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Android.Dialog\Android.Dialog.csproj">
-      <Project>{33044C7B-47A4-4113-A61A-EB429407F818}</Project>
-      <Name>Android.Dialog</Name>
+    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
+      <Project>{fb6b0fe8-51d8-4f5b-aa6a-280250820233}</Project>
+      <Name>MonocCross.Navigation</Name>
     </ProjectReference>
     <ProjectReference Include="..\BestSellers\BestSellers.MD.csproj">
       <Project>{A884E414-8FF4-4760-BE4E-36CA68F58CD7}</Project>
@@ -82,13 +89,6 @@
       <Project>{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}</Project>
       <Name>MonoCross.Droid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.MD.csproj">
-      <Project>{0D2CC54A-4716-40B9-8110-453F528810FC}</Project>
-      <Name>MonoCross.Navigation.MD</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidJavaSource Include="SplashScreenActivity.java" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\splash.png" />
@@ -97,6 +97,7 @@
     <Content Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </Content>
+    <AndroidResource Include="Resources\Layout\Description.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

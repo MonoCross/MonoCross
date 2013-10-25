@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+﻿using System.Windows;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-
-
-using BestSellers;
 using MonoCross.Navigation;
 using MonoCross.WindowsPhone;
 
 namespace BestSellers.WindowsPhone
 {
-    public partial class App : Application
+    public partial class App
     {
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -48,7 +35,7 @@ namespace BestSellers.WindowsPhone
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Display the current frame rate counters.
-                Application.Current.Host.Settings.EnableFrameRateCounter = true;
+                Current.Host.Settings.EnableFrameRateCounter = true;
 
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -68,9 +55,9 @@ namespace BestSellers.WindowsPhone
             MXPhoneContainer.Initialize(new BestSellers.App(), RootFrame);
 
             // initialize views
-            MXPhoneContainer.AddView<CategoryList>(typeof(CategoryListPage), ViewPerspective.Read);
-            MXPhoneContainer.AddView<BookList>(typeof(BookListPage), ViewPerspective.Read);
-            MXPhoneContainer.AddView<Book>(typeof(BookPage), ViewPerspective.Read);
+            MXContainer.AddView<CategoryList>(typeof(CategoryListPage), ViewPerspective.Read);
+            MXContainer.AddView<BookList>(typeof(BookListPage), ViewPerspective.Read);
+            MXContainer.AddView<Book>(typeof(BookPage), ViewPerspective.Read);
 
             // navigate to first view
             // below from the Application_Launching event, until that time we can't make network calls as needed
@@ -81,8 +68,7 @@ namespace BestSellers.WindowsPhone
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Application_Launching");
-
-            MXPhoneContainer.Navigate(null, MXContainer.Instance.App.NavigateOnLoad);
+            MXContainer.Navigate(null, MXContainer.Instance.App.NavigateOnLoad);
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -129,12 +115,12 @@ namespace BestSellers.WindowsPhone
         #region Phone application initialization
 
         // Avoid double-initialization
-        private bool phoneApplicationInitialized = false;
+        private bool _phoneApplicationInitialized;
 
         // Do not add any additional code to this method
         private void InitializePhoneApplication()
         {
-            if (phoneApplicationInitialized)
+            if (_phoneApplicationInitialized)
                 return;
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
@@ -146,7 +132,7 @@ namespace BestSellers.WindowsPhone
             RootFrame.NavigationFailed += RootFrame_NavigationFailed;
 
             // Ensure we don't initialize again
-            phoneApplicationInitialized = true;
+            _phoneApplicationInitialized = true;
         }
 
         // Do not add any additional code to this method

@@ -1,25 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics.Drawables;
-
-using BestSellers;
-
-using MonoCross.Navigation;
 using MonoCross.Droid;
-using Android.Dialog;
+using MonoCross.Navigation;
 
 namespace BestSellers.Droid.Views
 {
-    [Activity(Label = "Best Sellers in Category", LaunchMode=Android.Content.PM.LaunchMode.SingleTop)]
+    [Activity(Label = "Best Sellers in Category", LaunchMode = Android.Content.PM.LaunchMode.SingleTop)]
     public class BookListView : MXListActivityView<BookList>
     {
         public override void Render()
@@ -36,12 +23,12 @@ namespace BestSellers.Droid.Views
             this.Navigate(url);
         }
 
-        public class CustomListAdapter : BaseAdapter
+        private class CustomListAdapter : BaseAdapter
         {
-            BookList _items;
-            Activity _context;
+            readonly BookList _items;
+            readonly Activity _context;
 
-            public CustomListAdapter(Activity context, BookList list) : base()
+            public CustomListAdapter(Activity context, BookList list)
             {
                 _context = context;
                 _items = list;
@@ -67,16 +54,17 @@ namespace BestSellers.Droid.Views
                 //Get our object for this position
                 var item = _items[position];
 
-                //Try to reuse convertView if it's not  null, otherwise inflate it from our item layout
+                // Try to reuse convertView if it's not  null, otherwise inflate it from our item layout
                 // This gives us some performance gains by not always inflating a new view
                 // This will sound familiar to MonoTouch developers with UITableViewCell.DequeueReusableCell()
-                object o = _context.LayoutInflater.Inflate(Resource.Layout.ListItem, parent, false);
-                var view = (convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.ListItem, parent, false)) as ViewGroup;
+                var view = (ViewGroup)(convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.ListItem, parent, false));
 
                 //Find references to each subview in the list item's view
-                //var imageItem = view.FindViewById(Resource.id.imageItem) as ImageView;
-                var textTop = view.FindViewById<TextView>(Resource.Id.text1);
-                var textBottom = view.FindViewById<TextView>(Resource.Id.text2);
+                var tag = view.Tag as Tag ?? new Tag();
+                //var imageItem = tag.ImageItem ?? (tag.ImageItem = view.FindViewById(Resource.id.imageItem) as ImageView);
+                var textTop = tag.Text1 ?? (tag.Text1 = view.FindViewById<TextView>(Resource.Id.text1));
+                var textBottom = tag.Text2 ?? (tag.Text2 = view.FindViewById<TextView>(Resource.Id.text2));
+                view.Tag = tag;
 
                 //Assign this item's values to the various subviews
                 if (null != textTop)
@@ -88,11 +76,14 @@ namespace BestSellers.Droid.Views
                 return view;
             }
 
-            public Book GetItemAtPosition(int position)
+            /// <summary>
+            /// Tag for caching reusable views returned by <see cref="Activity.FindViewById{T}"/>
+            /// </summary>
+            private class Tag : Java.Lang.Object
             {
-                return _items[position];
+                public TextView Text1 { get; set; }
+                public TextView Text2 { get; set; }
             }
         }
-
     }
 }

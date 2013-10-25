@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-using Microsoft.Phone.Controls;
-
-using MonoCross.Navigation;
+﻿using MonoCross.Navigation;
 using MonoCross.WindowsPhone;
-
-using BestSellers;
+using System.Windows.Controls;
 
 namespace BestSellers.WindowsPhone
 {
@@ -36,9 +21,9 @@ namespace BestSellers.WindowsPhone
         public override void Render()
         {
             foreach (var category in Model)
-                listBox.Items.Add(category);
+                ListBox.Items.Add(category);
 
-            listBox.SelectionChanged += new SelectionChangedEventHandler(listBox_SelectionChanged);
+            ListBox.SelectionChanged += new SelectionChangedEventHandler(listBox_SelectionChanged);
 
             // remove the splash screen that was shown just before this
             NavigationService.RemoveBackEntry();
@@ -46,9 +31,9 @@ namespace BestSellers.WindowsPhone
 
         void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Category c = e.AddedItems[0] as Category;
+            var c = e.AddedItems[0] as Category;
 
-            MXPhoneContainer.Navigate(this, c.ListNameEncoded);
+            MXContainer.Navigate(this, c.ListNameEncoded);
         }
     }
 }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 
 namespace BestSellers
 {
     public class BookList : List<Book>
-        // ObservableCollection<Book> 
+    // ObservableCollection<Book> 
     {
         /*
         public string Category
@@ -27,5 +22,5 @@ namespace BestSellers
         */
         public string Category { get; set; }
         public string CategoryDisplayName { get; set; }
-    }    
+    }
 }

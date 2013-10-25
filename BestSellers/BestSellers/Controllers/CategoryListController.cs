@@ -7,27 +7,25 @@ using System.IO;
 
 using MonoCross.Navigation;
 
-using BestSellers;
-
 namespace BestSellers.Controllers
 {
-    public class CategoryListController : MXController<CategoryList>, IMXController
+    public class CategoryListController : MXController<CategoryList>
     {
-        const string URL_CATEGORIES = "http://api.nytimes.com/svc/books/v2/lists/names.xml?api-key=d8ad3be01d98001865e96ee55c1044db:8:57889697";
+        const string UrlCategories = "http://api.nytimes.com/svc/books/v2/lists/names.xml?api-key=d8ad3be01d98001865e96ee55c1044db:8:57889697";
 
         public override string Load(Dictionary<string, string> parameters)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL_CATEGORIES);
+            var request = (HttpWebRequest)WebRequest.Create(UrlCategories);
 
             Model = new CategoryList();
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse)request.GetResponse();
             Stream stream = response.GetResponseStream();
             if (stream == null)
                 throw new Exception("Failed to connect the New Yorw Times Best Sellers Serivce");
 
             XDocument loaded = XDocument.Load(stream);
             var categories = from item in loaded.Descendants("result")
-                select new Category()
+                select new Category
                 {
                     ListName = item.Element("list_name").Value,
                     DisplayName = item.Element("display_name").Value,
