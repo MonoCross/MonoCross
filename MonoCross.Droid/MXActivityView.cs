@@ -26,13 +26,10 @@ namespace MonoCross.Droid
                 var mapping = MXContainer.Instance.App.NavigationMap.FirstOrDefault(layer => layer.Controller.ModelType == t);
                 if (mapping == null)
                 {
-                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t.ToString());
+                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t);
                 }
-                else
-                {
-                    mapping.Controller.Load(new Dictionary<string, string>());
-                    SetModel(mapping.Controller.GetModel());
-                }
+                mapping.Controller.Load(new Dictionary<string, string>());
+                SetModel(mapping.Controller.GetModel());
             }
 
             // render the model within the view

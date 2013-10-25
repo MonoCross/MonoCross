@@ -66,20 +66,20 @@ namespace MonoCross.Droid
                 else if (LastContext != null)
                 {
                     // use the last context to instantiate the new view
-                    Intent intent = new Intent(LastContext, viewType);
+                    var intent = new Intent(LastContext, viewType);
                     intent.AddFlags(ActivityFlags.NewTask);
                     LastContext.StartActivity(intent);
                 }
                 else
                 {
-                    Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete: View not found for " + viewPerspective.ToString());
-                    throw new TypeLoadException("View not found for " + viewPerspective.ToString());
+                    Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete: View not found for " + viewPerspective);
+                    throw new TypeLoadException("View not found for " + viewPerspective);
                 }
             }
             else
             {
-                Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete: View not found for " + viewPerspective.ToString());
-                throw new TypeLoadException("View not found for " + viewPerspective.ToString());
+                Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete: View not found for " + viewPerspective);
+                throw new TypeLoadException("View not found for " + viewPerspective);
             }
         }
 

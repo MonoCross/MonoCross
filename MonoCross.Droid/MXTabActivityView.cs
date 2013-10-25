@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 
 using MonoCross.Navigation;
 
@@ -31,13 +26,10 @@ namespace MonoCross.Droid
                 var mapping = MXContainer.Instance.App.NavigationMap.FirstOrDefault(layer => layer.Controller.ModelType == t);
                 if (mapping == null)
                 {
-                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t.ToString());
+                    throw new ApplicationException("The navigation map does not contain any controllers for type " + t);
                 }
-                else
-                {
-                    mapping.Controller.Load(new Dictionary<string, string>());
-                    SetModel(mapping.Controller.GetModel());
-                }
+                mapping.Controller.Load(new Dictionary<string, string>());
+                SetModel(mapping.Controller.GetModel());
             }
 
             // render the model within the view
@@ -54,7 +46,7 @@ namespace MonoCross.Droid
 
         public event ModelEventHandler ViewModelChanged;
         public virtual void OnViewModelChanged(object model) { }
-        public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(this.Model); }
+        public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(Model); }
     }
 }
 
