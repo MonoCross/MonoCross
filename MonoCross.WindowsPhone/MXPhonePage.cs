@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-using System.Linq;
-
-using Microsoft.Phone.Controls;
-
+﻿using Microsoft.Phone.Controls;
 using MonoCross.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoCross.WindowsPhone
 {
@@ -47,7 +35,7 @@ namespace MonoCross.WindowsPhone
                     var mapping = MXContainer.Instance.App.NavigationMap.FirstOrDefault(layer => layer.Controller.ModelType == t);
                     if (mapping == null)
                     {
-                        throw new Exception("The navigation map does not contain any controllers for type " + t.ToString());
+                        throw new Exception("The navigation map does not contain any controllers for type " + t);
                     }
 
                     mapping.Controller.Load(new Dictionary<string, string>());
