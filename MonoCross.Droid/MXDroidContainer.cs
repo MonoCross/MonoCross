@@ -7,6 +7,9 @@ using MonoCross.Navigation;
 
 namespace MonoCross.Droid
 {
+    /// <summary>
+    /// Represents the MonoCross Android container.
+    /// </summary>
     public class MXDroidContainer : MXContainer
     {
         public static Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();

@@ -6,7 +6,7 @@ namespace MonoCross.Navigation
     /// Delegate type for handling model events from the view
     /// </summary>
     public delegate void ModelEventHandler(object model);
-	
+
     #region IMXView interface
     /// <summary>
     /// Interface that marks a class as being a View
@@ -24,7 +24,7 @@ namespace MonoCross.Navigation
         void SetModel(object model);
 
         /// <summary>
-        /// Displays the view
+        /// Displays the view according to the state of the model.
         /// </summary>
         void Render();
     }
@@ -39,7 +39,14 @@ namespace MonoCross.Navigation
     /// <typeparam name="T">The type of Model that the view displays</typeparam>
     public abstract class MXView<T> : IMXView
     {
-		public Type ModelType { get { return typeof(T); } }
+        /// <summary>
+        /// The type of the model displayed by this view
+        /// </summary>
+        public Type ModelType { get { return typeof(T); } }
+
+        /// <summary>
+        /// Sets the model for the view. An InvalidCastException may be thrown if a model of the wrong type is set.
+        /// </summary>
         public virtual void SetModel(object model)
         {
             Model = (T)model;
@@ -51,7 +58,11 @@ namespace MonoCross.Navigation
         /// you have done your Render().
         /// </summary>
         public virtual void Render() { }
-		
-		public virtual T Model { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the model for the view.
+        /// </summary>
+        public virtual T Model { get; set; }
     }
 }

@@ -5,12 +5,38 @@ using System.Text.RegularExpressions;
 
 namespace MonoCross.Navigation
 {
+    /// <summary>
+    /// Represents a mapping of a URL pattern to a particular <see cref="IMXController"/> instance
+    /// along with any default parameters needed for initialization of the controller.
+    /// </summary>
     public class MXNavigation
     {
+        /// <summary>
+        /// Gets or sets the controller for this instance.
+        /// </summary>
+        /// <value>The controller as an <see cref="IMXController"/> instance.</value>
         public IMXController Controller { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the navigation URL pattern for the controller.
+        /// </summary>
+        /// <value>The URL pattern as a <see cref="String"/> value.</value>
         public string Pattern { get; private set; }
+
+        /// <summary>
+        /// Gets or sets any parameters to add to the controller.
+        /// </summary>
+        /// <value>
+        /// The parameters as a <see cref="Dictionary{TKey,TValue}"/> instance.
+        /// </value>
         public Dictionary<string, string> Parameters { get; private set; }
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="MXNavigation"/> class.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controller">The controller to add to the navigation list.</param>
+        /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
         public MXNavigation(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
             Controller = controller;
@@ -47,7 +73,7 @@ namespace MonoCross.Navigation
         }
 
 
-        class Segment
+        private class Segment
         {
             /// <summary>
             /// Splits the specified URL into segments and returns the result.
@@ -97,14 +123,12 @@ namespace MonoCross.Navigation
         Segment[] Parts { get; set; }
     }
 
+    /// <summary>
+    /// Represents a collection of <see cref="MXNavigation"/>s for navigation in an application.
+    /// </summary>
     public class NavigationList : List<MXNavigation>
     {
         public event NavigationAddedDelegate Added;
-
-        public void Add(string pattern, IMXController controller)
-        {
-            Add(pattern, controller, new Dictionary<string, string>());
-        }
 
         public IMXController GetControllerForPattern(string pattern)
         {
@@ -121,6 +145,22 @@ namespace MonoCross.Navigation
             return this.Any(m => m.Pattern == pattern);
         }
 
+        /// <summary>
+        /// Adds the specified controller to the navigation list with the specified string pattern.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controller">The controller to add to the navigation list.</param>
+        public void Add(string pattern, IMXController controller)
+        {
+            Add(pattern, controller, new Dictionary<string, string>());
+        }
+
+        /// <summary>
+        /// Adds the specified controller to the navigation list with the specified string pattern.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controller">The controller to add to the navigation list.</param>
+        /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
         public void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
             // Enforce uniqueness
@@ -144,6 +184,11 @@ namespace MonoCross.Navigation
 
         }
 
+        /// <summary>
+        /// Returns a <see cref="MXNavigation"/> from the Navigation List that matches the specified URL.
+        /// </summary>
+        /// <param name="url">A <see cref="String"/> representing the URL to match.</param>
+        /// <returns>A <see cref="MXNavigation"/> that matches the URL.</returns>
         public MXNavigation MatchUrl(string url)
         {
             return this.FirstOrDefault(pattern => Regex.Match(url, pattern.RegexPattern()).Value == url);

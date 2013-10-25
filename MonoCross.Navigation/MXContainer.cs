@@ -19,8 +19,15 @@ namespace MonoCross.Navigation
         }
     }
 
+    /// <summary>
+    /// Represents the platform-specific instance of the MonoCross container.
+    /// </summary>
     public abstract class MXContainer
     {
+        /// <summary>
+        /// Gets the date and time of the last navigation that occurred.
+        /// </summary>
+        /// <value>The last navigation date.</value>
         public DateTime LastNavigationDate { get; set; }
 
         public string LastNavigationUrl { get; set; }
@@ -78,7 +85,7 @@ namespace MonoCross.Navigation
         /// View perspective.
         /// </param>
         protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective);
-        private MXViewMap _views = new MXViewMap();
+        private readonly MXViewMap _views = new MXViewMap();
         public virtual MXViewMap Views
         {
             get { return _views; }
@@ -92,25 +99,11 @@ namespace MonoCross.Navigation
             _theApp = theApp;
         }
 
-        /*
-        /// <summary>
-        /// Initializes the specified target factory instance.
-        /// </summary>
-        /// <param name="newInstance">A <see cref="T"/> representing the target factory value.</param>
-        /// 
-        protected static void Initialize(MXContainer newInstance)
-        {
-            if (newInstance == null)
-                throw new ArgumentNullException();
-            Instance = newInstance;
-        }
-        */
-
         public MXApplication App
         {
             get { return _theApp; }
         }
-        private MXApplication _theApp;
+        private readonly MXApplication _theApp;
 
         public delegate String SessionIdDelegate();
         static protected SessionIdDelegate GetSessionId;
@@ -177,11 +170,20 @@ namespace MonoCross.Navigation
                 Views.Add(viewPerspective, view);
         }
 
+        /// <summary>
+        /// Initiates a navigation to the specified URL.
+        /// </summary>
+        /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
         public static void Navigate(string url)
         {
             InternalNavigate(null, url, new Dictionary<string, string>());
         }
 
+        /// <summary>
+        /// Initiates a navigation to the specified URL.
+        /// </summary>
+        /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
+        /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
         public static void Navigate(IMXView view, string url)
         {
             InternalNavigate(view, url, new Dictionary<string, string>());
