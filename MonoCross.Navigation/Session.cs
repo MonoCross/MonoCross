@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace MonoCross.Navigation
 {
     /// <summary>
     /// Defines an application's session settings.
     /// </summary>
-    public interface ISession : IDictionary<string, object>, ICollection<KeyValuePair<string, object>>, IEnumerable<KeyValuePair<string, object>>, ICollection, IEnumerable
+    public interface ISession : IDictionary<string, object>, ICollection
     {
         /// <summary>
         /// Removes or resets all session settings.
@@ -21,10 +15,19 @@ namespace MonoCross.Navigation
     }
 
     /// <summary>
-    /// Represents a <see cref="SerializableDictionary&lt;TKey, TValue&gt;"/> that stores an application's session settings.
+    /// Represents a <see cref="SerializableDictionary{TKey,TValue}"/> that stores an application's session settings.
     /// </summary>
     public class SessionDictionary : SerializableDictionary<string, object>, ISession
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SessionDictionary"/> class.
+        /// </summary>
+        public SessionDictionary()
+        {
+            SafeKeys.Add(ContainerKey);
+            SafeKeys.Add(NavKey);
+        }
+
         /// <summary>
         /// The key used for the container object.
         /// </summary>
@@ -40,24 +43,32 @@ namespace MonoCross.Navigation
         /// </summary>
         public override void Clear()
         {
-            object theApp;
-            object navMap;
-            this.TryGetValue(ContainerKey, out theApp);
-            this.TryGetValue(NavKey, out navMap);
+            var safeEntries = new Dictionary<string, object>();
+            foreach (var key in SafeKeys)
+            {
+                object entry;
+                TryGetValue(key, out entry);
+                if (entry != null) safeEntries.Add(key, entry);
+            }
 
             base.Clear();
-            if (theApp != null)
-                Add(ContainerKey, theApp);
-            if (navMap != null)
-                Add(NavKey, navMap);
+            foreach (var pair in safeEntries)
+            {
+                Add(pair);
+            }
         }
+
+        /// <summary>
+        /// Keys of entries to persist through a <see cref="Clear"/>
+        /// </summary>
+        public readonly List<string> SafeKeys = new List<string>();
 
         /// <summary>
         /// Removes or resets all session settings.
         /// </summary>
         public virtual void Abandon()
         {
-            this.Clear();
+            Clear();
         }
     }
 }

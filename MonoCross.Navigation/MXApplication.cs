@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace MonoCross.Navigation
+﻿namespace MonoCross.Navigation
 {
     public abstract class MXApplication
     {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MonoCross.Navigation
 {
@@ -17,16 +14,16 @@ namespace MonoCross.Navigation
     {
         public MXViewPerspective(Type modelType, string perspective)
         {
-            this.Perspective = perspective;
-            this.ModelType = modelType;
+            Perspective = perspective;
+            ModelType = modelType;
         }
         public string Perspective { get; set; }
         public Type ModelType { get; set; }
 
         public int CompareTo(object obj)
         {
-            MXViewPerspective p =(MXViewPerspective)obj;
-            return this.GetHashCode() == p.GetHashCode() ? 0 : -1;
+            var p =(MXViewPerspective)obj;
+            return GetHashCode() == p.GetHashCode() ? 0 : -1;
         }
         public static bool operator ==(MXViewPerspective a, MXViewPerspective b)
         {
@@ -42,7 +39,7 @@ namespace MonoCross.Navigation
         }
         public override int GetHashCode()
         {
-            return this.ModelType.GetHashCode() ^ this.Perspective.GetHashCode();
+            return ModelType.GetHashCode() ^ Perspective.GetHashCode();
         }
         
         public override string ToString()

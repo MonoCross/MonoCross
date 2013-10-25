@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MonoCross.Navigation
@@ -29,16 +28,16 @@ namespace MonoCross.Navigation
         /// Parses the specified URL for parameters and adds them to the specified dictionary.
         /// </summary>
         /// <param name="url">The URL to parse for parameters.</param>
-        /// <param name="parameters">The <see cref="Dictionary&lt;TKey, TValue&gt;"/> to add the parsed parameters to.</param>
+        /// <param name="parameters">The <see cref="Dictionary{TKey,TValue}"/> to add the parsed parameters to.</param>
         /// <exception cref="ArgumentException">Thrown if the segment count of the <paramref name="url"/> is not equal to the segment count of this instance.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="parameters"/> is <c>null</c>.</exception>
         public void ExtractParameters(string url, Dictionary<string, string> parameters)
         {
-            string[] urlParts = url.Split(new char[] { '/' });
-            if (urlParts.Length != this.Parts.Length)
+            string[] urlParts = url.Split(new[] { '/' });
+            if (urlParts.Length != Parts.Length)
                 throw new ArgumentException("URL is not valid for this match!", "url");
-            else if (parameters == null)
-                throw new ArgumentNullException("Parameters must have already been allocated!", "parameters");
+            if (parameters == null)
+                throw new ArgumentNullException("parameters", "Parameters must have already been allocated!");
 
             for (int partNumber = 0; partNumber < urlParts.Length; partNumber++)
             {
@@ -56,8 +55,8 @@ namespace MonoCross.Navigation
             /// <param name="url">The URL to split into segments.</param>
             public static Segment[] Split(string url)
             {
-                string[] parts = url.Split(new char[] { '/' });
-                Segment[] segments = new Segment[parts.Length];
+                string[] parts = url.Split(new[] { '/' });
+                var segments = new Segment[parts.Length];
                 for (int partNumber = 0; partNumber < parts.Length; partNumber++)
                     segments[partNumber] = new Segment(parts[partNumber]);
                 return segments;
@@ -96,7 +95,7 @@ namespace MonoCross.Navigation
         }
 
         Segment[] Parts { get; set; }
-	}
+    }
 
     public class NavigationList : List<MXNavigation>
     {
@@ -104,31 +103,28 @@ namespace MonoCross.Navigation
 
         public void Add(string pattern, IMXController controller)
         {
-            this.Add(pattern, controller, new Dictionary<string, string>());
+            Add(pattern, controller, new Dictionary<string, string>());
         }
 
         public IMXController GetControllerForPattern(string pattern)
         {
-            return this.Contains(pattern) ? this.Where(m => m.Pattern == pattern).First().Controller : null;
+            return Contains(pattern) ? this.First(m => m.Pattern == pattern).Controller : null;
         }
 
         public String GetPatternForModelType(Type modelType)
         {
-            return this.Where(m => m.Controller.ModelType == modelType).First().Pattern;
+            return this.First(m => m.Controller.ModelType == modelType).Pattern;
         }
 
         public bool Contains(string pattern)
         {
-            return this.Where(m => m.Pattern == pattern).Count() > 0;
+            return this.Any(m => m.Pattern == pattern);
         }
 
         public void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
-#if DROID
-                Android.Util.Log.Debug("NavigationList", "Adding: '" + pattern + "'");
-#endif
             // Enforce uniqueness
-            MXNavigation currentMatch = this.Where(m => m.Pattern == pattern).FirstOrDefault();
+            MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == pattern);
             if (currentMatch != null)
             {
 #if DEBUG
@@ -141,7 +137,7 @@ namespace MonoCross.Navigation
             }
 
             var mxNavItem = new MXNavigation(pattern, controller, parameters);
-            this.Add(mxNavItem);
+            Add(mxNavItem);
 
             var e = Added;
             if (e != null) e(this, new NavAddedEventArgs(mxNavItem));

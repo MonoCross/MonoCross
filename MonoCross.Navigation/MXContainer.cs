@@ -51,7 +51,9 @@ namespace MonoCross.Navigation
         /// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
         protected virtual void OnControllerLoadBegin(IMXController controller, IMXView fromView)
         {
+#pragma warning disable 618
             OnControllerLoadBegin(controller);
+#pragma warning restore 618
         }
 
         /// <summary>
@@ -127,13 +129,13 @@ namespace MonoCross.Navigation
         {
             get
             {
-                object instance = null;
+                object instance;
                 Session.TryGetValue(GetSessionId == null ? string.Empty : GetSessionId(), out instance);
                 return (instance as MXContainer);
             }
-            set
+            private set
             {
-                Session[GetSessionId == null ? string.Empty : GetSessionId()] = (value as MXContainer);
+                Session[GetSessionId == null ? string.Empty : GetSessionId()] = value;
             }
         }
 
@@ -142,13 +144,7 @@ namespace MonoCross.Navigation
         /// </summary>
         public static ISession Session
         {
-            get
-            {
-                if (_session == null)
-                    _session = new SessionDictionary();
-
-                return _session;
-            }
+            get { return _session ?? (_session = new SessionDictionary()); }
         }
         static SessionDictionary _session;
 
@@ -221,7 +217,7 @@ namespace MonoCross.Navigation
 #if NETFX_CORE
                         System.Threading.Tasks.Task.Factory.StartNew(() => TryLoadController(container, fromView, controller, parameters), System.Threading.Tasks.TaskCreationOptions.LongRunning);
 #else
-                        new Thread(() => TryLoadController(container, fromView, controller, parameters)).Start();
+                        ThreadPool.QueueUserWorkItem(o => TryLoadController(container, fromView, controller, parameters));
 #endif
                     }
                     else
@@ -274,7 +270,6 @@ namespace MonoCross.Navigation
         public virtual IMXController GetController(string url, ref Dictionary<string, string> parameters)
         {
             IMXController controller = null;
-            MXNavigation navigation = null;
 
             // return if no url provided
             if (url == null)
@@ -291,7 +286,7 @@ namespace MonoCross.Navigation
             // Console.WriteLine("Navigating to: " + url);
 
             // get map object
-            navigation = App.NavigationMap.MatchUrl(url);
+            MXNavigation navigation = App.NavigationMap.MatchUrl(url);
 
             // If there is no result, assume the URL is external and create a new Browser View
             if (navigation != null)
@@ -303,7 +298,7 @@ namespace MonoCross.Navigation
                 MatchCollection args = Regex.Matches(navigation.Pattern, @"{(?<Name>\w+)}*");
 
                 // If there are any parameters in the URL string, add them to the parameters dictionary
-                if (match != null && args.Count > 0)
+                if (args.Count > 0)
                 {
                     foreach (Match arg in args)
                     {
@@ -328,14 +323,14 @@ namespace MonoCross.Navigation
                 controller.Uri = url;
                 controller.Parameters = parameters;
             }
-            else
-            {
-#if DEBUG
-                //throw new Exception("URI match not found for: " + url);
-#else
-                // should log the message at least
-#endif
-            }
+            //else
+            //{
+            //    #if DEBUG
+            //        throw new Exception("URI match not found for: " + url);
+            //    #else
+            //        // should log the message at least
+            //    #endif
+            //}
 
             return controller;
         }
@@ -352,15 +347,18 @@ namespace MonoCross.Navigation
 
             public void Add(MXViewPerspective perspective, Type viewType)
             {
-#if !NETFX_CORE && !WINDOWS_PHONE
+#if NETFX_CORE
+                if (!System.Reflection.IntrospectionExtensions.GetTypeInfo(keyValuePair.Value).ImplementedInterfaces.Contains(typeof(IMXView)))
+#else
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
-                    throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
 #endif
+                    throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
+
                 _typeMap[perspective] = viewType;
                 _viewMap[perspective] = null;
 
 
-                MXViewPerspective vp = new MXViewPerspective(perspective.ModelType, perspective.Perspective);
+                var vp = new MXViewPerspective(perspective.ModelType, perspective.Perspective);
                 System.Diagnostics.Debug.Assert(_typeMap.ContainsKey(vp));
                 System.Diagnostics.Debug.Assert(_viewMap.ContainsKey(vp));
             }
@@ -419,10 +417,14 @@ namespace MonoCross.Navigation
             {
                 // Check typemap values for either a concrete type or an interface
                 var kvp = _typeMap.FirstOrDefault(keyValuePair => keyValuePair.Value == viewType
-#if !NETFX_CORE && !NETCF
- || !ReferenceEquals(keyValuePair.Value.GetInterface(viewType.ToString(), false), null)
+                    || !ReferenceEquals(
+#if NETFX_CORE
+System.Reflection.IntrospectionExtensions.GetTypeInfo(keyValuePair.Value).ImplementedInterfaces
+#else
+keyValuePair.Value.GetInterfaces()
 #endif
-);
+.FirstOrDefault(i => i.Name == viewType.Name), null));
+
                 return kvp.Key;
             }
 

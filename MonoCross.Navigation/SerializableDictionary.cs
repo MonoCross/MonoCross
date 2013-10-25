@@ -12,9 +12,9 @@ namespace MonoCross.Navigation
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-    public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary, ICollection, IXmlSerializable
+    public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary, IXmlSerializable
     {
-        private IDictionary<TKey, TValue> internalDictionary;
+        private readonly IDictionary<TKey, TValue> _internalDictionary;
 
         #region Constructors
 
@@ -23,7 +23,7 @@ namespace MonoCross.Navigation
         /// </summary>
         public SerializableDictionary()
         {
-            internalDictionary = new Dictionary<TKey, TValue>();
+            _internalDictionary = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace MonoCross.Navigation
         /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> whose elements are copied to the new <see cref="SerializableDictionary&lt;TKey, TValue&gt;"/>.</param>
         public SerializableDictionary(IDictionary<TKey, TValue> dictionary)
         {
-            internalDictionary = new Dictionary<TKey, TValue>(dictionary);
+            _internalDictionary = new Dictionary<TKey, TValue>(dictionary);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace MonoCross.Navigation
         /// <param name="comparer">The <see cref="IEqualityComparer&lt;TKey&gt;"/> to use when comparing keys.</param>
         public SerializableDictionary(IEqualityComparer<TKey> comparer)
         {
-            internalDictionary = new Dictionary<TKey, TValue>(comparer);
+            _internalDictionary = new Dictionary<TKey, TValue>(comparer);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace MonoCross.Navigation
         /// <param name="capacity">The initial number of elements that the <see cref="SerializableDictionary&lt;TKey, TValue&gt;"/> can contain.</param>
         public SerializableDictionary(int capacity)
         {
-            internalDictionary = new Dictionary<TKey, TValue>(capacity);
+            _internalDictionary = new Dictionary<TKey, TValue>(capacity);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace MonoCross.Navigation
         /// <param name="comparer">The <see cref="IEqualityComparer&lt;TKey&gt;"/> to use when comparing keys.</param>
         public SerializableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
         {
-            internalDictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+            _internalDictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace MonoCross.Navigation
         /// <param name="comparer">The <see cref="IEqualityComparer&lt;TKey&gt;"/> to use when comparing keys.</param>
         public SerializableDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
-            internalDictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+            _internalDictionary = new Dictionary<TKey, TValue>(capacity, comparer);
         }
         #endregion
 
@@ -83,14 +83,14 @@ namespace MonoCross.Navigation
         /// </summary>
         public IEnumerator GetEnumerator()
         {
-            return internalDictionary.GetEnumerator();
+            return _internalDictionary.GetEnumerator();
         }
         #endregion
 
         #region IEnumerable implementation
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
-            return internalDictionary.GetEnumerator();
+            return _internalDictionary.GetEnumerator();
         }
         #endregion
 
@@ -101,7 +101,7 @@ namespace MonoCross.Navigation
         /// <param name="item">The item to add to the collection.</param>
         public virtual void Add(KeyValuePair<TKey, TValue> item)
         {
-            internalDictionary.Add(item);
+            _internalDictionary.Add(item);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MonoCross.Navigation
         /// </summary>
         public virtual void Clear()
         {
-            internalDictionary.Clear();
+            _internalDictionary.Clear();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the item is found in the collection; otherwise <c>false</c>.</returns>
         public virtual bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return internalDictionary.Contains(item);
+            return _internalDictionary.Contains(item);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace MonoCross.Navigation
         /// <param name="arrayIndex">The index in the array at which copying begins.</param>
         public virtual void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            internalDictionary.CopyTo(array, arrayIndex);
+            _internalDictionary.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the item was successfully removed from the collection; otherwise <c>false</c>.</returns>
         public virtual bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return internalDictionary.Remove(item);
+            return _internalDictionary.Remove(item);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace MonoCross.Navigation
         /// <param name="index">The index in the array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
-            throw new NotImplementedException();
+            ((ICollection)_internalDictionary).CopyTo(array, index);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace MonoCross.Navigation
         {
             get
             {
-                return internalDictionary.Count;
+                return _internalDictionary.Count;
             }
         }
 
@@ -192,7 +192,7 @@ namespace MonoCross.Navigation
         {
             get
             {
-                return internalDictionary.IsReadOnly;
+                return _internalDictionary.IsReadOnly;
             }
         }
         #endregion
@@ -205,7 +205,7 @@ namespace MonoCross.Navigation
         /// <param name="value">The object to use as the value of the element to add.</param>
         public virtual void Add(TKey key, TValue value)
         {
-            internalDictionary.Add(key, value);
+            _internalDictionary.Add(key, value);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the dictionary contains an element with the key; otherwise <c>false</c>.</returns>
         public virtual bool ContainsKey(TKey key)
         {
-            return internalDictionary.ContainsKey(key);
+            return _internalDictionary.ContainsKey(key);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the element was successfully removed from the dictionary; otherwise <c>false</c>.</returns>
         public virtual bool Remove(TKey key)
         {
-            return internalDictionary.Remove(key);
+            return _internalDictionary.Remove(key);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the dictionary contains an element with the key; otherwise <c>false</c>.</returns>
         public virtual bool TryGetValue(TKey key, out TValue value)
         {
-            return internalDictionary.TryGetValue(key, out value);
+            return _internalDictionary.TryGetValue(key, out value);
         }
 
         /// <summary>
@@ -247,11 +247,11 @@ namespace MonoCross.Navigation
         {
             get
             {
-                return internalDictionary[key];
+                return _internalDictionary[key];
             }
             set
             {
-                internalDictionary[key] = value;
+                _internalDictionary[key] = value;
             }
         }
 
@@ -262,7 +262,7 @@ namespace MonoCross.Navigation
         {
             get
             {
-                return internalDictionary.Keys;
+                return _internalDictionary.Keys;
             }
         }
 
@@ -273,7 +273,7 @@ namespace MonoCross.Navigation
         {
             get
             {
-                return internalDictionary.Values;
+                return _internalDictionary.Values;
             }
         }
         #endregion
@@ -286,7 +286,7 @@ namespace MonoCross.Navigation
         /// <param name="value">The object to use as the value of the element to add.</param>
         public void Add(object key, object value)
         {
-            internalDictionary.Add((TKey)key, (TValue)value);
+            _internalDictionary.Add((TKey)key, (TValue)value);
         }
 
         /// <summary>
@@ -296,12 +296,12 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the dictionary contains an element with the key; otherwise <c>false</c>.</returns>
         public bool Contains(object key)
         {
-            return internalDictionary.ContainsKey((TKey)key);
+            return _internalDictionary.ContainsKey((TKey)key);
         }
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return ((IDictionary)_internalDictionary).GetEnumerator();
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace MonoCross.Navigation
         /// <param name="key">The key of the element to remove.</param>
         public void Remove(object key)
         {
-            internalDictionary.Remove((TKey)key);
+            _internalDictionary.Remove((TKey)key);
         }
 
         /// <summary>
@@ -325,27 +325,27 @@ namespace MonoCross.Navigation
         {
             get
             {
-                if (key is TKey && internalDictionary.ContainsKey((TKey)key))
+                if (key is TKey && _internalDictionary.ContainsKey((TKey)key))
                 {
-                    return internalDictionary[(TKey)key];
+                    return _internalDictionary[(TKey)key];
                 }
                 return null;
             }
             set
             {
                 if (key is TKey && value is TValue)
-                    internalDictionary[(TKey)key] = (TValue)value;
+                    _internalDictionary[(TKey)key] = (TValue)value;
             }
         }
 
         ICollection IDictionary.Keys
         {
-            get { return (ICollection)internalDictionary.Keys; }
+            get { return (ICollection)_internalDictionary.Keys; }
         }
 
         ICollection IDictionary.Values
         {
-            get { return (ICollection)internalDictionary.Values; }
+            get { return (ICollection)_internalDictionary.Values; }
         }
 
         #endregion
@@ -427,7 +427,7 @@ namespace MonoCross.Navigation
         /// <param name="d">The <see cref="SerializableDictionary&lt;TKey, TValue&gt;"/> instance to convert.</param>
         public static implicit operator Dictionary<TKey, TValue>(SerializableDictionary<TKey, TValue> d)
         {
-            return (Dictionary<TKey, TValue>)d.internalDictionary;
+            return (Dictionary<TKey, TValue>)d._internalDictionary;
         }
 
         /// <summary>
