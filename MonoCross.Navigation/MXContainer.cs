@@ -267,6 +267,10 @@ namespace MonoCross.Navigation
             Instance.CancelLoad = false;
         }
 
+        /// <summary>
+        /// Cancels loading of the current controller and navigates to the specified url.
+        /// </summary>
+        /// <param name="url">The url of the controller to navigate to.</param>
         public abstract void Redirect(string url);
 
         public virtual IMXController GetController(string url, ref Dictionary<string, string> parameters)

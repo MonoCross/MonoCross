@@ -93,6 +93,10 @@ namespace MonoCross.Console
             System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
         }
 
+        /// <summary>
+        /// Cancels loading of the current controller and navigates to the specified url.
+        /// </summary>
+        /// <param name="url">The url of the controller to navigate to.</param>
         public override void Redirect(string url)
         {
             Navigate(null, url);

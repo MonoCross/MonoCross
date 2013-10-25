@@ -12,33 +12,41 @@ namespace MonoCross.Droid
     /// </summary>
     public class MXDroidContainer : MXContainer
     {
-        public static Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();
+        /// <summary>
+        /// Cache for loaded Models
+        /// </summary>
+        public static readonly Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();
+
+        /// <summary>
+        /// Provides an <see cref="Action{T}"/> to render the view from a loaded controller.
+        /// </summary>
         public static Action<Type> NavigationHandler { get; set; }
+
+        /// <summary>
+        /// Return the context of the single, global Application object of the current process.
+        /// </summary>
         public static Context ApplicationContext { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MXDroidContainer"/> class.
+        /// </summary>
+        /// <param name="theApp">The <see cref="MXApplication"/> to manage.</param>
         public MXDroidContainer(MXApplication theApp)
             : base(theApp)
         {
         }
 
+        /// <summary>
+        /// Initializes a <see cref="MXDroidContainer"/>.
+        /// </summary>
+        /// <param name="theApp">The <see cref="MXApplication"/> to manage.</param>
+        /// <param name="applicationContext">The ApplicationContext of the first activity.</param>
         public static void Initialize(MXApplication theApp, Context applicationContext)
         {
             InitializeContainer(new MXDroidContainer(theApp));
             Instance.ThreadedLoad = true;
             ApplicationContext = applicationContext;
         }
-
-        [Obsolete]
-        protected override void OnControllerLoadBegin(IMXController controller)
-        {
-            Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadBegin");
-        }
-
-        protected override void OnControllerLoadFailed(IMXController controller, Exception ex)
-        {
-            Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadFailed: " + ex.Message);
-        }
-
 
         /// <summary>
         /// Gets or sets the last active Context.
@@ -50,6 +58,22 @@ namespace MonoCross.Droid
         /// However, this isn't a reliable source to get the currently visible activity. </remarks>
         public Context LastContext { get; set; }
 
+        /// <summary>
+        /// Occurs when a controller throws an unhandled exception from MXContainer.TryLoadController().
+        /// </summary>
+        /// <param name="controller">The <see cref="IMXController"/> that failed to load.</param>
+        /// <param name="ex">The <see cref="Exception"/> that caused the load to fail.</param>
+        protected override void OnControllerLoadFailed(IMXController controller, Exception ex)
+        {
+            Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadFailed: " + ex.Message);
+        }
+
+        /// <summary>
+        /// Occurs after a successful controller load.
+        /// </summary>
+        /// <param name="fromView">The <see cref="IMXView"/> that kicked off the navigation.</param>
+        /// <param name="controller">The <see cref="IMXController"/> that received the navigation.</param>
+        /// <param name="viewPerspective">The <see cref="ViewPerspective"/> returned by the controller load.</param>
         protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
         {
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete");
@@ -86,6 +110,10 @@ namespace MonoCross.Droid
             }
         }
 
+        /// <summary>
+        /// Cancels loading of the current controller and navigates to the specified url.
+        /// </summary>
+        /// <param name="url">The url of the controller to navigate to.</param>
         public override void Redirect(string url)
         {
             Navigate(null, url);
