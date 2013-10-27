@@ -178,4 +178,5 @@ pip-log.txt
 .mr.developer.cfg
 
 # Mac crap
-.DS_Store*.userprefs
+.DS_Store
+*.userprefs

@@ -71,9 +71,9 @@
     <Compile Include="Model\CategoryList.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.MT.csproj">
-      <Project>{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}</Project>
-      <Name>MonoCross.Navigation.MT</Name>
+    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
+      <Project>{FB6B0FE8-51D8-4F5B-AA6A-280250820233}</Project>
+      <Name>MonoCross.Navigation</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

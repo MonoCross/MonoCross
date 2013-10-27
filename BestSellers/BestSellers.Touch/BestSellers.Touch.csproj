@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Touch.TestContainer</RootNamespace>
-    <AssemblyName>BestSellersContainer</AssemblyName>
+    <AssemblyName>BestSellersTouch</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,8 +21,9 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchI18n />
-    <MtouchSdkVersion>4.2</MtouchSdkVersion>
+    <MtouchI18n></MtouchI18n>
+    <MtouchArch>ARMv7, ARMv7s</MtouchArch>
+    <OptimizePNGs>false</OptimizePNGs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -31,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n></MtouchI18n>
     <MtouchSdkVersion>3.2</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -44,9 +45,12 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchI18n />
-    <MtouchSdkVersion>3.2</MtouchSdkVersion>
-    <IpaPackageName />
+    <MtouchI18n>
+    </MtouchI18n>
+    <IpaPackageName>
+    </IpaPackageName>
+    <AssemblyName>BestSellersTouch</AssemblyName>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -57,14 +61,14 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchLink>None</MtouchLink>
     <MtouchExtraArgs>-nosymbolstrip</MtouchExtraArgs>
-    <MtouchI18n />
-    <MtouchSdkVersion>3.2</MtouchSdkVersion>
+    <MtouchI18n></MtouchI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,17 +76,13 @@
       <Project>{81A006BF-DF83-4FFA-B463-11D8A2058339}</Project>
       <Name>BestSellers.MT</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.MT.csproj">
-      <Project>{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}</Project>
-      <Name>MonoCross.Navigation.MT</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MonoTouch.Dialog\MonoTouch.Dialog.csproj">
-      <Project>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</Project>
-      <Name>MonoTouch.Dialog</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MonoCross.Touch\MonoCross.Touch.csproj">
       <Project>{4F743690-64BD-4B1F-BD75-872C910A94E2}</Project>
       <Name>MonoCross.Touch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
+      <Project>{FB6B0FE8-51D8-4F5B-AA6A-280250820233}</Project>
+      <Name>MonoCross.Navigation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

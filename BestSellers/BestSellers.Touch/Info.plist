@@ -11,7 +11,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.itrgroup.bestsellers</string>
 	<key>MinimumOSVersion</key>
-	<string>3.0</string>
+	<string>4.3</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<string>1</string>
@@ -20,13 +20,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>
