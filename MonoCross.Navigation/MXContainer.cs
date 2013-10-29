@@ -6,13 +6,27 @@ using System.Threading;
 
 namespace MonoCross.Navigation
 {
+    /// <summary>
+    /// Extension methods for <see cref="IMXView"/> that add navigation.
+    /// </summary>
     public static class MXNavigationExtensions
     {
+        /// <summary>
+        /// Initiates a navigation to the specified URL.
+        /// </summary>
+        /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
+        /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
         public static void Navigate(this IMXView view, string url)
         {
             MXContainer.Navigate(view, url);
         }
 
+        /// <summary>
+        /// Initiates a navigation to the specified URL.
+        /// </summary>
+        /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
+        /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
+        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
         public static void Navigate(this IMXView view, string url, Dictionary<string, string> parameters)
         {
             MXContainer.Navigate(view, url, parameters);
@@ -30,6 +44,10 @@ namespace MonoCross.Navigation
         /// <value>The last navigation date.</value>
         public DateTime LastNavigationDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the URL of last navigation that occurred.
+        /// </summary>
+        /// <value>The last navigation URL.</value>
         public string LastNavigationUrl { get; set; }
 
         /// <summary>
@@ -38,7 +56,7 @@ namespace MonoCross.Navigation
         protected bool CancelLoad = false;
 
         /// <summary>
-        /// 
+        /// Load containers on a separate thread.
         /// </summary>
         public bool ThreadedLoad = true;
 
@@ -71,48 +89,71 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Raises the load complete event after the Controller has completed loading its Model, the View may be populated
-        /// and the derived classs should check if it exists and do something with it if needed for the platform, either free it,
-        /// pop off the views in a stack above it or whatever makes sense to the platform  
+        /// Raises the load complete event after the Controller has completed loading its Model. The View may be populated,
+        /// and the derived class should check if it exists and do something with it if needed for the platform: either free it,
+        /// pop off the views in a stack above it or whatever makes sense to the platform.
         /// </summary>
         /// <param name="fromView">
         /// The view that raised the navigation.
         /// </param>
         /// <param name='controller'>
-        /// Controller.
+        /// The newly loaded controller.
         /// </param>
         /// <param name='viewPerspective'>
-        /// View perspective.
+        /// The view perspective returned by the controller load.
         /// </param>
         protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective);
         private readonly MXViewMap _views = new MXViewMap();
+
+        /// <summary>
+        /// Gets the view map.
+        /// </summary>
         public virtual MXViewMap Views
         {
             get { return _views; }
         }
 
-        // ctor/abstract singleton initializers
-
-        // disallow explict construction of the container by non-derived classes
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MXContainer"/> class.
+        /// </summary>
+        /// <param name="theApp">The application to contain.</param>
         protected MXContainer(MXApplication theApp)
         {
             _theApp = theApp;
         }
 
+        /// <summary>
+        /// Gets the MonoCross application in the container.
+        /// </summary>
+        /// <value>The application as a <see cref="MXApplication"/> instance.</value>
         public MXApplication App
         {
             get { return _theApp; }
         }
         private readonly MXApplication _theApp;
 
-        public delegate String SessionIdDelegate();
+
+        /// <summary>
+        /// A delegate for retrieving a container session identifier.
+        /// </summary>
+        /// <returns>A <see cref="string"/> that uniquely identifies the container's session.</returns>
+        public delegate string SessionIdDelegate();
+
+        /// <summary>
+        /// Gets the container session identifier
+        /// </summary>
         static protected SessionIdDelegate GetSessionId;
 
+        /// <summary>
+        /// Initializes the <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="theContainer">The container instance.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="theContainer"/> is <c>null</c>.</exception>
         protected static void InitializeContainer(MXContainer theContainer)
         {
             Instance = theContainer;
+            Instance.App.OnAppLoadComplete();
         }
-
 
         /// <summary>
         /// Gets or sets the application instance.
@@ -142,26 +183,62 @@ namespace MonoCross.Navigation
         static SessionDictionary _session;
 
         // Model to View associations
-        public static void AddView<Model>(IMXView view)
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="view">The initialized view value.</param>
+        public static void AddView<TModel>(IMXView view)
         {
-            Instance.AddView(new MXViewPerspective(typeof(Model), ViewPerspective.Default), view.GetType(), view);
+            Instance.AddView(new MXViewPerspective(typeof(TModel), ViewPerspective.Default), view.GetType(), view);
         }
-        public static void AddView<Model>(IMXView view, string perspective)
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="perspective">The view's perspective.</param>
+        /// <param name="view">The initialized view value.</param>
+        public static void AddView<TModel>(IMXView view, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(typeof(Model), perspective), view.GetType(), view);
+            Instance.AddView(new MXViewPerspective(typeof(TModel), perspective), view.GetType(), view);
         }
-        public static void AddView<Model>(Type viewType)
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="viewType">The view's type.</param>
+        public static void AddView<TModel>(Type viewType)
         {
-            Instance.AddView(new MXViewPerspective(typeof(Model), ViewPerspective.Default), viewType, null);
+            Instance.AddView(new MXViewPerspective(typeof(TModel), ViewPerspective.Default), viewType, null);
         }
-        public static void AddView<Model>(Type viewType, string perspective)
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="viewType">The view's type.</param>
+        /// <param name="perspective">The view's perspective.</param>
+        public static void AddView<TModel>(Type viewType, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(typeof(Model), perspective), viewType, null);
+            Instance.AddView(new MXViewPerspective(typeof(TModel), perspective), viewType, null);
         }
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="modeltype">The type of the view's model.</param>
+        /// <param name="viewType">The view's type.</param>
+        /// <param name="perspective">The view's perspective.</param>
         protected virtual void AddView(Type modeltype, Type viewType, string perspective)
         {
             Instance.AddView(new MXViewPerspective(modeltype, perspective), viewType, null);
         }
+
+        /// <summary>
+        /// Adds the specified view to the view map.
+        /// </summary>
+        /// <param name="viewPerspective">The view perspective key.</param>
+        /// <param name="viewType">The view's type value.</param>
+        /// <param name="view">The initialized view value.</param>
         protected virtual void AddView(MXViewPerspective viewPerspective, Type viewType, IMXView view)
         {
             if (view == null)
@@ -189,6 +266,12 @@ namespace MonoCross.Navigation
             InternalNavigate(view, url, new Dictionary<string, string>());
         }
 
+        /// <summary>
+        /// Initiates a navigation to the specified URL.
+        /// </summary>
+        /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
+        /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
+        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
         public static void Navigate(IMXView view, string url, Dictionary<string, string> parameters)
         {
             InternalNavigate(view, url, parameters);
@@ -273,13 +356,20 @@ namespace MonoCross.Navigation
         /// <param name="url">The url of the controller to navigate to.</param>
         public abstract void Redirect(string url);
 
+        /// <summary>
+        /// Gets the controller.
+        /// </summary>
+        /// <param name="url">The URL pattern of the controller.</param>
+        /// <param name="parameters">The parameters to load into the controller.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">url</exception>
         public virtual IMXController GetController(string url, ref Dictionary<string, string> parameters)
         {
             IMXController controller = null;
 
             // return if no url provided
             if (url == null)
-                throw new ArgumentNullException("url is NULL");
+                throw new ArgumentNullException("url");
 
             // set last navigation
             LastNavigationDate = DateTime.Now;
@@ -341,17 +431,29 @@ namespace MonoCross.Navigation
             return controller;
         }
 
+        /// <summary>
+        /// Renders the view described by the perspective.
+        /// </summary>
+        /// <param name="controller">The controller for the view.</param>
+        /// <param name="perspective">The perspective describing the view.</param>
         public static void RenderViewFromPerspective(IMXController controller, MXViewPerspective perspective)
         {
             Instance.Views.RenderView(perspective, controller.GetModel());
         }
 
+        /// <summary>
+        /// Represents a mapping of <see cref="MXViewPerspective"/>s to <see cref="IMXView"/>s in a container.
+        /// </summary>
         public class MXViewMap
         {
-            Dictionary<MXViewPerspective, IMXView> _viewMap = new Dictionary<MXViewPerspective, IMXView>();
-            Dictionary<MXViewPerspective, Type> _typeMap = new Dictionary<MXViewPerspective, Type>();
+            readonly Dictionary<MXViewPerspective, object> _viewMap = new Dictionary<MXViewPerspective, object>();
 
-            public void Add(MXViewPerspective perspective, Type viewType)
+            /// <summary>
+            /// Adds the specified view to the view map.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective key.</param>
+            /// <param name="viewType">The view's type value.</param>
+            public void Add(MXViewPerspective viewPerspective, Type viewType)
             {
 #if NETFX_CORE
                 if (!System.Reflection.IntrospectionExtensions.GetTypeInfo(keyValuePair.Value).ImplementedInterfaces.Contains(typeof(IMXView)))
@@ -360,76 +462,106 @@ namespace MonoCross.Navigation
 #endif
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
 
-                _typeMap[perspective] = viewType;
-                _viewMap[perspective] = null;
+                _viewMap[viewPerspective] = viewType;
 
 
-                var vp = new MXViewPerspective(perspective.ModelType, perspective.Perspective);
-                System.Diagnostics.Debug.Assert(_typeMap.ContainsKey(vp));
+                var vp = new MXViewPerspective(viewPerspective.ModelType, viewPerspective.Perspective);
                 System.Diagnostics.Debug.Assert(_viewMap.ContainsKey(vp));
             }
 
-            public void Add(MXViewPerspective perspective, IMXView view)
+            /// <summary>
+            /// Adds the specified view to the view map.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective key.</param>
+            /// <param name="view">The initialized view value.</param>
+            public void Add(MXViewPerspective viewPerspective, IMXView view)
             {
-                _viewMap[perspective] = view;
-                _typeMap[perspective] = view.GetType();
+                _viewMap[viewPerspective] = view;
             }
 
+            /// <summary>
+            /// Gets the type of the view described by a view perspective.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective.</param>
+            /// <returns>The type associated with the view perspective.</returns>
             public Type GetViewType(MXViewPerspective viewPerspective)
             {
-                Type type;
-                _typeMap.TryGetValue(viewPerspective, out type);
-                return type;
+                object type;
+                _viewMap.TryGetValue(viewPerspective, out type);
+                return type == null ? null : type as Type ?? type.GetType();
             }
 
+            /// <summary>
+            /// Gets the view described by a view perspective.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective.</param>
+            /// <returns>The view associated with the view perspective.</returns>
             public IMXView GetView(MXViewPerspective viewPerspective)
             {
-                IMXView view;
-                _viewMap.TryGetValue(viewPerspective, out view);
-                return view;
+
+                object type;
+                _viewMap.TryGetValue(viewPerspective, out type);
+                return type as IMXView;
             }
 
+            /// <summary>
+            /// Gets the view, or creates it if it has not been created.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective.</param>
+            /// <returns></returns>
+            /// <exception cref="System.ArgumentException">Thrown when no view is found;viewPerspective</exception>
             public IMXView GetOrCreateView(MXViewPerspective viewPerspective)
             {
-                IMXView view;
-                if (_viewMap.TryGetValue(viewPerspective, out view))
-                {
-                    // if we have a type registered and haven't yet created an instance, this will be null
-                    if (view != null)
-                        return view;
-                }
-                Type viewType;
-                if (_typeMap.TryGetValue(viewPerspective, out viewType))
-                {
-                    // Instantiate an instance of the view from it's type
-                    view = (IMXView)Activator.CreateInstance(viewType);
-                    // add to the map for later.
-                    _viewMap[viewPerspective] = view;
-                }
-                else
+                object o;
+                if (!_viewMap.TryGetValue(viewPerspective, out o))
                 {
                     // No view
                     throw new ArgumentException("No View Perspective found for: " + viewPerspective, "viewPerspective");
                 }
+
+                // if we have a type registered and haven't yet created an instance, view will be null
+                var view = o as IMXView;
+                var viewType = o as Type;
+
+                if (viewType == null)
+                    return view;
+
+                // Instantiate an instance of the view from its type
+                view = (IMXView)Activator.CreateInstance(viewType);
+                // add to the map for later.
+                _viewMap[viewPerspective] = view;
                 return view;
             }
 
+            /// <summary>
+            /// Determines whether the view map contains the specified view perspective.
+            /// </summary>
+            /// <param name="viewPerspective">The view perspective.</param>
+            /// <returns><c>true</c> if the view perspective exists; otherwise <c>false</c>.</returns>
             public bool ContainsKey(MXViewPerspective viewPerspective)
             {
                 return _viewMap.ContainsKey(viewPerspective);
             }
 
+            /// <summary>
+            /// Gets a view perspective from a view's model type.
+            /// </summary>
+            /// <param name="viewType">Type of the view's Model.</param>
+            /// <returns>A <see cref="MXViewPerspective"/> that maps to a view.</returns>
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
                 // Check typemap values for either a concrete type or an interface
-                var kvp = _typeMap.FirstOrDefault(keyValuePair => keyValuePair.Value == viewType
-                    || !ReferenceEquals(
+                var kvp = _viewMap.FirstOrDefault(keyValuePair =>
+                {
+                    var value = keyValuePair.Value is Type ? (Type)keyValuePair.Value : keyValuePair.Value.GetType();
+                    return value == viewType || !ReferenceEquals(
 #if NETFX_CORE
-System.Reflection.IntrospectionExtensions.GetTypeInfo(keyValuePair.Value).ImplementedInterfaces
+System.Reflection.IntrospectionExtensions.GetTypeInfo(value).ImplementedInterfaces
 #else
-keyValuePair.Value.GetInterfaces()
+value.GetInterfaces()
 #endif
-.FirstOrDefault(i => i.Name == viewType.Name), null));
+.FirstOrDefault(i => i.Name == viewType.Name), null);
+                });
 
                 return kvp.Key;
             }

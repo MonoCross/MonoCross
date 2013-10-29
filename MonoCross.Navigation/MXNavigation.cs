@@ -45,6 +45,10 @@ namespace MonoCross.Navigation
             Parts = Segment.Split(Pattern);
         }
 
+        /// <summary>
+        /// Converts the <see cref="Pattern"/> into a regex string.
+        /// </summary>
+        /// <returns>A regex string that represents the pattern.</returns>
         public string RegexPattern()
         {
             return Pattern.Replace("{", "(?<").Replace("}", @">[-&\w\. ]+)");
@@ -72,8 +76,10 @@ namespace MonoCross.Navigation
             }
         }
 
-
-        private class Segment
+        /// <summary>
+        /// Represents a part of a URL.
+        /// </summary>
+        public class Segment
         {
             /// <summary>
             /// Splits the specified URL into segments and returns the result.
@@ -120,26 +126,145 @@ namespace MonoCross.Navigation
             //RegEx TypeValidator; // could be added in the future to allow paths such as Customer/{Number:[0-9]* or Customer/{Name:[A-Za-z ]*}
         }
 
-        Segment[] Parts { get; set; }
+        /// <summary>
+        /// Gets an array of <see cref="Segment"/>s that make up the URL pattern.
+        /// </summary>
+        public Segment[] Parts { get; set; }
+
+        /// <summary>
+        /// Determines if the specified object is equal to this instance.
+        /// </summary>
+        /// <param name="mapping">The object to test for equality.</param>
+        /// <returns><c>true</c> if the object is equal to this instance; otherwise <c>false</c>.</returns>
+        public bool Equals(MXNavigation mapping)
+        {
+            if (ReferenceEquals(mapping, null))
+                return false;
+            if (ReferenceEquals(this, mapping))
+                return true;
+            if (Parts.Length != mapping.Parts.Length)
+                return false;
+            for (int part = 0; part < Parts.Length; part++)
+            {
+                if (Parts[part].IsParameter != mapping.Parts[part].IsParameter)
+                    return false;
+                if (!Parts[part].IsParameter && Parts[part].SegmentValue != mapping.Parts[part].SegmentValue)
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if the specified object is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The object to test for equality.</param>
+        /// <returns><c>true</c> if the object is equal to this instance; otherwise <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is MXNavigation))
+            {
+                return false;
+            }
+            return Equals((MXNavigation)obj);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a MXNavigation. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current MXNavigation.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (Pattern != null ? Pattern.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Controller != null ? Controller.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Parameters != null ? Parameters.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Parts != null ? Parts.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        /// <summary>
+        /// Tests for equality between two <see cref="MXNavigation"/> instances.
+        /// </summary>
+        /// <param name="a">The first MXNavigation to test.</param>
+        /// <param name="b">The second MXNavigation to test.</param>
+        /// <returns><c>true</c> if the MXNavigations are equal; otherwise <c>false</c>.</returns>
+        public static bool operator ==(MXNavigation a, MXNavigation b)
+        {
+            return ReferenceEquals(a, null) ? ReferenceEquals(a, b) : a.Equals(b);
+        }
+
+        /// <summary>
+        /// Tests for inequality between two <see cref="MXNavigation"/> instances.
+        /// </summary>
+        /// <param name="a">The first MXNavigation to test.</param>
+        /// <param name="b">The second MXNavigation to test.</param>
+        /// <returns><c>true</c> if the MXNavigations are not equal; otherwise <c>false</c>.</returns>
+        public static bool operator !=(MXNavigation a, MXNavigation b)
+        {
+            return !(a == b);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="MXNavigation"/>.
+        /// </summary>
+        public override string ToString()
+        {
+            return string.Format("[MXNavigation: Pattern={0}, Layer={1}]", Pattern, Controller);
+        }
     }
 
     /// <summary>
-    /// Represents a collection of <see cref="MXNavigation"/>s for navigation in an application.
+    /// Represents a collection of <see cref="MXNavigation"/>s for controllers in an application.
     /// </summary>
     public class NavigationList : List<MXNavigation>
     {
+        private static readonly object SyncLock = new object();
+        /// <summary>
+        /// Occurs when a controller is added.
+        /// </summary>
         public event NavigationAddedDelegate Added;
 
+        /// <summary>
+        /// Gets the controller for the specified URI pattern.
+        /// </summary>
+        /// <param name="pattern">The URI pattern of the controller.</param>
+        /// <returns>The <see cref="IMXController"/> in this instance that matches the pattern.</returns>
         public IMXController GetControllerForPattern(string pattern)
         {
             return Contains(pattern) ? this.First(m => m.Pattern == pattern).Controller : null;
         }
 
-        public String GetPatternForModelType(Type modelType)
+        /// <summary>
+        /// Gets the pattern for the specified model type.
+        /// </summary>
+        /// <param name="modelType">Type of the model.</param>
+        /// <returns>A <see cref="string"/> pattern in this instance with a model that matches the type.</returns>
+        public string GetPatternForModelType(Type modelType)
         {
-            return this.First(m => m.Controller.ModelType == modelType).Pattern;
+            var nav = this.FirstOrDefault(m => m.Controller.ModelType == modelType);
+            return nav == null ? null : nav.Pattern;
         }
 
+        /// <summary>
+        /// Gets the controller for the specified model type.
+        /// </summary>
+        /// <param name="modelType">Type of the model.</param>
+        /// <returns>A <see cref="IMXController"/> in this instance with a model that matches the type.</returns>
+        public IMXController GetControllerForModelType(Type modelType)
+        {
+            var nav = this.FirstOrDefault(m => m.Controller.ModelType == modelType);
+            return nav == null ? null : nav.Controller;
+        }
+
+        /// <summary>
+        /// Determines whether this instance contains the specified pattern.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns><c>true</c> if the pattern is already defined in this instance; otherwise <c>false</c>.</returns>
         public bool Contains(string pattern)
         {
             return this.Any(m => m.Pattern == pattern);
@@ -168,11 +293,10 @@ namespace MonoCross.Navigation
             if (currentMatch != null)
             {
 #if DEBUG
-                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}",
-                                                                        pattern, currentMatch.Controller);
+                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}", pattern, currentMatch.Controller);
                 throw new Exception(text);
 #else
-                    return;
+                return;
 #endif
             }
 
@@ -191,18 +315,70 @@ namespace MonoCross.Navigation
         /// <returns>A <see cref="MXNavigation"/> that matches the URL.</returns>
         public MXNavigation MatchUrl(string url)
         {
-            return this.FirstOrDefault(pattern => Regex.Match(url, pattern.RegexPattern()).Value == url);
+            lock (SyncLock)
+            {
+                MXNavigation match = null;
+
+                if (url == string.Empty)
+                {
+                    // figure out what empty matches
+                    match = this.FirstOrDefault(mapping => mapping.Pattern == string.Empty) ??
+                        this.FirstOrDefault(mapping => Regex.Match(MXContainer.Instance.App.NavigateOnLoad, mapping.RegexPattern()).Value == MXContainer.Instance.App.NavigateOnLoad);
+                }
+                else
+                {
+                    string[] urlPieces = url.Split(new[] { '/' });
+
+                    // first get the mappings with the same number of pieces, then march down one at a time, skipping those with parameters mappings (e.g., '{')
+                    foreach (var navEntry in this)
+                    {
+                        if (navEntry.Parts.Length != urlPieces.Length)
+                            continue;
+                        int pieceNumber = 0;
+                        for (; pieceNumber < urlPieces.Length; pieceNumber++)
+                        {
+                            if (!navEntry.Parts[pieceNumber].IsParameter && urlPieces[pieceNumber] != navEntry.Parts[pieceNumber].SegmentValue)
+                                // skip parameter match fields
+                                break;
+                        }
+                        if (pieceNumber == urlPieces.Length)
+                        {
+                            // all NON-parameters matched, found!
+                            match = navEntry;
+                            break;
+                        }
+                    }
+                }
+
+                return match;
+            }
         }
     }
 
+    /// <summary>
+    /// A delegate for <see cref="NavigationList"/> events.
+    /// </summary>
+    /// <param name="sender">The <see cref="NavigationList"/> source of the event.</param>
+    /// <param name="e">The <see cref="NavAddedEventArgs"/> instance containing the event data.</param>
     public delegate void NavigationAddedDelegate(NavigationList sender, NavAddedEventArgs e);
 
+    /// <summary>
+    /// Contains data for events involving <see cref="MXNavigation"/> sources.
+    /// </summary>
     public class NavAddedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NavAddedEventArgs"/> class.
+        /// </summary>
+        /// <param name="navItem">The added navigation item.</param>
         public NavAddedEventArgs(MXNavigation navItem)
         {
             NavigationItem = navItem;
         }
+
+        /// <summary>
+        /// The navigation item source of the event.
+        /// </summary>
         public MXNavigation NavigationItem;
     }
 }
