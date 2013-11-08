@@ -130,7 +130,7 @@ namespace MonoCross.Navigation
         {
             get { return _theApp; }
         }
-        private readonly MXApplication _theApp;
+        private MXApplication _theApp;
 
         protected static void SetApp(MXApplication app)
         {
