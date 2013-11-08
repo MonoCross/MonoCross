@@ -224,9 +224,39 @@ namespace MonoCross.Navigation
     {
         private static readonly object SyncLock = new object();
         /// <summary>
+        /// Initializes a new instance of the <see cref="NavigationList"/> class.
+        /// </summary>
+        public NavigationList() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NavigationList"/> class.
+        /// </summary>
+        /// <param name="source">The source to create this list from.</param>
+        public NavigationList(IEnumerable<MXNavigation> source)
+        {
+            foreach (var mxNavigation in source)
+            {
+                Add(mxNavigation.Pattern, mxNavigation.Controller, mxNavigation.Parameters);
+            }
+        }
+
+        /// <summary>
         /// Occurs when a controller is added.
         /// </summary>
         public event NavigationAddedDelegate Added;
+
+        /// <summary>
+        /// Raises the <see cref="Added" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="NavAddedEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnAdded(NavAddedEventArgs e)
+        {
+            NavigationAddedDelegate handler = Added;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
         /// <summary>
         /// Gets the controller for the specified URI pattern.
@@ -303,9 +333,7 @@ namespace MonoCross.Navigation
             var mxNavItem = new MXNavigation(pattern, controller, parameters);
             Add(mxNavItem);
 
-            var e = Added;
-            if (e != null) e(this, new NavAddedEventArgs(mxNavItem));
-
+            OnAdded(new NavAddedEventArgs(mxNavItem));
         }
 
         /// <summary>
