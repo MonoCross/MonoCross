@@ -132,6 +132,12 @@ namespace MonoCross.Navigation
         }
         private readonly MXApplication _theApp;
 
+        protected static void SetApp(MXApplication app)
+        {
+            Instance._theApp = app;
+            Instance._theApp.OnAppLoadComplete();
+        }
+
 
         /// <summary>
         /// A delegate for retrieving a container session identifier.
@@ -152,7 +158,8 @@ namespace MonoCross.Navigation
         protected static void InitializeContainer(MXContainer theContainer)
         {
             Instance = theContainer;
-            Instance.App.OnAppLoadComplete();
+            if (Instance.App != null)
+                Instance.App.OnAppLoadComplete();
         }
 
         /// <summary>

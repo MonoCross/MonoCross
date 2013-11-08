@@ -5,7 +5,7 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FB6B0FE8-51D8-4F5B-AA6A-280250820233}</ProjectGuid>
+    <ProjectGuid>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MonoCross.Navigation</RootNamespace>
