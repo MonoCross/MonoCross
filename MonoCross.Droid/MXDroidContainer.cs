@@ -13,7 +13,7 @@ namespace MonoCross.Droid
     public class MXDroidContainer : MXContainer
     {
         /// <summary>
-        /// Cache for loaded Models
+        /// Cache for Models that have been loaded into views.
         /// </summary>
         public static readonly Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();
 

@@ -73,9 +73,9 @@
     <Compile Include="SplitViewController\MGCornersView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.MT.csproj">
+    <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
       <Project>{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}</Project>
-      <Name>MonoCross.Navigation.MT</Name>
+      <Name>MonoCross.Navigation</Name>
     </ProjectReference>
     <ProjectReference Include="..\MonoTouch.NinePatch\MonoTouch.NinePatch.csproj">
       <Project>{47B205F6-5FDC-44B6-897D-4DE19422FC73}</Project>

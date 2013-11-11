@@ -84,6 +84,8 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Raises the controller load failed event.
         /// </summary>
+        /// <param name="controller">The controller that failed to load.</param>
+        /// <param name="ex">The exception that caused the load to fail.</param>
         protected virtual void OnControllerLoadFailed(IMXController controller, Exception ex)
         {
         }

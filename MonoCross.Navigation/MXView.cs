@@ -19,8 +19,10 @@ namespace MonoCross.Navigation
         Type ModelType { get; }
 
         /// <summary>
-        /// Sets the model for the view. An InvalidCastException may be thrown if a model of the wrong type is set
+        /// Sets the model for the view.
         /// </summary>
+        /// <param name="model">The model to associate with the view.</param>
+        /// <exception cref="InvalidCastException">Thrown if a model of the wrong type is set.</exception>
         void SetModel(object model);
 
         /// <summary>
