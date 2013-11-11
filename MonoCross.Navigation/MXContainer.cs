@@ -132,12 +132,14 @@ namespace MonoCross.Navigation
         }
         private MXApplication _theApp;
 
+        /// <summary>
+        /// Sets the MonoCross application in the container.
+        /// </summary>
         protected static void SetApp(MXApplication app)
         {
             Instance._theApp = app;
             Instance._theApp.OnAppLoadComplete();
         }
-
 
         /// <summary>
         /// A delegate for retrieving a container session identifier.
