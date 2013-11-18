@@ -12,6 +12,10 @@ namespace MonoCross.Navigation
         /// Removes or resets all session settings.
         /// </summary>
         void Abandon();
+        /// <summary>
+        /// Gets a collection of entries to persist through a <see cref="Clear"/>
+        /// </summary>
+        List<string> SafeKeys { get; }
     }
 
     /// <summary>
@@ -24,6 +28,7 @@ namespace MonoCross.Navigation
         /// </summary>
         public SessionDictionary()
         {
+            SafeKeys = new List<string>();
             SafeKeys.Add(ContainerKey);
             SafeKeys.Add(NavKey);
         }
@@ -59,9 +64,9 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Keys of entries to persist through a <see cref="Clear"/>
+        /// Gets a collection of entries to persist through a <see cref="Clear"/>
         /// </summary>
-        public readonly List<string> SafeKeys = new List<string>();
+        public List<string> SafeKeys { get; private set; }
 
         /// <summary>
         /// Removes or resets all session settings.

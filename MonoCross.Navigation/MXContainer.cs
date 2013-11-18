@@ -152,7 +152,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Gets the container session identifier
         /// </summary>
-        static protected SessionIdDelegate GetSessionId;
+        static public SessionIdDelegate GetSessionId;
 
         /// <summary>
         /// Initializes the <see cref="Instance"/>.
