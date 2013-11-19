@@ -12,8 +12,9 @@ namespace MonoCross.Navigation
         /// Removes or resets all session settings.
         /// </summary>
         void Abandon();
+
         /// <summary>
-        /// Gets a collection of entries to persist through a <see cref="Clear"/>
+        /// Gets a collection of entries to persist through a <see cref="ICollection{T}.Clear()"/>
         /// </summary>
         List<string> SafeKeys { get; }
     }
