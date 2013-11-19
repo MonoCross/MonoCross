@@ -18,7 +18,7 @@
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets the navigation map containing all of the application's view and their respective URIs.
+        /// Gets the navigation map that associates the application's controllers to their respective URIs.
         /// </summary>
         /// <value>The navigation map as a <see cref="NavigationList"/> instance.</value>
         public NavigationList NavigationMap { get; set; }
