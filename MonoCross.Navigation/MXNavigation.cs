@@ -316,7 +316,7 @@ namespace MonoCross.Navigation
         /// <param name="pattern">The navigation pattern to associate with the controller.</param>
         /// <param name="controller">The controller to add to the navigation list.</param>
         /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
-        public void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
+        public virtual void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
             // Enforce uniqueness
             MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == pattern);
