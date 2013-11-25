@@ -30,7 +30,6 @@
         {
             NavigationMap = new NavigationList();
             NavigateOnLoad = string.Empty;
-            OnAppLoad();
         }
 
         /// <summary>
