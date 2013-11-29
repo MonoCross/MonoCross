@@ -140,8 +140,8 @@ namespace MonoCross.Navigation
         protected static void SetApp(MXApplication app)
         {
             Instance._theApp = app;
-            Instance._theApp.OnAppLoad();
-            Instance._theApp.OnAppLoadComplete();
+            Instance.App.OnAppLoad();
+            Instance.App.OnAppLoadComplete();
         }
 
         /// <summary>
@@ -170,6 +170,9 @@ namespace MonoCross.Navigation
             protected set
             {
                 Session[GetSessionId == null ? string.Empty : GetSessionId()] = value;
+                if (value.App == null) return;
+                Instance.App.OnAppLoad();
+                Instance.App.OnAppLoadComplete();
             }
         }
 
