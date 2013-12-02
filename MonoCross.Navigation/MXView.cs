@@ -30,6 +30,18 @@ namespace MonoCross.Navigation
         /// </summary>
         void Render();
     }
+
+    /// <summary>
+    /// Interface that marks an <see cref="IMXView" /> that displays models of type T.
+    /// </summary>
+    /// <typeparam name="T">The type of the Model.</typeparam>
+    public interface IMXView<T> : IMXView
+    {
+        /// <summary>
+        /// Gets or sets the model for the view.
+        /// </summary>
+        T Model { get; set; }
+    }
     #endregion
 
     /// <summary>
@@ -39,7 +51,7 @@ namespace MonoCross.Navigation
     /// for the IMXView implementation (Bridge Pattern).
     /// </summary>
     /// <typeparam name="T">The type of Model that the view displays</typeparam>
-    public abstract class MXView<T> : IMXView
+    public abstract class MXView<T> : IMXView<T>
     {
         /// <summary>
         /// The type of the model displayed by this view
@@ -60,7 +72,6 @@ namespace MonoCross.Navigation
         /// you have done your Render().
         /// </summary>
         public virtual void Render() { }
-
 
         /// <summary>
         /// Gets or sets the model for the view.
