@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MXWebkitContainer.cs" />
-    <Compile Include="MXWebkitDialogView.cs" />
     <Compile Include="MXWebkitView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,10 +56,6 @@
     <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
       <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
       <Name>MonoCross.Navigation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webkit.Dialog\Webkit.Dialog.csproj">
-      <Project>{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}</Project>
-      <Name>Webkit.Dialog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
