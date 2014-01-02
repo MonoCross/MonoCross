@@ -302,11 +302,7 @@ namespace MonoCross.Navigation
                     if (container.ThreadedLoad)
                     {
                         // new thread to execute the Load() method for the layer
-#if NETFX_CORE
-                        System.Threading.Tasks.Task.Factory.StartNew(() => TryLoadController(container, fromView, controller, parameters), System.Threading.Tasks.TaskCreationOptions.LongRunning);
-#else
                         ThreadPool.QueueUserWorkItem(o => TryLoadController(container, fromView, controller, parameters));
-#endif
                     }
                     else
                     {
@@ -422,14 +418,14 @@ namespace MonoCross.Navigation
                 controller.Uri = url;
                 controller.Parameters = parameters;
             }
-            //else
-            //{
-            //    #if DEBUG
-            //        throw new Exception("URI match not found for: " + url);
-            //    #else
-            //        // should log the message at least
-            //    #endif
-            //}
+            else
+            {
+#if DEBUG
+                throw new Exception("URI match not found for: " + url);
+#else
+                // should log the message at least
+#endif
+            }
 
             return controller;
         }
@@ -458,12 +454,10 @@ namespace MonoCross.Navigation
             /// <param name="viewType">The view's type value.</param>
             public void Add(MXViewPerspective viewPerspective, Type viewType)
             {
-#if NETFX_CORE
-                if (!System.Reflection.IntrospectionExtensions.GetTypeInfo(keyValuePair.Value).ImplementedInterfaces.Contains(typeof(IMXView)))
-#else
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
-#endif
+                {
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
+                }
 
                 _viewMap[viewPerspective] = viewType;
 
@@ -557,13 +551,7 @@ namespace MonoCross.Navigation
                 var kvp = _viewMap.FirstOrDefault(keyValuePair =>
                 {
                     var value = keyValuePair.Value is Type ? (Type)keyValuePair.Value : keyValuePair.Value.GetType();
-                    return value == viewType || !ReferenceEquals(
-#if NETFX_CORE
-System.Reflection.IntrospectionExtensions.GetTypeInfo(value).ImplementedInterfaces
-#else
-value.GetInterfaces()
-#endif
-.FirstOrDefault(i => i.Name == viewType.Name), null);
+                    return value == viewType || !ReferenceEquals(value.GetInterfaces().FirstOrDefault(i => i.Name == viewType.Name), null);
                 });
 
                 return kvp.Key;
@@ -575,7 +563,7 @@ value.GetInterfaces()
                 if (view == null)
                 {
                     // No view perspective found for model
-                    throw new ArgumentException("No View Perspective found for: " + viewPerspective, "viewPerspective");
+                    throw new ArgumentException("No View found for: " + viewPerspective, "viewPerspective");
                 }
                 view.SetModel(model);
                 view.Render();
