@@ -159,7 +159,7 @@ namespace MonoCross.Touch
 		{
 			// initialize the application and hold a reference for a bit
 			MXTouchContainer thisContainer = new MXTouchContainer(theApp, appDelegate, window);
-            MXContainer.InitializeContainer(thisContainer);
+            MXContainer.Instance = thisContainer;
 			
 			thisContainer.StartApplication();
 		}

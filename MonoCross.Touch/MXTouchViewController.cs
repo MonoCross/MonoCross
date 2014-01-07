@@ -23,6 +23,10 @@ namespace MonoCross.Touch
         {
             Model = (T)model;
         }
+		public object GetModel()
+		{
+			return Model;
+		}
     }
 
     public abstract class MXTouchTableViewController<T>: UITableViewController, IMXView
@@ -38,6 +42,10 @@ namespace MonoCross.Touch
         {
             Model = (T)model;
         }
+		public object GetModel()
+		{
+			return Model;
+		}
     }
 	
 	public abstract class MXTouchDialogView<T>: DialogViewController, IMXView
@@ -54,5 +62,9 @@ namespace MonoCross.Touch
         {
             Model = (T)model;
         }
+		public object GetModel()
+		{
+			return Model;
+		}
 	}
 }
