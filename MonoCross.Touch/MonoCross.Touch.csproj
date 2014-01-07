@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -74,16 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}</Project>
+      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
       <Name>MonoCross.Navigation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoTouch.NinePatch\MonoTouch.NinePatch.csproj">
-      <Project>{47B205F6-5FDC-44B6-897D-4DE19422FC73}</Project>
-      <Name>MonoTouch.NinePatch</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoTouch.Dialog\MonoTouch.Dialog.csproj">
-      <Project>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</Project>
-      <Name>MonoTouch.Dialog</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
