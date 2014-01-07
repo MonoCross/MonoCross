@@ -96,7 +96,7 @@ ClientBin
 [Ss]tyle[Cc]op.*
 ~$*
 *.dbmdl
-
+*.userprefs
 *.[Pp]ublish.xml
 
 Generated_Code #added for RIA/Silverlight projects
