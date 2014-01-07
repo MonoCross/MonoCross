@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation", "..\..\MonoCross.Navigation\MonoCross.Navigation.csproj", "{4618CCFC-5895-4C44-AD25-8BF312A96B86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers", "..\BestSellers\BestSellers.csproj", "{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}"
@@ -12,8 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{DAFC873A-F3F2-4325-B930-9CE52926AF99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{0A6DDE8B-1647-4151-82ED-70CADC561DB5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webkit.Dialog", "..\..\Webkit.Dialog\Webkit.Dialog.csproj", "{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,24 +65,13 @@ Global
 		{250CA996-D2A1-47EA-B932-7D0369E0DD06}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{250CA996-D2A1-47EA-B932-7D0369E0DD06}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{250CA996-D2A1-47EA-B932-7D0369E0DD06}.Release|x86.ActiveCfg = Release|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{250CA996-D2A1-47EA-B932-7D0369E0DD06} = {DAFC873A-F3F2-4325-B930-9CE52926AF99}
-		{4618CCFC-5895-4C44-AD25-8BF312A96B86} = {0A6DDE8B-1647-4151-82ED-70CADC561DB5}
 		{0BB5AA0C-0D8D-45AD-9775-ACF7DA3942BD} = {0A6DDE8B-1647-4151-82ED-70CADC561DB5}
-		{6AABF146-0ADE-45CF-AF2C-AB11456A82BF} = {0A6DDE8B-1647-4151-82ED-70CADC561DB5}
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86} = {0A6DDE8B-1647-4151-82ED-70CADC561DB5}
+		{250CA996-D2A1-47EA-B932-7D0369E0DD06} = {DAFC873A-F3F2-4325-B930-9CE52926AF99}
 	EndGlobalSection
 EndGlobal
