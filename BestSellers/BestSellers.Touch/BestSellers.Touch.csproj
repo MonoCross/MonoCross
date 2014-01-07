@@ -21,7 +21,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchSdkVersion>4.2</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -31,7 +32,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchSdkVersion>3.2</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -44,9 +46,11 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchSdkVersion>3.2</MtouchSdkVersion>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -57,7 +61,8 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchLink>None</MtouchLink>
     <MtouchExtraArgs>-nosymbolstrip</MtouchExtraArgs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchSdkVersion>3.2</MtouchSdkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -65,24 +70,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\BestSellers\BestSellers.MT.csproj">
-      <Project>{81A006BF-DF83-4FFA-B463-11D8A2058339}</Project>
-      <Name>BestSellers.MT</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{0C3337B2-0B8A-4C0B-8330-3B81F5B96B9B}</Project>
-      <Name>MonoCross.Navigation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MonoTouch.Dialog\MonoTouch.Dialog.csproj">
-      <Project>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</Project>
-      <Name>MonoTouch.Dialog</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MonoCross.Touch\MonoCross.Touch.csproj">
       <Project>{4F743690-64BD-4B1F-BD75-872C910A94E2}</Project>
       <Name>MonoCross.Touch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
+      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
+      <Name>MonoCross.Navigation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BestSellers\BestSellers.csproj">
+      <Project>{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}</Project>
+      <Name>BestSellers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

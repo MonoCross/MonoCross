@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using System.Net;
 using System.IO;
 
 using MonoCross.Navigation;
+using System.Net;
+using System.Text;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace BestSellers.Controllers
 {
@@ -23,17 +25,25 @@ namespace BestSellers.Controllers
             if (stream == null)
                 throw new Exception("Failed to connect the New Yorw Times Best Sellers Serivce");
 
-            XDocument loaded = XDocument.Load(stream);
-            var categories = from item in loaded.Descendants("result")
-                select new Category
-                {
-                    ListName = item.Element("list_name").Value,
-                    DisplayName = item.Element("display_name").Value,
-                    //ListNameEncoded = item.Element("list_name_encoded").Value,
-                    //OldestPublishedDate = item.Element("oldest_published_date").Value,
-                    //NewestPublishedDate = item.Element("newest_published_date").Value
-                };
+            CategoryList categories = new CategoryList();
+            using (XmlReader reader = XmlReader.Create(stream))
+            {
+                try
+                { 
+                    bool hasNextResult = reader.ReadToFollowing("result");
+                    while (hasNextResult)
+                    {
+                        var c = new Category();
+                        reader.ReadToDescendant("list_name");
+                        c.ListName = reader.ReadInnerXml();
+                        c.DisplayName = reader.ReadInnerXml();
+                        categories.Add(c);
 
+                        hasNextResult = reader.ReadToNextSibling("result");
+                    }
+                }
+                catch (Exception e) { System.Diagnostics.Debug.WriteLine("Exception:\r\n" + e); }
+            }
             Model.AddRange(categories);
 
             return ViewPerspective.Read;
