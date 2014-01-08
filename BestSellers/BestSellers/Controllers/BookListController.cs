@@ -37,27 +37,7 @@ namespace BestSellers.Controllers
             var response = request.GetResponse();
             var stream = response.GetResponseStream();
 
-#if RELEASE
             using (XmlReader reader = XmlReader.Create(stream))
-#else
-            string xml = null;
-            long totalBytesCoverted = 0;
-            while (totalBytesCoverted < stream.Length)
-            {   
-                // determin read length
-                int nextReadLength = 0;
-                long bytesRemaining = stream.Length - totalBytesCoverted;
-                nextReadLength = bytesRemaining > Int32.MaxValue ? Int32.MaxValue : Convert.ToInt32(bytesRemaining);
-                
-                // convert next set of bytes
-                var bytes = new byte[nextReadLength];
-                var bytesRead = stream.Read(bytes, 0, nextReadLength);
-                xml += Encoding.UTF8.GetString(bytes, 0, bytesRead);
-                totalBytesCoverted += bytesRead;
-            }
-            System.Diagnostics.Debug.WriteLine("Xml:\r\n" + xml);
-            using (XmlReader reader = XmlReader.Create(new StringReader(xml)))
-#endif
             {
                 try
                 {
@@ -65,6 +45,7 @@ namespace BestSellers.Controllers
                     while (hasNextResult)
                     {
                         var book = new Book();
+                        book.CategoryEncoded = category;
                         reader.ReadToDescendant("display_name");
                         book.Category = reader.ReadInnerXml();
                         reader.ReadToFollowing("bestsellers_date");
