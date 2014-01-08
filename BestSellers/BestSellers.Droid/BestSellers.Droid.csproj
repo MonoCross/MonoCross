@@ -17,12 +17,12 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <DeployExternal>false</DeployExternal>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion />
+    <AndroidStoreUncompressedFileExtensions />
     <JavaMaximumHeapSize />
     <JavaOptions />
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkSkip />
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -46,6 +47,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidStoreUncompressedFileExtensions>
+    </AndroidStoreUncompressedFileExtensions>
+    <JavaMaximumHeapSize>
+    </JavaMaximumHeapSize>
+    <JavaOptions>
+    </JavaOptions>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -78,16 +85,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{fb6b0fe8-51d8-4f5b-aa6a-280250820233}</Project>
-      <Name>MonocCross.Navigation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BestSellers\BestSellers.MD.csproj">
-      <Project>{A884E414-8FF4-4760-BE4E-36CA68F58CD7}</Project>
-      <Name>BestSellers.MD</Name>
+      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
+      <Name>MonoCross.Navigation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MonoCross.Droid\MonoCross.Droid.csproj">
       <Project>{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}</Project>
       <Name>MonoCross.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BestSellers\BestSellers.csproj">
+      <Project>{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}</Project>
+      <Name>BestSellers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

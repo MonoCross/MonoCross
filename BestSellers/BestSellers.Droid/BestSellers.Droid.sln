@@ -5,13 +5,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Droid", "..\..\MonoCross.Droid\MonoCross.Droid.csproj", "{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation", "..\..\MonoCross.Navigation\MonoCross.Navigation.csproj", "{4618CCFC-5895-4C44-AD25-8BF312A96B86}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{B5FFA9B6-EF9E-48ED-84CE-8FD41D33B532}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers.Droid", "BestSellers.Droid.csproj", "{6AB65A58-4958-4377-821A-107F65D66110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers.MD", "..\BestSellers\BestSellers.MD.csproj", "{A884E414-8FF4-4760-BE4E-36CA68F58CD7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Navigation", "..\..\MonoCross.Navigation\MonoCross.Navigation.csproj", "{FB6B0FE8-51D8-4F5B-AA6A-280250820233}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers", "..\BestSellers\BestSellers.csproj", "{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,34 +19,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A884E414-8FF4-4760-BE4E-36CA68F58CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A884E414-8FF4-4760-BE4E-36CA68F58CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A884E414-8FF4-4760-BE4E-36CA68F58CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A884E414-8FF4-4760-BE4E-36CA68F58CD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB6B0FE8-51D8-4F5B-AA6A-280250820233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB6B0FE8-51D8-4F5B-AA6A-280250820233}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB6B0FE8-51D8-4F5B-AA6A-280250820233}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB6B0FE8-51D8-4F5B-AA6A-280250820233}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9} = {A7DADD4F-345E-4D55-9857-888EF224C5CE}
-		{FB6B0FE8-51D8-4F5B-AA6A-280250820233} = {A7DADD4F-345E-4D55-9857-888EF224C5CE}
+		{4618CCFC-5895-4C44-AD25-8BF312A96B86} = {A7DADD4F-345E-4D55-9857-888EF224C5CE}
 		{6AB65A58-4958-4377-821A-107F65D66110} = {B5FFA9B6-EF9E-48ED-84CE-8FD41D33B532}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = BestSellers.Droid.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
