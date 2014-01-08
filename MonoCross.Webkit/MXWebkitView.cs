@@ -25,6 +25,11 @@ namespace MonoCross.Webkit
             Model = (T)model;
         }
 
+        public object GetModel()
+        {
+            return Model;
+        }
+
         public static void WriteAjaxToResponse(string viewId, string viewTitle, Control control)
         {
             string xml = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Ajax.xml"));
