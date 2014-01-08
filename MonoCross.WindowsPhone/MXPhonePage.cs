@@ -17,6 +17,10 @@ namespace MonoCross.WindowsPhone
             Model = (T)model;
         }
 
+        public object GetModel()
+        {
+            return Model;
+        }
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

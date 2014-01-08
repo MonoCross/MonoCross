@@ -16,6 +16,11 @@ namespace MonoCross.Console
             Model = (T)model;
         }
 
+        public object GetModel()
+        {
+            return Model;
+        }
+
         public event ModelEventHandler ViewModelChanged;
         public virtual void OnViewModelChanged(object model) { }
         public void NotifyModelChanged() { if (ViewModelChanged != null) ViewModelChanged(this.Model); }

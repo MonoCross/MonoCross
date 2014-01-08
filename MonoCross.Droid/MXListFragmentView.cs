@@ -89,6 +89,14 @@ namespace MonoCross.Droid
         }
 
         /// <summary>
+        /// Get the model for the view.
+        /// </summary>
+		public object GetModel()
+		{
+			return Model;
+		}
+
+        /// <summary>
         /// Event fired from <see cref="NotifyModelChanged"/>
         /// </summary>
         public event ModelEventHandler ViewModelChanged;

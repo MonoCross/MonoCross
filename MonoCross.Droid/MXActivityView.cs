@@ -68,5 +68,13 @@ namespace MonoCross.Droid
         {
             Model = (T)model;
         }
+
+        /// <summary>
+        /// Get the model for the view.
+        /// </summary>
+		public object GetModel()
+		{
+			return Model;
+		}
     }
 }
