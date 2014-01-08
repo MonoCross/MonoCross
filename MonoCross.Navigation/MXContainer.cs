@@ -156,6 +156,16 @@ namespace MonoCross.Navigation
         static public SessionIdDelegate GetSessionId;
 
         /// <summary>
+        /// Initializes the <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="theContainer">The container instance.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="theContainer"/> is <c>null</c>.</exception>
+        protected static void InitializeContainer(MXContainer theContainer)
+        {
+            Instance = theContainer;
+        }
+
+        /// <summary>
         /// Gets or sets the application instance.
         /// </summary>
         /// <value>The application instance.</value>
@@ -169,6 +179,11 @@ namespace MonoCross.Navigation
             }
             protected set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("Cannot have a null MXContainer instance", (Exception)null);
+                }
+
                 Session[GetSessionId == null ? string.Empty : GetSessionId()] = value;
                 if (value.App == null) return;
                 Instance.App.OnAppLoad();
