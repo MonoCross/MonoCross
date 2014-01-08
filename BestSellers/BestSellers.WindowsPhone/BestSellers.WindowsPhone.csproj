@@ -173,9 +173,9 @@
       <Project>{7D13A55B-19F2-4944-8E10-6BB81BEAFA68}</Project>
       <Name>MonoCross.WindowsPhone</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BestSellers\BestSellers.WP.csproj">
-      <Project>{ED234F1F-526D-494F-8B7D-51ADB1035781}</Project>
-      <Name>BestSellers.WP</Name>
+    <ProjectReference Include="..\BestSellers\BestSellers.csproj">
+      <Project>{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}</Project>
+      <Name>BestSellers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
