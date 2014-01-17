@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using Android.App;
 using Android.Content.PM;
 using Android.Views;
@@ -17,13 +17,7 @@ namespace BestSellers.Droid.Views
         public override void Render()
         {
             if (Model == null) return;
-            var categories = new string[Model.Count];
-
-            for (int ii = 0; ii < Model.Count; ii++)
-            {
-                categories[ii] = Model[ii].ListName;
-            }
-
+            var categories = Model.Where(c => c != null).Select(c => c.ListName).ToArray();
             ListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, categories);
         }
 

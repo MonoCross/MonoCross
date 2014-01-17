@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{A7DADD4F-345E-4D55-9857-888EF224C5CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Droid", "..\..\MonoCross.Droid\MonoCross.Droid.csproj", "{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}"
@@ -11,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers.Droid", "BestSellers.Droid.csproj", "{6AB65A58-4958-4377-821A-107F65D66110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers", "..\BestSellers\BestSellers.csproj", "{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestSellers", "..\BestSellers\BestSellers.csproj", "{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +21,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4618CCFC-5895-4C44-AD25-8BF312A96B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,14 +35,13 @@ Global
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB65A58-4958-4377-821A-107F65D66110}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B8448676-C9FE-42A3-A30B-F2FFA096E7D9} = {A7DADD4F-345E-4D55-9857-888EF224C5CE}
@@ -45,8 +50,5 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = BestSellers.Droid.csproj
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

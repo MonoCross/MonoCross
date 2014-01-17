@@ -57,6 +57,7 @@
     <Compile Include="MXContainer.cs" />
     <Compile Include="MXNavigation.cs" />
     <Compile Include="MXController.cs" />
+    <Compile Include="MXViewEntry.cs" />
     <Compile Include="MXViewPerspective.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MXView.cs" />
