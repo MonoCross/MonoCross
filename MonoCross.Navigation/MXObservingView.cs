@@ -15,14 +15,14 @@ namespace MonoCross.Navigation
         {
             if (Model != null)
             {
-                ((T)Model).NotifyChange -= ModelCollectionChangedHandler;
+                Model.NotifyChange -= ModelCollectionChangedHandler;
             }
 
             base.SetModel(model);
 
-            if (model != null)
+            if (Model != null)
             {
-                ((T)Model).NotifyChange += ModelCollectionChangedHandler;
+                Model.NotifyChange += ModelCollectionChangedHandler;
             }
         }
 
