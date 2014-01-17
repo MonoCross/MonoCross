@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MonoCross.Navigation
 {
@@ -33,7 +34,7 @@ namespace MonoCross.Navigation
     /// <summary>
     /// The key for a Perspective+ModelType to a <see cref="IMXView"/> value in a <see cref="MXContainer.MXViewMap"/>
     /// </summary>
-    public struct MXViewPerspective : IComparable
+    public struct MXViewPerspective : IComparable, IEqualityComparer<MXViewPerspective>
     {
         /// <summary>
         /// Initializes a new <see cref="MXViewPerspective"/>instance.
@@ -42,17 +43,20 @@ namespace MonoCross.Navigation
         /// <param name="perspective">The perspective describing the mapped <see cref="IMXView"/>.</param>
         public MXViewPerspective(Type modelType, string perspective)
         {
+            if (modelType == null) throw new TypeInitializationException("MXViewPerspective", new ArgumentNullException("modelType"));
+            if (perspective == null) throw new TypeInitializationException("MXViewPerspective", new ArgumentNullException("perspective"));
+
             Perspective = perspective;
             ModelType = modelType;
         }
 
         /// <summary>
-        /// The perspective describing the mapped <see cref="IMXView"/>.
+        /// The perspective describing the mapped <see cref="IMXView"/>. This field is readonly.
         /// </summary>
         public readonly string Perspective;
 
         /// <summary>
-        /// The model type of the mapped <see cref="IMXView"/>.
+        /// The model type of the mapped <see cref="IMXView"/>. This field is readonly.
         /// </summary>
         public readonly Type ModelType;
 
@@ -107,7 +111,7 @@ namespace MonoCross.Navigation
         /// </returns>
         public override int GetHashCode()
         {
-            return ModelType.GetHashCode() ^ Perspective.GetHashCode();
+            return ModelType == null ? -1 : ModelType.GetHashCode() ^ Perspective.GetHashCode();
         }
 
         /// <summary>
@@ -119,6 +123,31 @@ namespace MonoCross.Navigation
         public override string ToString()
         {
             return string.Format("Model \"{0}\" with perspective  \"{1}\"", ModelType, Perspective);
+        }
+
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="x">The first object of type <see cref="MXViewPerspective"/> to compare.</param>
+        /// <param name="y">The second object of type <see cref="MXViewPerspective"/> to compare.</param>
+        /// <returns>
+        /// true if the specified objects are equal; otherwise, false.
+        /// </returns>
+        public bool Equals(MXViewPerspective x, MXViewPerspective y)
+        {
+            return x.GetHashCode() == y.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public int GetHashCode(MXViewPerspective obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }
