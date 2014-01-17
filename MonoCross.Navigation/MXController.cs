@@ -9,19 +9,24 @@ namespace MonoCross.Navigation
     public interface IMXController
     {
         /// <summary>
-        /// Gets or sets the parameters added to the controller.
+        /// Gets the parameters added to the controller.
         /// </summary>
-        Dictionary<string, string> Parameters { get; set; }
+        Dictionary<string, string> Parameters { get; }
 
         /// <summary>
-        /// Gets or sets the URI that was used to navigate to this instance.
+        /// Gets the URI that was used to navigate to this instance.
         /// </summary>
-        string Uri { get; set; }
+        string Uri { get; }
 
         /// <summary>
-        /// Thw <see cref="IMXView"/> that is loaded into the controller from a <see cref="ViewPerspective"/>.
+        /// The <see cref="IMXView"/> described by this controller's current <see cref="ViewEntry"/>.
         /// </summary>
-        IMXView View { get; set; }
+        IMXView View { get; }
+
+        /// <summary>
+        /// Gets or sets the location of the <see cref="IMXView"/> in cache.
+        /// </summary>
+        MXViewEntry ViewEntry { get; set; }
 
         /// <summary>
         /// The type of the model used by this controller.
@@ -40,7 +45,7 @@ namespace MonoCross.Navigation
         string Load(Dictionary<string, string> parameters);
 
         /// <summary>
-        /// Calls <see cref="IMXView.Render"/> on the <see cref="View"/>.
+        /// Calls <see cref="IMXView.Render"/> on the <see cref="IMXView"/> in cache.
         /// </summary>
         void RenderView();
     }
@@ -51,14 +56,14 @@ namespace MonoCross.Navigation
     public abstract class MXController<T> : IMXController
     {
         /// <summary>
-        /// Gets or sets the URI that was used to navigate to this instance.
+        /// Gets the URI that was used to navigate to this instance.
         /// </summary>
-        public string Uri { get; set; }
+        public string Uri { get { return ViewEntry.Uri; } }
 
         /// <summary>
-        /// Gets or sets the parameters added to the controller.
+        /// Gets the parameters added to the controller.
         /// </summary>
-        public Dictionary<string, string> Parameters { get; set; }
+        public Dictionary<string, string> Parameters { get { return ViewEntry.Parameters; } }
 
         /// <summary>
         /// Gets or sets the model for the controller.
@@ -66,14 +71,19 @@ namespace MonoCross.Navigation
         public T Model { get; set; }
 
         /// <summary>
-        /// The type of the model used by this controller.
+        /// Gets the type of the model used by this controller.
         /// </summary>
         public Type ModelType { get { return typeof(T); } }
 
         /// <summary>
-        /// Thw <see cref="IMXView"/> that is loaded into the controller from a <see cref="ViewPerspective"/>.
+        /// Gets the <see cref="IMXView"/> described by this controller's current <see cref="ViewEntry"/>.
         /// </summary>
-        public virtual IMXView View { get; set; }
+        public IMXView View { get { return MXContainer.Instance.Views.GetView(ViewEntry); } }
+
+        /// <summary>
+        /// Gets or sets the location of the view in cache.
+        /// </summary>
+        public MXViewEntry ViewEntry { get; set; }
 
         /// <summary>
         /// Gets the model for the controller.
@@ -87,8 +97,12 @@ namespace MonoCross.Navigation
         public abstract string Load(Dictionary<string, string> parameters);
 
         /// <summary>
-        /// Calls <see cref="IMXView.Render"/> on the <see cref="View"/>.
+        /// Calls <see cref="IMXView.Render"/> on the <see cref="IMXView"/> that the controller loaded.
         /// </summary>
-        public virtual void RenderView() { if (View != null) View.Render(); }
+        public virtual void RenderView()
+        {
+            var view = MXContainer.Instance.Views.GetView(ViewEntry);
+            if (view != null) view.Render();
+        }
     }
 }
