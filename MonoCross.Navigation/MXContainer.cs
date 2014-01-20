@@ -485,6 +485,11 @@ namespace MonoCross.Navigation
             readonly Dictionary<MXViewEntry, IMXView> _viewCache = new Dictionary<MXViewEntry, IMXView>();
 
             /// <summary>
+            /// Gets the view cache.
+            /// </summary>
+            public Dictionary<MXViewEntry, IMXView> Cache { get { return _viewCache; } }
+
+            /// <summary>
             /// Adds the specified view to the view map.
             /// </summary>
             /// <param name="viewPerspective">The view perspective key.</param>
