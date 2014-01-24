@@ -531,6 +531,17 @@ namespace MonoCross.Navigation
             }
 
             /// <summary>
+            /// Adds the specified view to the view map.
+            /// </summary>
+            /// <param name="viewEntry">The view cache key.</param>
+            /// <param name="view">The initialized view value.</param>
+            public void Add(MXViewEntry viewEntry, IMXView view)
+            {
+                _viewMap[viewEntry.Perspective] = view.GetType();
+                _viewCache[viewEntry] = view;
+            }
+
+            /// <summary>
             /// Gets the type of the view described by a view perspective.
             /// </summary>
             /// <param name="viewPerspective">The view perspective.</param>
