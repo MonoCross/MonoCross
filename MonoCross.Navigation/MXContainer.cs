@@ -181,7 +181,7 @@ namespace MonoCross.Navigation
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("Cannot have a null MXContainer instance", (Exception)null);
+                    throw new ArgumentNullException("value", "Cannot have a null MXContainer instance.");
                 }
 
                 Session[GetSessionId == null ? string.Empty : GetSessionId()] = value;

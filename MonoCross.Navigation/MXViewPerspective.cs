@@ -151,3 +151,21 @@ namespace MonoCross.Navigation
         }
     }
 }
+
+#if NETCF
+namespace System
+{
+    /// <summary>
+    /// .NET Compact Framework replacement for TypeInitializationException
+    /// </summary>
+    public class TypeInitializationException : TypeLoadException
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeInitializationException"/> class.
+        /// </summary>
+        /// <param name="message">The message associated with this exception.</param>
+        /// <param name="exception">The exception that prevented the type from initializing.</param>
+        public TypeInitializationException(string message, Exception exception) : base(message, exception) { }
+    }
+}
+#endif
