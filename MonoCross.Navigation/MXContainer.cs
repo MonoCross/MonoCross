@@ -329,7 +329,7 @@ namespace MonoCross.Navigation
             }
         }
 
-        static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
+        protected static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
         {
             try
             {
@@ -347,7 +347,7 @@ namespace MonoCross.Navigation
             if (!Instance.CancelLoad) // done if failed
             {
                 var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
-                controller.ViewEntry = new MXViewEntry(viewPerspective, controller.ViewEntry.ID)
+                controller.ViewEntry = new MXViewEntry(viewPerspective, controller.ViewEntry.ID ?? string.Empty)
                 {
                     Uri = controller.ViewEntry.Uri,
                     Parameters = parameters,
@@ -447,11 +447,7 @@ namespace MonoCross.Navigation
             }
             else
             {
-#if DEBUG
-                throw new Exception("URI match not found for: " + url);
-#else
-                // should log the message at least
-#endif
+                System.Diagnostics.Debug.WriteLine("No controller loaded for URI: " + url);
             }
 
             return controller;
