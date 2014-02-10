@@ -297,47 +297,58 @@ namespace MonoCross.Navigation
 
         private static void InternalNavigate(IMXView fromView, string url, Dictionary<string, string> parameters)
         {
-            MXContainer container = Instance;   // optimization for the server size, property reference is a hashed lookup
+            MXContainer container = Instance; // optimization for the server side; property reference is a hashed lookup
 
             // fetch and allocate a viable controller
-            IMXController controller = container.GetController(url, ref parameters);
-            // Initiate load for the associated controller passing all parameters
+            var controller = container.GetController(url, ref parameters);
             if (controller != null)
             {
-                container.OnControllerLoadBegin(controller, fromView);
-
-                container.CancelLoad = false;
-
-                // synchronize load layer to prevent collisions on web-based targets.
-                lock (container)
-                {
-                    // Console.WriteLine("InternalNavigate: Locked");
-
-                    // if there is no synchronization, don't launch a new thread
-                    if (container.ThreadedLoad)
-                    {
-                        // new thread to execute the Load() method for the layer
-                        ThreadPool.QueueUserWorkItem(o => TryLoadController(container, fromView, controller, parameters));
-                    }
-                    else
-                    {
-                        TryLoadController(container, fromView, controller, parameters);
-                    }
-
-                    // Console.WriteLine("InternalNavigate: Unlocking");
-                }
+                // Initiate load for the associated controller passing all parameters
+                TryLoadController(container, fromView, controller, parameters);
             }
         }
 
+        /// <summary>
+        /// Tries to execute the Load method of the specified controller using eventing.
+        /// </summary>
+        /// <param name="container">The container that loads the controller.</param>
+        /// <param name="fromView">The view that activated the navigation.</param>
+        /// <param name="controller">The controller to load.</param>
+        /// <param name="parameters">The parameters to use with the controller's Load method.</param>
         protected static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
         {
-            try
+            container.OnControllerLoadBegin(controller, fromView);
+            container.CancelLoad = false;
+
+            // synchronize load layer to prevent collisions on web-based targets.
+            lock (container)
             {
-                container.LoadController(fromView, controller, parameters);
-            }
-            catch (Exception ex)
-            {
-                container.OnControllerLoadFailed(controller, ex);
+                // Console.WriteLine("InternalNavigate: Locked");
+
+                var load = new WaitCallback(o =>
+                {
+                    try
+                    {
+                        container.LoadController(fromView, controller, parameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        container.OnControllerLoadFailed(controller, ex);
+                    }
+                });
+
+                // if there is no synchronization, don't launch a new thread
+                if (container.ThreadedLoad)
+                {
+                    // new thread to execute the Load() method for the layer
+                    ThreadPool.QueueUserWorkItem(load);
+                }
+                else
+                {
+                    load(null);
+                }
+
+                // Console.WriteLine("InternalNavigate: Unlocking");
             }
         }
 
