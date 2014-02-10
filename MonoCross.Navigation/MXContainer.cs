@@ -662,6 +662,33 @@ namespace MonoCross.Navigation
             {
                 return _viewCache.FirstOrDefault(keyValuePair => Equals(keyValuePair.Value, view)).Key;
             }
+
+            /// <summary>
+            /// Removes cached views described by the specifed perspectives from the viewport with the specified ID.
+            /// </summary>
+            /// <param name="perspectives">The perspectives.</param>
+            /// <param name="id">The identifier.</param>
+            public void RemoveCachedViews(IEnumerable<MXViewPerspective> perspectives, string id)
+            {
+                foreach (var remove in perspectives)
+                {
+                    MXViewEntry entry;
+                    var keys = Cache.Keys.Where(k => k.Perspective == remove).ToArray();
+                    if (keys.Length == 1)
+                    {
+                        entry = keys.First();
+                    }
+                    else
+                    {
+                        entry = keys.FirstOrDefault(k => k.ID == id);
+                        if (entry.ID == null)
+                        {
+                            entry = keys.LastOrDefault();
+                        }
+                    }
+                    Cache.Remove(entry);
+                }
+            }
         }
     }
 }
