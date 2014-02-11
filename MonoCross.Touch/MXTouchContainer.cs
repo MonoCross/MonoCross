@@ -265,7 +265,7 @@ namespace MonoCross.Touch
 			if (controller.View == null)
 			{
 				// get the view, create it if it has yet been created
-				controller.View = Views.GetOrCreateView(viewPerspective);
+				MXContainer.Instance.Views.GetOrCreateView(controller.ViewEntry);
 				if (controller.View == null)
 				{
 					Console.WriteLine("View not found for perspective!" + viewPerspective.ToString());
