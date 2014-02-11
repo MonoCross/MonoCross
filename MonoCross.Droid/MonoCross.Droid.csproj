@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B8448676-C9FE-42A3-A30B-F2FFA096E7D9}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -31,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <DocumentationFile>bin\Release\MonoCross.Droid.XML</DocumentationFile>
   </PropertyGroup>
@@ -52,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{fb6b0fe8-51d8-4f5b-aa6a-280250820233}</Project>
+      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
       <Name>MonoCross.Navigation</Name>
     </ProjectReference>
   </ItemGroup>
