@@ -589,7 +589,8 @@ namespace MonoCross.Navigation
             public IMXView GetView(MXViewPerspective viewPerspective, string id)
             {
                 var candidates = _viewCache.Where(e => e.Key.Perspective == viewPerspective).ToArray();
-                return candidates.Length < 2 ? candidates.FirstOrDefault().Value : candidates.FirstOrDefault(e => e.Key.ID == id).Value;
+                var view = candidates.FirstOrDefault(e => e.Key.ID == id).Value;
+                return view ?? candidates.FirstOrDefault(e => e.Key.ID == string.Empty).Value;
             }
 
             /// <summary>
