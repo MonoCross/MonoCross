@@ -701,6 +701,33 @@ namespace MonoCross.Navigation
                     Cache.Remove(entry);
                 }
             }
+
+            /// <summary>
+            /// Removes specified views from the viewport with the specified ID.
+            /// </summary>
+            /// <param name="views">The views.</param>
+            /// <param name="id">The identifier.</param>
+            public void RemoveCachedViews(IEnumerable<IMXView> views, string id)
+            {
+                foreach (var remove in views)
+                {
+                    MXViewEntry entry;
+                    var keys = Cache.Where(k => Equals(k.Value, remove)).ToArray();
+                    if (keys.Length == 1)
+                    {
+                        entry = keys.First().Key;
+                    }
+                    else
+                    {
+                        entry = keys.FirstOrDefault(k => k.Key.ID == id).Key;
+                        if (entry.ID == null)
+                        {
+                            entry = keys.LastOrDefault().Key;
+                        }
+                    }
+                    Cache.Remove(entry);
+                }
+            }
         }
     }
 }
