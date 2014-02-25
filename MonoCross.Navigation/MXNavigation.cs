@@ -194,7 +194,7 @@ namespace MonoCross.Navigation
         /// <returns><c>true</c> if the MXNavigations are equal; otherwise <c>false</c>.</returns>
         public static bool operator ==(MXNavigation a, MXNavigation b)
         {
-            return ReferenceEquals(a, null) ? ReferenceEquals(a, b) : a.Equals(b);
+            return ReferenceEquals(a, null) ? ReferenceEquals(b, null) : a.Equals(b);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace MonoCross.Navigation
         /// <param name="pattern">The navigation pattern to associate with the controller.</param>
         /// <param name="controller">The controller to add to the navigation list.</param>
         /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
-        public virtual void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
+        public void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
             // Enforce uniqueness
             MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == pattern);
