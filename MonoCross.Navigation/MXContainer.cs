@@ -121,25 +121,21 @@ namespace MonoCross.Navigation
         /// <param name="theApp">The application to contain.</param>
         protected MXContainer(MXApplication theApp)
         {
-            _theApp = theApp;
+            App = theApp;
         }
 
         /// <summary>
         /// Gets the MonoCross application in the container.
         /// </summary>
         /// <value>The application as a <see cref="MXApplication"/> instance.</value>
-        public MXApplication App
-        {
-            get { return _theApp; }
-        }
-        private MXApplication _theApp;
+        public MXApplication App { get; private set; }
 
         /// <summary>
         /// Sets the MonoCross application in the container.
         /// </summary>
         protected static void SetApp(MXApplication app)
         {
-            Instance._theApp = app;
+            Instance.App = app;
             Instance.App.OnAppLoad();
             Instance.App.OnAppLoadComplete();
         }
@@ -243,12 +239,12 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Adds the specified view to the view map.
         /// </summary>
-        /// <param name="modeltype">The type of the view's model.</param>
+        /// <param name="modelType">The type of the view's model.</param>
         /// <param name="viewType">The view's type.</param>
         /// <param name="perspective">The view's perspective.</param>
-        protected virtual void AddView(Type modeltype, Type viewType, string perspective)
+        protected virtual void AddView(Type modelType, Type viewType, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(modeltype, perspective), viewType, null);
+            Instance.AddView(new MXViewPerspective(modelType, perspective), viewType, null);
         }
 
         /// <summary>
@@ -352,10 +348,10 @@ namespace MonoCross.Navigation
             }
         }
 
-        void LoadController(IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
+        private void LoadController(IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
         {
             string perspective = controller.Load(parameters);
-            if (!Instance.CancelLoad) // done if failed
+            if (!CancelLoad) // done if failed
             {
                 var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
                 controller.ViewEntry = new MXViewEntry(viewPerspective, controller.ViewEntry.ID ?? string.Empty)
@@ -365,7 +361,7 @@ namespace MonoCross.Navigation
                 };
 
                 // quick check (viable for ALL platforms) to see if there is some kind of a mapping set up
-                if (!Instance.Views.ContainsKey(viewPerspective))
+                if (!Views.ContainsKey(viewPerspective))
                     throw new Exception("There is no View mapped for " + viewPerspective);
 
                 // if we have a view lying around update its model, more of a courtesy to the derived container that anything
@@ -374,10 +370,10 @@ namespace MonoCross.Navigation
 
                 // give the derived container the ability to do something
                 // with the fromView if it exists or to create it if it doesn't
-                Instance.OnControllerLoadComplete(fromView, controller, viewPerspective);
+                OnControllerLoadComplete(fromView, controller, viewPerspective);
             }
             // clear CancelLoad, we're done
-            Instance.CancelLoad = false;
+            CancelLoad = false;
         }
 
         /// <summary>
@@ -641,7 +637,7 @@ namespace MonoCross.Navigation
                 // Check typemap values for either a concrete type or an interface
                 var kvp = _viewMap.FirstOrDefault(keyValuePair =>
                 {
-                    var value = keyValuePair.Value is Type ? (Type)keyValuePair.Value : keyValuePair.Value.GetType();
+                    var value = keyValuePair.Value;
                     return value == viewType || !ReferenceEquals(value.GetInterfaces().FirstOrDefault(i => i.Name == viewType.Name), null);
                 });
 
@@ -676,7 +672,7 @@ namespace MonoCross.Navigation
             }
 
             /// <summary>
-            /// Removes cached views described by the specifed perspectives from the viewport with the specified ID.
+            /// Removes cached views described by the specified perspectives from the viewport with the specified ID.
             /// </summary>
             /// <param name="perspectives">The perspectives.</param>
             /// <param name="id">The identifier.</param>
