@@ -360,10 +360,6 @@ namespace MonoCross.Navigation
                     Parameters = parameters,
                 };
 
-                // quick check (viable for ALL platforms) to see if there is some kind of a mapping set up
-                if (!Views.ContainsKey(viewPerspective))
-                    throw new Exception("There is no View mapped for " + viewPerspective);
-
                 // if we have a view lying around update its model, more of a courtesy to the derived container that anything
                 var view = controller.View;
                 if (view != null) view.SetModel(controller.GetModel());
