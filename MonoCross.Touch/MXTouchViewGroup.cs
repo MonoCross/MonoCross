@@ -2,6 +2,7 @@ using System;
 using MonoTouch.UIKit;
 using MonoCross.Navigation;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MonoCross.Touch
 {
@@ -83,7 +84,7 @@ namespace MonoCross.Touch
 			
 			_viewGroup = viewGroup;
 			
-			System.Console.WriteLine("MXTouchViewGroupTabController: Render");
+			Debug.WriteLine("MXTouchViewGroupTabController: Render");
 			
 			this.Delegate = new TabBarControllerDelegate(this);
 
@@ -136,7 +137,7 @@ namespace MonoCross.Touch
 			public override bool ShouldSelectViewController (UITabBarController tabBarController, UIViewController viewController)
 			{
 				UINavigationController navController = viewController as UINavigationController;
-				System.Console.WriteLine("TabBarControllerDelegate:ShouldSelectViewController");
+				Debug.WriteLine("TabBarControllerDelegate:ShouldSelectViewController");
 
 				if (navController.ViewControllers.Length == 0)
 				{
@@ -158,27 +159,6 @@ namespace MonoCross.Touch
 				
 				return true;
 			}
-			public override void ViewControllerSelected (UITabBarController tabBarController, UIViewController viewController)
-			{
-				System.Console.WriteLine("TabBarControllerDelegate:ViewControllerSelected");
-				//base.ViewControllerSelected(tabBarController, viewController);
-			}
-			
-			//public override void OnCustomizingViewControllers (UITabBarController tabBarController, UIViewController[] viewControllers)
-			//{
-			//	System.Console.WriteLine("TabBarControllerDelegate:OnCustomizingViewControllers");
-			//	//base.OnCustomizingViewControllers(tabBarController, viewControllers);
-			//}
-			//public override void OnEndCustomizingViewControllers (UITabBarController tabBarController, UIViewController[] viewControllers, bool changed)
-			//{
-			//	System.Console.WriteLine("TabBarControllerDelegate:OnEndCustomizingViewControllers");
-			//	//base.OnEndCustomizingViewControllers(tabBarController, viewControllers, changed);
-			//}
-			//public override void FinishedCustomizingViewControllers (UITabBarController tabBarController, UIViewController[] viewControllers, bool changed)
-			//{
-			//	System.Console.WriteLine("TabBarControllerDelegate:FinishedCustomizingViewControllers");
-			//	//base.FinishedCustomizingViewControllers(tabBarController, viewControllers, changed);
-			//}
 		}
 	}
 }

@@ -5,6 +5,7 @@ using MonoCross.Navigation;
 using MonoCross.Touch;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
+using System.Diagnostics;
 
 namespace MonoCross.Touch
 {
@@ -121,7 +122,6 @@ namespace MonoCross.Touch
 		MXTouchNavigation _touchNavigation;
 		UIWindow _window;
 		UIApplicationDelegate _appDelegate;
-		LoadingView _loadingView;
 		SplashViewController _splashViewController = null;
 
 		public static RenderLayerDelegate RenderLayer { get; set; }
@@ -176,7 +176,7 @@ namespace MonoCross.Touch
         [Obsolete]
 		protected override void OnControllerLoadBegin(IMXController controller)
 		{
-			Console.WriteLine("Controller Load Begin");
+			Debug.WriteLine("Controller Load Begin");
 			
 			if (ControllerLoadBegin != null) {
 				ControllerLoadBegin(controller);
@@ -189,7 +189,7 @@ namespace MonoCross.Touch
 		
 		protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
 		{
-			Console.WriteLine("Controller Load End");
+			Debug.WriteLine("Controller Load End");
 			
 			_appDelegate.InvokeOnMainThread( delegate {
 				LoadViewForController(fromView, controller, viewPerspective);
@@ -201,7 +201,7 @@ namespace MonoCross.Touch
 		
 		protected override void OnControllerLoadFailed (IMXController controller, Exception ex)
 		{
-			Console.WriteLine("Controller Load Failed: " + ex.Message);
+			Debug.WriteLine("Controller Load Failed: " + ex.Message);
 			
 			if (ControllerLoadFailed != null) {
 				ControllerLoadFailed(controller, ex);
@@ -269,7 +269,7 @@ namespace MonoCross.Touch
 				MXContainer.Instance.Views.GetOrCreateView(controller.ViewEntry);
 				if (controller.View == null)
 				{
-					Console.WriteLine("View not found for perspective!" + viewPerspective.ToString());
+					Debug.WriteLine("View not found for perspective!" + viewPerspective.ToString());
 					throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
 				}
 			}
