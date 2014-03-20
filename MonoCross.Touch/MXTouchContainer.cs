@@ -173,6 +173,7 @@ namespace MonoCross.Touch
 			CancelLoad = true;
 		}
 		
+        [Obsolete]
 		protected override void OnControllerLoadBegin(IMXController controller)
 		{
 			Console.WriteLine("Controller Load Begin");

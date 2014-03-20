@@ -41,6 +41,7 @@ namespace MonoCross.Touch
 			*/
 		}
 		
+        [Obsolete]
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
 			return true;

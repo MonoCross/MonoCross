@@ -223,11 +223,11 @@ namespace MonoCross.Touch
 		{
 			if (_splitViewController != null)
 			{
-				_splitViewController.PresentModalViewController(vc, true);
+				_splitViewController.PresentViewController(vc, true, null);
 			}
 			else
 			{
-				_masterNavigationController.PresentModalViewController(vc, true);
+				_masterNavigationController.PresentViewController(vc, true, null);
 			}
 		}
 		
