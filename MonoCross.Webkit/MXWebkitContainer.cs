@@ -29,9 +29,6 @@ namespace MonoCross.Webkit
             MXContainer.GetSessionId = delegate { return HttpContext.Current.Session.SessionID; };
         }
 
-        public delegate HtmlGenericControl RenderLayerDelegate(IMXView view);
-        public static event RenderLayerDelegate RenderLayer;
-
         public override MXViewMap Views
         {
             get 
@@ -117,19 +114,14 @@ namespace MonoCross.Webkit
 
         protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
         {
-            controller.RenderView();
-            if (controller.View.GetType().BaseType.GetGenericTypeDefinition() != typeof(MXWebkitView<>) && RenderLayer != null)
+            var view = MXContainer.Instance.Views.GetView(controller.ViewEntry);
+            if (view == null)
             {
-               HtmlGenericControl control = RenderLayer(controller.View);
-               if (controller.Uri == App.NavigateOnLoad)
-               {
-                   MXWebkitView<object>.WriteToResponse(controller.ModelType.ToString(), control.Attributes["title"], control);
-               }
-               else
-               {
-                   MXWebkitView<object>.WriteAjaxToResponse(controller.ModelType.ToString(), control.Attributes["title"], control);
-               }
+                Console.WriteLine("View not found for perspective!" + viewPerspective.ToString());
+                throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
             }
+            
+            view.Render();
         }
 
         /*
