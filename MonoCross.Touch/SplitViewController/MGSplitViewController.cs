@@ -166,7 +166,8 @@ namespace MonoCross.Touch
 			SplitPosition = _defaultSplitPosition;
 			Vertical = true;
 		}
-		
+
+		[Obsolete]
 		public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation interfaceOrientation)
 		{
 		    return true;
