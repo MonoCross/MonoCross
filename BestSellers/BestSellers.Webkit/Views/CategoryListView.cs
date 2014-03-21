@@ -41,7 +41,7 @@ namespace BestSellers.Webkit.Views
                 img.Attributes.Add("src", "NytIcon.png");
                 img.Attributes.Add("style", "max-height:44px;max-width:32px");
                 HtmlGenericControl em = new HtmlGenericControl("em");
-                em.InnerText = category.ListName;
+                em.InnerText = category.DisplayName;
                 //HtmlGenericControl small = new HtmlGenericControl("small");
                 //small.Attributes.Add("style", "color:#666666");
                 //small.InnerText = category.Website;

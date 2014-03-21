@@ -17,7 +17,7 @@ namespace BestSellers.Droid.Views
         public override void Render()
         {
             if (Model == null) return;
-            var categories = Model.Where(c => c != null).Select(c => c.ListName).ToArray();
+            var categories = Model.Where(c => c != null).Select(c => c.DisplayName).ToArray();
             ListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, categories);
         }
 

@@ -5,11 +5,10 @@ namespace BestSellers
 
     public class Category
     {
-        public string ListName { get; set; }
         public string DisplayName { get; set; }
         public string ListNameEncoded
         {
-            get { return ListName.ToLower().Replace(' ', '-'); }
+            get { return DisplayName.ToLower().Replace(' ', '-'); }
         }
         //public string OldestPublishedDate { get; set; }
         //public string NewestPublishedDate { get; set; }
