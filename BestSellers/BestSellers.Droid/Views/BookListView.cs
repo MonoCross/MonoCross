@@ -6,11 +6,12 @@ using MonoCross.Navigation;
 
 namespace BestSellers.Droid.Views
 {
-    [Activity(Label = "Best Sellers in Category", LaunchMode = Android.Content.PM.LaunchMode.SingleTop)]
+    [Activity(Label = "Book List", LaunchMode = Android.Content.PM.LaunchMode.SingleTop)]
     public class BookListView : MXListActivityView<BookList>
     {
         public override void Render()
         {
+            Title = Model.CategoryDisplayName;
             ListView.Adapter = new CustomListAdapter(this, Model);
         }
 

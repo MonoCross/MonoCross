@@ -8,7 +8,7 @@ using MonoCross.Droid;
 
 namespace BestSellers.Droid.Views
 {
-    [Activity(Label = "Book View")]
+    [Activity(Label = "Book Details")]
     public class BookView : MXListActivityView<Book>
     {
         public override void Render()
