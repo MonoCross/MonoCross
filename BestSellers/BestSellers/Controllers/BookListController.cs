@@ -46,7 +46,7 @@ namespace BestSellers.Controllers
                     {
                         var book = new Book();
                         book.CategoryEncoded = category;
-                        reader.ReadToDescendant("display_name");
+                        reader.ReadToDescendant("list_name");
                         book.Category = reader.ReadInnerXml();
                         reader.ReadToFollowing("bestsellers_date");
                         book.BestSellersDate = reader.ReadInnerXml();

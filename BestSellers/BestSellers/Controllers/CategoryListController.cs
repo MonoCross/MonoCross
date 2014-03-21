@@ -36,6 +36,7 @@ namespace BestSellers.Controllers
                         var c = new Category();
                         reader.ReadToDescendant("list_name");
                         c.DisplayName = reader.ReadInnerXml();
+                        reader.ReadInnerXml(); // throw away value
                         categories.Add(c);
 
                         hasNextResult = reader.ReadToNextSibling("result");
