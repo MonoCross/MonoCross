@@ -22,13 +22,13 @@ namespace Touch.TestContainer.Views
 		
 		public override void Render ()
 		{
-			RootElement root = new RootElement(Model.Category);
+			RootElement root = new RootElement(Model.CategoryDisplayName ?? Model.Category);
 			Section section = new Section();
 			
 			foreach (var book in Model)
 			{
-				string isbn = string.IsNullOrEmpty(book.ISBN13) ? book.ISBN10: book.ISBN13;
-				string uri = String.Format("{0}/{1}", book.Category, isbn);
+				string isbn = string.IsNullOrEmpty(book.ISBN10) ? book.ISBN13 : book.ISBN10;
+				string uri = String.Format("{0}/{1}", book.CategoryEncoded, isbn);
 			 	StringElement se = new StringElement(book.Title, () => {  this.Navigate(uri); });
 				section.Add(se);
 			}
