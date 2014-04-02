@@ -76,10 +76,6 @@
     <Compile Include="SplitViewController\MGCornersView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BestSellers\BestSellers\BestSellers.csproj">
-      <Project>{cd0162ea-3de6-47b1-a499-c597e3c2dc41}</Project>
-      <Name>BestSellers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
       <Project>{4618ccfc-5895-4c44-ad25-8bf312a96b86}</Project>
       <Name>MonoCross.Navigation</Name>
