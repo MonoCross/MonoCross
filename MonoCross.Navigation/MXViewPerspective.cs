@@ -32,7 +32,7 @@ namespace MonoCross.Navigation
     }
 
     /// <summary>
-    /// The key for a Perspective+ModelType to a <see cref="IMXView"/> value in a <see cref="MXContainer.MXViewMap"/>
+    /// The key for a Perspective+ModelType to a <see cref="IMXView"/> value in a <see cref="MXContainer.Views"/>
     /// </summary>
     public struct MXViewPerspective : IComparable, IEqualityComparer<MXViewPerspective>
     {

@@ -354,15 +354,6 @@ namespace MonoCross.Navigation
             if (!CancelLoad) // done if failed
             {
                 var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
-                controller.ViewEntry = new MXViewEntry(viewPerspective, controller.ViewEntry.ID ?? string.Empty)
-                {
-                    Uri = controller.ViewEntry.Uri,
-                    Parameters = parameters,
-                };
-
-                // if we have a view lying around update its model, more of a courtesy to the derived container that anything
-                var view = controller.View;
-                if (view != null) view.SetModel(controller.GetModel());
 
                 // give the derived container the ability to do something
                 // with the fromView if it exists or to create it if it doesn't
@@ -437,16 +428,6 @@ namespace MonoCross.Navigation
                         }
                     }
                 }
-
-                //initialize controller.ViewEntry if it has not been set up by the constructor
-                var perspective = controller.ViewEntry.Perspective;
-                if (perspective.ModelType == null)
-                    perspective = new MXViewPerspective(controller.ModelType, ViewPerspective.Default);
-                controller.ViewEntry = new MXViewEntry(perspective, controller.ViewEntry.ID ?? string.Empty)
-                {
-                    Uri = url,
-                    Parameters = parameters
-                };
             }
             else
             {
@@ -459,34 +440,29 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Renders the view described by the perspective.
         /// </summary>
-        /// <param name="controller">The controller for the view.</param>
+        /// <param name="model">The model for the view.</param>
         /// <param name="perspective">The perspective describing the view.</param>
-        public static void RenderViewFromPerspective(IMXController controller, MXViewPerspective perspective)
+        public IMXView RenderViewFromPerspective(MXViewPerspective perspective, object model)
         {
-            Instance.Views.RenderView(perspective, controller.GetModel());
+            IMXView view = Views.GetOrCreateView(perspective);
+            if (view == null)
+            {
+                // No view perspective found for model
+                throw new ArgumentException("No View found for: " + perspective, "perspective");
+            }
+            view.SetModel(model);
+            view.Render();
+
+            return view;
         }
 
-        /// <summary>
-        /// Renders the view described by the view entry.
-        /// </summary>
-        /// <param name="controller">The controller for the view.</param>
-        public static void RenderViewFromEntry(IMXController controller)
-        {
-            Instance.Views.RenderView(controller.ViewEntry, controller.GetModel());
-        }
 
         /// <summary>
         /// Represents a mapping of <see cref="MXViewPerspective"/>s to <see cref="IMXView"/>s in a container.
         /// </summary>
         public class MXViewMap
         {
-            readonly Dictionary<MXViewPerspective, Type> _viewMap = new Dictionary<MXViewPerspective, Type>();
-            readonly Dictionary<MXViewEntry, IMXView> _viewCache = new Dictionary<MXViewEntry, IMXView>();
-
-            /// <summary>
-            /// Gets the view cache.
-            /// </summary>
-            public Dictionary<MXViewEntry, IMXView> Cache { get { return _viewCache; } }
+            readonly Dictionary<MXViewPerspective, object> _viewMap = new Dictionary<MXViewPerspective, object>();
 
             /// <summary>
             /// Adds the specified view to the view map.
@@ -495,16 +471,14 @@ namespace MonoCross.Navigation
             /// <param name="viewType">The view's type value.</param>
             public void Add(MXViewPerspective viewPerspective, Type viewType)
             {
+                if (viewType == null) { throw new ArgumentNullException("viewType"); }
+
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
                 {
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
                 }
 
                 _viewMap[viewPerspective] = viewType;
-
-
-                var vp = new MXViewPerspective(viewPerspective.ModelType, viewPerspective.Perspective);
-                System.Diagnostics.Debug.Assert(_viewMap.ContainsKey(vp));
             }
 
             /// <summary>
@@ -514,32 +488,9 @@ namespace MonoCross.Navigation
             /// <param name="view">The initialized view value.</param>
             public void Add(MXViewPerspective viewPerspective, IMXView view)
             {
-                Add(viewPerspective, view, string.Empty);
+                if (view == null) { throw new ArgumentNullException("view"); }
+                _viewMap[viewPerspective] = view;
             }
-
-            /// <summary>
-            /// Adds the specified view to the view map.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective key.</param>
-            /// <param name="view">The initialized view value.</param>
-            /// <param name="id">The identifier of the viewport that displays the <see cref="IMXView"/>.</param>
-            public void Add(MXViewPerspective viewPerspective, IMXView view, string id)
-            {
-                _viewMap[viewPerspective] = view.GetType();
-                _viewCache[new MXViewEntry(viewPerspective, id)] = view;
-            }
-
-            /// <summary>
-            /// Adds the specified view to the view map.
-            /// </summary>
-            /// <param name="viewEntry">The view cache key.</param>
-            /// <param name="view">The initialized view value.</param>
-            public void Add(MXViewEntry viewEntry, IMXView view)
-            {
-                _viewMap[viewEntry.Perspective] = view.GetType();
-                _viewCache[viewEntry] = view;
-            }
-
             /// <summary>
             /// Gets the type of the view described by a view perspective.
             /// </summary>
@@ -547,19 +498,9 @@ namespace MonoCross.Navigation
             /// <returns>The type associated with the view perspective.</returns>
             public Type GetViewType(MXViewPerspective viewPerspective)
             {
-                Type type;
+                object type;
                 _viewMap.TryGetValue(viewPerspective, out type);
-                return type;
-            }
-
-            /// <summary>
-            /// Gets the view described by a view entry.
-            /// </summary>
-            /// <param name="viewEntry">The view entry.</param>
-            /// <returns>The view associated with the view entry.</returns>
-            public IMXView GetView(MXViewEntry viewEntry)
-            {
-                return GetView(viewEntry.Perspective, viewEntry.ID);
+                return type as Type;
             }
 
             /// <summary>
@@ -569,47 +510,36 @@ namespace MonoCross.Navigation
             /// <returns>The view associated with the view perspective.</returns>
             public IMXView GetView(MXViewPerspective viewPerspective)
             {
-                return GetView(viewPerspective, string.Empty);
+                object o;
+                _viewMap.TryGetValue(viewPerspective, out o);
+                return o as IMXView;
             }
 
             /// <summary>
-            /// Gets the view described by a view perspective.
+            /// Gets the view or creates it if it has not been created.
             /// </summary>
             /// <param name="viewPerspective">The view perspective.</param>
-            /// <param name="id">The viewport identifier.</param>
-            /// <returns>The view associated with the view perspective.</returns>
-            public IMXView GetView(MXViewPerspective viewPerspective, string id)
-            {
-                var candidates = _viewCache.Where(e => e.Key.Perspective == viewPerspective).ToArray();
-                var view = candidates.FirstOrDefault(e => e.Key.ID == id).Value;
-                return view ?? candidates.FirstOrDefault(e => e.Key.ID == string.Empty).Value;
-            }
-
-            /// <summary>
-            /// Gets the view, or creates it if it has not been created.
-            /// </summary>
-            /// <param name="viewEntry">The view perspective.</param>
             /// <returns></returns>
-            /// <exception cref="System.ArgumentException">Thrown when no view is found;viewPerspective</exception>
-            public IMXView GetOrCreateView(MXViewEntry viewEntry)
+            /// <exception cref="System.ArgumentException">Thrown when no view or view type is found in the view map</exception>
+            public IMXView GetOrCreateView(MXViewPerspective viewPerspective)
             {
-                Type viewType;
-                if (!_viewMap.TryGetValue(viewEntry.Perspective, out viewType))
+                object o;
+                if (!_viewMap.TryGetValue(viewPerspective, out o))
                 {
-                    // View not mapped
-                    throw new ArgumentException("No View Perspective found in ViewMap for: " + viewEntry, "viewEntry");
+                    // No view
+                    throw new ArgumentException("No View for ViewPerspective: " + viewPerspective, "viewPerspective");
                 }
 
                 // if we have a type registered and haven't yet created an instance, view will be null
-                var view = GetView(viewEntry);
+                var view = o as IMXView;
+                var viewType = o as Type;
 
-                if (view != null)
+                if (viewType == null)
                     return view;
 
                 // Instantiate an instance of the view from its type
                 view = (IMXView)Activator.CreateInstance(viewType);
-                // add to the cache for later.
-                _viewCache[viewEntry] = view;
+
                 return view;
             }
 
@@ -631,94 +561,9 @@ namespace MonoCross.Navigation
             public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
             {
                 // Check typemap values for either a concrete type or an interface
-                var kvp = _viewMap.FirstOrDefault(keyValuePair =>
-                {
-                    var value = keyValuePair.Value;
-                    return value == viewType || !ReferenceEquals(value.GetInterfaces().FirstOrDefault(i => i.Name == viewType.Name), null);
-                });
+                var kvp = _viewMap.FirstOrDefault(keyValuePair => viewType == keyValuePair.Value);
 
                 return kvp.Key;
-            }
-
-            internal void RenderView(MXViewPerspective viewPerspective, object model)
-            {
-                RenderView(new MXViewEntry(viewPerspective, string.Empty), model);
-            }
-
-            internal void RenderView(MXViewEntry viewPerspective, object model)
-            {
-                IMXView view = GetOrCreateView(viewPerspective);
-                if (view == null)
-                {
-                    // No view perspective found for model
-                    throw new ArgumentException("No View found for: " + viewPerspective, "viewPerspective");
-                }
-                view.SetModel(model);
-                view.Render();
-            }
-
-            /// <summary>
-            /// Gets a view perspective key describing a view.
-            /// </summary>
-            /// <param name="view">The view that the perspective describes.</param>
-            /// <returns>A <see cref="MXViewPerspective"/> that maps to a view.</returns>
-            public MXViewEntry GetViewEntryForView(IMXView view)
-            {
-                return _viewCache.FirstOrDefault(keyValuePair => Equals(keyValuePair.Value, view)).Key;
-            }
-
-            /// <summary>
-            /// Removes cached views described by the specified perspectives from the viewport with the specified ID.
-            /// </summary>
-            /// <param name="perspectives">The perspectives.</param>
-            /// <param name="id">The identifier.</param>
-            public void RemoveCachedViews(IEnumerable<MXViewPerspective> perspectives, string id)
-            {
-                foreach (var remove in perspectives)
-                {
-                    MXViewEntry entry;
-                    var keys = Cache.Keys.Where(k => k.Perspective == remove).ToArray();
-                    if (keys.Length == 1)
-                    {
-                        entry = keys.First();
-                    }
-                    else
-                    {
-                        entry = keys.FirstOrDefault(k => k.ID == id);
-                        if (entry.ID == null)
-                        {
-                            entry = keys.LastOrDefault();
-                        }
-                    }
-                    Cache.Remove(entry);
-                }
-            }
-
-            /// <summary>
-            /// Removes specified views from the viewport with the specified ID.
-            /// </summary>
-            /// <param name="views">The views.</param>
-            /// <param name="id">The identifier.</param>
-            public void RemoveCachedViews(IEnumerable<IMXView> views, string id)
-            {
-                foreach (var remove in views)
-                {
-                    MXViewEntry entry;
-                    var keys = Cache.Where(k => Equals(k.Value, remove)).ToArray();
-                    if (keys.Length == 1)
-                    {
-                        entry = keys.First().Key;
-                    }
-                    else
-                    {
-                        entry = keys.FirstOrDefault(k => k.Key.ID == id).Key;
-                        if (entry.ID == null)
-                        {
-                            entry = keys.LastOrDefault().Key;
-                        }
-                    }
-                    Cache.Remove(entry);
-                }
             }
         }
     }
