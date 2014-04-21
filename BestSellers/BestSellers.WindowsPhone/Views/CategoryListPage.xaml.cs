@@ -16,14 +16,16 @@ namespace BestSellers.WindowsPhone
 
             ApplicationTitle.Text = MXContainer.Instance.App.Title;
             PageTitle.Text = "Categories";
+
+            ListBox.SelectionChanged += new SelectionChangedEventHandler(listBox_SelectionChanged);
         }
 
         public override void Render()
         {
+            ListBox.Items.Clear();
+
             foreach (var category in Model)
                 ListBox.Items.Add(category);
-
-            ListBox.SelectionChanged += new SelectionChangedEventHandler(listBox_SelectionChanged);
 
             // remove the splash screen that was shown just before this
             NavigationService.RemoveBackEntry();
