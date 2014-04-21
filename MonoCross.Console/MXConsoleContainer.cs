@@ -79,7 +79,7 @@ namespace MonoCross.Console
             NavHistory.Push(new NavDetail(controller.Uri, controller.Parameters));
 
             // render the view
-            MXConsoleContainer.RenderViewFromPerspective(controller, perspective);
+            RenderViewFromPerspective(perspective, controller.GetModel());
         }
 
         protected override void OnControllerLoadFailed(IMXController controller, Exception ex)

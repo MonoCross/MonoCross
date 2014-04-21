@@ -123,10 +123,6 @@ namespace MonoCross.Touch
 		UIWindow _window;
 		UIApplicationDelegate _appDelegate;
 		SplashViewController _splashViewController = null;
-
-		public static RenderLayerDelegate RenderLayer { get; set; }
-
-		public delegate UIViewController RenderLayerDelegate(IMXView view);
 		
 		private MXTouchContainer (MXApplication theApp, UIApplicationDelegate appDelegate, UIWindow window): base(theApp)
 		{
@@ -262,30 +258,18 @@ namespace MonoCross.Touch
 		void LoadViewForController(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
 		{
 			HideLoading();
-			
-			if (controller.View == null)
-			{
-				// get the view, create it if it has yet been created
-				MXContainer.Instance.Views.GetOrCreateView(controller.ViewEntry);
-				if (controller.View == null)
-				{
-					Debug.WriteLine("View not found for perspective!" + viewPerspective.ToString());
-					throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
-				}
-			}
 
-			// asign the view it's model and render the contents of the view
-			controller.View.SetModel(controller.GetModel());
-			controller.View.Render();
+			// get the view, create it if it has yet been created
+            IMXView view = Views.GetOrCreateView(viewPerspective);
+			if (view == null)
+			{
+				Debug.WriteLine("View not found for perspective!" + viewPerspective.ToString());
+				throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
+			}
 			
 			// pull the type from the view
-			ViewNavigationContext navigationContext = MXTouchNavigation.GetViewNavigationContext(controller.View);
-			UIViewController viewController = controller.View as UIViewController;
-
-			// iFactr binding options
-			if (viewController == null)
-				viewController = RenderLayer(controller.View);
-
+			ViewNavigationContext navigationContext = MXTouchNavigation.GetViewNavigationContext(view);
+			UIViewController viewController = view as UIViewController;
 
 			if (navigationContext == ViewNavigationContext.Modal)
 			{
@@ -306,7 +290,7 @@ namespace MonoCross.Touch
 	
 				foreach (MXTouchViewGroup vg in ViewGroups)
 				{
-					var viewType = controller.View.GetType();
+					var viewType = view.GetType();
 					// Check the type itself and its interfaces
 					viewGroupItem = vg.Items.Find( item => item.ViewType == viewType || viewType.GetInterface(item.ViewType.ToString()) != null );
 
@@ -319,7 +303,7 @@ namespace MonoCross.Touch
 				if (viewGroup != null)
 				{
 					// activate the group!
-					_touchNavigation.PushToViewGroup(viewGroup, viewGroupItem, controller.View as UIViewController);
+					_touchNavigation.PushToViewGroup(viewGroup, viewGroupItem, viewController);
 				}
 				else
 				{

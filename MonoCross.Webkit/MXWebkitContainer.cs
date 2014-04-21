@@ -114,31 +114,18 @@ namespace MonoCross.Webkit
 
         protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
         {
-            var view = MXContainer.Instance.Views.GetView(controller.ViewEntry);
-            if (view == null)
+            try 
             {
-                Console.WriteLine("View not found for perspective!" + viewPerspective.ToString());
-                throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
+                RenderViewFromPerspective(viewPerspective, controller.GetModel());
             }
-            
-            view.Render();
-        }
-
-        /*
-        public static void WriteJsonToResponse(string json)
-        {
-            HttpContext.Current.Response.Write(json);
-            HttpContext.Current.Response.Flush();
-        }
-
-        public static string GetResponseString(WebResponse response)
-        {
-            using (StreamReader reader = new StreamReader(response.GetResponseStream(), true))
+            catch (ArgumentException ae)
             {
-                return reader.ReadToEnd(); 
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("Failed to Render a view");
+#endif
+                throw new Exception("Webkit container failed to find a view", ae);
             }
         }
-        */
 
         public override void Redirect(string url)
         {
