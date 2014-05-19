@@ -351,7 +351,7 @@ namespace MonoCross.Navigation
         private void LoadController(IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
         {
             string perspective = controller.Load(parameters);
-            if (!CancelLoad) // done if failed
+            if (!CancelLoad && perspective != null) // done if failed
             {
                 var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
 
