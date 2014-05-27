@@ -9,16 +9,6 @@ namespace MonoCross.Navigation
     public interface IMXController
     {
         /// <summary>
-        /// Gets the parameters added to the controller.
-        /// </summary>
-        Dictionary<string, string> Parameters { get; }
-
-        /// <summary>
-        /// Gets the URI that was used to navigate to this instance.
-        /// </summary>
-        string Uri { get; }
-
-        /// <summary>
         /// The type of the model used by this controller.
         /// </summary>
         Type ModelType { get; }
@@ -32,7 +22,16 @@ namespace MonoCross.Navigation
         /// Loads this instance with the specified parameters.
         /// </summary>
         /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        [Obsolete("Deprecated in favor of the new Load(string, Dictionary<string, string>) method")]
         string Load(Dictionary<string, string> parameters);
+
+
+        /// <summary>
+        /// Loads this instance with the specified parameters.
+        /// </summary>
+        /// <param name="uri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
+        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        string Load(string uri, Dictionary<string, string> parameters);
     }
 
     /// <summary>
@@ -40,16 +39,6 @@ namespace MonoCross.Navigation
     /// </summary>
     public abstract class MXController<T> : IMXController
     {
-        /// <summary>
-        /// Gets the URI that was used to navigate to this instance.
-        /// </summary>
-        public string Uri { get; protected set; }
-
-        /// <summary>
-        /// Gets the parameters added to the controller.
-        /// </summary>
-        public Dictionary<string, string> Parameters { get; protected set; }
-
         /// <summary>
         /// Gets or sets the model for the controller.
         /// </summary>
@@ -69,6 +58,17 @@ namespace MonoCross.Navigation
         /// Loads this instance with the specified parameters.
         /// </summary>
         /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
-        public abstract string Load(Dictionary<string, string> parameters);
+        [Obsolete("Deprecated in favor of the new Load(string, Dictionary<string, string>) method")]
+        public virtual string Load(Dictionary<string, string> parameters) { throw new NotImplementedException("You must override a Load method"); }
+
+        /// <summary>
+        /// Loads this instance with the specified parameters.
+        /// </summary>
+        /// <param name="uri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
+        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        public virtual string Load(string uri, Dictionary<string, string> parameters) 
+        { 
+            return Load(parameters); 
+        }
     }
 }

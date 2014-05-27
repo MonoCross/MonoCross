@@ -104,7 +104,10 @@ namespace MonoCross.Navigation
         /// <param name='viewPerspective'>
         /// The view perspective returned by the controller load.
         /// </param>
-        protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective);
+        /// <param name="navigatedUri">
+        /// A <see cref="String"/> that represents the uri used to navigate to the controller.
+        /// </param>
+        protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri);
         private readonly MXViewMap _views = new MXViewMap();
 
         /// <summary>
@@ -300,7 +303,7 @@ namespace MonoCross.Navigation
             if (controller != null)
             {
                 // Initiate load for the associated controller passing all parameters
-                TryLoadController(container, fromView, controller, parameters);
+                TryLoadController(container, fromView, controller, url, parameters);
             }
         }
 
@@ -310,8 +313,9 @@ namespace MonoCross.Navigation
         /// <param name="container">The container that loads the controller.</param>
         /// <param name="fromView">The view that activated the navigation.</param>
         /// <param name="controller">The controller to load.</param>
+        /// <param name="navigatedUri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
         /// <param name="parameters">The parameters to use with the controller's Load method.</param>
-        protected static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
+        protected static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, string navigatedUri, Dictionary<string, string> parameters)
         {
             container.OnControllerLoadBegin(controller, fromView);
             container.CancelLoad = false;
@@ -325,7 +329,7 @@ namespace MonoCross.Navigation
                 {
                     try
                     {
-                        container.LoadController(fromView, controller, parameters);
+                        container.LoadController(fromView, controller, navigatedUri, parameters);
                     }
                     catch (Exception ex)
                     {
@@ -348,16 +352,16 @@ namespace MonoCross.Navigation
             }
         }
 
-        private void LoadController(IMXView fromView, IMXController controller, Dictionary<string, string> parameters)
+        private void LoadController(IMXView fromView, IMXController controller, string uri, Dictionary<string, string> parameters)
         {
-            string perspective = controller.Load(parameters);
+            string perspective = controller.Load(uri, parameters);
             if (!CancelLoad && perspective != null) // done if failed
             {
                 var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
 
                 // give the derived container the ability to do something
                 // with the fromView if it exists or to create it if it doesn't
-                OnControllerLoadComplete(fromView, controller, viewPerspective);
+                OnControllerLoadComplete(fromView, controller, viewPerspective, uri);
             }
             // clear CancelLoad, we're done
             CancelLoad = false;
