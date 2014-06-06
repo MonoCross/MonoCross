@@ -74,7 +74,8 @@ namespace MonoCross.Droid
         /// <param name="fromView">The <see cref="IMXView"/> that kicked off the navigation.</param>
         /// <param name="controller">The <see cref="IMXController"/> that received the navigation.</param>
         /// <param name="viewPerspective">The <see cref="ViewPerspective"/> returned by the controller load.</param>
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
+        /// <param name="navigatedUri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
         {
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete");
 
