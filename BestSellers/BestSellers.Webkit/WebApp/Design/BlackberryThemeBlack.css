@@ -134,10 +134,7 @@ b.iToggle.__sel {
 .iPanel .iForm input {
 	color:#FFF; 
 }
-.iPanel input[type=search] 
-{
-    background:#FFF;
-    color:#888;
-
-
-
+.iPanel input[type=search] {
+    background: #FFF;
+    color: #888;
+}
