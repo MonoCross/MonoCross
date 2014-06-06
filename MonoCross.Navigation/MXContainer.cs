@@ -26,7 +26,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
         /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         public static void Navigate(this IMXView view, string url, Dictionary<string, string> parameters)
         {
             MXContainer.Navigate(view, url, parameters);
@@ -288,7 +288,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="view">The <see cref="IMXView"/> that kicked off the navigation.</param>
         /// <param name="url">A <see cref="String"/> representing the URL to navigate to.</param>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         public static void Navigate(IMXView view, string url, Dictionary<string, string> parameters)
         {
             InternalNavigate(view, url, parameters);

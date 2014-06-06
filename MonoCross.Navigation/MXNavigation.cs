@@ -27,7 +27,7 @@ namespace MonoCross.Navigation
         /// Gets or sets any parameters to add to the controller.
         /// </summary>
         /// <value>
-        /// The parameters as a <see cref="Dictionary{TKey,TValue}"/> instance.
+        /// The parameters as a <see cref="Dictionary&lt;TKey,TValue&gt;"/> instance.
         /// </value>
         public Dictionary<string, string> Parameters { get; private set; }
 
@@ -58,7 +58,7 @@ namespace MonoCross.Navigation
         /// Parses the specified URL for parameters and adds them to the specified dictionary.
         /// </summary>
         /// <param name="url">The URL to parse for parameters.</param>
-        /// <param name="parameters">The <see cref="Dictionary{TKey,TValue}"/> to add the parsed parameters to.</param>
+        /// <param name="parameters">The <see cref="Dictionary&lt;TKey,TValue&gt;"/> to add the parsed parameters to.</param>
         /// <exception cref="ArgumentException">Thrown if the segment count of the <paramref name="url"/> is not equal to the segment count of this instance.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="parameters"/> is <c>null</c>.</exception>
         public void ExtractParameters(string url, Dictionary<string, string> parameters)
@@ -249,7 +249,7 @@ namespace MonoCross.Navigation
         /// Raises the <see cref="Added" /> event.
         /// </summary>
         /// <param name="e">The <see cref="NavAddedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnAdded(NavAddedEventArgs e)
+        protected void OnAdded(NavAddedEventArgs e)
         {
             NavigationAddedDelegate handler = Added;
             if (handler != null)
@@ -388,7 +388,7 @@ namespace MonoCross.Navigation
     /// </summary>
     /// <param name="sender">The <see cref="NavigationList"/> source of the event.</param>
     /// <param name="e">The <see cref="NavAddedEventArgs"/> instance containing the event data.</param>
-    public delegate void NavigationAddedDelegate(NavigationList sender, NavAddedEventArgs e);
+    public delegate void NavigationAddedDelegate(object sender, NavAddedEventArgs e);
 
     /// <summary>
     /// Contains data for events involving <see cref="MXNavigation"/> sources.

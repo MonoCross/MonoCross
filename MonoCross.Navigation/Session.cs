@@ -14,13 +14,13 @@ namespace MonoCross.Navigation
         void Abandon();
 
         /// <summary>
-        /// Gets a collection of entries to persist through a <see cref="ICollection{T}.Clear()"/>
+        /// Gets a collection of entries to persist through a <see cref="ICollection&lt;T&gt;.Clear()"/>
         /// </summary>
         List<string> SafeKeys { get; }
     }
 
     /// <summary>
-    /// Represents a <see cref="SerializableDictionary{TKey,TValue}"/> that stores an application's session settings.
+    /// Represents a <see cref="SerializableDictionary&lt;TKey,TValue&gt;"/> that stores an application's session settings.
     /// </summary>
     public class SessionDictionary : SerializableDictionary<string, object>, ISession
     {

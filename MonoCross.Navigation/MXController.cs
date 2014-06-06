@@ -21,7 +21,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Loads this instance with the specified parameters.
         /// </summary>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         [Obsolete("Deprecated in favor of the new Load(string, Dictionary<string, string>) method")]
         string Load(Dictionary<string, string> parameters);
 
@@ -30,7 +30,7 @@ namespace MonoCross.Navigation
         /// Loads this instance with the specified parameters.
         /// </summary>
         /// <param name="uri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         string Load(string uri, Dictionary<string, string> parameters);
     }
 
@@ -57,7 +57,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Loads this instance with the specified parameters.
         /// </summary>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         [Obsolete("Deprecated in favor of the new Load(string, Dictionary<string, string>) method")]
         public virtual string Load(Dictionary<string, string> parameters) { throw new NotImplementedException("You must override a Load method"); }
 
@@ -65,10 +65,12 @@ namespace MonoCross.Navigation
         /// Loads this instance with the specified parameters.
         /// </summary>
         /// <param name="uri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
-        /// <param name="parameters">A <see cref="Dictionary{TKey,TValue}"/> representing any parameters such as submitted values.</param>
+        /// <param name="parameters">A <see cref="Dictionary&lt;TKey,TValue&gt;"/> representing any parameters such as submitted values.</param>
         public virtual string Load(string uri, Dictionary<string, string> parameters) 
         { 
+#pragma warning disable 618
             return Load(parameters); 
+#pragma warning restore 618
         }
     }
 }
