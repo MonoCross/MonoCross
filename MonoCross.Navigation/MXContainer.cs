@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -325,7 +326,7 @@ namespace MonoCross.Navigation
             {
                 // Console.WriteLine("InternalNavigate: Locked");
 
-                var load = new WaitCallback(o =>
+                Action<object> load = (o) =>
                 {
                     try
                     {
@@ -335,13 +336,17 @@ namespace MonoCross.Navigation
                     {
                         container.OnControllerLoadFailed(controller, ex);
                     }
-                });
+                };
 
                 // if there is no synchronization, don't launch a new thread
                 if (container.ThreadedLoad)
                 {
+#if NETCF
                     // new thread to execute the Load() method for the layer
-                    ThreadPool.QueueUserWorkItem(load);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(load));
+#else
+                    System.Threading.Tasks.Task.Factory.StartNew(() => load(null));
+#endif
                 }
                 else
                 {
@@ -477,7 +482,11 @@ namespace MonoCross.Navigation
             {
                 if (viewType == null) { throw new ArgumentNullException("viewType"); }
 
+#if NETCF
                 if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
+#else
+                if (!viewType.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IMXView)))
+#endif
                 {
                     throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
                 }
