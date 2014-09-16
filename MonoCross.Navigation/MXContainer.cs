@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace MonoCross.Navigation
 {
@@ -398,7 +396,7 @@ namespace MonoCross.Navigation
             LastNavigationUrl = url;
 
             // initialize parameter dictionary if not provided
-            parameters = (parameters ?? new Dictionary<string, string>());
+            parameters = parameters ?? new Dictionary<string, string>();
 
             // for debug
             // Console.WriteLine("Navigating to: " + url);
@@ -410,24 +408,10 @@ namespace MonoCross.Navigation
             if (navigation != null)
             {
                 controller = navigation.Controller;
-
-                // Now that we know which mapping the URL matches, determine the parameter names for any Values in URL string
-                Match match = Regex.Match(url, navigation.RegexPattern());
-                MatchCollection args = Regex.Matches(navigation.Pattern, @"{(?<Name>\w+)}*");
-
-                // If there are any parameters in the URL string, add them to the parameters dictionary
-                if (args.Count > 0)
-                {
-                    foreach (Match arg in args)
-                    {
-                        if (parameters.ContainsKey(arg.Groups["Name"].Value))
-                            parameters.Remove(arg.Groups["Name"].Value);
-                        parameters.Add(arg.Groups["Name"].Value, match.Groups[arg.Groups["Name"].Value].Value);
-                    }
-                }
+                navigation.ExtractParameters(url, parameters);
 
                 //Add default view parameters without overwriting current ones
-                if (navigation.Parameters.Count > 0)
+                if (navigation.Parameters != null)
                 {
                     foreach (var param in navigation.Parameters)
                     {
