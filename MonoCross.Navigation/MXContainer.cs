@@ -341,7 +341,7 @@ namespace MonoCross.Navigation
                 {
 #if NETCF
                     // new thread to execute the Load() method for the layer
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(load));
+                    System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(load));
 #else
                     System.Threading.Tasks.Task.Factory.StartNew(() => load(null));
 #endif
