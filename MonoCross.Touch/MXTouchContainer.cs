@@ -267,18 +267,18 @@ namespace MonoCross.Touch
 				Debug.WriteLine("View not found for perspective!" + viewPerspective.ToString());
 				throw new ArgumentException("View creation failed for perspective!" + viewPerspective.ToString());
 			}
-			
+
+            // asign the view it's model and render the contents of the view
+            view.SetModel(controller.GetModel());
+
 			// pull the type from the view
 			ViewNavigationContext navigationContext = MXTouchNavigation.GetViewNavigationContext(view);
 			UIViewController viewController = view as UIViewController;
 
-			if (navigationContext == ViewNavigationContext.Modal)
+			if (navigationContext == ViewNavigationContext.InContext)
 			{
-				// treat as a modal/popup view
-				_touchNavigation.PushToModel(viewController);
-			}
-			else if (navigationContext == ViewNavigationContext.InContext)
-			{
+                view.Render();
+
 				// it's just an in-context view, just slap it on top of the view that navigated it here!
 				UIViewController parentViewController = fromView as UIViewController;
 				parentViewController.NavigationController.PushViewController(viewController, true);
@@ -308,14 +308,19 @@ namespace MonoCross.Touch
 				}
 				else
 				{
+                    view.Render();
+
 					switch (navigationContext)
 					{
+                    case ViewNavigationContext.Master:
+                        _touchNavigation.PushToMaster(viewController);
+                            break;
 					case ViewNavigationContext.Detail:
 						_touchNavigation.PushToDetail(viewController);
 						break;
-					case ViewNavigationContext.Master:
-						_touchNavigation.PushToMaster(viewController);
-						break;
+                    case ViewNavigationContext.Modal:
+                        _touchNavigation.PushToModel(viewController);
+                        break;
 					}
 				}
 			}
