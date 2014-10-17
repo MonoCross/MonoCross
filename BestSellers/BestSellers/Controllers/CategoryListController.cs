@@ -21,9 +21,12 @@ namespace BestSellers.Controllers
 
             Model = new CategoryList();
             var response = (HttpWebResponse)request.GetResponse();
-            Stream stream = response.GetResponseStream();
-            if (stream == null)
-                throw new Exception("Failed to connect the New Yorw Times Best Sellers Serivce");
+            Stream stream = null;
+            try { stream = response.GetResponseStream(); } 
+            catch (Exception e) 
+            {
+                throw new Exception("Failed to connect the New Yorw Times Best Sellers Serivce", e);
+            }
 
             CategoryList categories = new CategoryList();
             using (XmlReader reader = XmlReader.Create(stream))
