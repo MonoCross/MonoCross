@@ -73,10 +73,10 @@ namespace MonoCross.Console
                 return false;
         }
 
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective perspective)
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective perspective, string navigatedUri)
         {
             // store of the stack for later
-            NavHistory.Push(new NavDetail(controller.Uri, controller.Parameters));
+            NavHistory.Push(new NavDetail(navigatedUri, null));
 
             // render the view
             RenderViewFromPerspective(perspective, controller.GetModel());

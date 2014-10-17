@@ -47,24 +47,4 @@ namespace MonoCross.Touch
 			return Model;
 		}
     }
-	
-	public abstract class MXTouchDialogView<T>: DialogViewController, IMXView
-	{
-        public MXTouchDialogView(UITableViewStyle style, RootElement root, bool pushing):
-			base(style, root, pushing)
-        {
-        }
-
-        public T Model { get; set; }
-        public Type ModelType { get { return typeof(T); } }
-        public abstract void Render();
-        public void SetModel(object model)
-        {
-            Model = (T)model;
-        }
-		public object GetModel()
-		{
-			return Model;
-		}
-	}
 }

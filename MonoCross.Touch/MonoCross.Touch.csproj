@@ -64,6 +64,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="MXTouchDialogView.cs" />
     <Compile Include="LoadingView.cs" />
     <Compile Include="MXTouchContainer.cs" />
     <Compile Include="MXTouchNavigation.cs" />

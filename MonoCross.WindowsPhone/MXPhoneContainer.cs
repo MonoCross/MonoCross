@@ -55,7 +55,7 @@ namespace MonoCross.WindowsPhone
             }
         }
 
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() => StartViewForController(fromView, controller, viewPerspective));
         }

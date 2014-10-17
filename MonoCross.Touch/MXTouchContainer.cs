@@ -182,8 +182,9 @@ namespace MonoCross.Touch
 			ShowLoading();
 		}
 		public event Action<IMXController> ControllerLoadBegin;
-		
-		protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
+
+
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
 		{
 			Debug.WriteLine("Controller Load End");
 			
