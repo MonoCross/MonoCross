@@ -3,25 +3,25 @@
 <h2>What is Monocross</h2>
 Monocross is a C# .NET cross-platform mobile framework maintained and developed by a community of users and developers. Released under the MIT license, anyone is free to download, contribute and share the framework. With Monocross you can build native apps that use any platform-specific APIs or HTML5 to provide rich web-based functionality, all while using the same business logic and data code, whether running on the device or the server.  With Monocross you have the flexibility to write apps for multiple device platforms and architectures with a custom user interface for each platform.
 <br><br>
-<img src="http://itr-mobility.com/wp-content/uploads/2011/07/iFactrBenefits-MultiPlatform.jpg" align="right" width="450" height="335"/>
+<img src="http://store.ifactr.com/MX-Graphics/iFactrBenefits-MultiPlatform.jpg" align="right" width="450" height="335"/>
 <h3>Multi-Platform Support</h3>
 Output native code for iPhone/iPad/iPad mini/iPod, Android, Windows Mobile, Windows Phone 7 & 8, Windows Surface and Windows XP/Vista/7/8. MonoCross also outputs web/hybrid app support for Android, BlackBerry, Symbian, and Web OS via HTML 5.0, CSS, and JavaScript. It even provides support for basic HTML/WAP for those still living with feature phones.
 
-<img src="http://monocross.net/images/blank.png" height="200"/>
-<img src="http://itr-mobility.com/wp-content/uploads/2011/07/iFactrBenefits-SingleCodebase.jpg" width="380" height="181" align="left"/>
-<img src="http://monocross.net/images/blank.png" width="50" height="210" align="left"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" height="200"/>
+<img src="http://store.ifactr.com/MX-Graphics/iFactrBenefits-SingleCodebase.jpg" width="380" height="181" align="left"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" width="50" height="210" align="left"/>
 <h3>Single Codebase</h3>
 At the foundation of the Monocross mobile framework is an abstract mobile application model where all app specific business logic is developed.  The output for each mobile device platform is then generated from that single codebase, independent of whether the business logic is executed natively on the device or remotely on the server.  As a result, supporting application changes and enhancements are significantly reduced.
 
-<img src="http://monocross.net/images/blank.png" height="60"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" height="60"/>
 
-<img src="http://itr-mobility.com/wp-content/uploads/2011/07/iFactrBenefits-DevelopmentConsistency.jpg" width="370" height="260" align="right"/>
-<img src="http://monocross.net/images/blank.png" width="80" height="300" align="right"/>
+<img src="http://store.ifactr.com/MX-Graphics/iFactrBenefits-DevelopmentConsistency.jpg" width="370" height="260" align="right"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" width="80" height="300" align="right"/>
 <h3>Development Consistency</h3>
 Unlike other development efforts targeting fully native platform-specific code that require Objective-C/Cocoa developers for iPhone & iPad, Java developers for Android, a different flavor of Java developers for Blackberry, C# .NET developers for Windows Phone, Modern, and Classic, the development and on-going support of Monocross applications only require C# .NET capabilities.
 <br>
 
-<img src="http://monocross.net/images/blank.png" height="100"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" height="100"/>
 <h2>Get Involved</h2>
 First, 'Git' registered. Then fork the main repo found at https://github.com/Monocross/Monocross This will allow you to make changes to your own repo and send us patches and enhancements, that benefit everyone.
 
