@@ -9,7 +9,7 @@ Output native code for iPhone/iPad/iPad mini/iPod, Android, Windows Mobile, Wind
 
 <img src="http://store.ifactr.com/MX-Graphics/blank.png" height="200"/>
 <img src="http://store.ifactr.com/MX-Graphics/iFactrBenefits-SingleCodebase.jpg" width="380" height="181" align="left"/>
-<img src="http://store.ifactr.com/MX-Graphics/blank.png" width="50" height="220" align="left"/>
+<img src="http://store.ifactr.com/MX-Graphics/blank.png" width="50" height="210" align="left"/>
 <h3>Single Codebase</h3>
 At the foundation of the Monocross mobile framework is an abstract mobile application model where all app specific business logic is developed.  The output for each mobile device platform is then generated from that single codebase, independent of whether the business logic is executed natively on the device or remotely on the server.  As a result, supporting application changes and enhancements are significantly reduced.
 
