@@ -172,7 +172,7 @@ namespace MonoCross.Navigation
             get
             {
                 object instance;
-                Session.TryGetValue(GetSessionId == null ? string.Empty : GetSessionId(), out instance);
+                Session.TryGetValue(GetSessionId == null ? SessionDictionary.ContainerKey : GetSessionId(), out instance);
                 return (instance as MXContainer);
             }
             protected set
@@ -182,7 +182,7 @@ namespace MonoCross.Navigation
                     throw new ArgumentNullException("value", "Cannot have a null MXContainer instance.");
                 }
 
-                Session[GetSessionId == null ? string.Empty : GetSessionId()] = value;
+                Session[GetSessionId == null ? SessionDictionary.ContainerKey : GetSessionId()] = value;
                 if (value.App == null) return;
                 Instance.App.OnAppLoad();
                 Instance.App.OnAppLoadComplete();
