@@ -436,7 +436,7 @@ namespace MonoCross.Navigation
         /// <param name="d">The <see cref="Dictionary&lt;TKey, TValue&gt;"/> instance to convert.</param>
         public static implicit operator SerializableDictionary<TKey, TValue>(Dictionary<TKey, TValue> d)
         {
-            return new SerializableDictionary<TKey, TValue>(d);
+            return d == null ? null : new SerializableDictionary<TKey, TValue>(d);
         }
     }
 }
