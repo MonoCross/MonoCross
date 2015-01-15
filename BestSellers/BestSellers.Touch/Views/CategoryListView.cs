@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.UIKit;
+using UIKit;
 using MonoTouch.Dialog;
 
 using Touch.TestContainer;
@@ -11,7 +11,7 @@ using MonoCross.Navigation;
 using MonoCross.Touch;
 
 using BestSellers;
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Touch.TestContainer.Views
 {
@@ -58,7 +58,7 @@ namespace Touch.TestContainer.Views
 	            this.list = list;
 	        }
 	
-			public override int RowsInSection (UITableView tableview, int section)
+			public override nint RowsInSection (UITableView tableview, nint section)
 	        {
 	            return list.Count;
 	        }
@@ -74,11 +74,11 @@ namespace Touch.TestContainer.Views
 	            cell.TextLabel.Text = list[indexPath.Row].DisplayName;
 	            return cell;
 	        }
-			public override string TitleForHeader (UITableView tableView, int section)
+			public override string TitleForHeader (UITableView tableView, nint section)
 			{
 				return "Best Seller Categories";
 			}
-			public override int NumberOfSections (UITableView tableView)
+			public override nint NumberOfSections (UITableView tableView)
 			{
 				return 1;
 			}

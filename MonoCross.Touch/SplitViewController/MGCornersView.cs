@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using UIKit;
 
 namespace MonoCross.Touch
 {
@@ -47,15 +47,15 @@ namespace MonoCross.Touch
 		}
 		
 		
-		void DrawRect(RectangleF rect)
+		void DrawRect(CGRect rect)
 		{
 			// Draw two appropriate corners, with cornerBackgroundColor behind them.
 			if (CornerRadius > 0) {
 		
-				float maxX = Bounds.GetMaxX();
-				float maxY = Bounds.GetMaxY();
+				nfloat maxX = Bounds.GetMaxX();
+				nfloat maxY = Bounds.GetMaxY();
 				UIBezierPath path = UIBezierPath.Create();
-				PointF pt = PointF.Empty;
+				CGPoint pt = CGPoint.Empty;
 				switch (CornersPosition) {
 					case MGCornersPosition.LeadingVertical: // top of screen for a left/right split
 						path.MoveTo(pt);
@@ -64,7 +64,7 @@ namespace MonoCross.Touch
 						pt.X += CornerRadius;
 						pt.Y -= CornerRadius;
 						path.AddLineTo(pt);
-						path.AddLineTo(PointF.Empty);
+						path.AddLineTo(CGPoint.Empty);
 						path.ClosePath();
 		
 						pt.X = maxX - CornerRadius;

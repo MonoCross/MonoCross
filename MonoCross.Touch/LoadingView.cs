@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.UIKit;
-using System.Drawing;
+using UIKit;
+using CoreGraphics;
 
 namespace MonoCross.Touch
 {
@@ -18,7 +18,7 @@ namespace MonoCross.Touch
 	
 	    	// Spinner - add after Show() or we have no Bounds.
 	    	_activityView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
-	    	_activityView.Frame = new RectangleF((Bounds.Width / 2) - 15, Bounds.Height - 50, 30, 30);
+	    	_activityView.Frame = new CGRect((Bounds.Width / 2) - 15, Bounds.Height - 50, 30, 30);
 	    	_activityView.StartAnimating();
 	    	AddSubview(_activityView);
 	    }

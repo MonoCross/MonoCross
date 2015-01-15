@@ -1,8 +1,8 @@
 using System;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreAnimation;
+using Foundation;
+using UIKit;
+using CoreAnimation;
 using System.Linq;
 
 namespace MonoCross.Touch

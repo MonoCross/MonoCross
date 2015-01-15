@@ -1,12 +1,12 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
 using System.Linq;
 
 using MonoTouch;
-using MonoTouch.UIKit;
+using UIKit;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
+using Foundation;
 
 using MonoCross.Navigation;
 using MonoCross.Touch;
@@ -21,7 +21,7 @@ namespace Touch.TestContainer.Views
 	{
 		public BookView(): base()
 		{
-			TableView = new UITableView(new RectangleF(0, 0, 320, 480), UITableViewStyle.Grouped);
+			TableView = new UITableView(new CGRect(0, 0, 320, 480), UITableViewStyle.Grouped);
 		}
 		
 		public override void Render ()
@@ -64,17 +64,17 @@ namespace Touch.TestContainer.Views
 				}
 			}
 			
-			public override int NumberOfSections (UITableView tableView)
+			public override nint NumberOfSections (UITableView tableView)
 			{
 				return 1 + (links.Count / 2);
 			}
 			
-			public override int RowsInSection (UITableView tableview, int section)
+			public override nint RowsInSection (UITableView tableview, nint section)
 			{
 				return 1;
 			}
 			
-			public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+			public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 			{
 				return indexPath.Section == 0 ? 256 : 44;
 			}
@@ -107,7 +107,7 @@ namespace Touch.TestContainer.Views
 						html += "<b>List Price</b>: $" + model.Price + "<br/><br/>";
 					}
 					
-					UIWebView view = new UIWebView(new RectangleF(10, 10, 280, 232));
+					UIWebView view = new UIWebView(new CGRect(10, 10, 280, 232));
 					UIView scrollView = view.Subviews.Last();
 		            if (scrollView is UIScrollView)
 		                ((UIScrollView)scrollView).ScrollEnabled = false;

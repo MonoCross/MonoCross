@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using UIKit;
 
 namespace MonoCross.Touch
 {
@@ -34,36 +34,36 @@ namespace MonoCross.Touch
 			ContentMode = UIViewContentMode.Redraw;
 		}
 		
-		public override void Draw (RectangleF rect)
+		public override void Draw (CGRect rect)
 		{
 			if (SplitViewController.DividerStyle == MGSplitViewDividerStyle.Thin) {
 				base.Draw(rect);
 			
 			} else if (SplitViewController.DividerStyle == MGSplitViewDividerStyle.PaneSplitter) {
 				// Draw gradient background.
-				RectangleF bounds = Bounds;
+				CGRect bounds = Bounds;
 				CGColorSpace rgb = CGColorSpace.CreateDeviceRGB();
-				float[] locations = {0, 1};
-				float[] components = {	0.988f, 0.988f, 0.988f, 1.0f,  // light
+				nfloat[] locations = {0, 1};
+				nfloat[] components = {	0.988f, 0.988f, 0.988f, 1.0f,  // light
 										0.875f, 0.875f, 0.875f, 1.0f };// dark
 				CGGradient gradient = new CGGradient(rgb, components, locations);
 				CGContext context = UIGraphics.GetCurrentContext();
-				PointF start, end;
+				CGPoint start, end;
 				if (SplitViewController.Vertical) {
 					// Light left to dark right.
-					start = new PointF(bounds.GetMinX(), bounds.GetMidY());
-					end = new PointF(bounds.GetMaxX(), bounds.GetMidY());
+					start = new CGPoint(bounds.GetMinX(), bounds.GetMidY());
+					end = new CGPoint(bounds.GetMaxX(), bounds.GetMidY());
 				} else {
 					// Light top to dark bottom.
-					start = new PointF(bounds.GetMidX(), bounds.GetMinY());
-					end = new PointF(bounds.GetMidX(), bounds.GetMaxY());
+					start = new CGPoint(bounds.GetMidX(), bounds.GetMinY());
+					end = new CGPoint(bounds.GetMidX(), bounds.GetMaxY());
 				}
 				context.DrawLinearGradient(gradient, start, end, CGGradientDrawingOptions.DrawsBeforeStartLocation);
 		
 				// Draw borders.
 				float borderThickness = 10;
 				UIColor.FromWhiteAlpha(0.7f, 1).SetColor();
-				RectangleF borderRect = bounds;
+				CGRect borderRect = bounds;
 				if (SplitViewController.Vertical) {
 					borderRect.Width = borderThickness;
 					context.FillRect(borderRect);
@@ -84,13 +84,13 @@ namespace MonoCross.Touch
 		}
 		
 		
-		void DrawGripThumbInRect(RectangleF rect)
+		void DrawGripThumbInRect(CGRect rect)
 		{
 			float width = SplitViewController.Vertical ? 9 : 30;
 			float height = SplitViewController.Vertical ? 30 : 9;
 		
 			// Draw grip in centred in rect.
-			RectangleF gripRect = new RectangleF(0, 0, width, height);
+			CGRect gripRect = new CGRect(0, 0, width, height);
 			gripRect.X = ((rect.Width - gripRect.Width) / 2.0f);
 			gripRect.Y = ((rect.Height - gripRect.Height) / 2.0f);
 		
@@ -167,13 +167,13 @@ namespace MonoCross.Touch
 		}
 		
 		
-		public override void TouchesMoved (MonoTouch.Foundation.NSSet touches, UIEvent evt)
+		public override void TouchesMoved (Foundation.NSSet touches, UIEvent evt)
 		{
 			UITouch touch = (UITouch)touches.AnyObject;
 			if (touch != null) {
-				PointF lastPt = touch.PreviousLocationInView(this);
-				PointF pt = touch.LocationInView(this);
-				float offset = (SplitViewController.Vertical) ? pt.X - lastPt.X : pt.Y - lastPt.Y;
+				CGPoint lastPt = touch.PreviousLocationInView(this);
+				CGPoint pt = touch.LocationInView(this);
+				nfloat offset = (SplitViewController.Vertical) ? pt.X - lastPt.X : pt.Y - lastPt.Y;
 				if (!SplitViewController.MasterBeforeDetail) {
 					offset = -offset;
 				}

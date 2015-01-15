@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using MonoCross.Navigation;
 using MonoCross.Touch;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
 using System.Diagnostics;
 
 namespace MonoCross.Touch
@@ -36,7 +36,7 @@ namespace MonoCross.Touch
 		
 		public static uint IntFromColor(this UIColor color)
 		{
-			float red, green, blue, alpha;
+			nfloat red, green, blue, alpha;
 			color.GetRGBA(out red, out green, out blue, out alpha);
 			uint rgbaValue = (uint) (((long) alpha) << 24 | ((long) red) << 16 | ((long) green) << 8 | ((long) blue));
 			return rgbaValue;
