@@ -25,6 +25,11 @@ namespace MonoCross.WPF
         /// </summary>
         public abstract void Render();
 
+        public object GetModel()
+        {
+            return Model;
+        }
+
         /// <summary>
         /// Sets the model for the view.
         /// </summary>

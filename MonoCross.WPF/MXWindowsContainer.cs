@@ -78,11 +78,11 @@ namespace MonoCross.WPF
         /// <param name="controller">The newly loaded controller.</param>
         /// <param name="viewPerspective">The view perspective returned by the controller load.</param>
         /// <exception cref="System.TypeLoadException">View not found for  + viewPerspective.ToString()</exception>
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, string viewPerspective, string navigatedUri)
         {
             Debug.WriteLine("OnControllerLoadComplete");
 
-            Type viewType = Views.GetViewType(viewPerspective);
+            Type viewType = Views.GetViewType(controller.ModelType, viewPerspective);
             if (viewType != null)
             {
                 // stash the model away so we can get it back when the view shows up!
@@ -102,7 +102,7 @@ namespace MonoCross.WPF
                 else
                 {
                     RenderViewFromPerspective(controller, viewPerspective);
-                    NavigationFrame.NavigationService.Navigate(Views.GetView(viewPerspective) as Page);
+                    NavigationFrame.NavigationService.Navigate(Views.GetView(controller.ModelType, viewPerspective) as Page);
                 }
             }
             else

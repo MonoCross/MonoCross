@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace MonoCross.Navigation
 {
@@ -90,6 +88,11 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
+        /// Called when the IoC container is ready to be populated with its default entries.
+        /// </summary>
+        protected internal abstract void OnSetDefinitions();
+
+        /// <summary>
         /// Raises the load complete event after the Controller has completed loading its Model. The View may be populated,
         /// and the derived class should check if it exists and do something with it if needed for the platform: either free it,
         /// pop off the views in a stack above it or whatever makes sense to the platform.
@@ -100,13 +103,13 @@ namespace MonoCross.Navigation
         /// <param name='controller'>
         /// The newly loaded controller.
         /// </param>
-        /// <param name='viewPerspective'>
+        /// <param name='perspective'>
         /// The view perspective returned by the controller load.
         /// </param>
         /// <param name="navigatedUri">
         /// A <see cref="String"/> that represents the uri used to navigate to the controller.
         /// </param>
-        protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri);
+        protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, string perspective, string navigatedUri);
         private readonly MXViewMap _views = new MXViewMap();
 
         /// <summary>
@@ -183,6 +186,7 @@ namespace MonoCross.Navigation
                 }
 
                 Session[GetSessionId == null ? SessionDictionary.ContainerKey : GetSessionId()] = value;
+                Instance.OnSetDefinitions();
                 if (value.App == null) return;
                 Instance.App.OnAppLoad();
                 Instance.App.OnAppLoadComplete();
@@ -206,7 +210,7 @@ namespace MonoCross.Navigation
         /// <param name="view">The initialized view value.</param>
         public static void AddView<TModel>(IMXView view)
         {
-            Instance.AddView(new MXViewPerspective(typeof(TModel), ViewPerspective.Default), view.GetType(), view);
+            Instance.AddView(typeof(TModel), view.GetType(), ViewPerspective.Default, view);
         }
 
         /// <summary>
@@ -216,7 +220,7 @@ namespace MonoCross.Navigation
         /// <param name="view">The initialized view value.</param>
         public static void AddView<TModel>(IMXView view, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(typeof(TModel), perspective), view.GetType(), view);
+            Instance.AddView(typeof(TModel), view.GetType(), perspective, view);
         }
 
         /// <summary>
@@ -225,7 +229,7 @@ namespace MonoCross.Navigation
         /// <param name="viewType">The view's type.</param>
         public static void AddView<TModel>(Type viewType)
         {
-            Instance.AddView(new MXViewPerspective(typeof(TModel), ViewPerspective.Default), viewType, null);
+            Instance.AddView(typeof(TModel), viewType, ViewPerspective.Default, null);
         }
 
         /// <summary>
@@ -235,7 +239,7 @@ namespace MonoCross.Navigation
         /// <param name="perspective">The view's perspective.</param>
         public static void AddView<TModel>(Type viewType, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(typeof(TModel), perspective), viewType, null);
+            Instance.AddView(typeof(TModel), viewType, perspective, null);
         }
 
         /// <summary>
@@ -246,21 +250,22 @@ namespace MonoCross.Navigation
         /// <param name="perspective">The view's perspective.</param>
         protected virtual void AddView(Type modelType, Type viewType, string perspective)
         {
-            Instance.AddView(new MXViewPerspective(modelType, perspective), viewType, null);
+            Instance.AddView(modelType, viewType, perspective, null);
         }
 
         /// <summary>
         /// Adds the specified view to the view map.
         /// </summary>
-        /// <param name="viewPerspective">The view perspective key.</param>
-        /// <param name="viewType">The view's type value.</param>
+        /// <param name="modelType">The type of the view's model.</param>
+        /// <param name="viewType">The view's type.</param>
+        /// <param name="perspective">The view perspective.</param>
         /// <param name="view">The initialized view value.</param>
-        protected virtual void AddView(MXViewPerspective viewPerspective, Type viewType, IMXView view)
+        protected virtual void AddView(Type modelType, Type viewType, string perspective, IMXView view)
         {
             if (view == null)
-                Views.Add(viewPerspective, viewType);
+                Views.Add(perspective, modelType, viewType);
             else
-                Views.Add(viewPerspective, view);
+                Views.Add(perspective, view);
         }
 
         /// <summary>
@@ -360,11 +365,9 @@ namespace MonoCross.Navigation
             string perspective = controller.Load(uri, parameters);
             if (!CancelLoad && perspective != null) // done if failed
             {
-                var viewPerspective = new MXViewPerspective(controller.ModelType, perspective);
-
                 // give the derived container the ability to do something
                 // with the fromView if it exists or to create it if it doesn't
-                OnControllerLoadComplete(fromView, controller, viewPerspective, uri);
+                OnControllerLoadComplete(fromView, controller, perspective, uri);
             }
             // clear CancelLoad, we're done
             CancelLoad = false;
@@ -433,11 +436,22 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Renders the view described by the perspective.
         /// </summary>
-        /// <param name="model">The model for the view.</param>
+        /// <param name="controller">The controller requesting the view.</param>
         /// <param name="perspective">The perspective describing the view.</param>
-        public IMXView RenderViewFromPerspective(MXViewPerspective perspective, object model)
+        public IMXView RenderViewFromPerspective(IMXController controller, string perspective)
         {
-            IMXView view = Views.GetOrCreateView(perspective);
+            return RenderViewFromPerspective(controller.ModelType, perspective, controller.GetModel());
+        }
+
+        /// <summary>
+        /// Renders the view described by the perspective.
+        /// </summary>
+        /// <param name="modelType">The type of the view's model.</param>
+        /// <param name="perspective">The perspective describing the view.</param>
+        /// <param name="model">The model for the view.</param>
+        public IMXView RenderViewFromPerspective(Type modelType, string perspective, object model)
+        {
+            IMXView view = Views.GetOrCreateView(modelType, perspective);
             if (view == null)
             {
                 // No view perspective found for model
@@ -449,119 +463,150 @@ namespace MonoCross.Navigation
             return view;
         }
 
+        #region Register/resolve
+
+        private static readonly NamedTypeMap NativeDefinitions = new NamedTypeMap();
 
         /// <summary>
-        /// Represents a mapping of <see cref="MXViewPerspective"/>s to <see cref="IMXView"/>s in a container.
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
-        public class MXViewMap
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        public static void Register<T>(Type nativeType)
         {
-            readonly Dictionary<MXViewPerspective, object> _viewMap = new Dictionary<MXViewPerspective, object>();
-
-            /// <summary>
-            /// Adds the specified view to the view map.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective key.</param>
-            /// <param name="viewType">The view's type value.</param>
-            public void Add(MXViewPerspective viewPerspective, Type viewType)
-            {
-                if (viewType == null) { throw new ArgumentNullException("viewType"); }
-
-#if NETCF
-                if (!viewType.GetInterfaces().Contains(typeof(IMXView)))
-#else
-                if (!viewType.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IMXView)))
-#endif
-                {
-                    throw new ArgumentException("Type provided does not implement IMXView interface.", "viewType");
-                }
-
-                _viewMap[viewPerspective] = viewType;
-            }
-
-            /// <summary>
-            /// Adds the specified view to the view map.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective key.</param>
-            /// <param name="view">The initialized view value.</param>
-            public void Add(MXViewPerspective viewPerspective, IMXView view)
-            {
-                if (view == null) { throw new ArgumentNullException("view"); }
-                _viewMap[viewPerspective] = view;
-            }
-            /// <summary>
-            /// Gets the type of the view described by a view perspective.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective.</param>
-            /// <returns>The type associated with the view perspective.</returns>
-            public Type GetViewType(MXViewPerspective viewPerspective)
-            {
-                object type;
-                _viewMap.TryGetValue(viewPerspective, out type);
-                return type as Type;
-            }
-
-            /// <summary>
-            /// Gets the view described by a view perspective.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective.</param>
-            /// <returns>The view associated with the view perspective.</returns>
-            public IMXView GetView(MXViewPerspective viewPerspective)
-            {
-                object o;
-                _viewMap.TryGetValue(viewPerspective, out o);
-                return o as IMXView;
-            }
-
-            /// <summary>
-            /// Gets the view or creates it if it has not been created.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective.</param>
-            /// <returns></returns>
-            /// <exception cref="System.ArgumentException">Thrown when no view or view type is found in the view map</exception>
-            public IMXView GetOrCreateView(MXViewPerspective viewPerspective)
-            {
-                object o;
-                if (!_viewMap.TryGetValue(viewPerspective, out o))
-                {
-                    // No view
-                    throw new ArgumentException("No View for ViewPerspective: " + viewPerspective, "viewPerspective");
-                }
-
-                // if we have a type registered and haven't yet created an instance, view will be null
-                var view = o as IMXView;
-                var viewType = o as Type;
-
-                if (viewType == null)
-                    return view;
-
-                // Instantiate an instance of the view from its type
-                view = (IMXView)Activator.CreateInstance(viewType);
-
-                return view;
-            }
-
-            /// <summary>
-            /// Determines whether the view map contains the specified view perspective.
-            /// </summary>
-            /// <param name="viewPerspective">The view perspective.</param>
-            /// <returns><c>true</c> if the view perspective exists; otherwise <c>false</c>.</returns>
-            public bool ContainsKey(MXViewPerspective viewPerspective)
-            {
-                return _viewMap.ContainsKey(viewPerspective);
-            }
-
-            /// <summary>
-            /// Gets a view perspective from a view's model type.
-            /// </summary>
-            /// <param name="viewType">Type of the view's Model.</param>
-            /// <returns>A <see cref="MXViewPerspective"/> that maps to a view.</returns>
-            public MXViewPerspective GetViewPerspectiveForViewType(Type viewType)
-            {
-                // Check typemap values for either a concrete type or an interface
-                var kvp = _viewMap.FirstOrDefault(keyValuePair => viewType == keyValuePair.Value);
-
-                return kvp.Key;
-            }
+            Register<T>(nativeType, null, null);
         }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        public static void Register<T>(Type nativeType, string namedInstance)
+        {
+            Register<T>(nativeType, namedInstance, null);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register<T>(Type nativeType, Func<object> initialization)
+        {
+            Register<T>(nativeType, null, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register<T>(Type nativeType, string namedInstance, Func<object> initialization)
+        {
+            NativeDefinitions[typeof(T), namedInstance] = new TypeLoader(nativeType, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        public static void RegisterSingleton<T>(Type nativeType)
+        {
+            RegisterSingleton<T>(nativeType, null, null);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        public static void RegisterSingleton<T>(Type nativeType, string namedInstance)
+        {
+            RegisterSingleton<T>(nativeType, namedInstance, null);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void RegisterSingleton<T>(Type nativeType, Func<object> initialization)
+        {
+            RegisterSingleton<T>(nativeType, null, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void RegisterSingleton<T>(Type nativeType, string namedInstance, Func<object> initialization)
+        {
+            NativeDefinitions[typeof(T), namedInstance] = new TypeLoader(nativeType, true, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="instance">The object to associate with the abstract type.</param>
+        public static void RegisterSingleton<T>(object instance)
+        {
+            RegisterSingleton<T>(instance, null);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <param name="instance">The object to associate with the abstract type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        public static void RegisterSingleton<T>(object instance, string namedInstance)
+        {
+            NativeDefinitions.Add(namedInstance, typeof(T), new TypeLoader(instance));
+        }
+
+        /// <summary>
+        /// Resolves the specified abstract type as a concrete instance.
+        /// </summary>
+        /// <param name="parameters">An array of constructor parameters for initialization.</param>
+        public static T Resolve<T>(params object[] parameters)
+        {
+            return Resolve<T>(null, parameters);
+        }
+
+        /// <summary>
+        /// Resolves the specified abstract type as a concrete instance.
+        /// </summary>
+        /// <param name="name">An optional unique identifier for the abstract type.</param>
+        /// <param name="parameters">An array of constructor parameters for initialization.</param>
+        public static T Resolve<T>(string name, params object[] parameters)
+        {
+            return (T)Resolve(typeof(T), name, parameters);
+        }
+
+        /// <summary>
+        /// Resolves the specified abstract type as a concrete instance.
+        /// </summary>
+        /// <param name="type">The abstract type to resolve.</param>
+        /// <param name="name">An optional unique identifier for the abstract type.</param>
+        /// <param name="parameters">An array of constructor parameters for initialization.</param>
+        public static object Resolve(Type type, string name, params object[] parameters)
+        {
+            return !NativeDefinitions.ContainsKey(type, name) ? null :
+                NativeDefinitions.Resolve(type, name, parameters);
+        }
+
+        #endregion
     }
 }

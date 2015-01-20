@@ -36,13 +36,13 @@ namespace MonoCross.Console
         }
 
         static Stack<NavDetail> NavHistory = new Stack<NavDetail>();
-        
+
         public static void Initialize(MXApplication theApp)
         {
-            MXContainer.InitializeContainer(new MXConsoleContainer(theApp));
+            InitializeContainer(new MXConsoleContainer(theApp));
 
             // non-threaded container, not needed as all input is blocking (old-school)
-            MXContainer.Instance.ThreadedLoad = false;
+            Instance.ThreadedLoad = false;
         }
 
         public static void Back(IMXView view)
@@ -73,24 +73,26 @@ namespace MonoCross.Console
                 return false;
         }
 
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective perspective, string navigatedUri)
+        protected override void OnSetDefinitions() { }
+
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, string perspective, string navigatedUri)
         {
             // store of the stack for later
             NavHistory.Push(new NavDetail(navigatedUri, null));
 
             // render the view
-            RenderViewFromPerspective(perspective, controller.GetModel());
+            RenderViewFromPerspective(controller.ModelType, perspective, controller.GetModel());
         }
 
         protected override void OnControllerLoadFailed(IMXController controller, Exception ex)
         {
             System.Console.WriteLine("Failed to load controller: " + ex.Message);
             System.Console.WriteLine("Stack Dump");
-            System.Console.WriteLine(ex.StackTrace.ToString());
+            System.Console.WriteLine(ex.StackTrace);
 
             System.Diagnostics.Debug.WriteLine("Failed to load controller: " + ex.Message);
             System.Diagnostics.Debug.WriteLine("Stack Dump");
-            System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
+            System.Diagnostics.Debug.WriteLine(ex.StackTrace);
         }
 
         /// <summary>
@@ -102,5 +104,5 @@ namespace MonoCross.Console
             Navigate(null, url);
             CancelLoad = true;
         }
-    }    
+    }
 }

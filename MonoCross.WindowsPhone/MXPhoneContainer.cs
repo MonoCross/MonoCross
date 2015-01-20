@@ -16,9 +16,9 @@ namespace MonoCross.WindowsPhone
 
         public static Dictionary<Type, object> ViewModels = new Dictionary<Type, object>();
 
-        protected void StartViewForController(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective)
+        protected void StartViewForController(IMXView fromView, IMXController controller, string viewPerspective)
         {
-            Type viewType = Views.GetViewType(viewPerspective);
+            Type viewType = Views.GetViewType(controller.ModelType, viewPerspective);
             if (viewType == null)
             {
                 Console.WriteLine("View not found for " + viewPerspective);
@@ -55,7 +55,9 @@ namespace MonoCross.WindowsPhone
             }
         }
 
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
+        protected override void OnSetDefinitions() { }
+
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, string viewPerspective, string navigatedUri)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() => StartViewForController(fromView, controller, viewPerspective));
         }

@@ -84,12 +84,6 @@
     <Content Include="Ajax.xml" />
     <Content Include="Root.html" />
     <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="WebApp\Action\AndroidLogic.js" />
     <Content Include="WebApp\Action\DebugLogic.js" />

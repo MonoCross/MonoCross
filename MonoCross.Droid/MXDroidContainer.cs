@@ -68,6 +68,8 @@ namespace MonoCross.Droid
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadFailed: " + ex.Message);
         }
 
+        protected override void OnSetDefinitions() { }
+
         /// <summary>
         /// Occurs after a successful controller load.
         /// </summary>
@@ -75,11 +77,11 @@ namespace MonoCross.Droid
         /// <param name="controller">The <see cref="IMXController"/> that received the navigation.</param>
         /// <param name="viewPerspective">The <see cref="ViewPerspective"/> returned by the controller load.</param>
         /// <param name="navigatedUri">A <see cref="String"/> that represents the uri used to navigate to the controller.</param>
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, string viewPerspective, string navigatedUri)
         {
             Android.Util.Log.Debug("MXDroidContainer", "OnControllerLoadComplete");
 
-            Type viewType = Views.GetViewType(viewPerspective);
+            Type viewType = Views.GetViewType(controller.ModelType, viewPerspective);
             if (viewType != null)
             {
                 // stash the model away so we can get it back when the view shows up!

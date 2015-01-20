@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 
 using MonoCross.Navigation;
 
@@ -16,7 +12,7 @@ namespace MonoCross.Webkit
     public static class MXWebkitNavigationExtensions
     {
     }
-    
+
     public class MXWebkitContainer : MXContainer
     {
         protected MXWebkitContainer(MXApplication theApp)
@@ -31,11 +27,11 @@ namespace MonoCross.Webkit
 
         public override MXViewMap Views
         {
-            get 
+            get
             {
                 if (HttpContext.Current.Session["ViewMap"] == null)
                     HttpContext.Current.Session["ViewMap"] = new MXViewMap();
-                return (MXViewMap)HttpContext.Current.Session["ViewMap"]; 
+                return (MXViewMap)HttpContext.Current.Session["ViewMap"];
             }
         }
 
@@ -49,13 +45,13 @@ namespace MonoCross.Webkit
 
         protected static void SetModelFromParameters(string url, Dictionary<string, string> parameters)
         {
-            IMXController controller = MXWebkitContainer.Instance.GetController(url, ref parameters);
+            IMXController controller = Instance.GetController(url, ref parameters);
             if (controller.GetModel() != null)
             {
                 foreach (string key in parameters.Keys)
                 {
                     SetPropertyOnModel(key, controller.GetModel(), parameters[key]);
-                } 
+                }
             }
         }
 
@@ -71,23 +67,23 @@ namespace MonoCross.Webkit
             else
             {
                 PropertyInfo property = model.GetType().GetProperty(parameter);
-                if (property != null ) property.SetValue(model, value, null);
+                if (property != null) property.SetValue(model, value, null);
             }
         }
 
         public static void Initialize(MXApplication theApp)
         {
-            MXContainer.InitializeContainer(new MXWebkitContainer(theApp));
+            InitializeContainer(new MXWebkitContainer(theApp));
 
             // no threading in web generation, not needed as all output
             // is on the server and synchronous anyway
-            MXContainer.Instance.ThreadedLoad = false;
+            Instance.ThreadedLoad = false;
         }
 
         public static Dictionary<string, string> GetParameters(HttpRequestBase request)
         {
-            Dictionary<string, string> retval = new Dictionary<string, string>();
-            System.Text.StringBuilder strb = new System.Text.StringBuilder();
+            var retval = new Dictionary<string, string>();
+            var strb = new System.Text.StringBuilder();
 
             if (HttpContext.Current.Session["ActionParameters"] != null && HttpContext.Current.Request.HttpMethod == "POST")
             {
@@ -112,12 +108,13 @@ namespace MonoCross.Webkit
             return retval;
         }
 
+        protected override void OnSetDefinitions() { }
 
-        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, MXViewPerspective viewPerspective, string navigatedUri)
+        protected override void OnControllerLoadComplete(IMXView fromView, IMXController controller, string viewPerspective, string navigatedUri)
         {
-            try 
+            try
             {
-                RenderViewFromPerspective(viewPerspective, controller.GetModel());
+                RenderViewFromPerspective(controller.ModelType, viewPerspective, controller.GetModel());
             }
             catch (ArgumentException ae)
             {
@@ -131,7 +128,7 @@ namespace MonoCross.Webkit
         public override void Redirect(string url)
         {
             HttpContext.Current.Response.Redirect(Path.Combine(HttpContext.Current.Request.ApplicationPath, url));
-            CancelLoad = true;          
+            CancelLoad = true;
         }
     }
 }
