@@ -44,5 +44,15 @@ namespace MonoCross.Navigation
         /// The interfaces implemented or inherited by the given <see cref="Type"/>.
         /// </summary>
         public Type[] ImplementedInterfaces { get { return _type.GetInterfaces(); } }
+
+        /// <summary>
+        /// Determines whether an instance of a specified type can be assigned to the current type instance. 
+        /// </summary>
+        /// <param name="typeInfo">The type info to compare with the current instance. </param>
+        /// <returns><c>true</c> if the given type can be assigned to this instance's type; otherwise <c>false</c>.</returns>
+        public bool IsAssignableFrom(TypeInfo typeInfo)
+        {
+            return _type.IsAssignableFrom(typeInfo._type);
+        }
     }
 }
