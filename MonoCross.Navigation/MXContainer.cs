@@ -465,7 +465,7 @@ namespace MonoCross.Navigation
 
         #region Register/resolve
 
-        private static readonly NamedTypeMap NativeDefinitions = new NamedTypeMap();
+        private static readonly NamedTypeMap TypeMap = new NamedTypeMap();
 
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
@@ -508,7 +508,7 @@ namespace MonoCross.Navigation
         /// <param name="initialization">A method that initializes the object.</param>
         public static void Register<T>(Type nativeType, string namedInstance, Func<object> initialization)
         {
-            NativeDefinitions[typeof(T), namedInstance] = new TypeLoader(nativeType, initialization);
+            TypeMap[typeof(T), namedInstance] = new TypeLoader(nativeType, initialization);
         }
 
         /// <summary>
@@ -552,7 +552,7 @@ namespace MonoCross.Navigation
         /// <param name="initialization">A method that initializes the object.</param>
         public static void RegisterSingleton<T>(Type nativeType, string namedInstance, Func<object> initialization)
         {
-            NativeDefinitions[typeof(T), namedInstance] = new TypeLoader(nativeType, true, initialization);
+            TypeMap[typeof(T), namedInstance] = new TypeLoader(nativeType, true, initialization);
         }
 
         /// <summary>
@@ -573,7 +573,7 @@ namespace MonoCross.Navigation
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         public static void RegisterSingleton<T>(object instance, string namedInstance)
         {
-            NativeDefinitions.Add(namedInstance, typeof(T), new TypeLoader(instance));
+            TypeMap[typeof(T), namedInstance] = new TypeLoader(instance);
         }
 
         /// <summary>
@@ -603,8 +603,8 @@ namespace MonoCross.Navigation
         /// <param name="parameters">An array of constructor parameters for initialization.</param>
         public static object Resolve(Type type, string name, params object[] parameters)
         {
-            return !NativeDefinitions.ContainsKey(type, name) ? null :
-                NativeDefinitions.Resolve(type, name, parameters);
+            return !TypeMap.ContainsKey(type, name) ? null :
+                TypeMap.Resolve(type, name, parameters);
         }
 
         #endregion
