@@ -269,6 +269,8 @@ namespace MonoCross.Navigation
             return ((IEnumerable<KeyValuePair<Type, Type>>)this).GetEnumerator();
         }
 
+        #region Register/Resolve
+
         private TypeLoader GetTypeLoader(Type type, string name)
         {
             TypeLoader initer;
@@ -306,6 +308,63 @@ namespace MonoCross.Navigation
             _items[new NamedType(type, name)] = initer;
             return retval;
         }
+
+        /// <summary>
+        /// Registers the specified key type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="mappedType">The type of the class to associate with the key type.</param>
+        public void Register(Type keyType, Type mappedType)
+        {
+            Register(keyType, mappedType, null);
+        }
+
+        /// <summary>
+        /// Registers the specified key type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="mappedType">The type of the class to associate with the key type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the key type.</param>
+        public void Register(Type keyType, Type mappedType, string namedInstance)
+        {
+            this[keyType, namedInstance] = new TypeLoader(mappedType);
+        }
+
+        /// <summary>
+        /// Registers the specified key type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the key type.</param>
+        /// <param name="nativeType">The type of the class to associate with the key type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        /// <param name="singletonInstance"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
+        public void Register(Type keyType, Type nativeType, string namedInstance, Func<object> initialization, bool singletonInstance)
+        {
+            this[keyType, namedInstance] = new TypeLoader(nativeType, singletonInstance, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified key type and object for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="mappedObject">The type of the class to associate with the key type.</param>
+        public void Register(Type keyType, object mappedObject)
+        {
+            Register(keyType, mappedObject, null);
+        }
+
+        /// <summary>
+        /// Registers the specified key type and object for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="mappedObject">The type of the class to associate with the key type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the key type.</param>
+        public void Register(Type keyType, object mappedObject, string namedInstance)
+        {
+            this[keyType, namedInstance] = new TypeLoader(mappedObject);
+        }
+
+        #endregion
 
         /// <summary>
         /// A key containing a type and optional name.

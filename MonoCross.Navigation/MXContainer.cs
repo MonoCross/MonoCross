@@ -470,7 +470,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void Register<T>(Type nativeType)
         {
@@ -480,7 +480,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void Register<T>(Type nativeType, string namedInstance)
@@ -491,7 +491,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void Register<T>(Type nativeType, Func<object> initialization)
@@ -502,19 +502,19 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void Register<T>(Type nativeType, string namedInstance, Func<object> initialization)
         {
-            TypeMap[typeof(T), namedInstance] = new TypeLoader(nativeType, initialization);
+            TypeMap.Register(typeof(T), nativeType, namedInstance, initialization, false);
         }
 
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void RegisterSingleton<T>(Type nativeType)
         {
@@ -524,7 +524,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void RegisterSingleton<T>(Type nativeType, string namedInstance)
@@ -535,7 +535,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void RegisterSingleton<T>(Type nativeType, Func<object> initialization)
@@ -546,19 +546,19 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void RegisterSingleton<T>(Type nativeType, string namedInstance, Func<object> initialization)
         {
-            TypeMap[typeof(T), namedInstance] = new TypeLoader(nativeType, true, initialization);
+            TypeMap.Register(typeof(T), nativeType, namedInstance, initialization, true);
         }
 
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="instance">The object to associate with the abstract type.</param>
         public static void RegisterSingleton<T>(object instance)
         {
@@ -568,12 +568,12 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the abstract to associate with the class type.</typeparam>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
         /// <param name="instance">The object to associate with the abstract type.</param>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         public static void RegisterSingleton<T>(object instance, string namedInstance)
         {
-            TypeMap[typeof(T), namedInstance] = new TypeLoader(instance);
+            TypeMap.Register(typeof(T), instance, namedInstance);
         }
 
         /// <summary>
