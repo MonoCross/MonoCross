@@ -132,7 +132,7 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Gets the class type associated with the specified abstract type.
+        /// Gets the class type associated with the specified name.
         /// </summary>
         /// <param name="name">A unique identifier for the abstract type.</param>
         /// <param name="classType">When the method returns, the class type associated with the specified abstract type, if the abstract type was found; otherwise, <c>null</c>."/></param>
@@ -160,7 +160,7 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Gets the class type associated with the specified abstract type.
+        /// Gets the instance associated with the specified abstract type.
         /// </summary>
         /// <param name="abstractType">The abstract type whose associated class type to get.</param>
         /// <param name="instance">When the method returns, the instance associated with the specified abstract type, if the abstract type was found; otherwise, <c>null</c>."/></param>
@@ -171,7 +171,7 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Gets the class type associated with the specified abstract type.
+        /// Gets the instance associated with the specified name.
         /// </summary>
         /// <param name="name">A unique identifier for the abstract type.</param>
         /// <param name="instance">When the method returns, the instance associated with the specified abstract type, if the abstract type was found; otherwise, <c>null</c>."/></param>
@@ -184,7 +184,7 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// Gets the class type associated with the specified abstract type.
+        /// Gets the instance associated with the specified abstract type.
         /// </summary>
         /// <param name="abstractType">The abstract type whose associated class type to get.</param>
         /// <param name="name">A unique identifier for the abstract type.</param>
