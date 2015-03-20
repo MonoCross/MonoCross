@@ -19,6 +19,10 @@ namespace MonoCross.Navigation
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #endif
 
+        protected IDictionary<NamedType, TypeLoader> Items
+        {
+            get { return _items; }
+        }
         private readonly IDictionary<NamedType, TypeLoader> _items;
 
         /// <summary>
