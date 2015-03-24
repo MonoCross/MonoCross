@@ -15,14 +15,20 @@ namespace MonoCross.Navigation
 #endif
     public class NamedTypeMap : IDictionary<Type, Type>
     {
+        /// <summary>
+        /// The map from a named type to a type loader.
+        /// </summary>
 #if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #endif
-
         protected IDictionary<NamedType, TypeLoader> Items
         {
             get { return _items; }
         }
+
+#if !NETCF
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+#endif
         private readonly IDictionary<NamedType, TypeLoader> _items;
 
         /// <summary>
