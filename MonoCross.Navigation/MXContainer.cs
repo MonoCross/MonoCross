@@ -321,6 +321,10 @@ namespace MonoCross.Navigation
         /// <param name="parameters">The parameters to use with the controller's Load method.</param>
         protected static void TryLoadController(MXContainer container, IMXView fromView, IMXController controller, string navigatedUri, Dictionary<string, string> parameters)
         {
+            // set last navigation
+            container.LastNavigationDate = DateTime.Now;
+            container.LastNavigationUrl = navigatedUri;
+
             container.OnControllerLoadBegin(controller, fromView);
             container.CancelLoad = false;
 
@@ -393,10 +397,6 @@ namespace MonoCross.Navigation
             // return if no url provided
             if (url == null)
                 throw new ArgumentNullException("url");
-
-            // set last navigation
-            LastNavigationDate = DateTime.Now;
-            LastNavigationUrl = url;
 
             // initialize parameter dictionary if not provided
             parameters = parameters ?? new Dictionary<string, string>();
