@@ -512,6 +512,20 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
+        /// Registers the specified key type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the key type.</param>
+        /// <param name="nativeType">The type of the class to associate with the key type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        /// <param name="singletonInstance"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
+        public static void Register(Type keyType, Type nativeType, string namedInstance, Func<object> initialization, bool singletonInstance)
+        {
+            TypeMap.Register(keyType, nativeType, namedInstance, initialization, singletonInstance);
+        }
+
+        
+        /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
         /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
