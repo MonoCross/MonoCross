@@ -446,28 +446,7 @@ namespace MonoCross.Navigation
             /// </returns>
             public override int GetHashCode()
             {
-                if (Type == null)
-                    return -1;
-
-                var hash = Type.GetHashCode();
-
-                unchecked
-                {
-                    // hash id 
-                    if (Id != null)
-                        hash = hash * 31 + Id.GetHashCode();
-
-                    // hash generic types, if any
-                    if (Type.IsConstructedGenericType)
-                    {
-                        foreach (var gtype in Type.GenericTypeArguments)
-                        {
-                            hash = hash * 31 + gtype.GetHashCode();
-                        }
-                    }
-                }
-                return hash;
-                //return Type == null ? -1 : Type.GetHashCode() ^ (Id == null ? 0 : Id.GetHashCode());
+                return Type == null ? -1 : Type.GetHashCode() ^ (Id == null ? 0 : Id.GetHashCode());
             }
 
             /// <summary>
