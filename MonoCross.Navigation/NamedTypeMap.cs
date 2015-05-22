@@ -349,7 +349,7 @@ namespace MonoCross.Navigation
             var initer = GetTypeLoader(type, name);
             if (initer.Type == null)
             {
-                throw new TypeLoadException();
+                return null;
             }
             var retval = initer.Load(parameters);
             _items[new NamedType(type, name)] = initer;
