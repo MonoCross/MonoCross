@@ -661,8 +661,7 @@ namespace MonoCross.Navigation
         /// <param name="parameters">An array of constructor parameters for initialization.</param>
         public static object Resolve(Type type, string name, params object[] parameters)
         {
-            return !TypeMap.ContainsKey(type, name) ? null :
-                TypeMap.Resolve(type, name, parameters);
+            return TypeMap.Resolve(type, name, parameters);
         }
 
         #endregion

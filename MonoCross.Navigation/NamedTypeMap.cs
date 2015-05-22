@@ -309,6 +309,8 @@ namespace MonoCross.Navigation
 
         private TypeLoader GetTypeLoader(Type type, string name)
         {
+            if (type == null) { throw new ArgumentNullException("type"); }
+
             TypeLoader initer;
             if (ContainsKey(type, name) && (initer = _items[new NamedType(type, name)]).Type != null)
                 return initer;
@@ -335,6 +337,15 @@ namespace MonoCross.Navigation
         /// <returns>The object instance.</returns>
         public object Resolve(Type type, string name, params object[] parameters)
         {
+            //Repackage invalid name as parameter
+            if (name != null && !ContainsKey(type, name) && ContainsKey(type, null))
+            {
+                var paras = new List<object> { name };
+                if (parameters != null) paras.AddRange(parameters);
+                parameters = paras.ToArray();
+                return Resolve(type, null, parameters);
+            }
+
             var initer = GetTypeLoader(type, name);
             if (initer.Type == null)
             {
