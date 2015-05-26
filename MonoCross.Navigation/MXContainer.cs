@@ -474,7 +474,7 @@ namespace MonoCross.Navigation
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void Register<T>(Type nativeType)
         {
-            Register<T>(nativeType, null, null);
+            Register<T>(nativeType, null, (Func<object[], object>)null);
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace MonoCross.Navigation
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void Register<T>(Type nativeType, string namedInstance)
         {
-            Register<T>(nativeType, namedInstance, null);
+            Register<T>(nativeType, namedInstance, (Func<object[], object>)null);
         }
 
         /// <summary>
@@ -514,11 +514,34 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
         /// </summary>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register<T>(Type nativeType, Func<object[], object> initialization)
+        {
+            Register<T>(nativeType, null, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register<T>(Type nativeType, string namedInstance, Func<object[], object> initialization)
+        {
+            TypeMap.Register(typeof(T), nativeType, namedInstance, initialization, false);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
         /// <param name="keyType">The key type to associate with the value type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void Register(Type keyType, Type nativeType)
         {
-            Register(keyType, nativeType, null, null, false);
+            Register(keyType, nativeType, null, (Func<object[], object>)null, false);
         }
 
         /// <summary>
@@ -529,7 +552,7 @@ namespace MonoCross.Navigation
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         public static void Register(Type keyType, Type nativeType, string namedInstance)
         {
-            Register(keyType, nativeType, namedInstance, null, false);
+            Register(keyType, nativeType, namedInstance, (Func<object[], object>)null, false);
         }
 
         /// <summary>
@@ -568,7 +591,32 @@ namespace MonoCross.Navigation
             TypeMap.Register(keyType, nativeType, namedInstance, initialization, singletonInstance);
         }
 
-        
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register(Type keyType, Type nativeType, string namedInstance, Func<object[], object> initialization)
+        {
+            Register(keyType, nativeType, namedInstance, initialization, false);
+        }
+
+        /// <summary>
+        /// Registers the specified key type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="namedInstance">An optional unique identifier for the key type.</param>
+        /// <param name="nativeType">The type of the class to associate with the key type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        /// <param name="singletonInstance"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
+        public static void Register(Type keyType, Type nativeType, string namedInstance, Func<object[], object> initialization, bool singletonInstance)
+        {
+            TypeMap.Register(keyType, nativeType, namedInstance, initialization, singletonInstance);
+        }
+
+
         /// <summary>
         /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
         /// </summary>
@@ -576,7 +624,7 @@ namespace MonoCross.Navigation
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void RegisterSingleton<T>(Type nativeType)
         {
-            RegisterSingleton<T>(nativeType, null, null);
+            RegisterSingleton<T>(nativeType, null, (Func<object[], object>)null);
         }
 
         /// <summary>
@@ -587,7 +635,7 @@ namespace MonoCross.Navigation
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         public static void RegisterSingleton<T>(Type nativeType, string namedInstance)
         {
-            RegisterSingleton<T>(nativeType, namedInstance, null);
+            RegisterSingleton<T>(nativeType, namedInstance, (Func<object[], object>)null);
         }
 
         /// <summary>
@@ -609,6 +657,29 @@ namespace MonoCross.Navigation
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void RegisterSingleton<T>(Type nativeType, string namedInstance, Func<object> initialization)
+        {
+            TypeMap.Register(typeof(T), nativeType, namedInstance, initialization, true);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void RegisterSingleton<T>(Type nativeType, Func<object[], object> initialization)
+        {
+            RegisterSingleton<T>(nativeType, null, initialization);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for a singleton <see cref="Resolve"/>.
+        /// </summary>
+        /// <typeparam name="T">The abstract type to associate with the class type.</typeparam>
+        /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void RegisterSingleton<T>(Type nativeType, string namedInstance, Func<object[], object> initialization)
         {
             TypeMap.Register(typeof(T), nativeType, namedInstance, initialization, true);
         }
