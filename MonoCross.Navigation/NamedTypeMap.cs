@@ -276,7 +276,7 @@ namespace MonoCross.Navigation
 #endif
         bool ICollection<KeyValuePair<Type, Type>>.IsReadOnly
         {
-            get { return false; }
+            get { return _items.IsReadOnly; }
         }
 
 #if !NETCF
