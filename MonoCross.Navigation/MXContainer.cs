@@ -596,6 +596,17 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="keyType">The key type to associate with the value type.</param>
         /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public static void Register(Type keyType, Type nativeType, Func<object[], object> initialization)
+        {
+            Register(keyType, nativeType, null, initialization, false);
+        }
+
+        /// <summary>
+        /// Registers the specified abstract type and class type for <see cref="Resolve"/>.
+        /// </summary>
+        /// <param name="keyType">The key type to associate with the value type.</param>
+        /// <param name="nativeType">The type of the class to associate with the abstract type.</param>
         /// <param name="namedInstance">An optional unique identifier for the abstract type.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public static void Register(Type keyType, Type nativeType, string namedInstance, Func<object[], object> initialization)
