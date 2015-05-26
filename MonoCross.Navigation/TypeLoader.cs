@@ -12,7 +12,7 @@ namespace MonoCross.Navigation
         private readonly bool _singletonInstance;
         private object _instance;
         private readonly Type _instanceType;
-        private readonly Func<object> _initialize;
+        private readonly Func<object[], object> _initialize;
 
         #region Constructors
 
@@ -20,14 +20,14 @@ namespace MonoCross.Navigation
         /// Initializes a new <see cref="TypeLoader"/> instance.
         /// </summary>
         /// <param name="instanceType">The <see cref="System.Type"/> to manage.</param>
-        public TypeLoader(Type instanceType) : this(instanceType, false, null) { }
+        public TypeLoader(Type instanceType) : this(instanceType, false) { }
 
         /// <summary>
         /// Initializes a new <see cref="TypeLoader"/> instance.
         /// </summary>
         /// <param name="instanceType">The <see cref="System.Type"/> to manage.</param>
         /// <param name="isSingleton"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
-        public TypeLoader(Type instanceType, bool isSingleton) : this(instanceType, isSingleton, null) { }
+        public TypeLoader(Type instanceType, bool isSingleton) : this(instanceType, isSingleton, (Func<object[], object>)null) { }
 
         /// <summary>
         /// Initializes a new <see cref="TypeLoader"/> instance.
@@ -40,16 +40,39 @@ namespace MonoCross.Navigation
         /// Initializes a new <see cref="TypeLoader"/> instance.
         /// </summary>
         /// <param name="instanceType">The <see cref="System.Type"/> to manage.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public TypeLoader(Type instanceType, Func<object[], object> initialization) : this(instanceType, false, initialization) { }
+
+        /// <summary>
+        /// Initializes a new <see cref="TypeLoader"/> instance.
+        /// </summary>
+        /// <param name="instanceType">The <see cref="System.Type"/> to manage.</param>
         /// <param name="isSingleton"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
         /// <param name="initialization">A method that initializes the object.</param>
         public TypeLoader(Type instanceType, bool isSingleton, Func<object> initialization)
         {
+            if (instanceType == null) throw new ArgumentNullException("instanceType");
+
+            _singletonInstance = isSingleton;
+            _instanceType = instanceType;
+            _initialize = p => initialization();
+            _instance = null;
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="TypeLoader"/> instance.
+        /// </summary>
+        /// <param name="instanceType">The <see cref="System.Type"/> to manage.</param>
+        /// <param name="isSingleton"><c>true</c> to create and cache the instance; otherwise <c>false</c> to create every time.</param>
+        /// <param name="initialization">A method that initializes the object.</param>
+        public TypeLoader(Type instanceType, bool isSingleton, Func<object[], object> initialization)
+        {
+            if (instanceType == null) throw new ArgumentNullException("instanceType");
+
             _singletonInstance = isSingleton;
             _instanceType = instanceType;
             _initialize = initialization;
             _instance = null;
-
-            if (instanceType == null) throw new ArgumentNullException("instanceType");
         }
 
         /// <summary>
@@ -143,7 +166,7 @@ namespace MonoCross.Navigation
             }
             else
             {
-                retval = _initialize();
+                retval = _initialize(parameters);
             }
 
             if (_singletonInstance)
