@@ -12,10 +12,15 @@ namespace MonoCross.Navigation
     public class MXNavigation
     {
         /// <summary>
-        /// Gets or sets the controller for this instance.
+        /// Gets the controller for this instance.
         /// </summary>
         /// <value>The controller as an <see cref="IMXController"/> instance.</value>
-        public IMXController Controller { get; private set; }
+        public IMXController Controller
+        {
+            get { return _loader.Load<IMXController>(); }
+        }
+
+        private TypeLoader _loader;
 
         /// <summary>
         /// Gets or sets the navigation URL pattern for the controller.
@@ -39,7 +44,21 @@ namespace MonoCross.Navigation
         /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
         public MXNavigation(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
-            Controller = controller;
+            _loader = new TypeLoader(controller);
+            Pattern = pattern;
+            Parameters = parameters;
+            Parts = Segment.Split(Pattern);
+        }
+
+        /// <summary>
+        /// Initializes an instance of the <see cref="MXNavigation"/> class.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controllerType">The tpye of the controller to add to the navigation list.</param>
+        /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
+        public MXNavigation(string pattern, Type controllerType, Dictionary<string, string> parameters)
+        {
+            _loader = new TypeLoader(controllerType);
             Pattern = pattern;
             Parameters = parameters;
             Parts = Segment.Split(Pattern);
@@ -318,22 +337,52 @@ namespace MonoCross.Navigation
         /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
         public void Add(string pattern, IMXController controller, Dictionary<string, string> parameters)
         {
+            var mxNavItem = new MXNavigation(pattern, controller, parameters);
+            InternalAdd(mxNavItem);
+        }
+
+        /// <summary>
+        /// Adds the specified controller type to the navigation list with the specified string pattern.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controllerType">The type of the controller to add to the navigation list.</param>
+        public void Add(string pattern, Type controllerType)
+        {
+            Add(pattern, controllerType, new Dictionary<string, string>());
+        }
+
+        /// <summary>
+        /// Adds the specified controller type to the navigation list with the specified string pattern.
+        /// </summary>
+        /// <param name="pattern">The navigation pattern to associate with the controller.</param>
+        /// <param name="controllerType">The type of the controller to add to the navigation list.</param>
+        /// <param name="parameters">Any default parameters to include when the controller is loaded.</param>
+        public void Add(string pattern, Type controllerType, Dictionary<string, string> parameters)
+        {
+            var mxNavItem = new MXNavigation(pattern, controllerType, parameters);
+            InternalAdd(mxNavItem);
+        }
+
+        /// <summary>
+        /// Adds the specified navigation to the list.
+        /// </summary>
+        /// <param name="item">The navigation entry to add.</param>
+        private void InternalAdd(MXNavigation item)
+        {
             // Enforce uniqueness
-            MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == pattern);
+            MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == item.Pattern);
             if (currentMatch != null)
             {
 #if DEBUG
-                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}", pattern, currentMatch.Controller);
+                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}", item.Pattern, currentMatch.Controller);
                 throw new Exception(text);
 #else
                 return;
 #endif
             }
 
-            var mxNavItem = new MXNavigation(pattern, controller, parameters);
-            Add(mxNavItem);
-
-            OnAdded(new NavAddedEventArgs(mxNavItem));
+            Add(item);
+            OnAdded(new NavAddedEventArgs(item));
         }
 
         /// <summary>
@@ -355,7 +404,7 @@ namespace MonoCross.Navigation
                 }
                 else
                 {
-                    string[] urlPieces = url.Split(new[] { '/' });
+                    string[] urlPieces = url.Split('/');
 
                     // first get the mappings with the same number of pieces, then march down one at a time, skipping those with parameters mappings (e.g., '{')
                     foreach (var navEntry in this)
