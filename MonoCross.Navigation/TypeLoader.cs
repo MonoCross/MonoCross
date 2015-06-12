@@ -154,7 +154,7 @@ namespace MonoCross.Navigation
                         var ctor = ctors.FirstOrDefault(c =>
                         {
                             var p = c.GetParameters();
-                            return p.Length == parameters.Length && !p.Where((t, i) => parameters[i] == null || !parameters[i].GetType().GetTypeInfo().IsAssignableFrom(t.ParameterType.GetTypeInfo())).Any();
+                            return p.Length == parameters.Length && !p.Where((t, i) => parameters[i] != null && !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[i].GetType().GetTypeInfo())).Any();
                         });
                         retval = ctor == null ? Activator.CreateInstance(_instanceType) : ctor.Invoke(parameters);
                     }
