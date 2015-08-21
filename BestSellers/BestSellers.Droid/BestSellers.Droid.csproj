@@ -17,7 +17,7 @@
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
     <MandroidI18n />
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion />
+    <TargetFrameworkVersion>v5.1</TargetFrameworkVersion>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -85,7 +85,7 @@
       <Name>MonoCross.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\BestSellers\BestSellers.csproj">
-      <Project>{D6A2EDA8-E990-4F52-AE78-8DA9B56AA870}</Project>
+      <Project>{CD0162EA-3DE6-47B1-A499-C597E3C2DC41}</Project>
       <Name>BestSellers</Name>
     </ProjectReference>
   </ItemGroup>

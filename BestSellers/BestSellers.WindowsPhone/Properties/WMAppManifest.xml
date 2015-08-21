@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="" />
   <App xmlns="" ProductID="{cabf5687-5def-47f4-965d-4bf6e4bf72aa}" Title="Best Sellers" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WindowsPhone.Container author" Description="Sample description" Publisher="WindowsPhone.Container" PublisherID="{382a6e23-1707-49be-991b-8ee3d123e78d}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>

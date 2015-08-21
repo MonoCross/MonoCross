@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{4618ccfc-5895-4c44-ad25-8bf312a96b86}</Project>
+      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
       <Name>MonoCross.Navigation</Name>
     </ProjectReference>
   </ItemGroup>
