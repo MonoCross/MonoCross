@@ -80,5 +80,16 @@ namespace MonoCross.Navigation
 
             return Resolve(modelType, perspective) as IMXView;
         }
+
+        /// <summary>
+        /// Determines whether a view has been registered for a model and perspective.
+        /// </summary>
+        /// <param name="modelType">The view's model type.</param>
+        /// <param name="perspective">The view perspective.</param>
+        /// <returns><c>true</c> if a view has been registered to the model type and perspective; otherwise <c>false</c>.</returns>
+        public bool ContainsView(Type modelType, string perspective)
+        {
+            return ContainsKey(modelType, perspective ?? ViewPerspective.Default);
+        }
     }
 }

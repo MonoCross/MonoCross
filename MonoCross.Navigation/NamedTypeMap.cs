@@ -21,7 +21,7 @@ namespace MonoCross.Navigation
 #if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #endif
-        protected IDictionary<NamedType, TypeLoader> Items
+        public  IDictionary<NamedType, TypeLoader> Items
         {
             get { return _items; }
         }
@@ -429,7 +429,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// A key containing a type and optional name.
         /// </summary>
-        protected struct NamedType : IComparable, IEqualityComparer<NamedType>
+        public struct NamedType : IComparable, IEqualityComparer<NamedType>
         {
             /// <summary>
             /// Initializes a new <see cref="NamedType"/> instance.
