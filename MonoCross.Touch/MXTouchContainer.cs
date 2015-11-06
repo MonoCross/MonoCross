@@ -150,7 +150,7 @@ namespace MonoCross.Touch
                     bitmapFile = options.SplashBitmap;
                 }
                 _splashViewController = new SplashViewController(bitmapFile);
-                _window.AddSubview(_splashViewController.View);
+				_window.RootViewController = _splashViewController;
                 _window.MakeKeyAndVisible();
             }
         }
