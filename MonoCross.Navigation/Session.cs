@@ -32,6 +32,7 @@ namespace MonoCross.Navigation
             SafeKeys = new List<string>();
             SafeKeys.Add(ContainerKey);
             SafeKeys.Add(NavKey);
+            SafeKeys.Add(ViewsKey);
         }
 
         /// <summary>
@@ -43,6 +44,9 @@ namespace MonoCross.Navigation
         /// The key used for the navigation map object.
         /// </summary>
         public const string NavKey = "navMap";
+
+        public const string ViewsKey = "Views";
+
 
         /// <summary>
         /// Removes all keys and values from the <see cref="SessionDictionary"/> with the except of the application and navigation map objects.

@@ -147,7 +147,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="System.Array"/> that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in the array at which copying begins.</param>
-        public void CopyTo(Array array, int index)
+        public virtual void CopyTo(Array array, int index)
         {
             ((ICollection)_internalDictionary).CopyTo(array, index);
         }
@@ -177,7 +177,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Gets the number of elements contained within the collection.
         /// </summary>
-        public int Count
+        public virtual int Count
         {
             get
             {
@@ -243,7 +243,7 @@ namespace MonoCross.Navigation
         /// Gets or sets the element with the specified key.
         /// </summary>
         /// <param name="key">The key of the element to get or set.</param>
-        public TValue this[TKey key]
+        public virtual TValue this[TKey key]
         {
             get
             {
@@ -258,7 +258,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Gets a collection containing the keys of the dictionary.
         /// </summary>
-        public ICollection<TKey> Keys
+        public virtual ICollection<TKey> Keys
         {
             get
             {
@@ -269,7 +269,7 @@ namespace MonoCross.Navigation
         /// <summary>
         /// Gets a collection containing the values of the dictionary.
         /// </summary>
-        public ICollection<TValue> Values
+        public virtual ICollection<TValue> Values
         {
             get
             {
@@ -284,7 +284,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="key">The object to use as the key of the element to add.</param>
         /// <param name="value">The object to use as the value of the element to add.</param>
-        public void Add(object key, object value)
+        public virtual void Add(object key, object value)
         {
             _internalDictionary.Add((TKey)key, (TValue)value);
         }
@@ -294,7 +294,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="key">The key to locate in the dictionary.</param>
         /// <returns><c>true</c> if the dictionary contains an element with the key; otherwise <c>false</c>.</returns>
-        public bool Contains(object key)
+        public virtual bool Contains(object key)
         {
             return _internalDictionary.ContainsKey((TKey)key);
         }
@@ -308,7 +308,7 @@ namespace MonoCross.Navigation
         /// Removes the element with the specified key from the dictionary.
         /// </summary>
         /// <param name="key">The key of the element to remove.</param>
-        public void Remove(object key)
+        public virtual void Remove(object key)
         {
             _internalDictionary.Remove((TKey)key);
         }

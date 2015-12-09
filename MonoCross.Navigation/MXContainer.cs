@@ -110,14 +110,29 @@ namespace MonoCross.Navigation
         /// A <see cref="String"/> that represents the uri used to navigate to the controller.
         /// </param>
         protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, string perspective, string navigatedUri);
-        private readonly MXViewMap _views = new MXViewMap();
+       
 
         /// <summary>
         /// Gets the view map.
         /// </summary>
         public virtual MXViewMap Views
         {
-            get { return _views; }
+            get
+            {
+                object sess = null;
+                MXViewMap map = null;
+                if (Session.TryGetValue(SessionDictionary.ViewsKey, out sess))
+                {
+                    map = sess as MXViewMap;
+                    
+                }
+                if(map == null)
+                {
+                    map = new MXViewMap();
+                    Session[SessionDictionary.ViewsKey] = map;
+                }
+                return map;
+            }
         }
 
         /// <summary>
@@ -166,6 +181,9 @@ namespace MonoCross.Navigation
             Instance = theContainer;
         }
 
+
+        private static MXContainer _instance;
+
         /// <summary>
         /// Gets or sets the application instance.
         /// </summary>
@@ -174,9 +192,7 @@ namespace MonoCross.Navigation
         {
             get
             {
-                object instance;
-                Session.TryGetValue(GetSessionId == null ? SessionDictionary.ContainerKey : GetSessionId(), out instance);
-                return (instance as MXContainer);
+                return _instance;
             }
             protected set
             {
@@ -185,7 +201,9 @@ namespace MonoCross.Navigation
                     throw new ArgumentNullException("value", "Cannot have a null MXContainer instance.");
                 }
 
-                Session[GetSessionId == null ? SessionDictionary.ContainerKey : GetSessionId()] = value;
+
+                
+                _instance = value;
                 Instance.OnSetDefinitions();
                 if (value.App == null) return;
                 Instance.App.OnAppLoad();
@@ -199,8 +217,9 @@ namespace MonoCross.Navigation
         public static ISession Session
         {
             get { return _session ?? (_session = new SessionDictionary()); }
+           set { _session = value; }
         }
-        static SessionDictionary _session;
+        static ISession _session;
 
         // Model to View associations
 
