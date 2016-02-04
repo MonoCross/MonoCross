@@ -110,7 +110,7 @@ namespace MonoCross.Navigation
         /// A <see cref="String"/> that represents the uri used to navigate to the controller.
         /// </param>
         protected abstract void OnControllerLoadComplete(IMXView fromView, IMXController controller, string perspective, string navigatedUri);
-       
+
 
         /// <summary>
         /// Gets the view map.
@@ -126,7 +126,7 @@ namespace MonoCross.Navigation
                     map = sess as MXViewMap;
                     
                 }
-                if(map == null)
+                if (map == null)
                 {
                     map = new MXViewMap();
                     Session[SessionDictionary.ViewsKey] = map;
@@ -202,7 +202,7 @@ namespace MonoCross.Navigation
                 }
 
 
-                
+
                 _instance = value;
                 Instance.OnSetDefinitions();
                 if (value.App == null) return;
@@ -217,7 +217,7 @@ namespace MonoCross.Navigation
         public static ISession Session
         {
             get { return _session ?? (_session = new SessionDictionary()); }
-           set { _session = value; }
+            set { _session = value; }
         }
         static ISession _session;
 
@@ -386,12 +386,11 @@ namespace MonoCross.Navigation
         private void LoadController(IMXView fromView, IMXController controller, string uri, Dictionary<string, string> parameters)
         {
             string perspective = controller.Load(uri, parameters);
-            if (!CancelLoad && perspective != null) // done if failed
-            {
-                // give the derived container the ability to do something
-                // with the fromView if it exists or to create it if it doesn't
-                OnControllerLoadComplete(fromView, controller, perspective, uri);
-            }
+
+            // give the derived container the ability to do something
+            // with the fromView if it exists or to create it if it doesn't
+            OnControllerLoadComplete(fromView, controller, CancelLoad ? null : perspective, uri);
+
             // clear CancelLoad, we're done
             CancelLoad = false;
         }
