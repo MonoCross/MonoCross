@@ -36,20 +36,22 @@ namespace MonoCross.Navigation
         }
 
         /// <summary>
-        /// The key used for the container object.
+        /// The key used to keep the <see cref="MXContainer"/> instance in session.
         /// </summary>
         public const string ContainerKey = "theContainer";
 
         /// <summary>
-        /// The key used for the navigation map object.
+        /// The key used to keep the <see cref="NavigationList"/> instance in session.
         /// </summary>
         public const string NavKey = "navMap";
 
+        /// <summary>
+        /// The key used to keep the <see cref="MXViewMap"/> instance in session.
+        /// </summary>
         public const string ViewsKey = "Views";
 
-
         /// <summary>
-        /// Removes all keys and values from the <see cref="SessionDictionary"/> with the except of the application and navigation map objects.
+        /// Removes all keys and values from the <see cref="SessionDictionary"/> with the exception of the application and navigation map objects.
         /// </summary>
         public override void Clear()
         {
