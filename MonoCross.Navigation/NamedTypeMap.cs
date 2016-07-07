@@ -21,7 +21,7 @@ namespace MonoCross.Navigation
 #if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #endif
-        public  IDictionary<NamedType, TypeLoader> Items
+        public IDictionary<NamedType, TypeLoader> Items
         {
             get { return _items; }
         }
@@ -320,11 +320,11 @@ namespace MonoCross.Navigation
                     return initer;
             }
 
-            var abstracts = type.GetTypeInfo().ImplementedInterfaces;
-            initer = abstracts
-                .Select(inter => GetTypeLoader(inter, name))
-                .FirstOrDefault(i => i.Type != null);
-            return initer;
+            var abstracts = type.GetTypeInfo().ImplementedInterfaces.ToList();
+            var interfaceType = abstracts.FirstOrDefault(a => ContainsKey(a, name))
+                ?? abstracts.FirstOrDefault(ContainsKey);
+
+            return interfaceType == null ? default(TypeLoader) : new TypeLoader(interfaceType);
         }
 
         /// <summary>
@@ -349,11 +349,14 @@ namespace MonoCross.Navigation
             var initer = GetTypeLoader(type, name);
             if (initer.Type == null)
             {
-                return null;
+                // If the type is not registered at all, provide an initializer anyways
+                initer = new TypeLoader(type);
             }
-            var retval = initer.Load(parameters);
-            _items[new NamedType(type, name)] = initer;
-            return retval;
+            else
+            {
+                _items[new NamedType(type, name)] = initer;
+            }
+            return initer.Load(parameters);
         }
 
         /// <summary>

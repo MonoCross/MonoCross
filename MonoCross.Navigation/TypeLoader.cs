@@ -143,7 +143,7 @@ namespace MonoCross.Navigation
                     if (parameters == null || parameters.Length == 0)
                     {
                         var info = ctors.Select(c => new { ctor = c, param = c.GetParameters() })
-                            .OrderByDescending(i => i.param.Length)
+                            .OrderBy(i => i.param.Length)
                             .Select(p => new { p.ctor, param = p.param.Select(res => MXContainer.Resolve(res.ParameterType, null, null)) })
                             .FirstOrDefault(v => v.param.All(o => o != null));
 
