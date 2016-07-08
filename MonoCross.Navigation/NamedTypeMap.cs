@@ -321,10 +321,14 @@ namespace MonoCross.Navigation
             }
 
             var abstracts = type.GetTypeInfo().ImplementedInterfaces.ToList();
-            var interfaceType = abstracts.FirstOrDefault(a => ContainsKey(a, name))
-                ?? abstracts.FirstOrDefault(ContainsKey);
+            var interfaceType = abstracts.FirstOrDefault(a => ContainsKey(a, name));
+            if (interfaceType != null)
+            {
+                return _items[new NamedType(interfaceType, name)];
+            }
 
-            return interfaceType == null ? default(TypeLoader) : new TypeLoader(interfaceType);
+            interfaceType = abstracts.FirstOrDefault(ContainsKey);
+            return interfaceType == null ? default(TypeLoader) : _items[new NamedType(interfaceType)];
         }
 
         /// <summary>
@@ -351,12 +355,13 @@ namespace MonoCross.Navigation
             {
                 // If the type is not registered at all, provide an initializer anyways
                 initer = new TypeLoader(type);
+                return initer.Load(parameters);
             }
-            else
-            {
-                _items[new NamedType(type, name)] = initer;
-            }
-            return initer.Load(parameters);
+
+            // Add the loader to the items cache to persist singletons
+            var retval = initer.Load(parameters);
+            _items[new NamedType(type, name)] = initer;
+            return retval;
         }
 
         /// <summary>
