@@ -353,6 +353,9 @@ namespace MonoCross.Navigation
             var initer = GetTypeLoader(type, name);
             if (initer.Type == null)
             {
+                // If the type can't be initialized, return null
+                if (!type.GetTypeInfo().DeclaredConstructors.Any()) return null;
+
                 // If the type is not registered at all, provide an initializer anyways
                 initer = new TypeLoader(type);
                 return initer.Load(parameters);
