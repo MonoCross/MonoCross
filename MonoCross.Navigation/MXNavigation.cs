@@ -369,19 +369,23 @@ namespace MonoCross.Navigation
         /// <param name="item">The navigation entry to add.</param>
         private void InternalAdd(MXNavigation item)
         {
+            Add(item);
+
             // Enforce uniqueness
-            MXNavigation currentMatch = this.FirstOrDefault(m => m.Pattern == item.Pattern);
-            if (currentMatch != null)
+            var currentMatches = this.ToList()
+                .Where(m => m.Pattern == item.Pattern).ToList();
+            if (currentMatches.Count > 1)
             {
+                Remove(item);
 #if DEBUG
-                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}", item.Pattern, currentMatch.Controller);
+                string text = string.Format("MapUri \"{0}\" is already matched to Controller type {1}", item.Pattern,
+                    currentMatches.FirstOrDefault(i => i != item).Controller);
                 throw new Exception(text);
 #else
                 return;
 #endif
             }
 
-            Add(item);
             OnAdded(new NavAddedEventArgs(item));
         }
 
