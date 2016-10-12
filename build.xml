@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
+    <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+    <PropertyGroup>
+        <Framework>MonoCross.Navigation</Framework>
+    </PropertyGroup>
+
+    <Target Name="Run">
+        <!-- <CallTarget Targets="GetLatest" /> -->
+        <CallTarget Targets="Compile" />
+        <CallTarget Targets="CopyToRoot" />
+    </Target>
+
+    <Target Name="GetLatest">
+        <GitClient Command="pull" />
+    </Target>
+
+    <Target Name="Clean">
+        <ItemGroup>
+            <MonoCrossClean Include="$(Framework)/bin/**" />
+            <MonoCrossClean Include="$(Framework)/obj/**" />
+        </ItemGroup>
+        <Delete Files="@(MonoCrossClean)" />
+    </Target>
+
+    <Target Name="PreBuild" DependsOnTargets="Clean" >
+        <Exec Condition=" '$(BuildRev)'=='' " WorkingDirectory="$(Framework)" Command="git rev-list --count HEAD" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="BuildRev" />
+        </Exec>
+        <Exec WorkingDirectory="$(Framework)" Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="Branch" />
+        </Exec>
+        <Exec WorkingDirectory="$(Framework)" Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
+        </Exec>
+        <Message Text="Repository Revision Num: $(BuildRev)" />
+        <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs"
+                Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)"
+                ReplacementText="$1.$2.$3.$(BuildRev)" />
+        <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs"
+                Regex="(AssemblyCopyright\(\D*)\s\d{4}\s(.*\))"
+                ReplacementText="$1 $([System.DateTime]::Now.ToString(`yyyy`)) $2" />
+        <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs"
+                Regex="(AssemblyInformationalVersion\(\D*-)\s\w*\s(\D*:)\D*(\)&quot;)"
+                ReplacementText="$1 $(Branch) $2 $(CommitHash)$3" />
+    </Target>
+
+    <Target Name="Compile" DependsOnTargets="PreBuild">
+        <MSBuild Projects="$(Framework)/MonoCross.Navigation.csproj" />
+        <GitClient Command="checkout" Arguments="-- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;"/>
+    </Target>
+
+    <Target Name="CopyToRoot">
+        <ItemGroup>
+            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross.Navigation.dll" />
+        </ItemGroup>
+        <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="." />
+    </Target>
+</Project>
