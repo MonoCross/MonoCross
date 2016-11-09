@@ -25,5 +25,7 @@ using System.Reflection;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.1.0.0")]
+#if !NETCF
 [assembly: AssemblyFileVersion("2.1.0.0")]
+#endif
 [assembly: AssemblyInformationalVersion("Branch - master (Hash: Working Tree)")]
