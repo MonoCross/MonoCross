@@ -154,9 +154,27 @@ namespace MonoCross.Navigation
                         var ctor = ctors.FirstOrDefault(c =>
                         {
                             var p = c.GetParameters();
-                            return p.Length == parameters.Length && !p.Where((t, i) => parameters[i] != null && !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[i].GetType().GetTypeInfo())).Any();
+                            return p.Length >= parameters.Length && !p.Where((t, i) => i >= parameters.Length && !t.HasDefaultValue ||
+                                i < parameters.Length && parameters[i] != null && !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[i].GetType().GetTypeInfo())).Any();
                         });
-                        retval = ctor == null ? Activator.CreateInstance(_instanceType) : ctor.Invoke(parameters);
+                        if (ctor == null)
+                        {
+                            retval = Activator.CreateInstance(_instanceType, parameters);
+                        }
+                        else
+                        {
+                            var paramTypes = ctor.GetParameters();
+                            if (paramTypes.Length > parameters.Length)
+                            {
+                                var index = parameters.Length;
+                                Array.Resize(ref parameters, paramTypes.Length);
+                                for (; index < parameters.Length; index++)
+                                {
+                                    parameters[index] = paramTypes[index].DefaultValue;
+                                }
+                            }
+                            retval = ctor.Invoke(parameters);
+                        }
                     }
                 }
                 catch (MissingMemberException)
