@@ -394,7 +394,7 @@ namespace MonoCross.Navigation
         /// </summary>
         /// <param name="url">A <see cref="String"/> representing the URL to match.</param>
         /// <returns>A <see cref="MXNavigation"/> that matches the URL.</returns>
-        public MXNavigation MatchUrl(string url)
+        public virtual MXNavigation MatchUrl(string url)
         {
             lock (SyncLock)
             {
