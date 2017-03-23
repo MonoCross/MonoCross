@@ -139,11 +139,10 @@ namespace MonoCross.Navigation
             {
                 try
                 {
-                    var ctors = _instanceType.GetTypeInfo().DeclaredConstructors;
+                    var ctors = _instanceType.GetTypeInfo().DeclaredConstructors.Select(c => new { ctor = c, param = c.GetParameters() });
                     if (parameters == null || parameters.Length == 0)
                     {
-                        var info = ctors.Select(c => new { ctor = c, param = c.GetParameters() })
-                            .OrderBy(i => i.param.Length)
+                        var info = ctors.OrderBy(i => i.param.Length)
                             .Select(p => new { p.ctor, param = p.param.Select(res => MXContainer.Resolve(res.ParameterType, null, null)) })
                             .FirstOrDefault(v => v.param.All(o => o != null));
 
@@ -151,29 +150,31 @@ namespace MonoCross.Navigation
                     }
                     else
                     {
-                        var ctor = ctors.FirstOrDefault(c =>
+                        var info = ctors.Where(c =>
                         {
-                            var p = c.GetParameters();
-                            return p.Length >= parameters.Length && !p.Any(t => t.Position < parameters.Length && parameters[t.Position] != null &&
-                                    !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[t.Position].GetType().GetTypeInfo()));
-                        });
-                        if (ctor == null)
+                            return !c.param.Any(t => t.Position < parameters.Length && parameters[t.Position] != null &&
+                                   !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[t.Position].GetType().GetTypeInfo()));
+                        }).ToList();
+
+                        // Try to match exact parameter number first
+                        var ctor = info.FirstOrDefault(c => c.param.Length == parameters.Length) ??
+                                   info.FirstOrDefault(c => c.param.Length > parameters.Length);
+                        if (ctor.ctor == null)
                         {
                             retval = Activator.CreateInstance(_instanceType);
                         }
                         else
                         {
-                            var paramTypes = ctor.GetParameters();
-                            if (paramTypes.Length > parameters.Length)
+                            if (ctor.param.Length > parameters.Length)
                             {
                                 var index = parameters.Length;
-                                Array.Resize(ref parameters, paramTypes.Length);
+                                Array.Resize(ref parameters, ctor.param.Length);
                                 for (; index < parameters.Length; index++)
                                 {
-                                    parameters[index] = paramTypes[index].DefaultValue;
+                                    parameters[index] = ctor.param[index].DefaultValue;
                                 }
                             }
-                            retval = ctor.Invoke(parameters);
+                            retval = ctor.ctor.Invoke(parameters);
                         }
                     }
                 }
