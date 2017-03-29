@@ -159,7 +159,7 @@ namespace MonoCross.Navigation
                         // Try to match exact parameter number first
                         var ctor = info.FirstOrDefault(c => c.param.Length == parameters.Length) ??
                                    info.FirstOrDefault(c => c.param.Length > parameters.Length);
-                        if (ctor.ctor == null)
+                        if (ctor == null || ctor.ctor == null)
                         {
                             retval = Activator.CreateInstance(_instanceType);
                         }
