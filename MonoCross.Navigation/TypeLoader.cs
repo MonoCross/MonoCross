@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -133,52 +134,33 @@ namespace MonoCross.Navigation
                 return Instance;
             }
 
-            object retval;
+            object retval = null;
 
             if (_initialize == null)
             {
-                try
+                var ctors = _instanceType.GetTypeInfo().DeclaredConstructors.ToDictionary(c => c, i => i.GetParameters());
+
+                // Try to find constructor by exact type first, then assignable types.
+                for (var i = 1; i >= 0 && retval == null; i--)
                 {
-                    var ctors = _instanceType.GetTypeInfo().DeclaredConstructors.Select(c => new { ctor = c, param = c.GetParameters() });
-                    if (parameters == null || parameters.Length == 0)
-                    {
-                        var info = ctors.OrderBy(i => i.param.Length)
-                            .Select(p => new { p.ctor, param = p.param.Select(res => MXContainer.Resolve(res.ParameterType, null, null)) })
-                            .FirstOrDefault(v => v.param.All(o => o != null));
+                    // Try to match exact parameter number first, then try to match default parameters
+                    retval = AttemptConstruction(parameters, ctors.Where(c => c.Value.Length == parameters.Length), Convert.ToBoolean(i)) ??
+                             AttemptConstruction(parameters, ctors.Where(c => c.Value.Length > parameters.Length)
+                                 .OrderBy(c => c.Value.Length), Convert.ToBoolean(i));
+                }
 
-                        retval = info != null ? info.ctor.Invoke(info.param.ToArray()) : Activator.CreateInstance(_instanceType);
-                    }
-                    else
+                // If all else fails, throw out provided parameters until something matches.
+                if (retval == null)
+                {
+                    // Try to find constructor by exact type first, then assignable types.
+                    for (var i = 1; i >= 0 && retval == null; i--)
                     {
-                        var info = ctors.Where(c =>
-                        {
-                            return !c.param.Any(t => t.Position < parameters.Length && parameters[t.Position] != null &&
-                                   !t.ParameterType.GetTypeInfo().IsAssignableFrom(parameters[t.Position].GetType().GetTypeInfo()));
-                        }).ToList();
-
-                        // Try to match exact parameter number first
-                        var ctor = info.FirstOrDefault(c => c.param.Length == parameters.Length) ??
-                                   info.FirstOrDefault(c => c.param.Length > parameters.Length);
-                        if (ctor == null || ctor.ctor == null)
-                        {
-                            retval = Activator.CreateInstance(_instanceType);
-                        }
-                        else
-                        {
-                            if (ctor.param.Length > parameters.Length)
-                            {
-                                var index = parameters.Length;
-                                Array.Resize(ref parameters, ctor.param.Length);
-                                for (; index < parameters.Length; index++)
-                                {
-                                    parameters[index] = ctor.param[index].DefaultValue;
-                                }
-                            }
-                            retval = ctor.ctor.Invoke(parameters);
-                        }
+                        retval = AttemptConstruction(parameters, ctors.Where(c => c.Value.Length < parameters.Length)
+                                     .OrderByDescending(c => c.Value.Length), Convert.ToBoolean(i));
                     }
                 }
-                catch (MissingMemberException)
+
+                if (retval == null)
                 {
                     retval = Activator.CreateInstance(_instanceType);
                 }
@@ -194,6 +176,42 @@ namespace MonoCross.Navigation
             }
 
             return retval;
+        }
+
+        private static object AttemptConstruction(object[] parameters, IEnumerable<KeyValuePair<ConstructorInfo, ParameterInfo[]>> ctors, bool matchExactType)
+        {
+            foreach (var info in ctors)
+            {
+                var parametersCopy = new object[info.Value.Length];
+                for (var i = 0; i < info.Value.Length; i++)
+                {
+                    var param = info.Value[i];
+                    if (parameters != null && parameters.Length > i)
+                    {
+                        var item = parameters[i];
+                        if (matchExactType ? param.ParameterType != item.GetType() 
+                            : !param.ParameterType.GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
+                        {
+                            parametersCopy = null;
+                            break;
+                        }
+                        parametersCopy[i] = item;
+                    }
+                    else if (param.HasDefaultValue)
+                    {
+                        parametersCopy[i] = param.DefaultValue;
+                    }
+                    else
+                    {
+                        parametersCopy[i] = MXContainer.Resolve(param.ParameterType, null, null);
+                        if (parametersCopy[i] != null) continue;
+                        parametersCopy = null;
+                        break;
+                    }
+                }
+                if (parametersCopy != null) return info.Key.Invoke(parametersCopy);
+            }
+            return null;
         }
     }
 }
