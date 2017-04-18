@@ -197,7 +197,7 @@ namespace MonoCross.Navigation
                         }
                         parametersCopy[i] = item;
                     }
-                    else if (param.HasDefaultValue)
+                    else if ((param.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
                     {
                         parametersCopy[i] = param.DefaultValue;
                     }
