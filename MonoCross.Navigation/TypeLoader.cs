@@ -189,8 +189,8 @@ namespace MonoCross.Navigation
                     if (parameters != null && parameters.Length > i)
                     {
                         var item = parameters[i];
-                        if (matchExactType ? param.ParameterType != item.GetType() 
-                            : !param.ParameterType.GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
+                        if (item != null && (matchExactType ? param.ParameterType != item.GetType()
+                            : !param.ParameterType.GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo())))
                         {
                             parametersCopy = null;
                             break;
