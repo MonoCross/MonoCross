@@ -69,6 +69,8 @@ namespace MonoCross.WPF
             Debug.WriteLine("OnControllerLoadFailed: " + ex.Message);
         }
 
+        protected override void OnSetDefinitions() { }
+
         /// <summary>
         /// Raises the load complete event after the Controller has completed loading its Model. The View may be populated,
         /// and the derived class should check if it exists and do something with it if needed for the platform: either free it,

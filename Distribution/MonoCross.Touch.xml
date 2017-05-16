@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonoCross.Touch</name>
+    </assembly>
+    <members>
+        <member name="T:MonoCross.Touch.LoadingView">
+            <summary>
+            Solution taken from: http://iphonedevelopertips.com/user-interface/uialertview-without-buttons-please-wait-dialog.html
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchTabletOptions">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:MonoCross.Touch.TouchViewOptions">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:MonoCross.Touch.ViewNavigationContext">
+            <summary>
+            View types used in marking views with navigational attributes
+            </summary>
+        </member>
+        <member name="F:MonoCross.Touch.ViewNavigationContext.InContext">
+            <summary>
+            decide in context whether to place the view in the master or detail pane following the view that
+            this is the default behavior if a view isn't marked with a style
+            </summary>
+        </member>
+        <member name="F:MonoCross.Touch.ViewNavigationContext.Master">
+            <summary>
+            always place in the master pone in a large form factor layout
+            </summary>
+        </member>
+        <member name="F:MonoCross.Touch.ViewNavigationContext.Detail">
+            <summary>
+            always place in the detail pane in a large form factor layout, this is equivalent to Master for small
+            form-factor platforms
+            </summary>
+        </member>
+        <member name="F:MonoCross.Touch.ViewNavigationContext.Modal">
+            <summary>
+            view is a modal popup 
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchViewAttributes">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchViewController`1">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchViewGroupItem">
+            <summary>
+            MX touch view group item.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchViewGroup">
+            <summary>
+            MX touch view group.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.IMXTouchViewGroupController">
+            <summary>
+            View Group base functionality, dictates how the view group behaves
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MXTouchViewGroupTabController">
+            <summary>
+            MX touch view group tab controller.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.SplashViewController">
+            <summary>
+            Class to display the initial view when still warming up
+            </summary>
+        </member>
+        <member name="T:MonoCross.Touch.MasterOrientation">
+            <summary>
+            The orientation in which the master pane will render as part of the split view controller.
+            If the master pane does not render within the split view, it will render as a popover.
+            </summary>
+        </member>
+    </members>
+</doc>

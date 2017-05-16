@@ -10,7 +10,8 @@
     <RootNamespace>MonoCross.Droid</RootNamespace>
     <AssemblyName>MonoCross.Droid</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,9 @@
     <DocumentationFile>bin\Release\MonoCross.Droid.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoCross">
+      <HintPath>..\Distribution\MonoCross.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
@@ -46,12 +50,6 @@
     <Compile Include="MXListFragmentView.cs" />
     <Compile Include="MXTabActivityView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoCross.Navigation\MonoCross.Navigation.csproj">
-      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
-      <Name>MonoCross.Navigation</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

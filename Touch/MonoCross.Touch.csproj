@@ -44,6 +44,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <MtouchArch>ARMv7</MtouchArch>
+    <DocumentationFile>bin\iPhone\Debug\MonoCross.Touch.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -55,8 +56,12 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DefineConstants>TOUCH</DefineConstants>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <DocumentationFile>bin\iPhone\Release\MonoCross.Touch.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoCross">
+      <HintPath>..\Distribution\MonoCross.dll</HintPath>
+    </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -75,12 +80,6 @@
     <Compile Include="SplitViewController\MGDividerView.cs" />
     <Compile Include="SplitViewController\MGSplitViewController.cs" />
     <Compile Include="SplitViewController\MGCornersView.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoCross.csproj">
-      <Project>{4618CCFC-5895-4C44-AD25-8BF312A96B86}</Project>
-      <Name>MonoCross</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
