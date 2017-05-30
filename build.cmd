@@ -2,8 +2,8 @@
 setlocal
 
 :: Check prerequisites
-if not "%VisualStudioVersion%" == "14.0" (
-    echo Error: build.cmd should be run from a Visual Studio 2015 Command Prompt.  
+if not "%VisualStudioVersion%" GEQ "14.0" (
+    echo SUGGESTION: Try running from a Visual Studio 2015 Command Prompt.
     exit /b 1
 )
 
@@ -17,7 +17,7 @@ echo ** Building all sources
 
 :: Call MSBuild
 echo ** "%MSBUILDCUSTOMPATH%" build.xml /verbosity:normal /p:Configuration=Release
-"%MSBUILDCUSTOMPATH%" build.xml /verbosity:normal /p:Configuration=Release
+%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release
 set BUILDERRORLEVEL=%ERRORLEVEL%
 echo.
 
