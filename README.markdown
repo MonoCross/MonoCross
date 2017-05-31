@@ -26,8 +26,6 @@ Unlike other development efforts targeting fully native platform-specific code t
 First, 'Git' registered. Then fork the main repo found at https://github.com/Monocross/Monocross This will allow you to make changes to your own repo and send us patches and enhancements, that benefit everyone.
 
 Participate in the forums found on the [Monocross.net](http://monocross.net) website, where you can find the answers to the most frequently asked questions, find monocross related jobs, and discuss your code.
-
-Join the active community of developers on IRC at irc.gnome.org on the #monocross channel, where the day-to-day development is being discussed.
 Once you create an application using Monocross please let Brian@Monocross.net know so we can add you to the applications page on Monocross.
 
 

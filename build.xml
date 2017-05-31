@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
     <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
     <PropertyGroup>
-        <Framework>MonoCross.Navigation</Framework>
+        <Framework>.</Framework>
     </PropertyGroup>
 
     <Target Name="Run">
@@ -46,14 +46,14 @@
     </Target>
 
     <Target Name="Compile" DependsOnTargets="PreBuild">
-        <MSBuild Projects="$(Framework)/MonoCross.Navigation.csproj" />
+        <MSBuild Projects="$(Framework)/MonoCross.csproj" />
         <GitClient Command="checkout" Arguments="-- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;"/>
     </Target>
 
     <Target Name="CopyToRoot">
         <ItemGroup>
-            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross.Navigation.dll" />
+            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross.dll" />
         </ItemGroup>
-        <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="." />
+        <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
     </Target>
 </Project>
