@@ -55,6 +55,7 @@
     <Compile Include="Utilities\Extensions\EnumExtensions.cs" />
     <Compile Include="Utilities\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Utilities\Extensions\StringExtensions.cs" />
+    <Compile Include="Utilities\HttpUtility.cs" />
     <Compile Include="Utilities\ImageComposition\ICompositor.cs" />
     <Compile Include="Utilities\ImageComposition\ImageUtility.cs" />
     <Compile Include="Utilities\ImageComposition\NullCompositor.cs" />
