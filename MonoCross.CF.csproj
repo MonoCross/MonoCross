@@ -85,6 +85,7 @@
     <Compile Include="Utilities\Events.cs" />
     <Compile Include="Utilities\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Utilities\Extensions\StringExtensions.cs" />
+    <Compile Include="Utilities\HttpUtility.cs" />
     <Compile Include="Utilities\ImageComposition\GdiPlusCompositor.cs" />
     <Compile Include="Utilities\Imaging\ImageCache.cs" />
     <Compile Include="Utilities\Imaging\Interfaces\IExifData.cs" />
@@ -96,6 +97,9 @@
     <Compile Include="Utilities\Scanning\IScanner.cs" />
     <Compile Include="Utilities\Scanning\MockScanner.cs" />
     <Compile Include="Utilities\Scanning\Scanner.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\Directory.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\File.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\Path.cs" />
     <Compile Include="Utilities\Threading\CompactFrameworkThread.cs" />
     <Compile Include="Utilities\Threading\MockThread.cs" />
     <Compile Include="Utilities\TypeSwitch.cs" />
