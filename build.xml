@@ -23,8 +23,8 @@
         <Delete Files="@(MonoCrossClean)" />
     </Target>
 
-    <Target Name="PreBuild" DependsOnTargets="Clean" >
-        <Exec Condition=" '$(BuildRev)'=='' " WorkingDirectory="$(Framework)" Command="git rev-list --count HEAD" ConsoleToMSBuild="true">
+    <Target Name="PreBuild" Condition="$(Ext) == ''" DependsOnTargets="Clean" >
+        <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(Framework)" Command="git rev-list --count HEAD" ConsoleToMSBuild="true">
             <Output TaskParameter="ConsoleOutput" PropertyName="BuildRev" />
         </Exec>
         <Exec WorkingDirectory="$(Framework)" Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true">
@@ -46,13 +46,13 @@
     </Target>
 
     <Target Name="Compile" DependsOnTargets="PreBuild">
-        <MSBuild Projects="$(Framework)/MonoCross.csproj" />
+        <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" />
         <GitClient Command="checkout" Arguments="-- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;"/>
     </Target>
 
     <Target Name="CopyToRoot">
         <ItemGroup>
-            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross.dll" />
+            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross$(Ext).dll" />
         </ItemGroup>
         <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
     </Target>
