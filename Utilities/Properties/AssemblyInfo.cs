@@ -47,3 +47,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("4.0.0.42")]
 #endif
 [assembly: AssemblyInformationalVersion("Branch - master (Hash: Working Tree)")]
+
+#if PARTIAL_SIGN
+[assembly:AssemblyKeyFileAttribute(@"..\MonoCrossKeypair.snk")]
+#endif

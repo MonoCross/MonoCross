@@ -31,6 +31,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>bin\Release\MonoCross.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
