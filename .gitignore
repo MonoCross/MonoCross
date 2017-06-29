@@ -14,7 +14,7 @@
 [Rr]elease/
 
 build/
-
+_build*/
 
 [Tt]est[Rr]esult
 [Bb]uild[Ll]og.*

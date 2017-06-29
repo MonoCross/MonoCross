@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 #elif MX_WEB
 [assembly: AssemblyTitle("MonoCross.Utilities.Web")]
 #else
-[assembly: AssemblyTitle("MonoCross.Utilities")]
+[assembly: AssemblyTitle("MonoCross.Utilities.Net")]
 #endif
 
 [assembly: AssemblyDescription("")]
@@ -40,7 +40,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.6.2.42")]
+[assembly: AssemblyVersion("4.0.0.42")]
 #if !NETCF
-[assembly: AssemblyFileVersion("3.6.2.42")]
+[assembly: AssemblyFileVersion("4.0.0.42")]
 #endif
