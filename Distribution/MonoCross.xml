@@ -2307,6 +2307,206 @@
             <param name="match">The match.</param>
             <returns></returns>
         </member>
+        <member name="T:MonoCross.Utilities.HttpUtility">
+            <summary>
+            Represents a utility class for HTTP methods.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.HttpUtility"/> class.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+            <summary>
+            Encodes the specified string into an HTML compatible string and then writes it to the specified <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <param name="output">The <see cref="T:System.IO.TextWriter"/> to write the encoded string to.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlAttributeEncode(System.String)">
+            <summary>
+            Encodes the specified string into an HTML compatible string.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <returns>The encoded string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecode(System.String)">
+            <summary>
+            Decodes the specified URL string into a user-readable string.
+            </summary>
+            <param name="str">The string to decode.</param>
+            <returns>The decoded string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecode(System.String,System.Text.Encoding)">
+            <summary>
+            Decodes the specified URL string into a user-readable string.
+            </summary>
+            <param name="s">The string to decode.</param>
+            <param name="e">The <see cref="T:System.Text.Encoding"/> type to decode the string with.</param>
+            <returns>The decoded string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecode(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Decodes the bytes of a URL string into a user-readable string.
+            </summary>
+            <param name="bytes">The bytes to decode.</param>
+            <param name="e">The <see cref="T:System.Text.Encoding"/> type to decode the byte array with.</param>
+            <returns>The decoded string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecode(System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Decodes the bytes of a URL string into a user-readable string.
+            </summary>
+            <param name="bytes">The bytes to decode.</param>
+            <param name="offset">The index in the byte array at which decoding begins.</param>
+            <param name="count">The number of bytes to decode.</param>
+            <param name="e">The <see cref="T:System.Text.Encoding"/> type to decode the byte array with.</param>
+            <returns>The decoded string.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is less than 0 or greater than the length of the byte array.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="count"/> is less than 0 or the sum of <paramref name="count"/> and <paramref name="offset"/> is greater than the legnth of the byte array.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecodeToBytes(System.Byte[])">
+            <summary>
+            Decodes the bytes of a URL string into a byte array.
+            </summary>
+            <param name="bytes">The bytes to decode.</param>
+            <returns>The decoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecodeToBytes(System.String)">
+            <summary>
+            Decodes the specified URL string into a byte array.
+            </summary>
+            <param name="str">The string to decode.</param>
+            <returns>The decoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecodeToBytes(System.String,System.Text.Encoding)">
+            <summary>
+            Decodes the specified URL string into a byte array.
+            </summary>
+            <param name="str">The string to decode.</param>
+            <param name="e">The <see cref="T:System.Text.Encoding"/> type to decode the string with.</param>
+            <returns>The decoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlDecodeToBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Decodes the bytes of a URL string into a byte array.
+            </summary>
+            <param name="bytes">The bytes to decode.</param>
+            <param name="offset">The index in the byte array at which decoding begins.</param>
+            <param name="count">The number of bytes to decode.</param>
+            <returns>The decoded byte array.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is less than 0 or greater than the length of the byte array.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="count"/> is less than 0 or the sum of <paramref name="count"/> and <paramref name="offset"/> is greater than the legnth of the byte array.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncode(System.String)">
+            <summary>
+            Encodes the specified string into a URL.
+            </summary>
+            <param name="str">The string to encode.</param>
+            <returns>The encoded URL string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncode(System.String,System.Text.Encoding)">
+            <summary>
+            Encodes the specified string into a URL.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <param name="Enc">The <see cref="T:System.Text.Encoding"/> type to use for encoding.</param>
+            <returns>The encoded URL string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncodeToBytes(System.String)">
+            <summary>
+            Encodes the specified string into a byte array.
+            </summary>
+            <param name="str">The string to encode.</param>
+            <returns>The encoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncodeToBytes(System.String,System.Text.Encoding)">
+            <summary>
+            Encodes the specified string into a byte array.
+            </summary>
+            <param name="str">The string to encode.</param>
+            <param name="e">The <see cref="T:System.Text.Encoding"/> type to use for encoding.</param>
+            <returns>The encoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncodeToBytes(System.Byte[])">
+            <summary>
+            Encodes the specified byte array into a URL-encoded bytes.
+            </summary>
+            <param name="bytes">The byte array to encode.</param>
+            <returns>The URL-encoded bytes.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncodeToBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Encodes the specified byte array into a URL-encoded bytes.
+            </summary>
+            <param name="bytes">The byte array to encode.</param>
+            <param name="offset">The index in the byte array at which encoding begins.</param>
+            <param name="count">The number of bytes to encode.</param>
+            <returns>The URL-encoded bytes.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is less than 0 or greater than the length of the byte array.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="count"/> is less than 0 or the sum of <paramref name="count"/> and <paramref name="offset"/> is greater than the legnth of the byte array.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.UrlEncodeUnicodeToBytes(System.String)">
+            <summary>
+            Encodes the specified string into a byte array.
+            </summary>
+            <param name="str">The string to encode.</param>
+            <returns>The encoded byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlDecode(System.String)">
+            <summary>
+            Decodes the specified HTML-encoded string and returns the decoded string.
+            </summary>
+            <param name="s">The HTML string to decode.</param>
+            <returns>The decoded text.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="s"/> is <c>null</c> or an empty string.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlDecode(System.String,System.IO.TextWriter)">
+            <summary>
+            Decodes the specified HTML-encoded string and writes the decoded string to the specified <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <param name="s">The HTML string to decode</param>
+            <param name="output">The <see cref="T:System.IO.TextWriter"/> to write the decoded string to.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlEncode(System.String)">
+            <summary>
+            Encodes the specified string into an HTML string and returns the encoded string.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <returns>The encoded string.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.HtmlEncode(System.String,System.IO.TextWriter)">
+            <summary>
+            Encodes the specified string into an HTML compatible string and writes the encoded string to the specified <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <param name="output">The <see cref="T:System.IO.TextWriter"/> to write the encoded string to.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.HttpUtility.QueryStringCollection">
+            <summary>
+            Represents a collection of parameters extracted from a URL string.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.QueryStringCollection.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> representation of this instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.ParseQueryString(System.String)">
+            <summary>
+            Parses the specified string and returns a new <see cref="T:MonoCross.Utilities.HttpUtility.QueryStringCollection"/> instance containing the extracted parameters.
+            </summary>
+            <param name="query">The string to parse.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.HttpUtility.ParseQueryString(System.String,System.Text.Encoding)">
+            <summary>
+            Parses the specified string and returns a new <see cref="T:MonoCross.Utilities.HttpUtility.QueryStringCollection"/> instance containing the extracted parameters.
+            </summary>
+            <param name="query">The string to parse.</param>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> type to parse the string with.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="encoding"/> is <c>null</c>.</exception>
+        </member>
         <member name="T:MonoCross.Utilities.ImageComposition.ICompositor">
             <summary>
             Defines an image compositor.
