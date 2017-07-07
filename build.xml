@@ -68,11 +68,11 @@
         <ItemGroup>
             <MonoCrossSdk Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>
-        <Exec WorkingDirectory="$(Framework)" Command="sn -q -v @(MonoCrossSdk) > verify.txt" />
+        <Exec Command="sn -q -v @(MonoCrossSdk) > $(Framework)/verify.txt" />
         <ReadLinesFromFile File="$(Framework)/verify.txt">
             <Output TaskParameter="Lines" PropertyName="Verify" />
-        </ReadLinesFromFile> 
-        <Error Text="$(Verify)" Condition="'$(Verify)' != ''" /> 
+        </ReadLinesFromFile>
         <Delete Files="$(Framework)/verify.txt" />
+        <Error Text="$(Verify)" Condition="'$(Verify)' != ''" />
     </Target>
 </Project>
