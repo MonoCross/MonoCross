@@ -54,6 +54,9 @@ namespace MonoCross.Utilities
         public Type Type { get; set; }
     }
 
+    /// <summary>
+    /// Provides case and default branch statements for a <see cref="TypeSwitch"/>
+    /// </summary>
     public static class TypeSwitchExtensions
     {
         /// <summary>

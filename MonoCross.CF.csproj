@@ -50,8 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json.CF, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json.CF">
       <HintPath>Distribution\Newtonsoft.Json.CF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -81,56 +80,39 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CompactDevice.cs" />
     <Compile Include="Utilities\Device.cs" />
-    <Compile Include="Utilities\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Utilities\Encryption\BaseEncryption.cs" />
+    <Compile Include="Utilities\Encryption\EncryptionMode.cs" />
+    <Compile Include="Utilities\Encryption\IEncryption.cs" />
+    <Compile Include="Utilities\Encryption\MockEncryption.cs" />
     <Compile Include="Utilities\Events.cs" />
+    <Compile Include="Utilities\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Utilities\Extensions\EnumExtensions.cs" />
     <Compile Include="Utilities\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Utilities\Extensions\StringExtensions.cs" />
+    <Compile Include="Utilities\Extensions\WaitHandleExtensions.cs" />
     <Compile Include="Utilities\HttpUtility.cs" />
     <Compile Include="Utilities\ImageComposition\GdiPlusCompositor.cs" />
+    <Compile Include="Utilities\ImageComposition\ICompositor.cs" />
+    <Compile Include="Utilities\ImageComposition\ImageUtility.cs" />
+    <Compile Include="Utilities\ImageComposition\NullCompositor.cs" />
     <Compile Include="Utilities\Imaging\ImageCache.cs" />
     <Compile Include="Utilities\Imaging\Interfaces\IExifData.cs" />
     <Compile Include="Utilities\Imaging\Interfaces\IImageCache.cs" />
     <Compile Include="Utilities\Imaging\Interfaces\IImageData.cs" />
-    <Compile Include="Utilities\Reflection\CompactReflector.cs" />
-    <Compile Include="Utilities\Reflection\NullReflector.cs" />
-    <Compile Include="Utilities\Resources\WindowsResources.cs" />
-    <Compile Include="Utilities\Scanning\IScanner.cs" />
-    <Compile Include="Utilities\Scanning\MockScanner.cs" />
-    <Compile Include="Utilities\Scanning\Scanner.cs" />
-    <Compile Include="Utilities\Storage\Compatibility\Directory.cs" />
-    <Compile Include="Utilities\Storage\Compatibility\File.cs" />
-    <Compile Include="Utilities\Storage\Compatibility\Path.cs" />
-    <Compile Include="Utilities\Threading\CompactFrameworkThread.cs" />
-    <Compile Include="Utilities\Threading\MockThread.cs" />
-    <Compile Include="Utilities\TypeSwitch.cs" />
-    <Compile Include="Utilities\MobilePlatform.cs" />
-    <Compile Include="Utilities\PlatformUtils.cs" />
-    <Compile Include="Utilities\Extensions\EnumExtensions.cs" />
-    <Compile Include="Utilities\Extensions\WaitHandleExtensions.cs" />
-    <Compile Include="Utilities\Encryption\EncryptionMode.cs" />
-    <Compile Include="Utilities\Encryption\IEncryption.cs" />
-    <Compile Include="Utilities\Encryption\MockEncryption.cs" />
-    <Compile Include="Utilities\ImageComposition\ICompositor.cs" />
-    <Compile Include="Utilities\ImageComposition\ImageUtility.cs" />
-    <Compile Include="Utilities\ImageComposition\NullCompositor.cs" />
+    <Compile Include="Utilities\Logging\BaseLogger.cs" />
+    <Compile Include="Utilities\Logging\BasicLogger.cs" />
     <Compile Include="Utilities\Logging\DiagnosticDebugLogger.cs" />
     <Compile Include="Utilities\Logging\ILog.cs" />
+    <Compile Include="Utilities\Logging\LogEvent.cs" />
     <Compile Include="Utilities\Logging\LogEventArgs.cs" />
-    <Compile Include="Utilities\Logging\LoggingLevel.cs" />
     <Compile Include="Utilities\Logging\LogHelper.cs" />
     <Compile Include="Utilities\Logging\LogMessageType.cs" />
-    <Compile Include="Utilities\Logging\LogEvent.cs" />
-    <Compile Include="Utilities\Storage\BasicFile.cs" />
-    <Compile Include="Utilities\Storage\FileHelper.cs" />
-    <Compile Include="Utilities\Storage\IFile.cs" />
-    <Compile Include="Utilities\Storage\NullFile.cs" />
-    <Compile Include="Utilities\Logging\BasicLogger.cs" />
+    <Compile Include="Utilities\Logging\LoggingLevel.cs" />
+    <Compile Include="Utilities\Logging\QuietLogger.cs" />
+    <Compile Include="Utilities\MobilePlatform.cs" />
     <Compile Include="Utilities\Network\Fetch\FetcherAsynch.cs" />
     <Compile Include="Utilities\Network\Fetch\FetcherSynch.cs" />
     <Compile Include="Utilities\Network\Fetch\IFetcher.cs" />
-    <Compile Include="Utilities\Network\Post\IPoster.cs" />
-    <Compile Include="Utilities\Network\Post\PosterAsynch.cs" />
-    <Compile Include="Utilities\Network\Post\PosterSynch.cs" />
     <Compile Include="Utilities\Network\INetwork.cs" />
     <Compile Include="Utilities\Network\NetworkAsynch.cs" />
     <Compile Include="Utilities\Network\NetworkGetMethod.cs" />
@@ -138,10 +120,20 @@
     <Compile Include="Utilities\Network\NetworkResponse.cs" />
     <Compile Include="Utilities\Network\NetworkSynch.cs" />
     <Compile Include="Utilities\Network\NetworkUtils.cs" />
+    <Compile Include="Utilities\Network\Post\IPoster.cs" />
+    <Compile Include="Utilities\Network\Post\PosterAsynch.cs" />
+    <Compile Include="Utilities\Network\Post\PosterSynch.cs" />
+    <Compile Include="Utilities\PlatformUtils.cs" />
+    <Compile Include="Utilities\Reflection\CompactReflector.cs" />
     <Compile Include="Utilities\Reflection\IReflector.cs" />
+    <Compile Include="Utilities\Reflection\NullReflector.cs" />
     <Compile Include="Utilities\Resources\BasicResources.cs" />
     <Compile Include="Utilities\Resources\IResources.cs" />
     <Compile Include="Utilities\Resources\NullResources.cs" />
+    <Compile Include="Utilities\Resources\WindowsResources.cs" />
+    <Compile Include="Utilities\Scanning\IScanner.cs" />
+    <Compile Include="Utilities\Scanning\MockScanner.cs" />
+    <Compile Include="Utilities\Scanning\Scanner.cs" />
     <Compile Include="Utilities\Serialization\BaseSerializer.cs" />
     <Compile Include="Utilities\Serialization\ISerializer.cs" />
     <Compile Include="Utilities\Serialization\SerializationFormat.cs" />
@@ -149,17 +141,24 @@
     <Compile Include="Utilities\Serialization\SerializerJson.cs" />
     <Compile Include="Utilities\Serialization\SerializerOdata.cs" />
     <Compile Include="Utilities\Serialization\SerializerXml.cs" />
-    <Compile Include="Utilities\Threading\BasicThread.cs" />
-    <Compile Include="Utilities\Threading\IdleThreadQueue.cs" />
-    <Compile Include="Utilities\Threading\IThread.cs" />
-    <Compile Include="Utilities\Threading\NullThread.cs" />
-    <Compile Include="Utilities\Encryption\BaseEncryption.cs" />
-    <Compile Include="Utilities\Logging\BaseLogger.cs" />
-    <Compile Include="Utilities\Logging\QuietLogger.cs" />
+    <Compile Include="Utilities\Storage\BaseFile.cs" />
+    <Compile Include="Utilities\Storage\BasicFile.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\Directory.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\File.cs" />
+    <Compile Include="Utilities\Storage\Compatibility\Path.cs" />
+    <Compile Include="Utilities\Storage\FileHelper.cs" />
+    <Compile Include="Utilities\Storage\IFile.cs" />
+    <Compile Include="Utilities\Storage\NullFile.cs" />
     <Compile Include="Utilities\SyncQueue.cs" />
+    <Compile Include="Utilities\Threading\BasicThread.cs" />
+    <Compile Include="Utilities\Threading\CompactFrameworkThread.cs" />
+    <Compile Include="Utilities\Threading\IThread.cs" />
+    <Compile Include="Utilities\Threading\IdleThreadQueue.cs" />
+    <Compile Include="Utilities\Threading\MockThread.cs" />
+    <Compile Include="Utilities\Threading\NullThread.cs" />
+    <Compile Include="Utilities\TypeSwitch.cs" />
     <Compile Include="Utilities\WeakKeyDictionary.cs" />
     <Compile Include="Utilities\Xml.cs" />
-    <Compile Include="Utilities\Storage\BaseFile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
@@ -176,8 +175,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>

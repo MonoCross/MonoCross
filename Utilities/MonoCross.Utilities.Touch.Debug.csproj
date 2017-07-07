@@ -27,11 +27,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <DefineConstants>TOUCH</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>

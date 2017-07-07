@@ -35,6 +35,11 @@
     <DocumentationFile>bin\Release\MonoCross.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Distribution\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Navigation\MXApplication.cs" />
     <Compile Include="Navigation\MXContainer.cs" />
     <Compile Include="Navigation\MXController.cs" />
@@ -68,9 +73,9 @@
     <Compile Include="Utilities\Logging\ILog.cs" />
     <Compile Include="Utilities\Logging\LogEvent.cs" />
     <Compile Include="Utilities\Logging\LogEventArgs.cs" />
-    <Compile Include="Utilities\Logging\LoggingLevel.cs" />
     <Compile Include="Utilities\Logging\LogHelper.cs" />
     <Compile Include="Utilities\Logging\LogMessageType.cs" />
+    <Compile Include="Utilities\Logging\LoggingLevel.cs" />
     <Compile Include="Utilities\MobilePlatform.cs" />
     <Compile Include="Utilities\Network\Fetch\FetcherAsynch.cs" />
     <Compile Include="Utilities\Network\Fetch\FetcherSynch.cs" />
@@ -108,8 +113,8 @@
     <Compile Include="Utilities\Storage\IFile.cs" />
     <Compile Include="Utilities\Storage\NullFile.cs" />
     <Compile Include="Utilities\SyncQueue.cs" />
-    <Compile Include="Utilities\Threading\IdleThreadQueue.cs" />
     <Compile Include="Utilities\Threading\IThread.cs" />
+    <Compile Include="Utilities\Threading\IdleThreadQueue.cs" />
     <Compile Include="Utilities\Threading\MockThread.cs" />
     <Compile Include="Utilities\Threading\NullThread.cs" />
     <Compile Include="Utilities\Threading\TaskThread.cs" />
@@ -117,11 +122,6 @@
     <Compile Include="Utilities\TypeSwitch.cs" />
     <Compile Include="Utilities\WeakKeyDictionary.cs" />
     <Compile Include="Utilities\Xml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Distribution\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

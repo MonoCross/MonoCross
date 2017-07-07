@@ -4,7 +4,6 @@ using System.Net;
 
 #if NETCF
 using System.Linq;
-using System.Net;
 #endif
 
 namespace MonoCross.Utilities.Network
