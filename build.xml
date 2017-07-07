@@ -9,6 +9,7 @@
         <!-- <CallTarget Targets="GetLatest" /> -->
         <CallTarget Targets="Compile" />
         <CallTarget Targets="CopyToRoot" />
+        <CallTarget Targets="Verify" />
     </Target>
 
     <Target Name="GetLatest">
@@ -61,5 +62,17 @@
             <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross$(Ext).*" />
         </ItemGroup>
         <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
+    </Target>
+
+    <Target Name="Verify" DependsOnTargets="CopyToRoot" Condition="$(DefineConstants.Contains('PARTIAL_SIGN'))">
+        <ItemGroup>
+            <MonoCrossSdk Include="Distribution/MonoCross$(Ext).dll" />
+        </ItemGroup>
+        <Exec WorkingDirectory="$(Framework)" Command="sn -q -v @(MonoCrossSdk) > verify.txt" />
+        <ReadLinesFromFile File="$(Framework)/verify.txt">
+            <Output TaskParameter="Lines" PropertyName="Verify" />
+        </ReadLinesFromFile> 
+        <Error Text="$(Verify)" Condition="'$(Verify)' != ''" /> 
+        <Delete Files="$(Framework)/verify.txt" />
     </Target>
 </Project>
