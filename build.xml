@@ -66,9 +66,9 @@
 
     <Target Name="Verify" DependsOnTargets="CopyToRoot" Condition="$(DefineConstants.Contains('PARTIAL_SIGN'))">
         <ItemGroup>
-            <MonoCrossSdk Include="Distribution/MonoCross$(Ext).dll" />
+            <MonoCrossVerify Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>
-        <Exec Command="sn -q -v @(MonoCrossSdk) > $(Framework)/verify.txt" />
+        <Exec Command='"$(SDK40ToolsPath)sn" -q -v @(MonoCrossVerify) > $(Framework)/verify.txt' ContinueOnError="true" />
         <ReadLinesFromFile File="$(Framework)/verify.txt">
             <Output TaskParameter="Lines" PropertyName="Verify" />
         </ReadLinesFromFile>
