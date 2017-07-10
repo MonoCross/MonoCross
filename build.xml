@@ -64,11 +64,11 @@
         <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
     </Target>
 
-    <Target Name="Verify" DependsOnTargets="CopyToRoot" Condition="$(DefineConstants.Contains('PARTIAL_SIGN'))">
+    <Target Name="Verify" Condition="$(SignAssembly)">
         <ItemGroup>
             <MonoCrossVerify Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>
-        <Exec Command='"$(SDK40ToolsPath)sn" -q -v @(MonoCrossVerify) > $(Framework)/verify.txt' ContinueOnError="true" />
+        <Exec Command='"$(SDK40ToolsPath)sn" -q -v %(MonoCrossVerify.Identity) >> $(Framework)/verify.txt' ContinueOnError="true" />
         <ReadLinesFromFile File="$(Framework)/verify.txt">
             <Output TaskParameter="Lines" PropertyName="Verify" />
         </ReadLinesFromFile>
