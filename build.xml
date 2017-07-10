@@ -64,7 +64,7 @@
         <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
     </Target>
 
-    <Target Name="Verify" Condition="$(SignAssembly)">
+    <Target Name="Verify" Condition="$(SignAssembly) == true">
         <ItemGroup>
             <MonoCrossVerify Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>
