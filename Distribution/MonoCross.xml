@@ -2998,46 +2998,6 @@
             Gets or sets the Exception that was logged (if available)
             </summary>
         </member>
-        <member name="T:MonoCross.Utilities.Logging.LoggingLevel">
-            <summary>
-            The level of verbosity when logging messages.
-            </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Platform">
-             <summary>
-            Logging level 1.  Platform messages and above are logged.  This is the most verbose logging level.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Debug">
-             <summary>
-            Logging level 2.  Debug messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Metric">
-             <summary>
-            Logging level 3.  Metric messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Info">
-             <summary>
-            Logging level 4.  Info messages and above are logged.  
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Warn">
-             <summary>
-            Logging level 5.  Warning messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Error">
-             <summary>
-            Logging level 6.  Error messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Fatal">
-             <summary>
-            Logging level 7.  Only fatal messages are logged.  This is the least verbose logging level.
-             </summary>
-        </member>
         <member name="T:MonoCross.Utilities.Logging.LogHelper">
             <summary>
             Helper methods for building log messages.
@@ -3098,6 +3058,46 @@
             <summary>
             A message about the current platform.
             </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggingLevel">
+            <summary>
+            The level of verbosity when logging messages.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Platform">
+             <summary>
+            Logging level 1.  Platform messages and above are logged.  This is the most verbose logging level.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Debug">
+             <summary>
+            Logging level 2.  Debug messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Metric">
+             <summary>
+            Logging level 3.  Metric messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Info">
+             <summary>
+            Logging level 4.  Info messages and above are logged.  
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Warn">
+             <summary>
+            Logging level 5.  Warning messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Error">
+             <summary>
+            Logging level 6.  Error messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Fatal">
+             <summary>
+            Logging level 7.  Only fatal messages are logged.  This is the least verbose logging level.
+             </summary>
         </member>
         <member name="T:MonoCross.Utilities.Network.FetcherAsynch">
             <summary>
@@ -7121,59 +7121,6 @@
             <param name="key">The keyword to derive the encryption key from.</param>
             <param name="salt">The key salt to derive the encryption key from.</param>
         </member>
-        <member name="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall">
-            <summary>
-            Represents a method sitting in the idle queue and waiting to be invoked.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Delegate">
-            <summary>
-            Gets or sets the method to invoke when no longer idle.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Item">
-            <summary>
-            Gets or sets the parameter for the method.
-            </summary>
-        </member>
-        <member name="T:MonoCross.Utilities.Threading.IdleThreadQueue">
-            <summary>
-            Queues and executes <see cref="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall"/>s.
-            </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Threading.IdleThreadQueue.MAXTHREADS">
-            <summary>
-            The maximum number of threads.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Instance">
-            <summary>
-            Gets the instance.
-            </summary>
-            <value>The IdleThreadQueue instance.</value>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Enabled">
-            <summary>
-            Gets or sets a value indicating whether this <see cref="T:MonoCross.Utilities.Threading.IdleThreadQueue"/> is enabled.
-            </summary>
-            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.ThreadCountSafeRead">
-            <summary>
-            Gets the number of active threads, in a thread-safe manner.
-            </summary>
-            <value>A counter to make sure all threads are started and
-            blocked before any are released. An int is used to 
-            remain WinCE compatible, which prevents use of the 
-            64-bit Interlocked methods.</value>
-        </member>
-        <member name="M:MonoCross.Utilities.Threading.IdleThreadQueue.Enqueue(MonoCross.Utilities.Threading.ParameterizedThreadStart,System.Object)">
-            <summary>
-            Enqueues the specified idle queue delegate.
-            </summary>
-            <param name="idleQueueDelegate">The idle queue delegate.</param>
-            <param name="item">The item.</param>
-        </member>
         <member name="T:MonoCross.Utilities.Threading.ThreadDelegate">
             <summary>
             Represents the method that will be invoked on a new thread.
@@ -7271,6 +7218,59 @@
             </summary>
             <param name="action">The method to invoke.</param>
             <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall">
+            <summary>
+            Represents a method sitting in the idle queue and waiting to be invoked.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Delegate">
+            <summary>
+            Gets or sets the method to invoke when no longer idle.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Item">
+            <summary>
+            Gets or sets the parameter for the method.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.IdleThreadQueue">
+            <summary>
+            Queues and executes <see cref="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall"/>s.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.IdleThreadQueue.MAXTHREADS">
+            <summary>
+            The maximum number of threads.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Instance">
+            <summary>
+            Gets the instance.
+            </summary>
+            <value>The IdleThreadQueue instance.</value>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MonoCross.Utilities.Threading.IdleThreadQueue"/> is enabled.
+            </summary>
+            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.ThreadCountSafeRead">
+            <summary>
+            Gets the number of active threads, in a thread-safe manner.
+            </summary>
+            <value>A counter to make sure all threads are started and
+            blocked before any are released. An int is used to 
+            remain WinCE compatible, which prevents use of the 
+            64-bit Interlocked methods.</value>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.IdleThreadQueue.Enqueue(MonoCross.Utilities.Threading.ParameterizedThreadStart,System.Object)">
+            <summary>
+            Enqueues the specified idle queue delegate.
+            </summary>
+            <param name="idleQueueDelegate">The idle queue delegate.</param>
+            <param name="item">The item.</param>
         </member>
         <member name="T:MonoCross.Utilities.Threading.MockThread">
             <summary>
@@ -7501,6 +7501,11 @@
         <member name="P:MonoCross.Utilities.TypeSwitch.Type">
             <summary>
             The type filter to apply.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.TypeSwitchExtensions">
+            <summary>
+            Provides case and default branch statements for a <see cref="T:MonoCross.Utilities.TypeSwitch"/>
             </summary>
         </member>
         <member name="M:MonoCross.Utilities.TypeSwitchExtensions.Case``1(MonoCross.Utilities.TypeSwitch,System.Action{``0})">
