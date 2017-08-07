@@ -18,9 +18,9 @@ echo ** Building all sources
 :: Call MSBuild
 echo ** "%MSBUILDCUSTOMPATH%" build.xml /verbosity:normal /p:Configuration=Release
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release
-%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Net
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Droid
-%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Touch
+%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.iOS
+%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Net
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Web
 set BUILDERRORLEVEL=%ERRORLEVEL%
 echo.

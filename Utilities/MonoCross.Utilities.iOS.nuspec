@@ -14,5 +14,4 @@
             <dependency id="MonoCross" version="4.0.0.326" />
         </dependencies>
     </metadata>
-    <files />
 </package>

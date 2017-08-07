@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MonoCross.Utilities</RootNamespace>
     <MtouchSdkVersion>3.0</MtouchSdkVersion>
-    <AssemblyName>MonoCross.Utilities.Touch</AssemblyName>
+    <AssemblyName>MonoCross.Utilities.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
