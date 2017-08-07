@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>MonoCross</id>
-        <version>4.0.0.327</version>
+        <version>$version$</version>
         <authors>Zebra Technologies Corp.</authors>
         <owners>Zebra Technologies Corp.</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,10 +16,5 @@
             <dependency id="Newtonsoft.Json" version="10.0.3" />
         </dependencies>
     </metadata>
-    <files>
-        <file src="content\LICENSE.md" target="content\LICENSE.md" />
-        <file src="lib\MonoCross.dll" target="lib\MonoCross.dll" />
-        <file src="lib\MonoCross.pdb" target="lib\MonoCross.pdb" />
-        <file src="lib\MonoCross.xml" target="lib\MonoCross.xml" />
-    </files>
+    <files />
 </package>

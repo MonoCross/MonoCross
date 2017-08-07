@@ -10,6 +10,7 @@
         <CallTarget Targets="Compile" />
         <CallTarget Targets="CopyToRoot" />
         <CallTarget Targets="Verify" />
+        <CallTarget Targets="Package" />
     </Target>
 
     <Target Name="GetLatest">
@@ -50,6 +51,14 @@
         <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs"
                 Regex="(AssemblyInformationalVersion\(\D*-)\s\w*\s(\D*:)\D*(\)&quot;)"
                 ReplacementText="$1 $(Branch) $2 $(CommitHash)$3" />
+        <ReadLinesFromFile File="$(Framework)/Properties/AssemblyInfo.cs">
+            <Output TaskParameter="Lines" ItemName="ItemsFromFile"/>
+        </ReadLinesFromFile>
+        <PropertyGroup>
+            <Pattern>\[assembly: AssemblyVersion\(.(\d+)\.(\d+)\.(\d+)\.</Pattern>
+            <In>@(ItemsFromFile)</In>
+            <Version>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)))</Version>
+        </PropertyGroup>
     </Target>
 
     <Target Name="Compile" DependsOnTargets="PreBuild">
@@ -75,4 +84,8 @@
         <Delete Files="$(Framework)/verify.txt" />
         <Error Text="$(Verify)" Condition="'$(Verify)' != ''" />
     </Target>
+
+	<Target Name="Package">
+        <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).nuspec -Prop Configuration=Release" />
+	</Target>
 </Project>

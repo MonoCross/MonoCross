@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>MonoCross.Compact</id>
-        <version>4.0.0.326</version>
+        <version>$version$</version>
         <title>MonoCross for Compact Framework</title>
         <authors>Zebra</authors>
         <owners>Zebra Technologies Corp.</owners>
@@ -13,7 +13,5 @@
         <copyright>2010-2017 Zebra Technologies Corp.</copyright>
         <tags>monocross ifactr</tags>
     </metadata>
-    <files>
-        <file src="lib\_._" target="lib\_._" />
-    </files>
+    <files />
 </package>
