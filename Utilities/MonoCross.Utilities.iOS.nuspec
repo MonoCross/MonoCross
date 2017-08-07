@@ -1,10 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+﻿<?xml version="1.0"?>
+<package>
     <metadata>
         <id>MonoCross.Utilities.iOS</id>
         <version>$version$</version>
         <authors>Zebra Technologies Corp.</authors>
         <owners>Zebra Technologies Corp.</owners>
+    <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/MonoCross/MonoCross</projectUrl>
+    <!--<iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/monocross.png</iconUrl>-->
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Specific to Apple's iOS environment, this package contains concrete, platform-specific implementations of the MonoCross Utilities (Encryption, Logging, Network, Serialization, Threading)</description>
         <summary>MonoCross.Utilities implementations for iOS</summary>

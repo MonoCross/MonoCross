@@ -86,6 +86,6 @@
     </Target>
 
 	<Target Name="Package">
-        <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).nuspec -Prop Configuration=Release" />
+        <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).csproj -Prop Configuration=Release" />
 	</Target>
 </Project>

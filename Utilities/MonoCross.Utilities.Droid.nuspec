@@ -1,19 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+﻿<?xml version="1.0"?>
+<package>
     <metadata>
-        <id>MonoCross.Utilities.Droid</id>
-        <version>$version$</version>
-        <title>MonoCross.Utilities.Droid</title>
-        <authors>Zebra Technologies</authors>
-        <owners>Zebra Technologies Corp.</owners>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Android platform utilities.</description>
-        <summary>Android-specific utilities for use cross-platform mobile development.</summary>
-        <releaseNotes>Open-source release coordinated with iFactr 4.0</releaseNotes>
-        <copyright>2010-2017 Zebra Technologies Corp.</copyright>
-        <tags>monocross ifactr</tags>
-        <dependencies>
-            <dependency id="MonoCross" version="4.0.0.326" />
-        </dependencies>
-    </metadata>
+    <id>MonoCross.Utilities.Droid</id>
+    <version>$version$</version>
+    <title>MonoCross.Utilities.Droid</title>
+    <authors>Zebra Technologies</authors>
+    <owners>Zebra Technologies Corp.</owners>
+    <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/MonoCross/MonoCross</projectUrl>
+    <!--<iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/monocross.png</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Android platform utilities.</description>
+    <summary>Android-specific utilities for use cross-platform mobile development.</summary>
+    <releaseNotes>Open-source release coordinated with iFactr 4.0</releaseNotes>
+    <copyright>2010-2017 Zebra Technologies Corp.</copyright>
+    <tags>monocross ifactr</tags>
+    <dependencies>
+      <dependency id="MonoCross" version="4.0.0.326" />
+    </dependencies>
+  </metadata>
 </package>
