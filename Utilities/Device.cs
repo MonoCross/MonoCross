@@ -50,7 +50,12 @@ namespace MonoCross.Utilities
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.NullCompositor));
 
             Instance = newInstance;
+            Instance.SessionDataRoot = DataPath.AppendPath("session");
             Instance.Initialize();
+            if (!File.Exists(SessionDataPath))
+            {
+                File.CreateDirectory(SessionDataPath);
+            }
         }
         #endregion
 
@@ -159,7 +164,7 @@ namespace MonoCross.Utilities
 
             set
             {
-                if (!String.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value))
                     File.EnsureDirectoryExists(value);
                 _sessionDataRoot = value;
             }
@@ -299,7 +304,7 @@ namespace MonoCross.Utilities
         /// <summary>
         /// Gets the read-only path for application assets.
         /// </summary>
-        /// <value>The application path as a <see cref="String"/> instance.</value>
+        /// <value>The application path as a <see cref="string"/> instance.</value>
         public static string ApplicationPath
         {
             get { return Instance._applicationPath; }
