@@ -1,6 +1,6 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
-    <metadata>
+  <metadata>
     <id>MonoCross.Utilities.Droid</id>
     <version>$version$</version>
     <title>MonoCross.Utilities.Droid</title>
@@ -16,7 +16,7 @@
     <copyright>2010-2017 Zebra Technologies Corp.</copyright>
     <tags>monocross ifactr</tags>
     <dependencies>
-      <dependency id="MonoCross" version="4.0.0.326" />
+      <dependency id="MonoCross" version="4.0.0.42" />
     </dependencies>
   </metadata>
 </package>
