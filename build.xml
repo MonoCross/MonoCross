@@ -120,6 +120,7 @@
     </ParameterGroup>
     <Task>
         <Using Namespace="System.IO"/>
+        <Using Namespace="System.Diagnostics"/>
         <Code Type="Fragment" Language="cs">
 <![CDATA[  
       if (Files.Length > 0)  
@@ -128,14 +129,20 @@
         for (int i = 0; i < Files.Length; i++)  
         {
           ITaskItem item = Files[i];
-          var info = new System.IO.FileInfo(item.GetMetadata("FullPath"));
+          var info = new FileInfo(item.GetMetadata("FullPath"));
           item = new TaskItem(item.ItemSpec);
           Value[i] = item;
           item.SetMetadata("Name", info.Name.Remove(info.Name.Length - info.Extension.Length));
 
-          var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(info.FullName).FileVersion;
+          var version = info.Exists ? FileVersionInfo.GetVersionInfo(info.FullName).FileVersion : null;
+          if (string.IsNullOrEmpty(version))
+          {
+              item.SetMetadata("Version", string.Empty);
+              continue;
+          }
+
           var format = Formats != null && Formats.Length > 0 ? Formats[i].ItemSpec : null;
-          while(!string.IsNullOrEmpty(format) && format.ToCharArray().Count(c=>c =='.') <  version.ToCharArray().Count(c=>c =='.'))
+          while (!string.IsNullOrEmpty(format) && format.ToCharArray().Count(c => c =='.') <  version.ToCharArray().Count(c => c =='.'))
               version = version.Remove(version.LastIndexOf('.'));
           item.SetMetadata("Version", version);
         }
