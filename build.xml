@@ -84,7 +84,7 @@
         <Output TaskParameter="Value" PropertyName="_Deps" />
       </XmlRead>
       <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
-        <Output TaskParameter="Value" PropertyName="Formats" />
+        <Output TaskParameter="Value" ItemName="Formats" />
       </XmlRead>
       <ItemGroup>
         <_DepPaths Include="$(_Deps.Split(';'))"/>
@@ -115,7 +115,7 @@
   <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
         <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-        <Formats ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+        <Formats ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="false" />
         <Value ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
     </ParameterGroup>
     <Task>
@@ -134,7 +134,7 @@
           item.SetMetadata("Name", info.Name.Remove(info.Name.Length - info.Extension.Length));
 
           var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(info.FullName).FileVersion;
-          var format = Formats.Length > 0 ? Formats[i].ItemSpec : null;
+          var format = Formats != null && Formats.Length > 0 ? Formats[i].ItemSpec : null;
           while(!string.IsNullOrEmpty(format) && format.ToCharArray().Count(c=>c =='.') <  version.ToCharArray().Count(c=>c =='.'))
               version = version.Remove(version.LastIndexOf('.'));
           item.SetMetadata("Version", version);
