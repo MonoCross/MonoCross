@@ -10,7 +10,7 @@
         <CallTarget Targets="Compile" />
         <CallTarget Targets="CopyToRoot" />
         <CallTarget Targets="Verify" />
-        <CallTarget Targets="Package" />
+        <CallTarget Targets="Package" Condition="'$(Ext)' != '.CF'" />
     </Target>
 
     <Target Name="GetLatest">
@@ -83,19 +83,23 @@
       <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
         <Output TaskParameter="Value" PropertyName="_Deps" />
       </XmlRead>
+      <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
+        <Output TaskParameter="Value" PropertyName="Formats" />
+      </XmlRead>
       <ItemGroup>
         <_DepPaths Include="$(_Deps.Split(';'))"/>
         <DepPaths Include="Distribution/%(_DepPaths.Identity).dll"/>
       </ItemGroup>
-      <GetAssemblyIdentity AssemblyFiles="@(DepPaths)">
-            <Output TaskParameter="Assemblies" ItemName="Dependencies"/>
-      </GetAssemblyIdentity>
+
+      <GetFileVersion Files="@(DepPaths)" Formats="@(Formats)">
+        <Output TaskParameter="Value" ItemName="Dependencies" />
+      </GetFileVersion>
       <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version"
             XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"
             Value="%(Version)"/>
     </Target>
 
-    <Target Name="Package" Condition="'$(Ext)' != '.Compact'" DependsOnTargets="UpdateDepVersions">
+    <Target Name="Package" DependsOnTargets="UpdateDepVersions">
       <ReadLinesFromFile File="$(Framework)/Properties/AssemblyInfo.cs">
         <Output TaskParameter="Lines" ItemName="ItemsFromFile"/>
       </ReadLinesFromFile>
@@ -105,5 +109,39 @@
         <Version>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)))</Version>
       </PropertyGroup>
       <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).csproj -Prop Configuration=Release" />
+      <GitClient Command="checkout" Arguments="-- &quot;$(Framework)/MonoCross$(Ext).nuspec&quot;"/>
     </Target>
+
+  <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+        <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+        <Formats ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+        <Value ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+    </ParameterGroup>
+    <Task>
+        <Using Namespace="System.IO"/>
+        <Code Type="Fragment" Language="cs">
+<![CDATA[  
+      if (Files.Length > 0)  
+      {  
+        Value = new TaskItem[Files.Length];  
+        for (int i = 0; i < Files.Length; i++)  
+        {
+          ITaskItem item = Files[i];
+          var info = new System.IO.FileInfo(item.GetMetadata("FullPath"));
+          item = new TaskItem(item.ItemSpec);
+          Value[i] = item;
+          item.SetMetadata("Name", info.Name.Remove(info.Name.Length - info.Extension.Length));
+
+          var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(info.FullName).FileVersion;
+          var format = Formats.Length > 0 ? Formats[i].ItemSpec : null;
+          while(!string.IsNullOrEmpty(format) && format.ToCharArray().Count(c=>c =='.') <  version.ToCharArray().Count(c=>c =='.'))
+              version = version.Remove(version.LastIndexOf('.'));
+          item.SetMetadata("Version", version);
+        }
+      }
+]]>
+        </Code>
+    </Task>
+  </UsingTask>
 </Project>

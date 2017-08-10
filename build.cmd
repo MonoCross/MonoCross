@@ -20,7 +20,7 @@ echo ** "%MSBUILDCUSTOMPATH%" build.xml /verbosity:normal /p:Configuration=Relea
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Droid
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.iOS
-%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Net
+%MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.NET
 %MSBUILDCUSTOMPATH% build.xml /verbosity:normal /p:Configuration=Release;Framework=./Utilities;Ext=.Utilities.Web
 set BUILDERRORLEVEL=%ERRORLEVEL%
 echo.
