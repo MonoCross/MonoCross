@@ -4,11 +4,11 @@
     <id>MonoCross</id>
     <version>$version$</version>
     <title>MonoCross Framework</title>
-    <authors>Zebra</authors>
-    <owners>Zebra Technologies Corp.</owners>
+    <owners>Zebra</owners>
+    <authors>Zebra Technologies Corporation</authors>
     <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/MonoCross/MonoCross</projectUrl>
-    <!--<iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/monocross.png</iconUrl>-->
+    <iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/MonoCross.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform mobile framework using C# .NET and Mono to create shared-code apps on iOS, Android, Windows and Webkit.</description>
     <summary>Cross-platform interfaces and implementations</summary>

@@ -4,17 +4,17 @@
     <id>MonoCross.Utilities.NET</id>
     <version>$version$</version>
     <title>MonoCross.Utilities.NET</title>
-    <authors>Zebra</authors>
-    <owners>Zebra Technologies Corp.</owners>
+    <owners>Zebra</owners>
+    <authors>Zebra Technologies Corporation</authors>
     <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/MonoCross/MonoCross</projectUrl>
-    <!--<iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/monocross.png</iconUrl>-->
+    <iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/MonoCross.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Specific to the Windows .NET environment, this package contains concrete, platform-specific implementations of the MonoCross Utilities (Encryption, Logging, Network, Serialization, Threading)</description>
     <summary>MonoCross.Utilities implementation for .NET</summary>
     <releaseNotes>Open-source release coordinated with iFactr 4.0</releaseNotes>
     <copyright>2010-2017 Zebra Technologies Corp.</copyright>
-    <tags>MonoCross iFactr dotNET</tags>
+    <tags>MonoCross iFactr dotNET dotNET-CLI</tags>
     <dependencies>
       <dependency id="MonoCross" version="4.0.0.42" />
     </dependencies>

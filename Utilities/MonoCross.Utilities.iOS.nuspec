@@ -4,11 +4,11 @@
     <id>MonoCross.Utilities.iOS</id>
     <version>$version$</version>
     <title>MonoCross.Utilities.iOS</title>
-    <authors>Zebra</authors>
-    <owners>Zebra Technologies Corp.</owners>
+    <owners>Zebra</owners>
+    <authors>Zebra Technologies Corporation</authors>
     <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/MonoCross/MonoCross</projectUrl>
-    <!--<iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/monocross.png</iconUrl>-->
+    <iconUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/MonoCross.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Specific to Apple's iOS environment, this package contains concrete, platform-specific implementations of the MonoCross Utilities (Encryption, Logging, Network, Serialization, Threading)</description>
     <summary>MonoCross.Utilities implementation for iOS</summary>
