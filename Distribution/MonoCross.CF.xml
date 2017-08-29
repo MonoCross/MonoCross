@@ -2227,6 +2227,40 @@
             Provides methods for event invocation.
             </summary>
         </member>
+        <member name="M:MonoCross.Utilities.Events.AddEventHandler(System.Object,System.String,System.Object,System.String)">
+            <summary>
+            Adds a handler to an event using reflection.
+            </summary>
+            <param name="eventObject">The object instance with the event to modify.</param>
+            <param name="eventName">The name of the event.</param>
+            <param name="handlerObject">The object instance that contains the event handler.</param>
+            <param name="handlerName">The name of the event handler method.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Events.AddEventHandler(System.Object,System.String,System.Delegate)">
+            <summary>
+            Adds a handler to an event using reflection.
+            </summary>
+            <param name="eventObject">The object instance with the event to modify.</param>
+            <param name="eventName">The name of the event.</param>
+            <param name="eventHandler">The handler to add to the event.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Events.RemoveEventHandler(System.Object,System.String,System.Object,System.String)">
+            <summary>
+            Removes a handler from an event using reflection.
+            </summary>
+            <param name="eventObject">The object instance with the event to modify.</param>
+            <param name="eventName">The name of the event.</param>
+            <param name="handlerObject">The object instance that contains the event handler.</param>
+            <param name="handlerName">The name of the event handler method.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Events.RemoveEventHandler(System.Object,System.String,System.Delegate)">
+            <summary>
+            Removes a handler from an event using reflection.
+            </summary>
+            <param name="eventObject">The object instance with the event to modify.</param>
+            <param name="eventName">The name of the event.</param>
+            <param name="eventHandler">The handler to remove from the event.</param>
+        </member>
         <member name="M:MonoCross.Utilities.Events.RaiseEvent(System.Object,System.String,System.EventArgs)">
             <summary>
             Attempts to raise the event with the specified name and <see cref="T:System.EventArgs"/> on the current instance.
@@ -2250,6 +2284,15 @@
             </summary>
             <param name="method">The delegate to examine.</param>
             <returns>An object that represents the method.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Events.CreateDelegate(System.Reflection.MethodInfo,System.Type,System.Object)">
+            <summary>
+            Creates a delegate of the specified type that represents the specified static or instance method, with the specified first argument.
+            </summary>
+            <param name="method">The <see cref="T:System.Reflection.MethodInfo"/> describing the static or instance method the delegate is to represent.</param>
+            <param name="type">The <see cref="T:System.Type"/> of delegate to create. </param>
+            <param name="firstArgument">The object to which the delegate is bound, or <c>null</c> to treat <paramref name="method"/> as <c>static</c>.</param>
+            <returns>A delegate of the specified type that represents the specified static or instance method.</returns>
         </member>
         <member name="T:System.Collections.Generic.DictionaryExtensions">
             <summary>
