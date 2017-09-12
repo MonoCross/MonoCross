@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>MonoCross.Utilities.Droid</id>
+    <id>MonoCross.Utilities.Android</id>
     <version>$version$</version>
-    <title>MonoCross.Utilities.Droid</title>
+    <title>MonoCross.Utilities.Android</title>
     <owners>Zebra</owners>
     <authors>Zebra Technologies Corporation</authors>
     <licenseUrl>https://raw.githubusercontent.com/MonoCross/MonoCross/master/LICENSE</licenseUrl>
