@@ -32,7 +32,7 @@ namespace MonoCross.Utilities
 
             ApplicationPath = File.DirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar;
             DataPath = System.Configuration.ConfigurationManager.AppSettings.AllKeys.Contains("dataPath") ?
-                System.Configuration.ConfigurationManager.AppSettings.Get("dataPath") :
+                Environment.ExpandEnvironmentVariables(System.Configuration.ConfigurationManager.AppSettings.Get("dataPath")) :
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).AppendPath("MXData");
 
             MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), () => new BasicLogger(Path.Combine(SessionDataPath, "Log")));
