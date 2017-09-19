@@ -50,7 +50,6 @@ namespace MonoCross.Utilities
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.NullCompositor));
 
             Instance = newInstance;
-            Instance.SessionDataRoot = DataPath.AppendPath("session");
             Instance.Initialize();
             if (!File.Exists(SessionDataPath))
             {
@@ -158,7 +157,7 @@ namespace MonoCross.Utilities
             get
             {
                 if (string.IsNullOrEmpty(_sessionDataRoot))
-                    _sessionDataRoot = DataPath;
+                    _sessionDataRoot = DataPath.AppendPath("session");
                 return _sessionDataRoot;
             }
 
