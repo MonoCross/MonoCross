@@ -58,7 +58,6 @@ namespace MonoCross.Utilities
         /// </summary>
         public override void Initialize()
         {
-            DirectorySeparatorChar = Path.DirectorySeparatorChar;
             string path = string.Concat(BasePath, "\\");
             if (Environment.OSVersion.Platform != PlatformID.WinCE)
             {

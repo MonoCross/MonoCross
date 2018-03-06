@@ -17,7 +17,6 @@ namespace MonoCross.Utilities
 
         public override void Initialize()
         {
-            DirectorySeparatorChar = Path.DirectorySeparatorChar;
             MXContainer.RegisterSingleton<IThread>(typeof(TaskThread));
             MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
             MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));

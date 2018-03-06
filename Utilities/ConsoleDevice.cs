@@ -13,8 +13,6 @@ namespace MonoCross.Utilities
     {
         public override void Initialize()
         {
-            DirectorySeparatorChar = Path.DirectorySeparatorChar;
-
             MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
             MXContainer.RegisterSingleton<IThread>(typeof(TaskThread), () => new TaskThread { UiSynchronizationContext = System.Threading.SynchronizationContext.Current, });
             MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));

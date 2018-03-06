@@ -5,7 +5,6 @@ using MonoCross.Utilities.Network;
 using MonoCross.Utilities.Threading;
 using MonoCross.Navigation;
 using System;
-using System.Linq;
 
 namespace MonoCross.Utilities
 {
@@ -25,7 +24,8 @@ namespace MonoCross.Utilities
         /// </summary>
         static Device()
         {
-            DirectorySeparatorChar = '/';
+            DirectorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
+            DataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
         #region Singleton initializer
@@ -40,15 +40,19 @@ namespace MonoCross.Utilities
             if (newInstance == null)
                 throw new ArgumentNullException();
 
-            MXContainer.RegisterSingleton<IImageCache>(typeof(ImageCache));
-            MXContainer.RegisterSingleton<INetwork>(typeof(NetworkAsynch));
-            MXContainer.RegisterSingleton<INetwork>(typeof(NetworkSynch), NetworkType.NetworkSynch.ToString());
-            MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), args => new BasicLogger(args != null && args.Length > 0 ? args[0].ToString() : SessionDataPath.AppendPath("Log")));
-            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
             MXContainer.RegisterSingleton<IThread>(typeof(BasicThread));
             MXContainer.RegisterSingleton<IThread>(typeof(MockThread), ThreadType.MockThread.ToString());
+
+            MXContainer.RegisterSingleton<INetwork>(typeof(NetworkAsynch));
+            MXContainer.RegisterSingleton<INetwork>(typeof(NetworkSynch), NetworkType.NetworkSynch.ToString());
+
+            MXContainer.RegisterSingleton<IImageCache>(typeof(ImageCache));
+            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
             MXContainer.RegisterSingleton<Resources.IResources>(typeof(Resources.BasicResources));
             MXContainer.RegisterSingleton<IReflector>(typeof(BasicReflector));
+            MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), args =>
+                new BasicLogger(args != null && args.Length > 0 ? args[0].ToString() : SessionDataPath.AppendPath("Log")));
+
             MXContainer.RegisterSingleton<IEncryption>(typeof(MockEncryption));
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.NullCompositor));
 
