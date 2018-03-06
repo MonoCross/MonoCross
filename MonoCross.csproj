@@ -97,7 +97,7 @@
 
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Ishmael\Distribution\Newtonsoft.Json.dll</HintPath>
+      <HintPath>Distribution\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
 
