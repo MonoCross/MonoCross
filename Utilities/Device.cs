@@ -18,7 +18,7 @@ namespace MonoCross.Utilities
     /// <summary>
     /// Represents a collection of platform-specific utilities in the abstract.
     /// </summary>
-    public abstract class Device
+    public class Device
     {
         /// <summary>
         /// Initializes a static instance of the <see cref="Device"/> class.
@@ -69,7 +69,7 @@ namespace MonoCross.Utilities
         /// <summary>
         /// Initializes this instance with platform-specific implementations.
         /// </summary>
-        public abstract void Initialize();
+        public virtual void Initialize() { }
 
         /// <summary>
         /// Gets or sets the Device instance stored on the session.
