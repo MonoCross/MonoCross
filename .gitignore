@@ -7,6 +7,7 @@
 *.sln.docstates
 *.userprefs
 *.vsdoc
+.vs
 
 # Build results
 
@@ -98,6 +99,7 @@ ClientBin
 *.dbmdl
 *.userprefs
 *.[Pp]ublish.xml
+*.bak
 
 Generated_Code #added for RIA/Silverlight projects
 

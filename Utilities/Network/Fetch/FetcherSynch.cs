@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-
-#if NETCF
 using System.Linq;
-#endif
 
 namespace MonoCross.Utilities.Network
 {

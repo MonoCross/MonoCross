@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MonoCross.Navigation;
 
 namespace MonoCross.Utilities.Storage
 {
@@ -16,12 +13,7 @@ namespace MonoCross.Utilities.Storage
         /// <returns></returns>
         internal static IFile Create()
         {
-#if !SILVERLIGHT
-            IFile file = new BasicFile();
-#else
-            IFile file = ( MXDevice.Encryption.Required ? new SLFileEncrypted() : new SLFile() );
-#endif
-            return file;
+            return MXContainer.Resolve<IFile>();
         }
 
         // If we ever want to make an implementation of IFile that we want in core,
@@ -33,26 +25,7 @@ namespace MonoCross.Utilities.Storage
         /// <returns></returns>
         internal static IFile Create(FileType fileType)
         {
-            IFile file = null;
-
-            switch (fileType)
-            {
-#if !SILVERLIGHT
-                case FileType.BasicFile:
-                    file = new BasicFile();
-                    break;
-#else
-                case FileType.SLFile:
-                    file = new SLFile();
-                    //file = ( MXDevice.Encryption.Required ? new SLFileEncrypted() : new SLFile() );
-                    break;
-#endif
-                default:
-                    // returns the default - BasicFile implementation                 
-                    break;
-            }
-
-            return file;
+            return MXContainer.Resolve<IFile>(fileType.ToString());
         }
     }
 
@@ -61,16 +34,9 @@ namespace MonoCross.Utilities.Storage
     /// </summary>
     public enum FileType
     {
-#if !SILVERLIGHT
         /// <summary>
         /// Basic file type (default).
         /// </summary>
         BasicFile,
-#else
-        /// <summary>
-        /// Silverlight file type.
-        /// </summary>
-        SLFile,
-#endif
     }
 }

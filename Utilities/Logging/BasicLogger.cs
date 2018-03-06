@@ -28,22 +28,15 @@ namespace MonoCross.Utilities.Logging
             if ((int)LoggingLevel > (int)messageType)
                 return;
 
-#if NETCF
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-#else
-            int threadId = Environment.CurrentManagedThreadId;
-#endif
             if (args != null && args.Length > 0)
             {
                 message = string.Format(message, args);
             }
             string textEntry = string.Format("{0:MM-dd-yyyy HH:mm:ss:ffff} :{1}: [{2}] {3}", DateTime.Now, threadId, messageType, message);
 
-#if NETCF
-            System.Diagnostics.Trace.WriteLine(textEntry);
-#else
             System.Diagnostics.Debug.WriteLine(textEntry);
-#endif
+
             // throw all logging events to subscriber if there is subscriber(s)
             LogEvent(new LogEventArgs { LogLevel = messageType, Message = message, Exception = ex, });
 

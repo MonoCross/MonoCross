@@ -13,10 +13,10 @@
     <description>A cross-platform mobile framework using C# .NET and Mono to create shared-code apps on iOS, Android, Windows and Webkit.</description>
     <summary>Cross-platform interfaces and implementations</summary>
     <releaseNotes>4.0 Release for iFactr Open Source with MIT license.</releaseNotes>
-    <copyright>2010-2017 Zebra Technologies Corp.</copyright>
+    <copyright>2010-2018 Zebra Technologies Corp.</copyright>
     <tags>MonoCross iFactr</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="10.0.3" />
+      <dependency id="Newtonsoft.Json" version="11.0.1" />
     </dependencies>
   </metadata>
 </package>

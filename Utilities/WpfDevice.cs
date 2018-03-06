@@ -23,10 +23,8 @@ namespace MonoCross.Utilities
         {
             DirectorySeparatorChar = Path.DirectorySeparatorChar;
 
-            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
             MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
             MXContainer.RegisterSingleton<IThread>(typeof(DispatcherThread), () => new DispatcherThread { Dispatcher = _dispatcher, });
-            MXContainer.RegisterSingleton<IReflector>(typeof(BasicReflector));
             MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.GdiPlusCompositor));
 

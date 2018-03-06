@@ -5,6 +5,7 @@ using MonoCross.Utilities.Network;
 using MonoCross.Utilities.Threading;
 using MonoCross.Navigation;
 using System;
+using System.Linq;
 
 namespace MonoCross.Utilities
 {
@@ -41,12 +42,14 @@ namespace MonoCross.Utilities
 
             MXContainer.RegisterSingleton<IImageCache>(typeof(ImageCache));
             MXContainer.RegisterSingleton<INetwork>(typeof(NetworkAsynch));
-            MXContainer.RegisterSingleton<ILog>(typeof(DiagnosticDebugLogger));
+            MXContainer.RegisterSingleton<INetwork>(typeof(NetworkSynch), NetworkType.NetworkSynch.ToString());
+            MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), args => new BasicLogger(args != null && args.Length > 0 ? args[0].ToString() : SessionDataPath.AppendPath("Log")));
+            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
+            MXContainer.RegisterSingleton<IThread>(typeof(BasicThread));
+            MXContainer.RegisterSingleton<IThread>(typeof(MockThread), ThreadType.MockThread.ToString());
+            MXContainer.RegisterSingleton<Resources.IResources>(typeof(Resources.BasicResources));
+            MXContainer.RegisterSingleton<IReflector>(typeof(BasicReflector));
             MXContainer.RegisterSingleton<IEncryption>(typeof(MockEncryption));
-            MXContainer.RegisterSingleton<IFile>(typeof(NullFile));
-            MXContainer.RegisterSingleton<IThread>(typeof(NullThread));
-            MXContainer.RegisterSingleton<IReflector>(typeof(NullReflector));
-            MXContainer.RegisterSingleton<Resources.IResources>(typeof(Resources.NullResources));
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.NullCompositor));
 
             Instance = newInstance;
@@ -237,7 +240,7 @@ namespace MonoCross.Utilities
         /// <value>File system access as an <see cref="IFile"/> instance.</value>
         public static IFile File
         {
-            get { return MXContainer.Resolve<IFile>(); }
+            get { return FileFactory.Create(); }
             set { MXContainer.RegisterSingleton<IFile>(value); }
         }
 
@@ -257,7 +260,7 @@ namespace MonoCross.Utilities
         /// <value>The logger as an <see cref="ILog"/> instance.</value>
         public static ILog Log
         {
-            get { return MXContainer.Resolve<ILog>(); }
+            get { return LoggerFactory.Create(SessionDataPath.AppendPath("Log")); }
             set { MXContainer.RegisterSingleton<ILog>(value); }
         }
 
@@ -286,7 +289,7 @@ namespace MonoCross.Utilities
         /// <value>The threading utility as an <see cref="IThread"/> instance.</value>
         public static IThread Thread
         {
-            get { return MXContainer.Resolve<IThread>(); }
+            get { return ThreadFactory.Create(); }
             set { MXContainer.RegisterSingleton<IThread>(value); }
         }
 
@@ -296,7 +299,7 @@ namespace MonoCross.Utilities
         /// <value>The networking utility as an <see cref="INetwork"/> instance.</value>
         public static INetwork Network
         {
-            get { return MXContainer.Resolve<INetwork>(); }
+            get { return NetworkFactory.Create(); }
             set { MXContainer.RegisterSingleton<INetwork>(value); }
         }
 

@@ -30,10 +30,9 @@ namespace MonoCross.Utilities
                 var path = args.Length > 0 ? args[0] as string : null;
                 return new AndroidLogger(path ?? Path.Combine(SessionDataPath, "Log"));
             });
-            MXContainer.RegisterSingleton<IEncryption>(typeof(AndroidEncryption));
+            MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
             MXContainer.RegisterSingleton<IFile>(typeof(AndroidFile));
             MXContainer.RegisterSingleton<IThread>(typeof(AndroidThread));
-            MXContainer.RegisterSingleton<IReflector>(typeof(AndroidReflector));
             MXContainer.RegisterSingleton<IResources>(typeof(AndroidResources));
             MXContainer.RegisterSingleton<ICompositor>(typeof(AndroidCompositor));
         }

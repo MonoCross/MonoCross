@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MonoCross.Navigation;
 
 namespace MonoCross.Utilities.Logging
 {
@@ -17,8 +14,7 @@ namespace MonoCross.Utilities.Logging
         /// <returns></returns>
         internal static ILog Create(string logPath)
         {
-            ILog logger = new BasicLogger(logPath);
-            return logger;
+            return MXContainer.Resolve<ILog>((object)logPath);
         }
 
         /// <summary>
@@ -29,21 +25,7 @@ namespace MonoCross.Utilities.Logging
         /// <returns></returns>
         internal static ILog Create(string logPath, LoggerType loggerType)
         {
-            ILog logger;
-			
-            switch (loggerType)
-            {
-                //case LoggerType.NLog:
-                //    logger = new NLogLogger();
-                //    break;
-				
-				default:
-                    // returns the default - BasicLogger implementation
-					logger = new BasicLogger(logPath);
-                    break;
-            }
-
-            return logger;
+            return MXContainer.Resolve<ILog>(loggerType.ToString(), (object)logPath);
         }
     }
 

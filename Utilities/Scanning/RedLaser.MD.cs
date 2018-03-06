@@ -1,4 +1,4 @@
-﻿#if Droid
+﻿#if DROID
 using System;
 
 using Android.App;
@@ -95,7 +95,7 @@ namespace MonoCross.Utilities.Barcode
                         break;
                 }
 
-                RedLaser.Instance.TriggerScan(data, symbology);
+                RedLaser.GetInstance(context).TriggerScan(data, symbology);
                 Log.Info("MonoCross", "response received from scan " + data + " : " + typeString);
             }
             else

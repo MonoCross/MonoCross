@@ -131,11 +131,7 @@ namespace MonoCross.Utilities.Storage
             //if (filename.IndexOf("cache_index.xml") != -1)
             //    Device.Log.Debug(string.Format("Reading File: {0} - BaseFile:l92", filename));
 
-#if NETCF
             var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-#else
-            var threadId = Environment.CurrentManagedThreadId;
-#endif
 
             try
             {
@@ -230,15 +226,7 @@ namespace MonoCross.Utilities.Storage
         /// <param name="filename">The file to read.</param>
         public virtual string ReadStringClear(string filename)
         {
-#if WINDOWS_PHONE
-            return null;
-#elif NETCF
             return File.OpenText(filename).ReadToEnd();
-#else
-            return File.ReadAllText(filename);
-#endif
-            //byte[] contents = ReadClear( filename );
-            //return NetworkUtils.ByteArrayToStr( contents );
         }
 
         #endregion
@@ -444,11 +432,7 @@ namespace MonoCross.Utilities.Storage
             // FSTODO: log directory creation.
             if (filename.IndexOf("cache_index.xml", StringComparison.Ordinal) != -1)
             {
-#if NETCF
                 var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-#else
-                var threadId = Environment.CurrentManagedThreadId;
-#endif
                 Device.Log.Debug(string.Format("Creating File: {0} - BaseFile:l535, tid:{1}", filename, threadId));
             }
             CreateDirectory(dir);
@@ -528,9 +512,7 @@ namespace MonoCross.Utilities.Storage
             EnsureDirectoryExistsForFile(filename);
             var stream = new MemoryStream(System.Text.Encoding.Unicode.GetBytes(contents));
             SaveClear(filename, stream);
-#if NETCF
             stream.Close();
-#endif
             stream.Dispose();
         }
 
@@ -758,11 +740,7 @@ namespace MonoCross.Utilities.Storage
             FileStream fileStream = null;
             try
             {
-#if NETCF
                 var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-#else
-                var threadId = Environment.CurrentManagedThreadId;
-#endif
 
                 if (filename.IndexOf("cache_index.xml", StringComparison.Ordinal) != -1)
                     Device.Log.Debug(string.Format("Creating File Stream: {0} - BaseFile:l543, tid:{1}", filename, threadId));

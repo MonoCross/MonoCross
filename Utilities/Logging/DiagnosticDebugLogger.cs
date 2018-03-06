@@ -22,11 +22,7 @@ namespace MonoCross.Utilities.Logging
             if ((int)LoggingLevel > (int)messageType)
                 return;
 
-#if NETCF
             int threadId = Thread.CurrentThread.ManagedThreadId;
-#else
-            int threadId = Environment.CurrentManagedThreadId;
-#endif
             message = string.Format(message, args);
 
             string textEntry = string.Format("{0:MM-dd-yyyy HH:mm:ss:ffff} :{1}: [{2}] {3}", DateTime.Now, threadId, messageType, message);

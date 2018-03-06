@@ -45,9 +45,7 @@ namespace MonoCross.Utilities.Network
                     ((IDisposable)writer).Dispose();
                 if (stream != null)
                 {
-#if NETCF
                     stream.Close();
-#endif
                     stream.Dispose();
                 }
             }
@@ -113,9 +111,7 @@ namespace MonoCross.Utilities.Network
                 {
                     if (ms != null)
                     {
-#if NETCF
                         ms.Close();
-#endif
                         ms.Dispose();
                     }
                 }

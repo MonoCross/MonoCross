@@ -1,4 +1,4 @@
-﻿#if Droid || Touch
+﻿#if DROID || TOUCH
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ namespace MonoCross.Utilities.Barcode
 {
     public partial class RedLaser : BarcodeScanner
     {
-        private static RedLaser _instance = null;        
+        private static RedLaser _instance = null;
 
         private RedLaser()
         {
-            _available = new HashSet<Symbology>();
+            _available = new List<Symbology>();
             _available.Add(Symbology.UPCA);
             _available.Add(Symbology.UPCE);
             _available.Add(Symbology.EAN8);

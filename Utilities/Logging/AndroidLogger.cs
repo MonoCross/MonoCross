@@ -41,7 +41,6 @@ namespace MonoCross.Utilities.Logging
                 }
             }
 
-            var textEntry = string.Format("{0:MM-dd-yyyy HH:mm:ss:ffff} :{1}: [{2}] {3}", DateTime.Now, threadId, messageType, message);
             var logEntry = string.Format(":{0}: {1}", threadId, message);
 
             switch (messageType)
@@ -72,7 +71,7 @@ namespace MonoCross.Utilities.Logging
             // throw all logging events to subscriber if there is subscriber(s)
             LogEvent(new LogEventArgs { LogLevel = messageType, Message = message, Exception = exception, });
 
-            AppendText(LogFileName, textEntry);
+            AppendText(LogFileName, $"{DateTime.Now:MM-dd-yyyy HH:mm:ss:ffff} :{threadId}: [{messageType}] {message}");
         }
 
         #endregion

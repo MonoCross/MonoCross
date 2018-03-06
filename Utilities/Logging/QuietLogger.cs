@@ -29,11 +29,7 @@ namespace MonoCross.Utilities.Logging
 
             message = string.Format(message, args);
 
-#if NETCF
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-#else
-            int threadId = Environment.CurrentManagedThreadId;
-#endif
             string textEntry = string.Format("{0:MM-dd-yyyy HH:mm:ss:ffff} :{1}: [{2}] {3}", DateTime.Now, threadId, messageType, message);
 
             // throw all logging events to subscriber if there is subscriber(s)

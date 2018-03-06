@@ -310,9 +310,7 @@ namespace MonoCross.Utilities.Network
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fetchParameters.Uri);
 
             request.Method = "GET";
-#if NETCF
             request.AutomaticDecompression = DecompressionMethods.GZip;
-#endif 
             if (fetchParameters.Headers != null && fetchParameters.Headers.Any())
             {
                 foreach (string key in fetchParameters.Headers.Keys)

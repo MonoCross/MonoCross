@@ -375,10 +375,8 @@ namespace MonoCross.Utilities.Network
             // WaitOne returns true if autoEvent were signaled (i.e. process completed before timeout expired)
             // WaitOne returns false it the timeout expired before the process completed.
 #if NETCF
-            //if (!autoEvent.WaitOne(DefaultTimeout, false))
             if (!autoEvent.WaitOne(timeout, false))
 #else
-            //if (!autoEvent.WaitOne(DefaultTimeout))
             if (!autoEvent.WaitOne(requestParameters.Timeout))
 #endif
             {
@@ -508,12 +506,10 @@ namespace MonoCross.Utilities.Network
 
             request.Method = requestParameters.Verb; // Post, Put, Delete
             request.ContentType = requestParameters.ContentType;
-#if NETCF
             request.Timeout = requestParameters.Timeout;
             request.ContentLength = requestParameters.PostBytes.Length;
             request.AutomaticDecompression = DecompressionMethods.Deflate;
             request.KeepAlive = false;
-#endif
 
             if (requestParameters.Headers != null && requestParameters.Headers.Any())
             {
@@ -585,9 +581,7 @@ namespace MonoCross.Utilities.Network
                 if (state.PostBytes == null)
                     state.PostBytes = new byte[0];
                 postStream.Write(state.PostBytes, 0, state.PostBytes.Length);
-#if NETCF
                 postStream.Close();
-#endif
                 postStream.Dispose();
 
                 // Start the asynchronous operation to get the response

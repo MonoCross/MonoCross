@@ -73,11 +73,7 @@ namespace MonoCross.Utilities
             DataPath = path;
 
             MXContainer.RegisterSingleton<ICompositor>(typeof(GdiPlusCompositor));
-            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
-            MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), () => new BasicLogger(Path.Combine(SessionDataPath, "Log")));
             MXContainer.RegisterSingleton<IThread>(typeof(CompactFrameworkThread));
-            MXContainer.RegisterSingleton<IReflector>(typeof(CompactReflector));
-            MXContainer.RegisterSingleton<IResources>(typeof(BasicResources));
             Platform = MobilePlatform.WindowsMobile;
         }
 

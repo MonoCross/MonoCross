@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,13 +11,15 @@ namespace MonoCross.Utilities
     public class BasicReflector : IReflector
     {
         /// <summary>
-        /// Gets the assembly in which the specified <see cref="Type"/> is declared.
+        /// Gets the assembly in which the specified <see cref="Type" /> is declared.
         /// </summary>
         /// <param name="type">The type for which to get the declaring assembly.</param>
-        /// <returns>The <see cref="Assembly"/> in which the specified <see cref="Type"/> is declared.</returns>
+        /// <returns>
+        /// The <see cref="Assembly" /> in which the specified <see cref="Type" /> is declared.
+        /// </returns>
         public Assembly GetAssembly(Type type)
         {
-            return type.GetTypeInfo().Assembly;
+            return type.Assembly;
         }
 
         /// <summary>
@@ -27,11 +29,11 @@ namespace MonoCross.Utilities
         /// <returns>An enumeration of <see cref="Type"/> objects in the specified <see cref="Assembly"/>.</returns>
         public IEnumerable<Type> GetTypes(Assembly assembly)
         {
-            return assembly.DefinedTypes.Select(t => t.AsType());
+            return assembly.GetTypes();
         }
 
         /// <summary>
-        /// Gets the type from which the specified <see cref="Type"/> directly inherits.
+        /// Gets the type from which the specified Type directly inherits.
         /// </summary>
         /// <param name="type">The child type.</param>
         /// <returns>
@@ -39,7 +41,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public Type GetBaseType(Type type)
         {
-            return type.GetTypeInfo().BaseType;
+            return type.BaseType;
         }
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public EventInfo GetEvent(Type type, string name)
         {
-            return type.GetRuntimeEvents().FirstOrDefault(e => e.Name == name);
+            return type.GetEvent(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<EventInfo> GetEvents(Type type)
         {
-            return type.GetRuntimeEvents();
+            return type.GetEvents(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public FieldInfo GetField(Type type, string name)
         {
-            return type.GetRuntimeFields().FirstOrDefault(f => f.Name == name);
+            return type.GetField(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -89,20 +91,19 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<FieldInfo> GetFields(Type type)
         {
-            return type.GetRuntimeFields();
+            return type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
-        /// Gets all members of the specified <see cref="Type"/>.
+        /// Gets all members of the specified <see cref="Type" />.
         /// </summary>
         /// <param name="type">The type to check.</param>
-        /// <returns>An enumeration of <see cref="MemberInfo"/> objects representing all members of the specified <see cref="Type"/>.</returns>
+        /// <returns>
+        /// An enumeration of <see cref="MemberInfo" /> objects representing all members of the specified <see cref="Type" />.
+        /// </returns>
         public IEnumerable<MemberInfo> GetMembers(Type type)
         {
-            return type.GetRuntimeMethods().Cast<MemberInfo>()
-                .Concat(type.GetRuntimeProperties())
-                .Concat(type.GetRuntimeFields())
-                .Concat(type.GetRuntimeEvents());
+            return type.GetMembers(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public MethodInfo GetMethod(Type type, string name)
         {
-            return type.GetRuntimeMethods().FirstOrDefault(m => m.Name == name);
+            return type.GetMethod(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
         }
 
         /// <summary>
@@ -124,14 +125,16 @@ namespace MonoCross.Utilities
         /// <param name="type">The type to check.</param>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The types of the parameters in the order in which they appear in the method signature.</param>
-        /// <returns>An object that represents the method with the specified name and parameter types, if found; otherwise, <c>null</c>.</returns>
+        /// <returns>
+        /// An object that represents the method with the specified name and parameter types, if found; otherwise, <c>null</c>.
+        /// </returns>
         public MethodInfo GetMethod(Type type, string name, params Type[] parameterTypes)
         {
-            return type.GetRuntimeMethods().FirstOrDefault(m => m.Name == name && m.GetParameters().Select(p => p.ParameterType).Equivalent(parameterTypes, true));
+            return type.GetMethod(name, parameterTypes);
         }
 
         /// <summary>
-        /// Gets all methods of the specified <see cref="Type"/>.
+        /// Gets all methods of the specified <see cref="Type" />.
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <returns>
@@ -139,7 +142,20 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<MethodInfo> GetMethods(Type type)
         {
-            return type.GetRuntimeMethods();
+            return type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+        }
+
+        /// <summary>
+        /// Searches for method overloads with the specified name.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="name">The name of the method.</param>
+        /// <returns>
+        /// A collection of objects that represent methods with the specified name.
+        /// </returns>
+        public IEnumerable<MethodInfo> GetMethods(Type type, string name)
+        {
+            return GetMethods(type).Where(mi => mi.Name == name);
         }
 
         /// <summary>
@@ -153,7 +169,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public Type GetInterface(Type type, string name, bool ignoreCase)
         {
-            return type.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(i => string.Equals(i.Name, name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
+            return type.GetInterfaces().FirstOrDefault(i => string.Equals(i.Name, name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
         }
 
         /// <summary>
@@ -165,7 +181,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<Type> GetInterfaces(Type type)
         {
-            return type.GetTypeInfo().ImplementedInterfaces;
+            return type.GetInterfaces();
         }
 
         /// <summary>
@@ -178,7 +194,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public PropertyInfo GetProperty(Type type, string name)
         {
-            return type.GetRuntimeProperties().FirstOrDefault(p => p.Name == name);
+            return type.GetProperty(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -190,7 +206,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<PropertyInfo> GetProperties(Type type)
         {
-            return type.GetRuntimeProperties();
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -203,7 +219,7 @@ namespace MonoCross.Utilities
         public T GetCustomAttribute<T>(Type type, bool inherit)
             where T : Attribute
         {
-            return (T)type.GetTypeInfo().GetCustomAttribute(typeof(T), inherit);
+            return (T)type.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
         }
 
         /// <summary>
@@ -216,7 +232,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<Attribute> GetCustomAttributes(Type type, bool inherit)
         {
-            return type.GetTypeInfo().GetCustomAttributes(inherit);
+            return type.GetCustomAttributes(inherit).OfType<Attribute>();
         }
 
         /// <summary>
@@ -230,7 +246,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<Attribute> GetCustomAttributes(Type type, Type attributeType, bool inherit)
         {
-            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit);
+            return type.GetCustomAttributes(attributeType, inherit).OfType<Attribute>();
         }
 
         /// <summary>
@@ -243,7 +259,7 @@ namespace MonoCross.Utilities
         public T GetCustomAttribute<T>(MemberInfo member, bool inherit)
             where T : Attribute
         {
-            return (T)member.GetCustomAttribute(typeof(T), inherit);
+            return (T)member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
         }
 
         /// <summary>
@@ -256,7 +272,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<Attribute> GetCustomAttributes(MemberInfo member, bool inherit)
         {
-            return member.GetCustomAttributes(inherit);
+            return member.GetCustomAttributes(inherit).OfType<Attribute>();
         }
 
         /// <summary>
@@ -270,42 +286,48 @@ namespace MonoCross.Utilities
         /// </returns>
         public IEnumerable<Attribute> GetCustomAttributes(MemberInfo member, Type attributeType, bool inherit)
         {
-            return member.GetCustomAttributes(attributeType, inherit);
+            return member.GetCustomAttributes(attributeType, inherit).OfType<Attribute>();
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> has an attribute defined.
+        /// Determines whether the specified <see cref="Type" /> has an attribute defined.
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <param name="attributeType">The type of the attribute to look for.</param>
-        /// <param name="inherit"><c>true</c> to search the <paramref name="type"/>'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> has the attribute defined; otherwise <c>false</c>.</returns>
+        /// <param name="inherit"><c>true</c> to search the <paramref name="type" />'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> has the attribute defined; otherwise <c>false</c>.
+        /// </returns>
         public bool HasAttribute(Type type, Type attributeType, bool inherit)
         {
-            return type.GetTypeInfo().GetCustomAttribute(attributeType, inherit) != null;
+            return type.GetCustomAttributes(attributeType, inherit).Length > 0;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> has an attribute defined.
+        /// Determines whether the specified <see cref="Type" /> has an attribute defined.
         /// </summary>
-        /// <param name="member">The member to check.</param>
+        /// <param name="member">The type to check.</param>
         /// <param name="attributeType">The type of the attribute to look for.</param>
-        /// <param name="inherit"><c>true</c> to search the <paramref name="member"/>'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> has the attribute defined; otherwise <c>false</c>.</returns>
+        /// <param name="inherit"><c>true</c> to search the <paramref name="member" />'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> has the attribute defined; otherwise <c>false</c>.
+        /// </returns>
         public bool HasAttribute(MemberInfo member, Type attributeType, bool inherit)
         {
-            return member.GetCustomAttribute(attributeType, inherit) != null;
+            return member.GetCustomAttributes(attributeType, inherit).Length > 0;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> implements an interface.
+        /// Determines whether the specified <see cref="Type" /> implements an interface.
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <param name="interfaceType">The type of the interface to look for.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> implements the interface; otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> implements the interface; otherwise <c>false</c>.
+        /// </returns>
         public bool HasInterface(Type type, Type interfaceType)
         {
-            return type == interfaceType || type.GetTypeInfo().ImplementedInterfaces.Any(i => i == interfaceType);
+            return type == interfaceType || type.GetInterfaces().Any(i => i == interfaceType);
         }
 
         /// <summary>
@@ -317,7 +339,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public bool IsAbstract(Type type)
         {
-            return type.GetTypeInfo().IsAbstract;
+            return type.IsAbstract;
         }
 
         /// <summary>
@@ -335,7 +357,7 @@ namespace MonoCross.Utilities
         /// </returns>
         public bool IsAssignableFrom(Type type, Type c)
         {
-            return type.GetTypeInfo().IsAssignableFrom(c.GetTypeInfo());
+            return type.IsAssignableFrom(c);
         }
 
         /// <summary>
@@ -347,17 +369,19 @@ namespace MonoCross.Utilities
         /// </returns>
         public bool IsClass(Type type)
         {
-            return type.GetTypeInfo().IsClass;
+            return type.IsClass;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> is an enum.
+        /// Determines whether the specified <see cref="Type" /> is an enum.
         /// </summary>
         /// <param name="type">The type to check.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> is an enum; otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> is an enum; otherwise <c>false</c>.
+        /// </returns>
         public bool IsEnum(Type type)
         {
-            return type.GetTypeInfo().IsEnum;
+            return type.IsEnum;
         }
 
         /// <summary>
@@ -369,17 +393,19 @@ namespace MonoCross.Utilities
         /// </returns>
         public bool IsInterface(Type type)
         {
-            return type.GetTypeInfo().IsInterface;
+            return type.IsInterface;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> is a primitive.
+        /// Determines whether the specified <see cref="Type" /> is a primitive.
         /// </summary>
         /// <param name="type">The type to check.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> is a primitive; otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> is a primitive; otherwise <c>false</c>.
+        /// </returns>
         public bool IsPrimitive(Type type)
         {
-            return type.GetTypeInfo().IsPrimitive;
+            return type.IsPrimitive;
         }
 
         /// <summary>
@@ -393,17 +419,19 @@ namespace MonoCross.Utilities
         /// </returns>
         public bool IsSubclassOf(Type type, Type baseType)
         {
-            return type.GetTypeInfo().IsSubclassOf(baseType);
+            return type.IsSubclassOf(baseType);
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Type"/> is a value type.
+        /// Determines whether the specified <see cref="Type" /> is a value type.
         /// </summary>
         /// <param name="type">The type to check.</param>
-        /// <returns><c>true</c> if the <see cref="Type"/> is a value type; otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Type" /> is a value type; otherwise <c>false</c>.
+        /// </returns>
         public bool IsValueType(Type type)
         {
-            return type.GetTypeInfo().IsValueType;
+            return type.IsValueType;
         }
     }
 }

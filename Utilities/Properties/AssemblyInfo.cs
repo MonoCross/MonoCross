@@ -9,17 +9,15 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MonoCross.Utilities.Android")]
 #elif TOUCH
 [assembly: AssemblyTitle("MonoCross.Utilities.Touch")]
-#elif MX_WEB
-[assembly: AssemblyTitle("MonoCross.Utilities.Web")]
 #else
-[assembly: AssemblyTitle("MonoCross.Utilities.Net")]
+[assembly: AssemblyTitle("MonoCross.Utilities")]
 #endif
 
 [assembly: AssemblyDescription("MonoCross Utilities")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zebra Technologies Corp.")]
 [assembly: AssemblyProduct("MonoCross Utilities")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
@@ -43,7 +41,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("4.0.0.42")]
-#if !NETCF
 [assembly: AssemblyFileVersion("4.0.0.42")]
-#endif
 [assembly: AssemblyInformationalVersion("Branch - master (Hash: Working Tree)")]

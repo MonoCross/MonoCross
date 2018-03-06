@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonoCross.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace MonoCross.Navigation
@@ -124,7 +125,6 @@ namespace MonoCross.Navigation
                 if (Session.TryGetValue(SessionDictionary.ViewsKey, out sess))
                 {
                     map = sess as MXViewMap;
-                    
                 }
                 if (map == null)
                 {
@@ -352,7 +352,7 @@ namespace MonoCross.Navigation
             {
                 // Console.WriteLine("InternalNavigate: Locked");
 
-                Action<object> load = (o) =>
+                Action load = () =>
                 {
                     try
                     {
@@ -367,16 +367,12 @@ namespace MonoCross.Navigation
                 // if there is no synchronization, don't launch a new thread
                 if (container.ThreadedLoad)
                 {
-#if NETCF
                     // new thread to execute the Load() method for the layer
-                    System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(load));
-#else
-                    System.Threading.Tasks.Task.Factory.StartNew(() => load(null));
-#endif
+                    Device.Thread.QueueWorker(a => load());
                 }
                 else
                 {
-                    load(null);
+                    load();
                 }
 
                 // Console.WriteLine("InternalNavigate: Unlocking");

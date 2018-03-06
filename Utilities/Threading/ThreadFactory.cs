@@ -1,4 +1,6 @@
-﻿namespace MonoCross.Utilities.Threading
+﻿using MonoCross.Navigation;
+
+namespace MonoCross.Utilities.Threading
 {
     /// <summary>
     /// Provides methods for creating threading utilities.
@@ -10,8 +12,7 @@
         /// </summary>
         public static IThread Create()
         {
-            IThread file = new BasicThread();
-            return file;
+            return MXContainer.Resolve<IThread>();
         }
 
         /// <summary>
@@ -20,19 +21,7 @@
         /// <param name="threadType">The type of <see cref="IThread"/> to create.</param>
         public static IThread Create(ThreadType threadType)
         {
-            IThread thread = new BasicThread();
-
-            switch (threadType)
-            {
-                case ThreadType.MockThread:
-                    thread = new MockThread();
-                    break;
-                default:
-                    // returns the default - BasicThread implementation                 
-                    break;
-            }
-
-            return thread;
+            return MXContainer.Resolve<IThread>(threadType.ToString());
         }
     }
 

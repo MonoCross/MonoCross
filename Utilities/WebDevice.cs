@@ -2,13 +2,11 @@
 using System.Web;
 
 using MonoCross.Utilities.Encryption;
-using MonoCross.Utilities.Storage;
 using MonoCross.Utilities.Network;
 using MonoCross.Utilities.Threading;
 
 using MonoCross.Navigation;
 using MonoCross.Utilities.Resources;
-using MonoCross.Utilities.Logging;
 using MonoCross.Web;
 
 namespace MonoCross.Utilities
@@ -21,11 +19,8 @@ namespace MonoCross.Utilities
         {
             DirectorySeparatorChar = Path.DirectorySeparatorChar;
             MXContainer.RegisterSingleton<IThread>(typeof(TaskThread));
-            MXContainer.RegisterSingleton<IFile>(typeof(BasicFile));
             MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
-            MXContainer.RegisterSingleton<IReflector>(typeof(BasicReflector));
             MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));
-            MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), () => new BasicLogger(Path.Combine(DataPath, "Log")));
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.GdiPlusCompositor));
 
             NetworkPostMethod = NetworkPostMethod.ImmediateSynchronous;

@@ -13,7 +13,7 @@
     <description>Specific to the Windows .NET environment, this package contains concrete, platform-specific implementations of the MonoCross Utilities (Encryption, Logging, Network, Serialization, Threading)</description>
     <summary>MonoCross.Utilities implementation for .NET</summary>
     <releaseNotes>Open-source release coordinated with iFactr 4.0</releaseNotes>
-    <copyright>2010-2017 Zebra Technologies Corp.</copyright>
+    <copyright>2010-2018 Zebra Technologies Corp.</copyright>
     <tags>MonoCross iFactr dotNET dotNET-CLI</tags>
     <dependencies>
       <dependency id="MonoCross" version="4.0.0.42" />

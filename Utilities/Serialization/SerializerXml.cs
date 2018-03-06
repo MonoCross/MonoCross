@@ -133,11 +133,12 @@ namespace MonoCross.Utilities.Serialization
                 //				Device.Log.Debug( "SerializeObjectToBytesClear() 6  type: "  +  typeof(T).ToString() + " ToString: " + obj.ToString() );
 
                 if (writer != null)
-#if NETCF
+                {
                     writer.Close();
-#else
+#if !NETCF
                     writer.Dispose();
 #endif
+                }
             }
 
             Device.Log.Metric(string.Format("SerializerXml.SerializeObjectToBytes: Type: {0} Size: {1} Time: {2:0} milliseconds", obj.GetType().ToString(), byteData.Length, DateTime.UtcNow.Subtract(dtMetric).TotalMilliseconds));
@@ -244,9 +245,7 @@ namespace MonoCross.Utilities.Serialization
                 if (reader != null)
                 {
                     //			Device.Log.Debug( "DeserializeObjectClear() 6  type: "  + typeof(T).ToString() );
-#if NETCF
                     reader.Close();
-#endif
                     reader.Dispose();
                 }
             }
@@ -336,12 +335,13 @@ namespace MonoCross.Utilities.Serialization
             }
             finally
             {
-#if NETCF
                 if (writer != null)
+                {
                     writer.Close();
-#else
-                writer?.Dispose();
+#if !NETCF
+                    writer.Dispose();
 #endif
+                }
             }
 
             Device.Log.Metric(string.Format("SerializerXml.SerializeListToBytes: Type: {0} Size: {1} Time: {2:0} milliseconds", list.GetType(), byteData.Length, DateTime.UtcNow.Subtract(dtMetric).TotalMilliseconds));
@@ -448,11 +448,8 @@ namespace MonoCross.Utilities.Serialization
             {
                 if (reader != null)
                 {
-
                     //Device.Log.Debug( "DeserializeListClear() 6  type: "  + typeof(T).ToString() );
-#if NETCF
                     reader.Close();
-#endif
                     reader.Dispose();
                 }
             }
