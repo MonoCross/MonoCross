@@ -11,6 +11,10 @@
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\MonoCross.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Android\**" />
     <Compile Remove="BestSellers Sample\**" />
@@ -88,11 +92,6 @@
     <None Remove="Utilities\MonoCross.Utilities.Android.nuspec" />
     <None Remove="Utilities\MonoCross.Utilities.iOS.nuspec" />
     <None Remove="Utilities\MonoCross.Utilities.NET.nuspec" />
-    <None Remove="Utilities\MonoCross.Utilities.Web.nuspec" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -100,5 +99,9 @@
       <HintPath>Distribution\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetDir)$(TargetName).dll $(ProjectDir)Distribution&#xD;&#xA;copy $(TargetDir)$(TargetName).xml $(ProjectDir)Distribution&#xD;&#xA;copy $(TargetDir)$(TargetName).pdb $(ProjectDir)Distribution" />
+  </Target>
 
 </Project>

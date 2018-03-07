@@ -185,4 +185,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(ProjectDir)Distribution</PostBuildEvent>
+  </PropertyGroup>
 </Project>

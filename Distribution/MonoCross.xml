@@ -1234,6 +1234,46 @@
             <param name="b">The second <see cref="T:MonoCross.Navigation.NamedTypeMap.NamedType"/> to check.</param>
             <returns><c>true</c> if the parameters are not equal; otherwise, <c>false</c>.</returns>
         </member>
+        <member name="T:MonoCross.Navigation.ReflectionExtensions">
+            <summary>
+            Provides helper extensions for reflection compatibility.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Navigation.ReflectionExtensions.GetTypeInfo(System.Type)">
+            <summary>
+            Returns the <see cref="T:MonoCross.Navigation.TypeInfo"/> representation of the specified type.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to convert.</param>
+            <returns>The <see cref="T:MonoCross.Navigation.TypeInfo"/> representation of the specified type.</returns>
+        </member>
+        <member name="T:MonoCross.Navigation.TypeInfo">
+            <summary>
+            A compatibility wrapper for .NET 4.5
+            </summary>
+        </member>
+        <member name="M:MonoCross.Navigation.TypeInfo.#ctor(System.Type)">
+            <summary>
+            Initializes a new <see cref="T:MonoCross.Navigation.TypeInfo"/> instance.
+            </summary>
+            <param name="type">The type being wrapped.</param>
+        </member>
+        <member name="P:MonoCross.Navigation.TypeInfo.DeclaredConstructors">
+            <summary>
+            Public constructors for the given <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Navigation.TypeInfo.ImplementedInterfaces">
+            <summary>
+            The interfaces implemented or inherited by the given <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Navigation.TypeInfo.IsAssignableFrom(MonoCross.Navigation.TypeInfo)">
+            <summary>
+            Determines whether an instance of a specified type can be assigned to the current type instance. 
+            </summary>
+            <param name="typeInfo">The type info to compare with the current instance. </param>
+            <returns><c>true</c> if the given type can be assigned to this instance's type; otherwise <c>false</c>.</returns>
+        </member>
         <member name="T:MonoCross.Navigation.SerializableDictionary`2">
             <summary>
             Represents a generic collection of key/value pairs with serialization logic.
@@ -1769,24 +1809,209 @@
             </summary>
             <param name="networkResponse">The network response from a previous request.</param>
         </member>
-        <member name="T:MonoCross.Utilities.EncryptionMode">
+        <member name="T:MonoCross.Utilities.Encryption.AesEncryption">
             <summary>
-            The available modes of data encryption.
+            Represents an encryption module that utilizes the AES algorithm.
             </summary>
         </member>
-        <member name="F:MonoCross.Utilities.EncryptionMode.Default">
+        <member name="M:MonoCross.Utilities.Encryption.AesEncryption.EncryptStream(System.IO.Stream,System.IO.Stream,System.String,System.Byte[])">
             <summary>
-            Encryption is determined by the application.
+            Reads the contents of the specified input stream and writes an encrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the unencrypted data.</param>
+            <param name="outputStream">The stream to write the encrypted data to.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.AesEncryption.DecryptStream(System.IO.Stream,System.IO.Stream,System.String,System.Byte[])">
+            <summary>
+            Reads the contents of the specified input stream and writes a decrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the encrypted data.</param>
+            <param name="outputStream">The stream to write the decrypted data to.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Encryption.BaseEncryption">
+            <summary>
+            Represents a base class for data encryption modules.  This class is abstract.
             </summary>
         </member>
-        <member name="F:MonoCross.Utilities.EncryptionMode.NoEncryption">
+        <member name="P:MonoCross.Utilities.Encryption.BaseEncryption.Required">
             <summary>
-            No encryption will be done.
+            Gets or sets whether encryption is required.
             </summary>
         </member>
-        <member name="F:MonoCross.Utilities.EncryptionMode.Encryption">
+        <member name="P:MonoCross.Utilities.Encryption.BaseEncryption.Key">
             <summary>
-            The data will be encrypted.
+            Gets or sets the keyword that, combined with the Salt, will generate the encryption key.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Encryption.BaseEncryption.Salt">
+            <summary>
+            Gets or sets the salt that, combined with the Key, will generate the encryption key.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.GetAesManaged(System.String,System.Byte[])">
+            <summary>
+            Returns an <see cref="T:System.Security.Cryptography.AesManaged"/> instance with the specified key and key salt.
+            </summary>
+            <param name="aesKey">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.CreateAesManaged(System.String,System.Byte[])">
+            <summary>
+            Creates a new <see cref="T:System.Security.Cryptography.AesManaged"/> instance with the specified key and key salt.
+            </summary>
+            <param name="aesKey">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="aesKey"/> is <c>null</c> or an empty string, or if <paramref name="salt"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptString(System.String)">
+            <summary>
+            Encrypts the specified text.
+            </summary>
+            <param name="txt">The text to encrypt.</param>
+            <returns>The encrypted text.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptString(System.String,System.String,System.Byte[])">
+            <summary>
+            Encrypts the specified text.
+            </summary>
+            <param name="txt">The text to encrypt.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <returns>The encrypted text.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptString(System.String)">
+            <summary>
+            Decrypts the specified text.
+            </summary>
+            <param name="cipher">The text to decrypt.</param>
+            <returns>The decrypted text.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptString(System.String,System.String,System.Byte[])">
+            <summary>
+            Decrypts the specified text.
+            </summary>
+            <param name="cipher">The text to decrypt.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <returns>The decrypted text.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptBytes(System.Byte[])">
+            <summary>
+            Encrypts the specified byte array.
+            </summary>
+            <param name="contents">The byte array to encrypt.</param>
+            <returns>The encrypted byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptBytes(System.Byte[],System.String,System.Byte[])">
+            <summary>
+            Encrypts the specified byte array.
+            </summary>
+            <param name="contents">The byte array to encrypt.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <returns>The encrypted byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptBytes(System.Byte[])">
+            <summary>
+            Decrypts the specified byte arrat.
+            </summary>
+            <param name="cipher">The byte array to decrypt.</param>
+            <returns>The decrypted byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptBytes(System.Byte[],System.String,System.Byte[])">
+            <summary>
+            Decrypts the specified byte array.
+            </summary>
+            <param name="cipher">The byte array to decrypt.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <returns>The decrypted byte array.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptStream(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Reads the contents of the specified input stream and writes an encrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the unencrypted data.</param>
+            <param name="outputStream">The stream to write the encrypted data to.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.EncryptStream(System.IO.Stream,System.IO.Stream,System.String,System.Byte[])">
+            <summary>
+            Reads the contents of the specified input stream and writes an encrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the unencrypted data.</param>
+            <param name="outputStream">The stream to write the encrypted data to.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptStream(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Reads the contents of the specified input stream and writes a decrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the encrypted data.</param>
+            <param name="outputStream">The stream to write the decrypted data to.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.BaseEncryption.DecryptStream(System.IO.Stream,System.IO.Stream,System.String,System.Byte[])">
+            <summary>
+            Reads the contents of the specified input stream and writes a decrypted version of the contents to the specified output stream.
+            </summary>
+            <param name="inputStream">The stream that contains the encrypted data.</param>
+            <param name="outputStream">The stream to write the decrypted data to.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Encryption.EncryptorMap">
+            <summary>
+            Represents a static mapping of expiring encryption modules.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.Add(System.String,System.Security.Cryptography.AesManaged)">
+            <summary>
+            Adds a new item to the map with the specified key.  If the key already exists in the map, the item using it will be replaced.
+            </summary>
+            <param name="key">The key to associate with the encryptor.</param>
+            <param name="aesManaged">The encryptor to add to the map.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="aesManaged"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.CleanExpired">
+            <summary>
+            Removes from the map any items that have passed their expiration times.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.Get(System.String)">
+            <summary>
+            Returns the encryptor associated with the specified key.  If no encryptor is found, null is returned.
+            </summary>
+            <param name="key">The key of the encryptor to retrieve.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="key"/> is <c>null</c> or an empty string.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.Update(System.String,System.Security.Cryptography.AesManaged)">
+            <summary>
+            Removes any expired items and adds the specified encryptor to the map with the specified key.
+            If the key is already being used, the encryptor using it will be replaced.
+            </summary>
+            <param name="key">The key to associate with the encryptor.</param>
+            <param name="aesManaged">The encryptor to add to the map.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="aesManaged"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.Clear">
+            <summary>
+            Removes all items from the map.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Encryption.EncryptorMap.Remove(System.String)">
+            <summary>
+            Removes the item using the specified key from the map.
+            </summary>
+            <param name="key">The key of the item to remove.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="key"/> is <c>null</c> or an empty string.</exception>
+        </member>
+        <member name="P:MonoCross.Utilities.Encryption.EncryptorMap.Encryptor.Expiration">
+            <summary>
+            cache expiration date in universal time
             </summary>
         </member>
         <member name="T:MonoCross.Utilities.Encryption.IEncryption">
@@ -2036,6 +2261,26 @@
             <param name="outputStream">The stream to write the decrypted data to.</param>
             <param name="key">The keyword to derive the encryption key from.</param>
             <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.EncryptionMode">
+            <summary>
+            The available modes of data encryption.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.EncryptionMode.Default">
+            <summary>
+            Encryption is determined by the application.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.EncryptionMode.NoEncryption">
+            <summary>
+            No encryption will be done.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.EncryptionMode.Encryption">
+            <summary>
+            The data will be encrypted.
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.Events">
             <summary>
@@ -2627,6 +2872,253 @@
             <param name="image">The bytes of the image to convert.</param>
             <returns>The encoded string.</returns>
         </member>
+        <member name="T:MonoCross.Utilities.Logging.BaseLogger">
+            <summary>
+            Represents a base class for logging utilities.  This class is abstract.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Logging.BaseLogger.FileExt">
+            <summary>
+            Gets the extension of the saved log files.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Logging.BaseLogger.FileType">
+            <summary>
+            Gets the name of the saved log files.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Logging.BaseLogger.LogPath">
+            <summary>
+            Gets the path in which log files are saved.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Logging.BaseLogger.LogFileName">
+            <summary>
+            Gets the name of the log file when it is saved.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Logging.BaseLogger.LoggingLevel">
+            <summary>
+            Gets or sets the level of verbosity for the logger.
+            </summary>
+            <value>The logging level as a <see cref="P:MonoCross.Utilities.Logging.BaseLogger.LoggingLevel"/> value.</value>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Logging.BaseLogger"/> class.
+            </summary>
+            <param name="logPath">A <see cref="T:System.String"/> representing the path in which to save the log files.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.InitLogger(System.String)">
+            <summary>
+            Initializes the logger and sets the save path to the specified string.
+            </summary>
+            <param name="logPath">A <see cref="T:System.String"/> representing the path in which to save the log files.</param>
+        </member>
+        <member name="E:MonoCross.Utilities.Logging.BaseLogger.OnLogEvent">
+            <summary>
+            Occurs when a message has been logged.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.LogEvent(MonoCross.Utilities.Logging.LogEventArgs)">
+            <summary>
+            Called when a message has been logged.
+            </summary>
+            <param name="logEventArgs">Contains information about the message that was logged.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Info(System.String,System.Object[])">
+            <summary>
+            Logs an informational message.  This is a level 4 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Info(System.Exception)">
+            <summary>
+            Logs an informational message.  This is a level 4 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Info(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs an informational message.  This is a level 4 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Warn(System.String,System.Object[])">
+            <summary>
+            Logs a warning message.  This is a level 5 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Warn(System.Exception)">
+            <summary>
+            Logs a warning message.  This is a level 5 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Warn(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs a warning message.  This is a level 5 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Debug(System.String,System.Object[])">
+            <summary>
+            Logs a debug message.  This is a level 2 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Debug(System.Exception)">
+            <summary>
+            Logs a debug message.  This is a level 2 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Debug(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs a debug message.  This is a level 2 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Error(System.String,System.Object[])">
+            <summary>
+            Logs an error message.  This is a level 6 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Error(System.Exception)">
+            <summary>
+            Logs an error message.  This is a level 6 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Error(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs an error message.  This is a level 6 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Fatal(System.String,System.Object[])">
+            <summary>
+            Logs a fatal error message.  This is a level 7 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Fatal(System.Exception)">
+            <summary>
+            Logs a fatal error message.  This is a level 7 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Fatal(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs a fatal error message.  This is a level 7 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Metric(System.String,System.Object[])">
+            <summary>
+            Logs a metric message.  This is a level 3 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Metric(System.String,System.Double,System.Object[])">
+            <summary>
+            Logs a metric message.  This is a level 3 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="milliseconds">The number of milliseconds that an operation took.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Platform(System.String,System.Object[])">
+            <summary>
+            Logs a message about the current platform.  This is a level 1 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Platform(System.Exception)">
+            <summary>
+            Logs a message about the current platform.  This is a level 1 logging operation.
+            </summary>
+            <param name="ex">The <see cref="T:System.Exception"/> to log.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.Platform(System.String,System.Exception,System.Object[])">
+            <summary>
+            Logs a message about the current platform.  This is a level 1 logging operation.
+            </summary>
+            <param name="message">A <see cref="T:System.String"/> representing the message to log.</param>
+            <param name="ex">The <see cref="T:System.Exception"/> to append to the message.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.GetLogFiles">
+            <summary>
+            Returns a list of log files that current exist in the log path.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.DeleteLogFiles(System.Int32)">
+            <summary>
+            Deletes any log files that are older than the specified number of days.
+            </summary>
+            <param name="days">The number of days.  If a log file's age is equal to or greater than this, it will be deleted.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.AppendLog(System.String,MonoCross.Utilities.Logging.LogMessageType,System.Exception,System.Object[])">
+            <summary>
+            Appends the specified message to the current log file.
+            </summary>
+            <param name="message">The message to append to the current log file.</param>
+            <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.AppendLog(System.Exception,MonoCross.Utilities.Logging.LogMessageType)">
+            <summary>
+            Appends the specified <see cref="T:System.Exception"/> to the current log file.
+            </summary>
+            <param name="ex">The exception to append to the current log file.</param>
+            <param name="messageType">The type of log message.  If this is less than the current logging level, the exception will not be appended.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BaseLogger.AppendText(System.String,System.String)">
+            <summary>
+            Appends the specified text to the file at the specified path.
+            </summary>
+            <param name="filename">A <see cref="T:System.String"/> representing the path of the file.</param>
+            <param name="value">A <see cref="T:System.String"/> representing the text to append.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Logging.BasicLogger">
+            <summary>
+            Represents a logging utility with basic functionality that works across multiple platforms.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BasicLogger.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Logging.BasicLogger"/> class.
+            </summary>
+            <param name="logPath">A <see cref="T:System.String"/> representing the path in which to save the log files.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.BasicLogger.AppendLog(System.String,MonoCross.Utilities.Logging.LogMessageType,System.Exception,System.Object[])">
+            <summary>
+            Appends the specified message to the current log file.
+            </summary>
+            <param name="message">The message to append to the current log file.</param>
+            <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
         <member name="T:MonoCross.Utilities.Logging.DiagnosticDebugLogger">
             <summary>
             <see cref="T:MonoCross.Utilities.Logging.ILog"/> implementation that stores no log files and outputs messages using <see cref="M:System.Diagnostics.Debug.WriteLine(System.String)"/>
@@ -3032,6 +3524,76 @@
             Gets or sets the Exception that was logged (if available)
             </summary>
         </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggerFactory">
+            <summary>
+            Represents a logging factory.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.LoggerFactory.Create(System.String)">
+            <summary>
+            Creates an ILog instance in the specified log path.
+            </summary>
+            <param name="logPath">A <see cref="!:String"/> representing the Log path value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.LoggerFactory.Create(System.String,MonoCross.Utilities.Logging.LoggerType)">
+            <summary>
+            Creates an ILog instance in the specified log path, and of the specified type.
+            </summary>
+            <param name="logPath">A <see cref="!:String"/> representing the Log path value.</param>
+            <param name="loggerType">Type of the logger.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggerType">
+            <summary>
+            Represents the available logger types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggerType.BasicLogger">
+            <summary>
+            A Basic Logger.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggingLevel">
+            <summary>
+            The level of verbosity when logging messages.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Platform">
+             <summary>
+            Logging level 1.  Platform messages and above are logged.  This is the most verbose logging level.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Debug">
+             <summary>
+            Logging level 2.  Debug messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Metric">
+             <summary>
+            Logging level 3.  Metric messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Info">
+             <summary>
+            Logging level 4.  Info messages and above are logged.  
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Warn">
+             <summary>
+            Logging level 5.  Warning messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Error">
+             <summary>
+            Logging level 6.  Error messages and above are logged.
+             </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Fatal">
+             <summary>
+            Logging level 7.  Only fatal messages are logged.  This is the least verbose logging level.
+             </summary>
+        </member>
         <member name="T:MonoCross.Utilities.Logging.LogHelper">
             <summary>
             Helper methods for building log messages.
@@ -3093,45 +3655,29 @@
             A message about the current platform.
             </summary>
         </member>
-        <member name="T:MonoCross.Utilities.Logging.LoggingLevel">
+        <member name="T:MonoCross.Utilities.Logging.QuietLogger">
             <summary>
-            The level of verbosity when logging messages.
+            Represents a <see cref="T:MonoCross.Utilities.Logging.BasicLogger"/> that does not write to the Output window.
             </summary>
         </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Platform">
-             <summary>
-            Logging level 1.  Platform messages and above are logged.  This is the most verbose logging level.
-             </summary>
+        <member name="M:MonoCross.Utilities.Logging.QuietLogger.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Logging.QuietLogger"/> class.
+            </summary>
+            <param name="logPath">A <see cref="T:System.String"/> representing the path in which to save the log files.</param>
         </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Debug">
-             <summary>
-            Logging level 2.  Debug messages and above are logged.
-             </summary>
+        <member name="M:MonoCross.Utilities.Logging.QuietLogger.AppendLog(System.String,MonoCross.Utilities.Logging.LogMessageType,System.Exception,System.Object[])">
+            <summary>
+            Appends the specified message to the current log file.
+            </summary>
+            <param name="message">The message to append to the current log file.</param>
+            <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+            <param name="args">An object array that contains zero or more objects to format.</param>
         </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Metric">
-             <summary>
-            Logging level 3.  Metric messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Info">
-             <summary>
-            Logging level 4.  Info messages and above are logged.  
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Warn">
-             <summary>
-            Logging level 5.  Warning messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Error">
-             <summary>
-            Logging level 6.  Error messages and above are logged.
-             </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Logging.LoggingLevel.Fatal">
-             <summary>
-            Logging level 7.  Only fatal messages are logged.  This is the least verbose logging level.
-             </summary>
+        <member name="M:MonoCross.Utilities.Logging.RestfulQueue`1.IsOnline">
+            <summary>
+            Returns true if the device has an internet connection.
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.Network.FetcherAsynch">
             <summary>
@@ -3739,6 +4285,38 @@
             Gets or sets the request injection headers within the current session.
             </summary>
             <value>A <see cref="T:MonoCross.Navigation.SerializableDictionary`2"/> representing the request injection headers.</value>
+        </member>
+        <member name="T:MonoCross.Utilities.Network.NetworkFactory">
+            <summary>
+            Provides methods for creating a network access strategy.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Network.NetworkFactory.Create">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Network.INetwork"/> instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Network.NetworkFactory.Create(MonoCross.Utilities.Network.NetworkType)">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Network.INetwork"/> instance of the specified network type.
+            </summary>
+            <param name="networkType">The type of <see cref="T:MonoCross.Utilities.Network.INetwork"/> to create.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Network.NetworkType">
+            <summary>
+            The available networking types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Network.NetworkType.NetworkAsynch">
+            <summary>
+            Default network type with asynchronous support for Get/Post methods.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Network.NetworkType.NetworkSynch">
+            <summary>
+            Network type with synchronous support for Get/Post methods.
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.Network.NetworkGetMethod">
             <summary>
@@ -4624,10 +5202,12 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetAssembly(System.Type)">
             <summary>
-            Gets the assembly in which the specified <see cref="T:System.Type"/> is declared.
+            Gets the assembly in which the specified <see cref="T:System.Type" /> is declared.
             </summary>
             <param name="type">The type for which to get the declaring assembly.</param>
-            <returns>The <see cref="T:System.Reflection.Assembly"/> in which the specified <see cref="T:System.Type"/> is declared.</returns>
+            <returns>
+            The <see cref="T:System.Reflection.Assembly" /> in which the specified <see cref="T:System.Type" /> is declared.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetTypes(System.Reflection.Assembly)">
             <summary>
@@ -4638,7 +5218,7 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetBaseType(System.Type)">
             <summary>
-            Gets the type from which the specified <see cref="T:System.Type"/> directly inherits.
+            Gets the type from which the specified Type directly inherits.
             </summary>
             <param name="type">The child type.</param>
             <returns>
@@ -4685,10 +5265,12 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetMembers(System.Type)">
             <summary>
-            Gets all members of the specified <see cref="T:System.Type"/>.
+            Gets all members of the specified <see cref="T:System.Type" />.
             </summary>
             <param name="type">The type to check.</param>
-            <returns>An enumeration of <see cref="T:System.Reflection.MemberInfo"/> objects representing all members of the specified <see cref="T:System.Type"/>.</returns>
+            <returns>
+            An enumeration of <see cref="T:System.Reflection.MemberInfo" /> objects representing all members of the specified <see cref="T:System.Type" />.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetMethod(System.Type,System.String)">
             <summary>
@@ -4707,15 +5289,27 @@
             <param name="type">The type to check.</param>
             <param name="name">The name of the method.</param>
             <param name="parameterTypes">The types of the parameters in the order in which they appear in the method signature.</param>
-            <returns>An object that represents the method with the specified name and parameter types, if found; otherwise, <c>null</c>.</returns>
+            <returns>
+            An object that represents the method with the specified name and parameter types, if found; otherwise, <c>null</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetMethods(System.Type)">
             <summary>
-            Gets all methods of the specified <see cref="T:System.Type"/>.
+            Gets all methods of the specified <see cref="T:System.Type" />.
             </summary>
             <param name="type">The type to check.</param>
             <returns>
             An enumeration of <see cref="T:System.Reflection.MethodInfo" /> objects representing all methods of the specified <see cref="T:System.Type" />.
+            </returns>
+        </member>
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMethods(System.Type,System.String)">
+            <summary>
+            Searches for method overloads with the specified name.
+            </summary>
+            <param name="type">The type to check.</param>
+            <param name="name">The name of the method.</param>
+            <returns>
+            A collection of objects that represent methods with the specified name.
             </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.GetInterface(System.Type,System.String,System.Boolean)">
@@ -4819,29 +5413,35 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.HasAttribute(System.Type,System.Type,System.Boolean)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> has an attribute defined.
+            Determines whether the specified <see cref="T:System.Type" /> has an attribute defined.
             </summary>
             <param name="type">The type to check.</param>
             <param name="attributeType">The type of the attribute to look for.</param>
-            <param name="inherit"><c>true</c> to search the <paramref name="type"/>'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> has the attribute defined; otherwise <c>false</c>.</returns>
+            <param name="inherit"><c>true</c> to search the <paramref name="type" />'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> has the attribute defined; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.HasAttribute(System.Reflection.MemberInfo,System.Type,System.Boolean)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> has an attribute defined.
+            Determines whether the specified <see cref="T:System.Type" /> has an attribute defined.
             </summary>
-            <param name="member">The member to check.</param>
+            <param name="member">The type to check.</param>
             <param name="attributeType">The type of the attribute to look for.</param>
-            <param name="inherit"><c>true</c> to search the <paramref name="member"/>'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> has the attribute defined; otherwise <c>false</c>.</returns>
+            <param name="inherit"><c>true</c> to search the <paramref name="member" />'s inheritance chain to find the attributes; otherwise <c>false</c>.</param>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> has the attribute defined; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.HasInterface(System.Type,System.Type)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> implements an interface.
+            Determines whether the specified <see cref="T:System.Type" /> implements an interface.
             </summary>
             <param name="type">The type to check.</param>
             <param name="interfaceType">The type of the interface to look for.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> implements the interface; otherwise <c>false</c>.</returns>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> implements the interface; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsAbstract(System.Type)">
             <summary>
@@ -4878,10 +5478,12 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsEnum(System.Type)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> is an enum.
+            Determines whether the specified <see cref="T:System.Type" /> is an enum.
             </summary>
             <param name="type">The type to check.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> is an enum; otherwise <c>false</c>.</returns>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> is an enum; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsInterface(System.Type)">
             <summary>
@@ -4894,10 +5496,12 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsPrimitive(System.Type)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> is a primitive.
+            Determines whether the specified <see cref="T:System.Type" /> is a primitive.
             </summary>
             <param name="type">The type to check.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> is a primitive; otherwise <c>false</c>.</returns>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> is a primitive; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsSubclassOf(System.Type,System.Type)">
             <summary>
@@ -4912,10 +5516,12 @@
         </member>
         <member name="M:MonoCross.Utilities.BasicReflector.IsValueType(System.Type)">
             <summary>
-            Determines whether the specified <see cref="T:System.Type"/> is a value type.
+            Determines whether the specified <see cref="T:System.Type" /> is a value type.
             </summary>
             <param name="type">The type to check.</param>
-            <returns><c>true</c> if the <see cref="T:System.Type"/> is a value type; otherwise <c>false</c>.</returns>
+            <returns>
+              <c>true</c> if the <see cref="T:System.Type" /> is a value type; otherwise <c>false</c>.
+            </returns>
         </member>
         <member name="T:MonoCross.Utilities.NullReflector">
             <summary>
@@ -5441,6 +6047,91 @@
             <returns>
             The value of the resource localized for the specified culture, or <c>null</c> if <paramref name="key" /> cannot be found in a resource set.
             </returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Start">
+            <summary>
+            Enable the scanner for actual scanning, for example, a scanner may need to be enabled for automated
+            scanner or to enable a button on the scanner for a form or on a particular field
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Stop">
+            <summary>
+            Disable the scanner entirely to avoid inadvertant button presses or power saving, etc
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Terminate">
+            <summary>
+            terminate the scanner, after this point the scanner interface will be invalid for use and the factory will
+            have to be called to get a new interface to the scanner
+            </summary>
+        </member>
+        <member name="E:MonoCross.Utilities.Barcode.IBarcodeScanner.BarcodeScan">
+            <summary>
+            Barcode returned on a scan
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.IsSymbologyAvailable(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to determine if a particular barcode symbology is supported by the scanner
+            </summary>
+            <param name="symbology">Barcode Symbology</param>
+            <returns>true if symbology is supported, false otherwire</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbology(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to enable a particular symbology
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.DisableSymbology(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to disable a particular symbology
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.IsSymbologyEnabled(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to test if a particular symbology is enabled
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbologies(System.Collections.Generic.List{MonoCross.Utilities.Barcode.Symbology})">
+            <summary>
+            Sets the symbologies to ONLY those specified, disabling all others
+            </summary>
+            <param name="symbologies">A list of the symbologies to enable</param>
+            <returns>true on success, false on failure</returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Barcode.BarcodeScanEvent">
+            <summary>
+            Barcode reader scan event
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.BarcodeScanEvent.#ctor(System.String,System.DateTime,MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            
+            </summary>
+            <param name="data">The barcode data</param>
+            <param name="time">The time the scan took place, device time so may not be accurate</param>
+            <param name="type">The symbology of the barcode scanned</param>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Data">
+            <summary>
+            The barcode scanned
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Time">
+            <summary>
+            The time the scan took place, device time so may not be accurate
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Type">
+            <summary>
+            The symbology of the barcode scanned, not sure yet if this is applicable to all scanners, only some may return the type
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.Serialization.BaseSerializer`1">
             <summary>
@@ -5995,6 +6686,77 @@
             Gets the type of the content.
             </summary>
             <value>The type of the content.</value>
+        </member>
+        <member name="T:MonoCross.Utilities.Serialization.SerializableDictionary`2">
+            <summary>
+            Represents a serializable dictionary of values
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+            <param name="dictionary">A <see cref="T:System.Collections.Generic.IDictionary`2"/> representing the Dictionary value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+            <param name="capacity">A <see cref="T:System.Int32"/> representing the Capacity value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+            <param name="dictionary">A <see cref="T:System.Collections.Generic.IDictionary`2"/> representing the Dictionary value.</param>
+            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Int32,System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
+            </summary>
+            <param name="capacity">A <see cref="T:System.Int32"/> representing the Capacity value.</param>
+            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.CreateFromXml(System.String)">
+            <summary>
+            Creates a new dictionary from XML.
+            </summary>
+            <param name="filename">A <see cref="T:System.String"/> representing the Filename value.</param>
+            <returns></returns>
         </member>
         <member name="T:MonoCross.Utilities.Serialization.SerializationFormat">
             <summary>
@@ -6567,115 +7329,350 @@
             <param name="value">The serialized list value.</param>
             <returns></returns>
         </member>
-        <member name="T:MonoCross.Utilities.Compatibility.Directory">
+        <member name="T:MonoCross.Utilities.Storage.BaseFile">
             <summary>
-            Static helper class for working with directories.
+            Represents a base class for file system utilities.  This class is abstract.
             </summary>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.Exists(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.#ctor">
             <summary>
-            Returns a value indicating whether or not the specified directory exists.
-            </summary>
-            <param name="directoryName">The directory to check for.</param>
-            <returns><c>true</c> if the specified directory exists; otherwise <c>false</c>.</returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.CreateDirectory(System.String)">
-            <summary>
-            Creates a directory with the specified name.
-            </summary>
-            <param name="directoryName">The name of the directory to create.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.GetFiles(System.String)">
-            <summary>
-            Returns the names of the files that are inside of the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the files of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.GetDirectories(System.String)">
-            <summary>
-            Returns the names of subdirectories within the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the subdirectories of.</param>
-        </member>
-        <member name="T:MonoCross.Utilities.Compatibility.File">
-            <summary>
-            Static helper class for working with files.
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Storage.BaseFile"/> class.
             </summary>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Exists(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String)">
             <summary>
-            Returns a value indicating whether or not the specified file exists.
+            Reads the specified file and returns its contents as a byte array.
             </summary>
-            <param name="filename">The file to check for.</param>
-            <returns><c>true</c> if the specified file exists; otherwise <c>false</c>.</returns>
+            <param name="filename">The file to read.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Delete(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="mode">The encryption mode to use when reading the file.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String,System.String,System.Byte[])">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadClear(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="mode">The encryption mode to use when reading the file.</param>
+            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String,System.String,System.Byte[])">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadStringClear(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Length(System.String)">
+            <summary>
+            Returns the character length of the specified file.
+            </summary>
+            <param name="filename">The file to get the length of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Delete(System.String)">
             <summary>
             Deletes the specified file.
             </summary>
             <param name="filename">The file to delete.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Move(System.String,System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Move(System.String,System.String)">
             <summary>
             Moves the specified file to the specified destination.
             </summary>
             <param name="sourcefilename">The file to move.</param>
             <param name="destinationfilename">The destination of the file being moved.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.OpenRead(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Copy(System.String,System.String)">
             <summary>
-            Opens the specified file as a read-only <see cref="T:System.IO.Stream"/>.
+            Copies the specified file to the specified destination.
             </summary>
-            <param name="fileName">Name of the file.</param>
-            <returns></returns>
+            <param name="sourcefilename">The file to copy.</param>
+            <param name="destinationfilename">The destination of the file being copied.</param>
         </member>
-        <member name="T:MonoCross.Utilities.Compatibility.Path">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.CreateDirectory(System.String)">
             <summary>
-            Static helper class for working with paths.
+            Creates a directory with the specified name.
             </summary>
+            <param name="directoryName">The name of the directory to create.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.Combine(System.String[])">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.DeleteDirectory(System.String)">
             <summary>
-            Combines the specified strings into a path.
+            Deletes the specified directory.
             </summary>
-            <param name="paths">The parts of the path to combine.</param>
-            <returns>The fully combined path.</returns>
+            <param name="directoryName">The directory to delete.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetDirectoryName(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.DeleteDirectory(System.String,System.Boolean)">
+            <summary>
+            Deletes the specified directory and optionally deletes all files and subdirectories within the directory.
+            </summary>
+            <param name='directoryName'>The directory to delete.</param>
+            <param name='recursive'>Whether to delete all files and subdirectories within the directory.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.MoveDirectory(System.String,System.String)">
+            <summary>
+            Moves the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to move.</param>
+            <param name="destinationDirectoryName">The destination of the directory being moved.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.CopyDirectory(System.String,System.String)">
+            <summary>
+            Copies the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to copy.</param>
+            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.CopyDirectory(System.String,System.String,System.Boolean)">
+            <summary>
+            Copies the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to copy.</param>
+            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
+            <param name="overwriteExisting">Whether to overwrite any directory that is already at the destination.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.GetFileNames(System.String)">
+            <summary>
+            Returns the names of the files that are inside of the specified directory.
+            </summary>
+            <param name="directoryName">The directory to get the files of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.DirectoryName(System.String)">
             <summary>
             Returns the name of the directory that contains the specified file.
             </summary>
             <param name="filename">The file to get the directory of.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFileName(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Exists(System.String)">
             <summary>
-            Returns the name of the file.
+            Returns a value indicating whether or not the specified file exists.
             </summary>
-            <param name="filename">The file to get the name of.</param>
+            <param name="filename">The file to check for.</param>
+            <returns><c>true</c> if the specified file exists; otherwise <c>false</c>.</returns>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFileNameWithoutExtension(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.EnsureDirectoryExists(System.String)">
             <summary>
-            Returns the name of the file.
+            Ensures that all directories in the specified path exist.
             </summary>
-            <param name="filename">The file to get the name of.</param>
+            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
         </member>
-        <member name="P:MonoCross.Utilities.Compatibility.Path.DirectorySeparatorChar">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.EnsureDirectoryExistsForFile(System.String)">
             <summary>
-            Gets the directory separator character for the platform.
+            Ensures that all directories in the specified path exist.
             </summary>
+            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFullPath(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.GetDirectoryNames(System.String)">
             <summary>
-            Gets the full path of a filename.
+            Returns the names of subdirectories within the specified directory.
             </summary>
-            <param name="filename">The name of the file to create a whole path.</param>
-            <returns>The full path of the file.</returns>
+            <param name="directoryName">The directory to get the subdirectories of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String)">
+            <summary>
+            Writes the specified contents to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Writes the specified contents to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            Writes the specified contents to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.String)">
+            <summary>
+            Writes the specified contents to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream)">
+            <summary>
+            Writes the contents of the specified stream to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Writes the contents of the specified stream to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream,System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified stream to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.IO.Stream)">
+            <summary>
+            Writes the contents of the specified stream to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[],MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[],System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Storage.BasicFile">
+            <summary>
+            Represents a file system utility with basic functionality that works across multiple platforms.
+            </summary>
             <remarks>
-            If the file does not exist, the path is assumed to resolve to <see cref="P:MonoCross.Utilities.Device.SessionDataPath"/>.<br/>
-            If the file exists in the <see cref="P:MonoCross.Utilities.Device.DataPath"/> or <see cref="P:MonoCross.Utilities.Device.ApplicationPath"/>, the
-            appropriate base path will be prepended.<br/>
-            Fully-qualified paths will be returned as-is.
+            For now we will not be catching any exceptions, and will not be very defensive either.
+            The business developer will have to deal with that...
             </remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Storage.BasicFile"/> class.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Read(System.String,System.String,System.Byte[])">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.GetFileNames(System.String)">
+            <summary>
+            Returns the names of the files that are inside of the specified directory.
+            </summary>
+            <param name="directoryName">The directory to get the files of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.GetDirectoryNames(System.String)">
+            <summary>
+            Gets the names of subdirectories within the specified directory.
+            </summary>
+            <param name="directoryName">The directory to get the subdirectories of.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Storage.FileFactory">
+            <summary>
+            Factory for the creation of a file access strategy.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create">
+            <summary>
+            Creates an IFile instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create(MonoCross.Utilities.Storage.FileType)">
+            <summary>
+            Creates an IFile instance of the specified file type.
+            </summary>
+            <param name="fileType">Type of the file.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Storage.FileType">
+            <summary>
+            Indicates the file type to use
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Storage.FileType.BasicFile">
+            <summary>
+            Basic file type (default).
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.FileHelper.AppendText(System.IO.FileStream,System.String)">
+            <summary>
+            Appends text to the FileStream using a StreamWriter.
+            StreamWriter similar to FileStream shall be fine for all platforms.
+            </summary>
+            <param name="fs">A <see cref="T:System.IO.FileStream"/> representing the Fs value.</param>
+            <param name="value">A <see cref="T:System.String"/> representing the Value value.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.FileHelper.AppendText(System.String,System.String)">
+            <summary>
+            Appends text to the FileStream using a StreamWriter.
+            StreamWriter similar to FileStream shall be fine for all platforms.
+            </summary>
+            <param name="filename">A <see cref="T:System.String"/> representing the file location.</param>
+            <param name="value">A <see cref="T:System.String"/> representing the Value value.</param>
         </member>
         <member name="T:MonoCross.Utilities.Storage.IFile">
              <summary>
@@ -7155,6 +8152,140 @@
             <param name="key">The keyword to derive the encryption key from.</param>
             <param name="salt">The key salt to derive the encryption key from.</param>
         </member>
+        <member name="T:MonoCross.Utilities.Threading.BasicThread">
+            <summary>
+            Represents a basic threading utility that works across multiple platforms.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.Start(MonoCross.Utilities.Threading.ThreadDelegate)">
+            <summary>
+            Starts a new thread invoking the specified method.
+            </summary>
+            <param name="method">The method to invoke.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.Start(MonoCross.Utilities.Threading.ParameterDelegate,System.Object)">
+            <summary>
+            Starts a new thread invoking the specified method with the parameter provided.
+            </summary>
+            <param name="method">The method to invoke.</param>
+            <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.QueueWorker(MonoCross.Utilities.Threading.ParameterDelegate)">
+            <summary>
+            Queues a new worker thread invoking the specified method.
+            </summary>
+            <param name="method">The method to invoke.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.QueueWorker(MonoCross.Utilities.Threading.ParameterDelegate,System.Object)">
+            <summary>
+            Queues a new worker thread invoking the specified method with the parameter provided.
+            </summary>
+            <param name="method">The method to invoke.</param>
+            <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.QueueIdle(MonoCross.Utilities.Threading.ParameterizedThreadStart)">
+            <summary>
+            Queues a new worker thread invoking the specified method.
+            </summary>
+            <param name="method">The method to invoke.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.QueueIdle(MonoCross.Utilities.Threading.ParameterizedThreadStart,System.Object)">
+            <summary>
+            Queues a new worker thread invoking the specified method with the parameter provided.
+            </summary>
+            <param name="method">The method to invoke..</param>
+            <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.DiscardIdleThread">
+            <summary>
+            Discards any idle thread.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.BasicThread.IdleQueueEnabled">
+            <summary>
+            Gets or sets a value indicating whether the idle queue is enabled.
+            </summary>
+            <value><c>true</c> if the idle queue is enabled; otherwise <c>false</c>.</value>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.ExecuteOnMainThread(System.Delegate)">
+            <summary>
+            Invokes the specified method on the main thread.
+            </summary>
+            <param name="method">The method to invoke.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.ExecuteOnMainThread(System.Delegate,System.Object)">
+            <summary>
+            Invokes the specified method on the main thread with the parameter provided.
+            </summary>
+            <param name="method">The method to invoke.</param>
+            <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.ExecuteOnMainThread(System.Action)">
+            <summary>
+            Invokes the specified method on the main thread with the parameter provided.
+            </summary>
+            <param name="action">The method to invoke.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.BasicThread.ExecuteOnMainThread(System.Action{System.Object},System.Object)">
+            <summary>
+            Invokes the specified method on the main thread with the parameter provided.
+            </summary>
+            <param name="action">The method to invoke.</param>
+            <param name="parameter">The method parameter.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall">
+            <summary>
+            Represents a method sitting in the idle queue and waiting to be invoked.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Delegate">
+            <summary>
+            Gets or sets the method to invoke when no longer idle.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Item">
+            <summary>
+            Gets or sets the parameter for the method.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.IdleThreadQueue">
+            <summary>
+            Queues and executes <see cref="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall"/>s.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.IdleThreadQueue.MAXTHREADS">
+            <summary>
+            The maximum number of threads.
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Instance">
+            <summary>
+            Gets the instance.
+            </summary>
+            <value>The IdleThreadQueue instance.</value>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MonoCross.Utilities.Threading.IdleThreadQueue"/> is enabled.
+            </summary>
+            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.ThreadCountSafeRead">
+            <summary>
+            Gets the number of active threads, in a thread-safe manner.
+            </summary>
+            <value>A counter to make sure all threads are started and
+            blocked before any are released. An int is used to 
+            remain WinCE compatible, which prevents use of the 
+            64-bit Interlocked methods.</value>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.IdleThreadQueue.Enqueue(MonoCross.Utilities.Threading.ParameterizedThreadStart,System.Object)">
+            <summary>
+            Enqueues the specified idle queue delegate.
+            </summary>
+            <param name="idleQueueDelegate">The idle queue delegate.</param>
+            <param name="item">The item.</param>
+        </member>
         <member name="T:MonoCross.Utilities.Threading.ThreadDelegate">
             <summary>
             Represents the method that will be invoked on a new thread.
@@ -7252,59 +8383,6 @@
             </summary>
             <param name="action">The method to invoke.</param>
             <param name="parameter">The method parameter.</param>
-        </member>
-        <member name="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall">
-            <summary>
-            Represents a method sitting in the idle queue and waiting to be invoked.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Delegate">
-            <summary>
-            Gets or sets the method to invoke when no longer idle.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleQueueDelegateCall.Item">
-            <summary>
-            Gets or sets the parameter for the method.
-            </summary>
-        </member>
-        <member name="T:MonoCross.Utilities.Threading.IdleThreadQueue">
-            <summary>
-            Queues and executes <see cref="T:MonoCross.Utilities.Threading.IdleQueueDelegateCall"/>s.
-            </summary>
-        </member>
-        <member name="F:MonoCross.Utilities.Threading.IdleThreadQueue.MAXTHREADS">
-            <summary>
-            The maximum number of threads.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Instance">
-            <summary>
-            Gets the instance.
-            </summary>
-            <value>The IdleThreadQueue instance.</value>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.Enabled">
-            <summary>
-            Gets or sets a value indicating whether this <see cref="T:MonoCross.Utilities.Threading.IdleThreadQueue"/> is enabled.
-            </summary>
-            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:MonoCross.Utilities.Threading.IdleThreadQueue.ThreadCountSafeRead">
-            <summary>
-            Gets the number of active threads, in a thread-safe manner.
-            </summary>
-            <value>A counter to make sure all threads are started and
-            blocked before any are released. An int is used to 
-            remain WinCE compatible, which prevents use of the 
-            64-bit Interlocked methods.</value>
-        </member>
-        <member name="M:MonoCross.Utilities.Threading.IdleThreadQueue.Enqueue(MonoCross.Utilities.Threading.ParameterizedThreadStart,System.Object)">
-            <summary>
-            Enqueues the specified idle queue delegate.
-            </summary>
-            <param name="idleQueueDelegate">The idle queue delegate.</param>
-            <param name="item">The item.</param>
         </member>
         <member name="T:MonoCross.Utilities.Threading.MockThread">
             <summary>
@@ -7496,6 +8574,37 @@
         <member name="P:MonoCross.Utilities.Threading.TaskThread.UiSynchronizationContext">
             <summary>
             A <see cref="T:System.Threading.SynchronizationContext"/> for returning to the UI thread.
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.ThreadFactory">
+            <summary>
+            Provides methods for creating threading utilities.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.ThreadFactory.Create">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Threading.IThread"/> instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.ThreadFactory.Create(MonoCross.Utilities.Threading.ThreadType)">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Threading.IThread"/> instance of the specified thread type.
+            </summary>
+            <param name="threadType">The type of <see cref="T:MonoCross.Utilities.Threading.IThread"/> to create.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.ThreadType">
+            <summary>
+            The available threading types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.ThreadType.BasicThread">
+            <summary>
+            Default thread type that works across multiple platforms.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.ThreadType.MockThread">
+            <summary>
+            Mock thread type for platforms that don't support threading.
             </summary>
         </member>
         <member name="T:MonoCross.Utilities.TypeSwitch">
@@ -8744,6 +9853,19 @@
             <param name="enumerable">The <see cref="T:System.Collections.IEnumerable"/> object.</param>
             <param name="predicate">A function to test each element for a condition.</param>
             <returns>The last element in the <see cref="T:System.Collections.IEnumerable"/> that satisfies the condition -or- <c>null</c> if no such element is found.</returns>
+        </member>
+        <member name="T:System.Threading.WaitHandleExtensions">
+            <summary>
+            Provides WaitHandle methods available in .NET 4.0
+            </summary>
+        </member>
+        <member name="M:System.Threading.WaitHandleExtensions.WaitOne(System.Threading.WaitHandle,System.Int32)">
+            <summary>
+            Blocks the current thread until the current <see cref="T:System.Threading.WaitHandle"/> receives a signal, using a 32-bit signed integer to specify the time interval.
+            </summary>
+            <param name="handle">The current WaitHandle.</param>
+            <param name="milliseconds">The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite"/> (-1) to wait indefinitely. </param>
+            <returns><c>true</c> if the current instance receives a signal; otherwise, <c>false</c>.</returns>
         </member>
     </members>
 </doc>

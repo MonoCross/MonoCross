@@ -25,7 +25,7 @@ namespace MonoCross.Utilities
         static Device()
         {
             DirectorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
-            DataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            DataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         }
 
         #region Singleton initializer
@@ -51,17 +51,17 @@ namespace MonoCross.Utilities
             MXContainer.RegisterSingleton<Resources.IResources>(typeof(Resources.BasicResources));
             MXContainer.RegisterSingleton<IReflector>(typeof(BasicReflector));
             MXContainer.RegisterSingleton<ILog>(typeof(BasicLogger), args =>
-                new BasicLogger(args != null && args.Length > 0 ? args[0].ToString() : SessionDataPath.AppendPath("Log")));
+            {
+                var path = args.Length > 0 ? args[0] as string : null;
+                return new BasicLogger(path ?? SessionDataPath.AppendPath("Log"));
+            });
 
             MXContainer.RegisterSingleton<IEncryption>(typeof(MockEncryption));
             MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.NullCompositor));
 
             Instance = newInstance;
             Instance.Initialize();
-            if (!File.Exists(SessionDataPath))
-            {
-                File.CreateDirectory(SessionDataPath);
-            }
+            File.EnsureDirectoryExistsForFile(SessionDataPath.AppendPath("Log"));
         }
         #endregion
 
@@ -170,7 +170,7 @@ namespace MonoCross.Utilities
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && File != null)
                     File.EnsureDirectoryExists(value);
                 _sessionDataRoot = value;
             }

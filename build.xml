@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
-    <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
     <PropertyGroup Condition="$(Framework) == ''">
         <Framework>.</Framework>
     </PropertyGroup>
 
     <Target Name="Run">
-        <!-- <CallTarget Targets="GetLatest" /> -->
         <CallTarget Targets="Compile" />
-        <CallTarget Targets="CopyToRoot" />
-        <CallTarget Targets="Verify" />
+        <CallTarget Targets="CopyToRoot" Condition="$(Framework) != '.'" />
+        <CallTarget Targets="Verify" Condition="$(SignAssembly) == true"/>
         <CallTarget Targets="Package" Condition="'$(Ext)' != '.CF'" />
-    </Target>
-
-    <Target Name="GetLatest">
-        <GitClient Command="pull" />
     </Target>
 
     <Target Name="Clean">
@@ -67,7 +61,7 @@
         <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
     </Target>
 
-    <Target Name="Verify" Condition="$(SignAssembly) == true">
+    <Target Name="Verify">
         <ItemGroup>
             <MonoCrossVerify Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>

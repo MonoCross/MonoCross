@@ -40,7 +40,7 @@ namespace MonoCross.Utilities.Notification
         public static void Vibrate(Context context, int duration)
         {
             Vibrator v = (Vibrator)context.GetSystemService(Context.VibratorService);
-            v.Vibrate(duration);
+            v.Vibrate(VibrationEffect.CreateOneShot(duration, VibrationEffect.DefaultAmplitude));
         }
     }
 }
