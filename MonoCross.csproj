@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\MonoCross.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\MonoCross.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -99,6 +99,33 @@
       <HintPath>Distribution\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-list --count HEAD &gt; buildrev.txt" />
+    <ReadLinesFromFile Condition=" '$(BuildRev)'==''" File="$(ProjectDir)buildrev.txt">
+      <Output TaskParameter="Lines" PropertyName="BuildRev" />
+    </ReadLinesFromFile>
+    <Delete Files="$(ProjectDir)buildrev.txt" />
+
+    <Exec WorkingDirectory="$(ProjectDir)" Command="git rev-parse --abbrev-ref HEAD &gt; branch.txt" />
+    <ReadLinesFromFile File="$(ProjectDir)branch.txt">
+      <Output TaskParameter="Lines" PropertyName="Branch" />
+    </ReadLinesFromFile>
+    <Delete Files="$(ProjectDir)branch.txt" />
+
+    <Exec WorkingDirectory="$(ProjectDir)" Command="git rev-parse --short HEAD &gt; commithash.txt" />
+    <ReadLinesFromFile File="$(ProjectDir)commithash.txt">
+      <Output TaskParameter="Lines" PropertyName="CommitHash" />
+    </ReadLinesFromFile>
+    <Delete Files="$(ProjectDir)commithash.txt" />
+    <PropertyGroup>
+      <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
+      <FileVersion>4.0.0.$(BuildRev)</FileVersion>
+      <Version>4.0.0.$(BuildRev)</Version>
+      <Description>Branch - $(Branch) (Hash: $(CommitHash))</Description>
+      <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
+    </PropertyGroup>
+  </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).xml;$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ProjectDir)Distribution" />
