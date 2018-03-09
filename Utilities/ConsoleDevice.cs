@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using MonoCross.Navigation;
 using MonoCross.Utilities.Encryption;
-using MonoCross.Utilities.Logging;
 using MonoCross.Utilities.Resources;
 using MonoCross.Utilities.Threading;
-using MonoCross.Navigation;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace MonoCross.Utilities
 {
@@ -13,29 +12,32 @@ namespace MonoCross.Utilities
     {
         public override void Initialize()
         {
-            MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
-            MXContainer.RegisterSingleton<IThread>(typeof(TaskThread), () => new TaskThread { UiSynchronizationContext = System.Threading.SynchronizationContext.Current, });
-            MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));
-
             ApplicationPath = File.DirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar;
             DataPath = System.Configuration.ConfigurationManager.AppSettings.AllKeys.Contains("dataPath") ?
                 Environment.ExpandEnvironmentVariables(System.Configuration.ConfigurationManager.AppSettings.Get("dataPath")) :
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).AppendPath("MXData");
 
+            MXContainer.RegisterSingleton<IEncryption>(typeof(AesEncryption));
+            MXContainer.RegisterSingleton<IThread>(new TaskThread { UiSynchronizationContext = System.Threading.SynchronizationContext.Current, });
+            MXContainer.RegisterSingleton<IResources>(typeof(WindowsResources));
+            MXContainer.RegisterSingleton<ImageComposition.ICompositor>(typeof(ImageComposition.GdiPlusCompositor));
+
             Platform = MobilePlatform.Windows;
         }
 
-        #region singleton pattern
-        private ConsoleDevice() { }
         public static new ConsoleDevice Instance
         {
             get
             {
-                if (_instance == null) _instance = new ConsoleDevice();
-                return _instance;
+                var device = Device.Instance as ConsoleDevice;
+                if (device == null)
+                {
+                    device = new ConsoleDevice();
+                    Device.Instance = device;
+                }
+                return device;
             }
+            set { Device.Instance = value; }
         }
-        private static ConsoleDevice _instance;
-        #endregion
     }
 }

@@ -201,8 +201,6 @@ namespace MonoCross.Navigation
                     throw new ArgumentNullException("value", "Cannot have a null MXContainer instance.");
                 }
 
-
-
                 _instance = value;
                 Instance.OnSetDefinitions();
                 if (value.App == null) return;

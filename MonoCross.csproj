@@ -101,7 +101,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(TargetDir)$(TargetName).dll $(ProjectDir)Distribution&#xD;&#xA;copy $(TargetDir)$(TargetName).xml $(ProjectDir)Distribution&#xD;&#xA;copy $(TargetDir)$(TargetName).pdb $(ProjectDir)Distribution" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).xml;$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ProjectDir)Distribution" />
   </Target>
 
 </Project>
