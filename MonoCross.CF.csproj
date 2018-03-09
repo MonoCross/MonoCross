@@ -186,6 +186,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(ProjectDir)Distribution</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "$(ProjectDir)Distribution"</PostBuildEvent>
   </PropertyGroup>
 </Project>
