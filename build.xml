@@ -50,8 +50,10 @@
     </Target>
 
     <Target Name="Compile" DependsOnTargets="PreBuild">
-        <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" />
-        <Exec WorkingDirectory="$(Framework)" Command="git checkout -- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;" />
+        <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
+        <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(Framework)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
+        <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- $(Framework)/MonoCross.csproj" />
+        <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;" />
     </Target>
 
     <Target Name="CopyToRoot">
@@ -74,12 +76,12 @@
     </Target>
 
     <Target Name="Package">
-      <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
-        <Output TaskParameter="Value" PropertyName="_Deps" />
-      </XmlRead>
-      <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
-        <Output TaskParameter="Value" ItemName="Formats" />
-      </XmlRead>
+      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
+        <!-- <Output TaskParameter="Value" PropertyName="_Deps" /> -->
+      <!-- </XmlRead> -->
+      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
+        <!-- <Output TaskParameter="Value" ItemName="Formats" /> -->
+      <!-- </XmlRead> -->
       <ItemGroup>
         <_DepPaths Include="$(_Deps.Split(';'))"/>
         <DepPaths Include="Distribution/%(_DepPaths.Identity).dll"/>
@@ -87,9 +89,9 @@
       <GetFileVersion Files="@(DepPaths)" Formats="@(Formats)">
         <Output TaskParameter="Value" ItemName="Dependencies" />
       </GetFileVersion>
-      <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version"
-            XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"
-            Value="%(Version)"/>
+      <!-- <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version" -->
+            <!-- XmlFileName="$(Framework)/MonoCross$(Ext).nuspec" -->
+            <!-- Value="%(Version)"/> -->
       <ReadLinesFromFile File="$(Framework)/Properties/AssemblyInfo.cs">
         <Output TaskParameter="Lines" ItemName="ItemsFromFile"/>
       </ReadLinesFromFile>
@@ -99,7 +101,7 @@
         <Version>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)))</Version>
       </PropertyGroup>
       <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).csproj -Prop Configuration=Release" />
-      <GitClient Command="checkout" Arguments="-- &quot;$(Framework)/MonoCross$(Ext).nuspec&quot;"/>
+      <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- &quot;$(Framework)/MonoCross$(Ext).nuspec&quot;" />
     </Target>
 
   <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
