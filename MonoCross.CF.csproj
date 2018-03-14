@@ -146,7 +146,6 @@
     <Compile Include="Utilities\Scanning\Symbology.cs" />
     <Compile Include="Utilities\Serialization\BaseSerializer.cs" />
     <Compile Include="Utilities\Serialization\ISerializer.cs" />
-    <Compile Include="Utilities\Serialization\SerializableDictionary.cs" />
     <Compile Include="Utilities\Serialization\SerializationFormat.cs" />
     <Compile Include="Utilities\Serialization\SerializerFactory.cs" />
     <Compile Include="Utilities\Serialization\SerializerJson.cs" />
