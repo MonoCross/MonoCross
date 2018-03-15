@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Navigation\ReflectionExtensions.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
     <Compile Remove="Utilities\AndroidDevice.cs" />
     <Compile Remove="Utilities\CompactDevice.cs" />
