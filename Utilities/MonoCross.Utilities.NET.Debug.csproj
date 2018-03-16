@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoCross.csproj">
-      <Project>{b6727c87-771f-44c1-8477-afc9c35e4eef}</Project>
+      <Project>{1452f8ff-70f6-40fa-9a0f-57764468a262}</Project>
       <Name>MonoCross</Name>
     </ProjectReference>
   </ItemGroup>
