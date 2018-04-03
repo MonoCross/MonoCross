@@ -59,11 +59,25 @@
     <Compile Include="Threading\AndroidThread.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
+    <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-list --count HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="BuildRev" />
+    </Exec>
+    <Exec Condition=" '$(Branch)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="Branch" />
+    </Exec>
+    <Exec Condition=" '$(CommitHash)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
+    </Exec>
+
+    <PropertyGroup>
+      <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
+      <FileVersion>4.0.0.$(BuildRev)</FileVersion>
+      <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
+      <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
+    </PropertyGroup>
   </Target>
   <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" DestinationFolder="$(SolutionDir)Distribution" />
   </Target>
-  -->
 </Project>

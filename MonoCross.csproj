@@ -111,7 +111,7 @@
     <PropertyGroup>
       <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
       <FileVersion>4.0.0.$(BuildRev)</FileVersion>
-      <Version>Branch - $(Branch) (Hash: $(CommitHash))</Version>
+      <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
   </Target>
