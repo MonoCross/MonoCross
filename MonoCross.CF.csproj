@@ -185,6 +185,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "$(ProjectDir)Distribution"</PostBuildEvent>
+    <PreBuildEvent>git rev-list --count HEAD &gt; buildrev.txt
+git rev-parse --abbrev-ref HEAD &gt; branch.txt
+git rev-parse --short HEAD &gt; commithash.txt</PreBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "$(ProjectDir)Distribution"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

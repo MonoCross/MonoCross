@@ -280,8 +280,6 @@ namespace MonoCross.Utilities.Serialization
 
         #endregion
 
-#if !NETFX_CORE
-
         /// <summary>
         /// Serializes the specified object into a JSON string.
         /// </summary>
@@ -344,55 +342,6 @@ namespace MonoCross.Utilities.Serialization
         {
             return JsonConvert.DeserializeObject<ODataList<T>>(json).List;
         }
-#else
-        static SerializerJson<T> _serializer = new SerializerJson<T>();
-        static SerializerJson<ODataList<T>> _odserializer = new SerializerJson<ODataList<T>>();
-
-        /// <summary>
-        /// Serializes the specified object into a JSON string.
-        /// </summary>
-        /// <param name="model">The <typeparamref name="T"/> to serialize.</param>
-        /// <returns>A JSON <see cref="string"/> that contains the serialized <typeparamref name="T"/>.</returns>
-        protected virtual string ToJson(T model)
-        {
-            string json = _serializer.SerializeObject(model);
-            iApp.Log.Debug(json);
-            return json;
-        }
-        
-        /// <summary>
-        /// Deserializes an object from the specified JSON string.
-        /// </summary>
-        /// <param name="json">A JSON <see cref="string"/> that contains the serialized object.</param>
-        /// <returns>The deserialized <typeparamref name="T"/>.</returns>
-        protected virtual T FromJson(string json)
-        {
-            return _serializer.DeserializeObject(json);
-        }
-        
-        /// <summary>
-        /// Serializes the specified list into a JSON string.
-        /// </summary>
-        /// <param name="model">The <see cref="List&lt;T&gt;"/> to serialize.</param>
-        /// <param name="meta">The ODATA metadata string to include in the serialized object.</param>
-        /// <returns>A JSON <see cref="string"/> that contains the serialized list.</returns>
-        protected virtual string ListToJson(List<T> model, string meta)
-        {
-            // serialize the object to xml string.
-            var odmodel = new ODataList<T>() { Value = model.ToArray(), Metadata = meta };
-            return _odserializer.SerializeObject(odmodel);
-        }
-        
-        /// <summary>
-        /// Deserializes a list from the specified JSON string.
-        /// </summary>
-        /// <param name="json">A JSON <see cref="string"/> that contains the serialized list.</param>
-        /// <returns>The deserialized <see cref="List&lt;T&gt;"/>.</returns>
-        protected virtual List<T> ListFromJson(string json)
-        {
-            return _odserializer.DeserializeObject(json).List;
-        }
-#endif
     }
 
     [DataContract]

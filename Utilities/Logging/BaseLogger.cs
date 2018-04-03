@@ -314,51 +314,39 @@ namespace MonoCross.Utilities.Logging
         /// <param name="days">The number of days.  If a log file's age is equal to or greater than this, it will be deleted.</param>
         public void DeleteLogFiles(int days)
         {
-#if NETFX_CORE
-            var files = GetLogFiles().Select(file =>
-            {
-                var task = Windows.Storage.StorageFile.GetFileFromPathAsync(Path.Combine(LogPath, file)).AsTask();
-                task.Wait();
-                return task.Result;
-            }).Where(fi => DateTimeOffset.UtcNow.Subtract(fi.DateCreated.ToUniversalTime()).Days >= days);
-            foreach (var file in files)
-                Device.File.Delete(file.Path);
-#elif SILVERLIGHT
-            var store = ((FileSystem.SLFile)Device.File)._store;
-            var files = GetLogFiles().Where(file => DateTime.UtcNow.Subtract(store.GetLastWriteTime(file).UtcDateTime).Days >= days);
-            foreach (var file in files)
-                Device.File.Delete(file);
-#else
             var files = GetLogFiles().Select(file => new FileInfo(file)).Where(fi => DateTime.UtcNow.Subtract(fi.LastWriteTime.ToUniversalTime()).Days >= days);
             foreach (var file in files)
                 Device.File.Delete(file.FullName);
-#endif
         }
 
         #endregion
 
         #region Private Help Methods
 
-        // Help methods that use our FileSystem abstraction
         /// <summary>
         /// Appends the specified message to the current log file.
         /// </summary>
         /// <param name="message">The message to append to the current log file.</param>
         /// <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+        /// <param name="exception">The exception to pass to <see cref="OnLogEvent"/></param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         public virtual void AppendLog(String message, LogMessageType messageType, Exception exception, params object[] args)
         {
             if ((int)LoggingLevel > (int)messageType)
                 return;
 
-            int threadId;
-#if NETFX_CORE
-            threadId = Environment.CurrentManagedThreadId;
-#else
-            threadId = Thread.CurrentThread.ManagedThreadId;
-#endif
-
-            message = string.Format(message, args);
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            if (args != null && args.Length > 0)
+            {
+                try
+                {
+                    message = string.Format(message, args);
+                }
+                catch (FormatException)
+                {
+                    Platform("Invalid string format: " + message);
+                }
+            }
             string textEntry = string.Format("{0:MM-dd-yyyy HH:mm:ss:ffff} :{1}: [{2}] {3}", DateTime.Now, threadId, messageType, message);
 
             // throw all logging events to subscriber if there is subscriber(s)
@@ -390,37 +378,6 @@ namespace MonoCross.Utilities.Logging
         {
             lock (PadLock)
             {
-#if NETFX_CORE
-                var folderTask = Windows.Storage.StorageFolder.GetFolderFromPathAsync(Device.File.DirectoryName(filename)).AsTask();
-                folderTask.Wait();
-                var fileTask = folderTask.Result.CreateFileAsync(Path.GetFileName(filename), Windows.Storage.CreationCollisionOption.OpenIfExists).AsTask();
-                fileTask.Wait();
-                Windows.Storage.FileIO.AppendTextAsync(fileTask.Result, value + Environment.NewLine).AsTask().Wait();
-#elif SILVERLIGHT
-                var store = ((FileSystem.SLFile)Device.File)._store;
-                if (value.Length > store.AvailableFreeSpace && !((FileSystem.SLFile)Device.File).IncreaseStorage(value.Length + (store.Quota - store.AvailableFreeSpace)))
-                    return;
-
-                System.IO.IsolatedStorage.IsolatedStorageFileStream fileStream = null;
-                try
-                {
-                    fileStream = store.OpenFile(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                    fileStream.Seek(0, SeekOrigin.End);
-                    using (var writer = new StreamWriter(fileStream, System.Text.Encoding.UTF8))
-                    {
-                        writer.WriteLine(value);
-                        writer.Close();
-                    }
-                }
-                finally
-                {
-                    if (fileStream != null)
-                    {
-                        fileStream.Close();
-                        fileStream.Dispose();
-                    }
-                }
-#else
                 StreamWriter sw = null;
                 try
                 {
@@ -443,9 +400,7 @@ namespace MonoCross.Utilities.Logging
                     //    //fs.Close();
                     //    fs.Dispose();
                     //}
-
                 }
-#endif
             }
         }
 

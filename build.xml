@@ -19,40 +19,9 @@
         <Delete Files="@(MonoCrossClean)" />
     </Target>
 
-    <Target Name="PreBuild" DependsOnTargets="Clean" >
-        <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(Framework)" Command="git rev-list --count HEAD > buildrev.txt" />
-        <ReadLinesFromFile Condition=" '$(BuildRev)'==''" File="$(Framework)/buildrev.txt">
-            <Output TaskParameter="Lines" PropertyName="BuildRev" />
-        </ReadLinesFromFile>
-        <Delete Files="$(Framework)/buildrev.txt" />
-        <!-- <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs" -->
-                <!-- Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" -->
-                <!-- ReplacementText="$1.$2.$3.$(BuildRev)" /> -->
-
-        <Exec WorkingDirectory="$(Framework)" Command="git rev-parse --abbrev-ref HEAD > branch.txt" />
-        <ReadLinesFromFile File="$(Framework)/branch.txt">
-            <Output TaskParameter="Lines" PropertyName="Branch" />
-        </ReadLinesFromFile>
-        <Delete Files="$(Framework)/branch.txt" />
-
-        <Exec WorkingDirectory="$(Framework)" Command="git rev-parse --short HEAD > commithash.txt" />
-        <ReadLinesFromFile File="$(Framework)/commithash.txt">
-            <Output TaskParameter="Lines" PropertyName="CommitHash" />
-        </ReadLinesFromFile>
-        <Delete Files="$(Framework)/commithash.txt" />
-        <!-- <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs" -->
-                <!-- Regex="(AssemblyInformationalVersion\(\D*-)\s\w*\s(\D*:)\D*(\)&quot;)" -->
-                <!-- ReplacementText="$1 $(Branch) $2 $(CommitHash)$3" /> -->
-
-        <!-- <FileUpdate Files="$(Framework)/Properties/AssemblyInfo.cs" -->
-                <!-- Regex="(AssemblyCopyright\(\D*)\s\d{4}\s(.*\))" -->
-                <!-- ReplacementText="$1 $([System.DateTime]::Now.ToString(`yyyy`)) $2" /> -->
-    </Target>
-
-    <Target Name="Compile" DependsOnTargets="PreBuild">
+    <Target Name="Compile" DependsOnTargets="Clean">
         <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
         <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(Framework)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- $(Framework)/MonoCross.csproj" />
         <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;" />
     </Target>
 

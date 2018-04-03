@@ -3,11 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Zebra Technologies Corp.</Company>
-    <Copyright>Copyright ©  2018</Copyright>
-    <AssemblyVersion>4.0.0.42</AssemblyVersion>
-    <FileVersion>4.0.0.42</FileVersion>
     <Description>MonoCross Framework</Description>
-    <Version>4.0.0.42</Version>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
@@ -102,29 +98,21 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-list --count HEAD &gt; buildrev.txt" />
-    <ReadLinesFromFile Condition=" '$(BuildRev)'==''" File="$(ProjectDir)buildrev.txt">
-      <Output TaskParameter="Lines" PropertyName="BuildRev" />
-    </ReadLinesFromFile>
-    <Delete Files="$(ProjectDir)buildrev.txt" />
+    <Exec Condition=" '$(BuildRev)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-list --count HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="BuildRev" />
+    </Exec>
+    <Exec Condition=" '$(Branch)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="Branch" />
+    </Exec>
+    <Exec Condition=" '$(CommitHash)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
+    </Exec>
 
-    <Exec WorkingDirectory="$(ProjectDir)" Command="git rev-parse --abbrev-ref HEAD &gt; branch.txt" />
-    <ReadLinesFromFile File="$(ProjectDir)branch.txt">
-      <Output TaskParameter="Lines" PropertyName="Branch" />
-    </ReadLinesFromFile>
-    <Delete Files="$(ProjectDir)branch.txt" />
-
-    <Exec WorkingDirectory="$(ProjectDir)" Command="git rev-parse --short HEAD &gt; commithash.txt" />
-    <ReadLinesFromFile File="$(ProjectDir)commithash.txt">
-      <Output TaskParameter="Lines" PropertyName="CommitHash" />
-    </ReadLinesFromFile>
-    <Delete Files="$(ProjectDir)commithash.txt" />
     <PropertyGroup>
       <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
       <FileVersion>4.0.0.$(BuildRev)</FileVersion>
-      <Version>4.0.0.$(BuildRev)</Version>
-      <Description>Branch - $(Branch) (Hash: $(CommitHash))</Description>
-      <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
+      <Version>Branch - $(Branch) (Hash: $(CommitHash))</Version>
+      <Copyright>Copyright �  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
   </Target>
 

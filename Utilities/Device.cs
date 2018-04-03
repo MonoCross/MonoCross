@@ -68,7 +68,6 @@ namespace MonoCross.Utilities
         private string _applicationPath;
         private string _sessionDataRoot;
         private string _sessionDataAppend = string.Empty;
-        private static string _dataPath;
 
         /// <summary>
         /// Initializes this instance with platform-specific implementations.
@@ -321,11 +320,7 @@ namespace MonoCross.Utilities
         /// Gets the path for read/write global data.
         /// </summary>
         /// <value>The data path as a <see cref="string"/> instance.</value>
-        public static string DataPath
-        {
-            get { return _dataPath; }
-            set { _dataPath = value; }
-        }
+        public static string DataPath { get; set; }
 
         /// <summary>
         /// Gets the appropriate directory separator character for the platform.
