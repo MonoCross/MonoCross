@@ -1,54 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
-    <PropertyGroup Condition="$(Framework) == ''">
-        <Framework>.</Framework>
-    </PropertyGroup>
-
     <Target Name="Run">
         <CallTarget Targets="Compile" />
-        <CallTarget Targets="CopyToRoot" Condition="$(Framework) != '.'" />
         <CallTarget Targets="Verify" Condition="$(SignAssembly) == true"/>
         <CallTarget Targets="Package" Condition="'$(Ext)' != '.CF'" />
     </Target>
 
     <Target Name="Clean">
         <ItemGroup>
-            <MonoCrossClean Include="$(Framework)/bin/**" />
-            <MonoCrossClean Include="$(Framework)/obj/**" />
+            <MonoCrossClean Include="$(ProjectDir)/bin/**" />
+            <MonoCrossClean Include="$(ProjectDir)/obj/**" />
         </ItemGroup>
         <Delete Files="@(MonoCrossClean)" />
     </Target>
 
     <Target Name="Compile" DependsOnTargets="Clean">
-        <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
-        <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(Framework)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;" />
-    </Target>
-
-    <Target Name="CopyToRoot">
-        <ItemGroup>
-            <MonoCrossSdk Include="$(Framework)/bin/$(Configuration)/MonoCross$(Ext).*" />
-        </ItemGroup>
-        <Copy SourceFiles="@(MonoCrossSdk)" DestinationFolder="Distribution" />
+        <MSBuild Projects="$(ProjectDir)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(ProjectDir)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
     </Target>
 
     <Target Name="Verify">
         <ItemGroup>
             <MonoCrossVerify Include="Distribution/MonoCross$(Ext).dll" />
         </ItemGroup>
-        <Exec Command='"$(SDK40ToolsPath)sn" -q -v %(MonoCrossVerify.Identity) >> $(Framework)/verify.txt' ContinueOnError="true" />
-        <ReadLinesFromFile File="$(Framework)/verify.txt">
+        <Exec Command='"$(SDK40ToolsPath)sn" -q -v %(MonoCrossVerify.Identity) >> verify.txt' ContinueOnError="true" />
+        <ReadLinesFromFile File="verify.txt">
             <Output TaskParameter="Lines" PropertyName="Verify" />
         </ReadLinesFromFile>
-        <Delete Files="$(Framework)/verify.txt" />
+        <Delete Files="verify.txt" />
         <Error Text="$(Verify)" Condition="'$(Verify)' != ''" />
     </Target>
 
     <Target Name="Package">
-      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
+      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec"> -->
         <!-- <Output TaskParameter="Value" PropertyName="_Deps" /> -->
       <!-- </XmlRead> -->
-      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
+      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec"> -->
         <!-- <Output TaskParameter="Value" ItemName="Formats" /> -->
       <!-- </XmlRead> -->
       <ItemGroup>
@@ -59,18 +46,10 @@
         <Output TaskParameter="Value" ItemName="Dependencies" />
       </GetFileVersion>
       <!-- <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version" -->
-            <!-- XmlFileName="$(Framework)/MonoCross$(Ext).nuspec" -->
+            <!-- XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec" -->
             <!-- Value="%(Version)"/> -->
-      <ReadLinesFromFile File="$(Framework)/Properties/AssemblyInfo.cs">
-        <Output TaskParameter="Lines" ItemName="ItemsFromFile"/>
-      </ReadLinesFromFile>
-      <PropertyGroup>
-        <Pattern>\[assembly: AssemblyVersion\(.(\d+)\.(\d+)\.(\d+)\.</Pattern>
-        <In>@(ItemsFromFile)</In>
-        <Version>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)))</Version>
-      </PropertyGroup>
-      <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(Version.Remove(0, 28))$(BuildRev) MonoCross$(Ext).csproj -Prop Configuration=Release" />
-      <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- &quot;$(Framework)/MonoCross$(Ext).nuspec&quot;" />
+      <Exec WorkingDirectory="$(ProjectDir)" Command="nuget pack -Symbols -Version $(AssemblyVersion) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
+      <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
 
   <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">

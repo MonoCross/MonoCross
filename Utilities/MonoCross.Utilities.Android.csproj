@@ -69,15 +69,40 @@
     <Exec Condition=" '$(CommitHash)'==''" WorkingDirectory="$(ProjectDir)" Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
     </Exec>
-
     <PropertyGroup>
       <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
       <FileVersion>4.0.0.$(BuildRev)</FileVersion>
       <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
+    <UpdateAssemblyInfo AssemblyInfo="$(ProjectDir)Properties/AssemblyInfo.cs" Version="$(FileVersion)" Branch="$(Branch)" CommitHash="$(CommitHash)" Copyright="$(Copyright)" />
   </Target>
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" DestinationFolder="$(SolutionDir)Distribution" />
+    <!--<Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -><- Properties/AssemblyInfo.cs" />-->
   </Target>
+  <UsingTask TaskName="UpdateAssemblyInfo" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+        <AssemblyInfo ParameterType="System.String" Required="true" />
+        <Version ParameterType="System.String" Required="true" />
+        <Branch ParameterType="System.String" Required="true" />
+        <CommitHash ParameterType="System.String" Required="true" />
+        <Copyright ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+        <Using Namespace="System.IO"/>
+        <Using Namespace="System.Diagnostics"/>
+        <Code Type="Fragment" Language="cs">
+<![CDATA[
+	var lines = File.ReadAllLines(AssemblyInfo);
+	File.WriteAllLines(AssemblyInfo, lines.Take(lines.Length - 4).Union(new[] {
+		"[assembly: AssemblyVersion(\"" + Version + "\")]",
+		"[assembly: AssemblyFileVersion(\"" + Version + "\")]",
+		"[assembly: AssemblyInformationalVersion(\"" + Version + "-" + Branch + "." + CommitHash + "\")]",
+		"[assembly: AssemblyCopyright(\"" + Copyright + "\")]",
+	}));
+]]>
+        </Code>
+    </Task>
+  </UsingTask>
 </Project>
