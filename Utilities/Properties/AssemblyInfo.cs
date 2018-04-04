@@ -1,4 +1,4 @@
-﻿using System.Resources;
+using System.Resources;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -17,7 +17,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zebra Technologies Corp.")]
 [assembly: AssemblyProduct("MonoCross Utilities")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
@@ -43,3 +42,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("4.0.0.42")]
 [assembly: AssemblyFileVersion("4.0.0.42")]
 [assembly: AssemblyInformationalVersion("Branch - master (Hash: Working Tree)")]
+[assembly: AssemblyCopyright("Copyright �  2018")]
