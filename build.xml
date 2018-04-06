@@ -100,13 +100,13 @@
   </UsingTask>
 
   <UsingTask TaskName="XmlRead" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-    <Using Namespace="System.Xml"/>
     <ParameterGroup>
         <XPath ParameterType="System.String" Required="true" />
         <XmlFileName ParameterType="System.String" Required="true" />
         <Value ParameterType="System.String" Output="true" />
     </ParameterGroup>
     <Task>
+        <Using Namespace="System.Xml"/>
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
 	doc.Load(XmlFileName);
@@ -116,13 +116,13 @@
   </UsingTask>
 
   <UsingTask TaskName="XmlUpdate" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-    <Using Namespace="System.Xml"/>
     <ParameterGroup>
         <XPath ParameterType="System.String" Required="true" />
         <XmlFileName ParameterType="System.String" Required="true" />
         <Value ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
+        <Using Namespace="System.Xml"/>
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
 	doc.Load(XmlFileName);
