@@ -36,12 +36,12 @@
     </Target>
 
     <Target Name="Package">
-      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
-        <!-- <Output TaskParameter="Value" PropertyName="_Deps" /> -->
-      <!-- </XmlRead> -->
-      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"> -->
-        <!-- <Output TaskParameter="Value" ItemName="Formats" /> -->
-      <!-- </XmlRead> -->
+      <XmlRead XPath="//dependency/@id" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
+        <Output TaskParameter="Value" PropertyName="_Deps" />
+      </XmlRead>
+      <XmlRead XPath="//dependency/@version" XmlFileName="$(Framework)/MonoCross$(Ext).nuspec">
+        <Output TaskParameter="Value" ItemName="Formats" />
+      </XmlRead>
       <ItemGroup>
         <_DepPaths Include="$(_Deps.Split(';'))"/>
         <DepPaths Include="Distribution/%(_DepPaths.Identity).dll"/>
@@ -49,9 +49,12 @@
       <GetFileVersion Files="@(DepPaths)" Formats="@(Formats)">
         <Output TaskParameter="Value" ItemName="Dependencies" />
       </GetFileVersion>
-      <!-- <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version" -->
-            <!-- XmlFileName="$(Framework)/MonoCross$(Ext).nuspec" -->
-            <!-- Value="%(Version)"/> -->
+      <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version"
+            XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"
+            Value="%(Version)"/>
+      <GetFileVersion Files="Distribution/MonoCross$(Ext).dll">
+        <Output TaskParameter="Value" PropertyName="AssemblyVersion" />
+      </GetFileVersion>
       <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(AssemblyVersion) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
       <Exec WorkingDirectory="$(Framework)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
@@ -93,6 +96,38 @@
       }
 ]]>
         </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="XmlRead" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+        <XPath ParameterType="System.String" Required="true" />
+        <XmlFileName ParameterType="System.String" Required="true" />
+        <Value ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+        <Code Type="Fragment" Language="cs"><![CDATA[
+	var doc = new System.Xml.XmlDocument();
+	doc.Load(XmlFileName);
+	Value = doc.DocumentElement.SelectSingleNode(XPath).Value;
+]]></Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="XmlUpdate" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+        <XPath ParameterType="System.String" Required="true" />
+        <XmlFileName ParameterType="System.String" Required="true" />
+        <Value ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+        <Code Type="Fragment" Language="cs"><![CDATA[
+	var doc = new System.Xml.XmlDocument();
+	doc.Load(XmlFileName);
+	var node = doc.DocumentElement.SelectSingleNode(XPath);
+	node.Value = Value;
+	doc.Save(XmlFileName);
+]]></Code>
     </Task>
   </UsingTask>
 </Project>
