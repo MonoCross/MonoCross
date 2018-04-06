@@ -55,7 +55,8 @@
       <GetFileVersion Files="Distribution/MonoCross$(Ext).dll">
         <Output TaskParameter="Value" ItemName="Assembly" />
       </GetFileVersion>
-      <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
+      <Exec Condition="'$(Ext)' != ''" WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
+      <Exec Condition="'$(Ext)' == ''" WorkingDirectory="$(Framework)" Command="dotnet pack --include-symbols /p:PackageVersion=%(Assembly.Version) -c $(Configuration) MonoCross.csproj" />
       <Exec WorkingDirectory="$(Framework)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
 
