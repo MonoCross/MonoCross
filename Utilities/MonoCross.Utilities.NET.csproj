@@ -73,7 +73,7 @@
     <UpdateAssemblyInfo AssemblyInfo="$(ProjectDir)Properties/AssemblyInfo.cs" Version="$(FileVersion)" Branch="$(Branch)" CommitHash="$(CommitHash)" Copyright="$(Copyright)" />
   </Target>
   <Target Name="AfterBuild">
-    <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" DestinationFolder="$(SolutionDir)Distribution" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" DestinationFolder="../Distribution" />
     <!--<Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -><- Properties/AssemblyInfo.cs" />-->
   </Target>
   <UsingTask TaskName="UpdateAssemblyInfo" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
@@ -87,8 +87,7 @@
     <Task>
         <Using Namespace="System.IO"/>
         <Using Namespace="System.Diagnostics"/>
-        <Code Type="Fragment" Language="cs">
-<![CDATA[
+        <Code Type="Fragment" Language="cs"><![CDATA[
 	var lines = File.ReadAllLines(AssemblyInfo);
 	File.WriteAllLines(AssemblyInfo, lines.Take(lines.Length - 4).Union(new[] {
 		"[assembly: AssemblyVersion(\"" + Version + "\")]",
@@ -96,8 +95,7 @@
 		"[assembly: AssemblyInformationalVersion(\"" + Version + "-" + Branch + "." + CommitHash + "\")]",
 		"[assembly: AssemblyCopyright(\"" + Copyright + "\")]",
 	}));
-]]>
-        </Code>
+]]></Code>
     </Task>
   </UsingTask>
 </Project>
