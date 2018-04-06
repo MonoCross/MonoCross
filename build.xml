@@ -53,9 +53,9 @@
             XmlFileName="$(Framework)/MonoCross$(Ext).nuspec"
             Value="%(Version)"/>
       <GetFileVersion Files="Distribution/MonoCross$(Ext).dll">
-        <Output TaskParameter="Value" PropertyName="AssemblyVersion" />
+        <Output TaskParameter="Value" ItemName="Assembly" />
       </GetFileVersion>
-      <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version $(AssemblyVersion) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
+      <Exec WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
       <Exec WorkingDirectory="$(Framework)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
 
