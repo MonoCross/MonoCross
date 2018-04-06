@@ -21,7 +21,6 @@
     <Target Name="Compile" DependsOnTargets="Clean">
         <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
         <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(Framework)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
-        <Exec WorkingDirectory="$(Framework)" Command="git checkout -- &quot;$(Framework)/Properties/AssemblyInfo.cs&quot;" />
     </Target>
 
     <Target Name="Verify">
