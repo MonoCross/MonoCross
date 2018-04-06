@@ -8,15 +8,15 @@
 
     <Target Name="Clean">
         <ItemGroup>
-            <MonoCrossClean Include="$(ProjectDir)/bin/**" />
-            <MonoCrossClean Include="$(ProjectDir)/obj/**" />
+            <MonoCrossClean Include="$(ProjectDir)bin/**" />
+            <MonoCrossClean Include="$(ProjectDir)obj/**" />
         </ItemGroup>
         <Delete Files="@(MonoCrossClean)" />
     </Target>
 
     <Target Name="Compile" DependsOnTargets="Clean">
-        <MSBuild Projects="$(ProjectDir)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(ProjectDir)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
+        <MSBuild Projects="$(ProjectDir)MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build /p:SignAssembly=$(SignAssembly);Configuration=$(Configuration) $(ProjectDir)MonoCross.csproj" Condition="'$(Ext)' == ''" />
     </Target>
 
     <Target Name="Verify">
@@ -32,10 +32,10 @@
     </Target>
 
     <Target Name="Package">
-      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec"> -->
+      <!-- <XmlRead XPath="//dependency/@id" XmlFileName="$(ProjectDir)MonoCross$(Ext).nuspec"> -->
         <!-- <Output TaskParameter="Value" PropertyName="_Deps" /> -->
       <!-- </XmlRead> -->
-      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec"> -->
+      <!-- <XmlRead XPath="//dependency/@version" XmlFileName="$(ProjectDir)MonoCross$(Ext).nuspec"> -->
         <!-- <Output TaskParameter="Value" ItemName="Formats" /> -->
       <!-- </XmlRead> -->
       <ItemGroup>
@@ -46,7 +46,7 @@
         <Output TaskParameter="Value" ItemName="Dependencies" />
       </GetFileVersion>
       <!-- <XmlUpdate XPath="//dependency[@id=&quot;%(Dependencies.Name)&quot;]/@version" -->
-            <!-- XmlFileName="$(ProjectDir)/MonoCross$(Ext).nuspec" -->
+            <!-- XmlFileName="$(ProjectDir)MonoCross$(Ext).nuspec" -->
             <!-- Value="%(Version)"/> -->
       <Exec WorkingDirectory="$(ProjectDir)" Command="nuget pack -Symbols -Version $(AssemblyVersion) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
       <Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -- MonoCross$(Ext).nuspec" />
