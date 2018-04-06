@@ -106,6 +106,7 @@
         <Value ParameterType="System.String" Output="true" />
     </ParameterGroup>
     <Task>
+        <Reference Include="System.Xml" />
         <Using Namespace="System.Xml"/>
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
@@ -122,6 +123,7 @@
         <Value ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
+        <Reference Include="System.Xml" />
         <Using Namespace="System.Xml"/>
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
