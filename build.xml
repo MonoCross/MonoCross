@@ -55,7 +55,7 @@
       <GetFileVersion Files="Distribution/MonoCross$(Ext).dll">
         <Output TaskParameter="Value" ItemName="Assembly" />
       </GetFileVersion>
-      <Exec Condition="'$(Ext)' != ''" WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
+      <Exec Condition="'$(Ext)' != ''" WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration);SignAssembly=$(SignAssembly);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile)" />
       <Exec Condition="'$(Ext)' == ''" WorkingDirectory="$(Framework)" Command="dotnet pack --include-symbols /p:SignAssembly=$(SignAssembly);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);PackageVersion=%(Assembly.Version) -o . -c $(Configuration) MonoCross.csproj" />
       <Exec WorkingDirectory="$(Framework)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
@@ -99,7 +99,6 @@
         </Code>
     </Task>
   </UsingTask>
-
   <UsingTask TaskName="XmlRead" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
         <XPath ParameterType="System.String" Required="true" />
@@ -112,11 +111,15 @@
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
 	doc.Load(XmlFileName);
-	Value = doc.DocumentElement.SelectSingleNode(XPath).Value;
+	var nsmgr = new XmlNamespaceManager(doc.NameTable);
+	foreach (XmlAttribute pair in doc.DocumentElement.Attributes)
+		if (pair.Name.StartsWith("xmlns:")) nsmgr.AddNamespace(pair.Name.Substring(6), pair.Value);
+	var node = doc.DocumentElement.SelectSingleNode(XPath, nsmgr);
+	if (node is XmlAttribute) Value = node.Value;
+	else Value = node.InnerXml;
 ]]></Code>
     </Task>
   </UsingTask>
-
   <UsingTask TaskName="XmlUpdate" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
         <XPath ParameterType="System.String" Required="true" />
@@ -129,8 +132,12 @@
         <Code Type="Fragment" Language="cs"><![CDATA[
 	var doc = new XmlDocument();
 	doc.Load(XmlFileName);
-	var node = doc.DocumentElement.SelectSingleNode(XPath);
-	node.Value = Value;
+	var nsmgr = new XmlNamespaceManager(doc.NameTable);
+	foreach (XmlAttribute pair in doc.DocumentElement.Attributes)
+		if (pair.Name.StartsWith("xmlns:")) nsmgr.AddNamespace(pair.Name.Substring(6), pair.Value);
+	var node = doc.DocumentElement.SelectSingleNode(XPath, nsmgr);
+	if (node is XmlAttribute) node.Value = Value;
+	else node.InnerXml = Value;
 	doc.Save(XmlFileName);
 ]]></Code>
     </Task>
