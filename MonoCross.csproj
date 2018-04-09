@@ -5,9 +5,6 @@
     <Company>Zebra Technologies Corp.</Company>
     <Description>MonoCross Framework</Description>
     <NeutralLanguage>en</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\MonoCross.xml</DocumentationFile>
   </PropertyGroup>
 

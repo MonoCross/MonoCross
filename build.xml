@@ -20,7 +20,7 @@
 
     <Target Name="Compile" DependsOnTargets="Clean">
         <MSBuild Projects="$(Framework)/MonoCross$(Ext).csproj" Condition="'$(Ext)' != ''" />
-        <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);Configuration=$(Configuration) $(Framework)/MonoCross.csproj" Condition="'$(Ext)' == ''" />
+        <Exec WorkingDirectory="$(Framework)" Command="dotnet build /p:SignAssembly=$(SignAssembly);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);Configuration=$(Configuration) MonoCross.csproj" Condition="'$(Ext)' == ''" />
     </Target>
 
     <Target Name="Verify">
@@ -56,7 +56,7 @@
         <Output TaskParameter="Value" ItemName="Assembly" />
       </GetFileVersion>
       <Exec Condition="'$(Ext)' != ''" WorkingDirectory="$(Framework)" Command="nuget pack -Symbols -Version %(Assembly.Version) MonoCross$(Ext).csproj -Prop Configuration=$(Configuration)" />
-      <Exec Condition="'$(Ext)' == ''" WorkingDirectory="$(Framework)" Command="dotnet pack --include-symbols /p:PackageVersion=%(Assembly.Version) -o $(Framework) -c $(Configuration) MonoCross.csproj" />
+      <Exec Condition="'$(Ext)' == ''" WorkingDirectory="$(Framework)" Command="dotnet pack --include-symbols /p:SignAssembly=$(SignAssembly);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);PackageVersion=%(Assembly.Version) -o . -c $(Configuration) MonoCross.csproj" />
       <Exec WorkingDirectory="$(Framework)" Command="git checkout -- MonoCross$(Ext).nuspec" />
     </Target>
 
