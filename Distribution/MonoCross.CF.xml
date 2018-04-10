@@ -3686,6 +3686,7 @@
             </summary>
             <param name="message">The message to append to the current log file.</param>
             <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+            <param name="exception">The exception to pass to <see cref="E:MonoCross.Utilities.Logging.BaseLogger.OnLogEvent"/></param>
             <param name="args">An object array that contains zero or more objects to format.</param>
         </member>
         <member name="M:MonoCross.Utilities.Logging.BaseLogger.AppendLog(System.Exception,MonoCross.Utilities.Logging.LogMessageType)">
@@ -3984,6 +3985,36 @@
             Gets or sets the Exception that was logged (if available)
             </summary>
         </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggerFactory">
+            <summary>
+            Represents a logging factory.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.LoggerFactory.Create(System.String)">
+            <summary>
+            Creates an ILog instance in the specified log path.
+            </summary>
+            <param name="logPath">A <see cref="!:String"/> representing the Log path value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.LoggerFactory.Create(System.String,MonoCross.Utilities.Logging.LoggerType)">
+            <summary>
+            Creates an ILog instance in the specified log path, and of the specified type.
+            </summary>
+            <param name="logPath">A <see cref="!:String"/> representing the Log path value.</param>
+            <param name="loggerType">Type of the logger.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Logging.LoggerType">
+            <summary>
+            Represents the available logger types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Logging.LoggerType.BasicLogger">
+            <summary>
+            A Basic Logger.
+            </summary>
+        </member>
         <member name="T:MonoCross.Utilities.Logging.LogHelper">
             <summary>
             Helper methods for building log messages.
@@ -4103,6 +4134,11 @@
             <param name="message">The message to append to the current log file.</param>
             <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
             <param name="args">An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Logging.RestfulQueue`1.IsOnline">
+            <summary>
+            Returns true if the device has an internet connection.
+            </summary>
         </member>
         <member name="T:MonoCross.MobilePlatform">
             <summary>
@@ -4770,6 +4806,38 @@
             Gets or sets the request injection headers within the current session.
             </summary>
             <value>A <see cref="T:MonoCross.Navigation.SerializableDictionary`2"/> representing the request injection headers.</value>
+        </member>
+        <member name="T:MonoCross.Utilities.Network.NetworkFactory">
+            <summary>
+            Provides methods for creating a network access strategy.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Network.NetworkFactory.Create">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Network.INetwork"/> instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Network.NetworkFactory.Create(MonoCross.Utilities.Network.NetworkType)">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Network.INetwork"/> instance of the specified network type.
+            </summary>
+            <param name="networkType">The type of <see cref="T:MonoCross.Utilities.Network.INetwork"/> to create.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Network.NetworkType">
+            <summary>
+            The available networking types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Network.NetworkType.NetworkAsynch">
+            <summary>
+            Default network type with asynchronous support for Get/Post methods.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Network.NetworkType.NetworkSynch">
+            <summary>
+            Network type with synchronous support for Get/Post methods.
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.Network.NetworkGetMethod">
             <summary>
@@ -5741,7 +5809,7 @@
             <param name="userAgent">A <see cref="T:System.String"/> representing the HTTP request's user agent value.</param>
             <returns>A <see cref="T:MonoCross.MobilePlatform"/> value.</returns>
         </member>
-        <member name="T:MonoCross.Utilities.CompactReflector">
+        <member name="T:MonoCross.Utilities.BasicReflector">
             <summary>
             Represents an object that is able to perform real-time reflection on a <see cref="T:System.Type"/>.
             </summary>
@@ -6015,7 +6083,7 @@
             <param name="type">The type to check.</param>
             <returns><c>true</c> if the <see cref="T:System.Type"/> is a value type; otherwise <c>false</c>.</returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetAssembly(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetAssembly(System.Type)">
             <summary>
             Gets the assembly in which the specified <see cref="T:System.Type"/> is declared.
             </summary>
@@ -6024,14 +6092,14 @@
             The <see cref="T:System.Reflection.Assembly"/> in which the specified <see cref="T:System.Type"/> is declared.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetTypes(System.Reflection.Assembly)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetTypes(System.Reflection.Assembly)">
             <summary>
             Gets all types for the specified <see cref="T:System.Reflection.Assembly"/>.
             </summary>
             <param name="assembly">The assembly to check.</param>
             <returns>An enumeration of <see cref="T:System.Type"/> objects in the specified <see cref="T:System.Reflection.Assembly"/>.</returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetBaseType(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetBaseType(System.Type)">
             <summary>
             Gets the type from which the specified Type directly inherits.
             </summary>
@@ -6040,7 +6108,7 @@
             The <see cref="T:System.Type"/> from which the current <see cref="T:System.Type"/> directly inherits, or <c>null</c> if the current <c>Type</c> represents the <see cref="T:System.Object"/> class or an interface.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetEvent(System.Type,System.String)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetEvent(System.Type,System.String)">
             <summary>
             Searches for the event with the specified name.
             </summary>
@@ -6050,7 +6118,7 @@
             An object that represents the event with the specified name, if found; otherwise, <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetEvents(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetEvents(System.Type)">
             <summary>
             Gets all events of the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6059,7 +6127,7 @@
             An enumeration of <see cref="T:System.Reflection.EventInfo"/> objects representing all events of the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetField(System.Type,System.String)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetField(System.Type,System.String)">
             <summary>
             Searches for the field with the specified name.
             </summary>
@@ -6069,7 +6137,7 @@
             An object that represents the field with the specified name, if found; otherwise, <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetFields(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetFields(System.Type)">
             <summary>
             Gets all fields of the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6078,7 +6146,7 @@
             An enumeration of <see cref="T:System.Reflection.FieldInfo"/> objects representing all fields of the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetMembers(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMembers(System.Type)">
             <summary>
             Gets all members of the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6087,7 +6155,7 @@
             An enumeration of <see cref="T:System.Reflection.MemberInfo"/> objects representing all members of the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetMethod(System.Type,System.String)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMethod(System.Type,System.String)">
             <summary>
             Searches for the method with the specified name.
             </summary>
@@ -6097,7 +6165,7 @@
             An object that represents the method with the specified name, if found; otherwise, <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetMethod(System.Type,System.String,System.Type[])">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMethod(System.Type,System.String,System.Type[])">
             <summary>
             Searches for the method with the specified name and parameter types.
             </summary>
@@ -6108,7 +6176,7 @@
             An object that represents the method with the specified name and parameter types, if found; otherwise, <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetMethods(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMethods(System.Type)">
             <summary>
             Gets all methods of the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6117,7 +6185,7 @@
             An enumeration of <see cref="T:System.Reflection.MethodInfo"/> objects representing all methods of the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetMethods(System.Type,System.String)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetMethods(System.Type,System.String)">
             <summary>
             Searches for method overloads with the specified name.
             </summary>
@@ -6127,7 +6195,7 @@
             A collection of objects that represent methods with the specified name.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetInterface(System.Type,System.String,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetInterface(System.Type,System.String,System.Boolean)">
             <summary>
             Searches for the specified interface, specifying whether to do a case-insensitive search for the interface name.
             </summary>
@@ -6138,7 +6206,7 @@
             An object representing the interface with the specified name, implemented or inherited by <paramref name="type" />, if found; otherwise <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetInterfaces(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetInterfaces(System.Type)">
             <summary>
             Gets all the interfaces implemented or inherited by the specified Type.
             </summary>
@@ -6147,7 +6215,7 @@
             An enumeration of Type objects representing all the interfaces implemented or inherited by the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetProperty(System.Type,System.String)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetProperty(System.Type,System.String)">
             <summary>
             Searches for the property with the specified name.
             </summary>
@@ -6157,7 +6225,7 @@
             An object representing the property with the specified name, if found; otherwise, <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetProperties(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetProperties(System.Type)">
             <summary>
             Gets all properties of the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6166,7 +6234,7 @@
             An enumeration of <see cref="T:System.Reflection.PropertyInfo"/> objects representing all properties of the specified <see cref="T:System.Type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttribute``1(System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttribute``1(System.Type,System.Boolean)">
             <summary>
             Gets the first instance of a custom attribute applied to the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6175,7 +6243,7 @@
             <param name="inherit"><c>true</c> to search the <paramref name="type"/>'s inheritance chain to find the attribute; otherwise <c>false</c>. This parameter is ignored for properties and events.</param>
             <returns>The first attribute found that is assignable to <typeparamref name="T"/>.</returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttributes(System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttributes(System.Type,System.Boolean)">
             <summary>
             Gets the custom attributes applied to the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6185,7 +6253,7 @@
             An enumeration of custom attributes applied to the <paramref name="type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttributes(System.Type,System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttributes(System.Type,System.Type,System.Boolean)">
             <summary>
             Gets the custom attributes applied to the specified <see cref="T:System.Type"/> and identified by <see cref="T:System.Type"/>.
             </summary>
@@ -6196,7 +6264,7 @@
             An enumeration of custom attributes applied to the <paramref name="type"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttribute``1(System.Reflection.MemberInfo,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttribute``1(System.Reflection.MemberInfo,System.Boolean)">
             <summary>
             Gets the first instance of a custom attribute applied to the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6205,7 +6273,7 @@
             <param name="inherit"><c>true</c> to search the <paramref name="member"/>'s inheritance chain to find the attribute; otherwise <c>false</c>. This parameter is ignored for properties and events.</param>
             <returns>The first attribute found that is assignable to <typeparamref name="T"/>.</returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttributes(System.Reflection.MemberInfo,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttributes(System.Reflection.MemberInfo,System.Boolean)">
             <summary>
             Gets the custom attributes applied to the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6215,7 +6283,7 @@
             An enumeration of custom attributes applied to the <paramref name="member"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.GetCustomAttributes(System.Reflection.MemberInfo,System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.GetCustomAttributes(System.Reflection.MemberInfo,System.Type,System.Boolean)">
             <summary>
             Gets the custom attributes applied to the specified <see cref="T:System.Type"/> and identified by <see cref="T:System.Type"/>.
             </summary>
@@ -6226,7 +6294,7 @@
             An enumeration of custom attributes applied to the <paramref name="member"/>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.HasAttribute(System.Type,System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.HasAttribute(System.Type,System.Type,System.Boolean)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> has an attribute defined.
             </summary>
@@ -6237,7 +6305,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> has the attribute defined; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.HasAttribute(System.Reflection.MemberInfo,System.Type,System.Boolean)">
+        <member name="M:MonoCross.Utilities.BasicReflector.HasAttribute(System.Reflection.MemberInfo,System.Type,System.Boolean)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> has an attribute defined.
             </summary>
@@ -6248,7 +6316,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> has the attribute defined; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.HasInterface(System.Type,System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.HasInterface(System.Type,System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> implements an interface.
             </summary>
@@ -6258,7 +6326,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> implements the interface; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsAbstract(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsAbstract(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is abstract and must be overridden.
             </summary>
@@ -6267,7 +6335,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> is abstract; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsAssignableFrom(System.Type,System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsAssignableFrom(System.Type,System.Type)">
             <summary>
             Determines whether another type is assignable from the specified type.
             </summary>
@@ -6282,7 +6350,7 @@
             <c>false</c> if none of these conditions are true, or if <paramref name="c"/> is <c>null</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsClass(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsClass(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is a class; that is, not a value type or interface.
             </summary>
@@ -6291,7 +6359,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> is a class; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsEnum(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsEnum(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is an enum.
             </summary>
@@ -6300,7 +6368,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> is an enum; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsInterface(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsInterface(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is interface; that is, not a class or a value type.
             </summary>
@@ -6309,7 +6377,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> is an interface; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsPrimitive(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsPrimitive(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is a primitive.
             </summary>
@@ -6318,7 +6386,7 @@
               <c>true</c> if the <see cref="T:System.Type"/> is a primitive; otherwise <c>false</c>.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsSubclassOf(System.Type,System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsSubclassOf(System.Type,System.Type)">
             <summary>
             Determines whether the class represented by the current <see cref="T:System.Type"/> derives from the class represented by the specified <see cref="T:System.Type"/>.
             </summary>
@@ -6329,7 +6397,7 @@
             This method also returns <c>false</c> if <paramref name="type"/> and <paramref name="baseType"/> represent the same class.
             </returns>
         </member>
-        <member name="M:MonoCross.Utilities.CompactReflector.IsValueType(System.Type)">
+        <member name="M:MonoCross.Utilities.BasicReflector.IsValueType(System.Type)">
             <summary>
             Determines whether the specified <see cref="T:System.Type"/> is a value type.
             </summary>
@@ -6861,6 +6929,91 @@
         <member name="P:MonoCross.Utilities.Resources.NullResources.Count">
             <summary>
             Gets the number of resource providers contained in this instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Start">
+            <summary>
+            Enable the scanner for actual scanning, for example, a scanner may need to be enabled for automated
+            scanner or to enable a button on the scanner for a form or on a particular field
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Stop">
+            <summary>
+            Disable the scanner entirely to avoid inadvertant button presses or power saving, etc
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.Terminate">
+            <summary>
+            terminate the scanner, after this point the scanner interface will be invalid for use and the factory will
+            have to be called to get a new interface to the scanner
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.IsSymbologyAvailable(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to determine if a particular barcode symbology is supported by the scanner
+            </summary>
+            <param name="symbology">Barcode Symbology</param>
+            <returns>true if symbology is supported, false otherwire</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbology(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to enable a particular symbology
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.DisableSymbology(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to disable a particular symbology
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.IsSymbologyEnabled(MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            Method to test if a particular symbology is enabled
+            </summary>
+            <param name="symbology"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbologies(System.Collections.Generic.List{MonoCross.Utilities.Barcode.Symbology})">
+            <summary>
+            Sets the symbologies to ONLY those specified, disabling all others
+            </summary>
+            <param name="symbologies">A list of the symbologies to enable</param>
+            <returns>true on success, false on failure</returns>
+        </member>
+        <member name="E:MonoCross.Utilities.Barcode.IBarcodeScanner.BarcodeScan">
+            <summary>
+            Barcode returned on a scan
+            </summary>
+        </member>
+        <member name="T:MonoCross.Utilities.Barcode.BarcodeScanEvent">
+            <summary>
+            Barcode reader scan event
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Barcode.BarcodeScanEvent.#ctor(System.String,System.DateTime,MonoCross.Utilities.Barcode.Symbology)">
+            <summary>
+            
+            </summary>
+            <param name="data">The barcode data</param>
+            <param name="time">The time the scan took place, device time so may not be accurate</param>
+            <param name="type">The symbology of the barcode scanned</param>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Data">
+            <summary>
+            The barcode scanned
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Time">
+            <summary>
+            The time the scan took place, device time so may not be accurate
+            </summary>
+        </member>
+        <member name="P:MonoCross.Utilities.Barcode.BarcodeScanEvent.Type">
+            <summary>
+            The symbology of the barcode scanned, not sure yet if this is applicable to all scanners, only some may return the type
             </summary>
         </member>
         <member name="T:MonoCross.Scanning.ScanEventDelegate">
@@ -8692,114 +8845,32 @@
             </summary>
             <param name="directoryName">The directory to get the subdirectories of.</param>
         </member>
-        <member name="T:MonoCross.Utilities.Compatibility.Directory">
+        <member name="T:MonoCross.Utilities.Storage.FileFactory">
             <summary>
-            Static helper class for working with directories.
+            Factory for the creation of a file access strategy.
             </summary>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.Exists(System.String)">
+        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create">
             <summary>
-            Returns a value indicating whether or not the specified directory exists.
+            Creates an IFile instance.
             </summary>
-            <param name="directoryName">The directory to check for.</param>
-            <returns><c>true</c> if the specified directory exists; otherwise <c>false</c>.</returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.CreateDirectory(System.String)">
-            <summary>
-            Creates a directory with the specified name.
-            </summary>
-            <param name="directoryName">The name of the directory to create.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.GetFiles(System.String)">
-            <summary>
-            Returns the names of the files that are inside of the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the files of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Directory.GetDirectories(System.String)">
-            <summary>
-            Returns the names of subdirectories within the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the subdirectories of.</param>
-        </member>
-        <member name="T:MonoCross.Utilities.Compatibility.File">
-            <summary>
-            Static helper class for working with files.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Exists(System.String)">
-            <summary>
-            Returns a value indicating whether or not the specified file exists.
-            </summary>
-            <param name="filename">The file to check for.</param>
-            <returns><c>true</c> if the specified file exists; otherwise <c>false</c>.</returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Delete(System.String)">
-            <summary>
-            Deletes the specified file.
-            </summary>
-            <param name="filename">The file to delete.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.Move(System.String,System.String)">
-            <summary>
-            Moves the specified file to the specified destination.
-            </summary>
-            <param name="sourcefilename">The file to move.</param>
-            <param name="destinationfilename">The destination of the file being moved.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.File.OpenRead(System.String)">
-            <summary>
-            Opens the specified file as a read-only <see cref="T:System.IO.Stream"/>.
-            </summary>
-            <param name="fileName">Name of the file.</param>
             <returns></returns>
         </member>
-        <member name="T:MonoCross.Utilities.Compatibility.Path">
+        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create(MonoCross.Utilities.Storage.FileType)">
             <summary>
-            Static helper class for working with paths.
+            Creates an IFile instance of the specified file type.
+            </summary>
+            <param name="fileType">Type of the file.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MonoCross.Utilities.Storage.FileType">
+            <summary>
+            Indicates the file type to use
             </summary>
         </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.Combine(System.String[])">
+        <member name="F:MonoCross.Utilities.Storage.FileType.BasicFile">
             <summary>
-            Combines the specified strings into a path.
-            </summary>
-            <param name="paths">The parts of the path to combine.</param>
-            <returns>The fully combined path.</returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetDirectoryName(System.String)">
-            <summary>
-            Returns the name of the directory that contains the specified file.
-            </summary>
-            <param name="filename">The file to get the directory of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFileName(System.String)">
-            <summary>
-            Returns the name of the file.
-            </summary>
-            <param name="filename">The file to get the name of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFileNameWithoutExtension(System.String)">
-            <summary>
-            Returns the name of the file.
-            </summary>
-            <param name="filename">The file to get the name of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Compatibility.Path.GetFullPath(System.String)">
-            <summary>
-            Gets the full path of a filename.
-            </summary>
-            <param name="filename">The name of the file to create a whole path.</param>
-            <returns>The full path of the file.</returns>
-            <remarks>
-            If the file does not exist, the path is assumed to resolve to <see cref="P:MonoCross.Utilities.Device.SessionDataPath"/>.<br/>
-            If the file exists in the <see cref="P:MonoCross.Utilities.Device.DataPath"/> or <see cref="P:MonoCross.Utilities.Device.ApplicationPath"/>, the
-            appropriate base path will be prepended.<br/>
-            Fully-qualified paths will be returned as-is.
-            </remarks>
-        </member>
-        <member name="P:MonoCross.Utilities.Compatibility.Path.DirectorySeparatorChar">
-            <summary>
-            Gets the directory separator character for the platform.
+            Basic file type (default).
             </summary>
         </member>
         <member name="M:MonoCross.Utilities.Storage.FileHelper.AppendText(System.IO.FileStream,System.String)">
@@ -9467,6 +9538,37 @@
             Gets or sets a value indicating whether the idle queue is enabled.
             </summary>
             <value><c>true</c> if the idle queue is enabled; otherwise <c>false</c>.</value>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.ThreadFactory">
+            <summary>
+            Provides methods for creating threading utilities.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.ThreadFactory.Create">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Threading.IThread"/> instance.
+            </summary>
+        </member>
+        <member name="M:MonoCross.Utilities.Threading.ThreadFactory.Create(MonoCross.Utilities.Threading.ThreadType)">
+            <summary>
+            Creates a new <see cref="T:MonoCross.Utilities.Threading.IThread"/> instance of the specified thread type.
+            </summary>
+            <param name="threadType">The type of <see cref="T:MonoCross.Utilities.Threading.IThread"/> to create.</param>
+        </member>
+        <member name="T:MonoCross.Utilities.Threading.ThreadType">
+            <summary>
+            The available threading types.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.ThreadType.BasicThread">
+            <summary>
+            Default thread type that works across multiple platforms.
+            </summary>
+        </member>
+        <member name="F:MonoCross.Utilities.Threading.ThreadType.MockThread">
+            <summary>
+            Mock thread type for platforms that don't support threading.
+            </summary>
         </member>
         <member name="T:MonoCross.Utilities.TypeSwitch">
             <summary>

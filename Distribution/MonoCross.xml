@@ -1234,46 +1234,6 @@
             <param name="b">The second <see cref="T:MonoCross.Navigation.NamedTypeMap.NamedType"/> to check.</param>
             <returns><c>true</c> if the parameters are not equal; otherwise, <c>false</c>.</returns>
         </member>
-        <member name="T:MonoCross.Navigation.ReflectionExtensions">
-            <summary>
-            Provides helper extensions for reflection compatibility.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Navigation.ReflectionExtensions.GetTypeInfo(System.Type)">
-            <summary>
-            Returns the <see cref="T:MonoCross.Navigation.TypeInfo"/> representation of the specified type.
-            </summary>
-            <param name="type">The <see cref="T:System.Type"/> to convert.</param>
-            <returns>The <see cref="T:MonoCross.Navigation.TypeInfo"/> representation of the specified type.</returns>
-        </member>
-        <member name="T:MonoCross.Navigation.TypeInfo">
-            <summary>
-            A compatibility wrapper for .NET 4.5
-            </summary>
-        </member>
-        <member name="M:MonoCross.Navigation.TypeInfo.#ctor(System.Type)">
-            <summary>
-            Initializes a new <see cref="T:MonoCross.Navigation.TypeInfo"/> instance.
-            </summary>
-            <param name="type">The type being wrapped.</param>
-        </member>
-        <member name="P:MonoCross.Navigation.TypeInfo.DeclaredConstructors">
-            <summary>
-            Public constructors for the given <see cref="T:System.Type"/>.
-            </summary>
-        </member>
-        <member name="P:MonoCross.Navigation.TypeInfo.ImplementedInterfaces">
-            <summary>
-            The interfaces implemented or inherited by the given <see cref="T:System.Type"/>.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Navigation.TypeInfo.IsAssignableFrom(MonoCross.Navigation.TypeInfo)">
-            <summary>
-            Determines whether an instance of a specified type can be assigned to the current type instance. 
-            </summary>
-            <param name="typeInfo">The type info to compare with the current instance. </param>
-            <returns><c>true</c> if the given type can be assigned to this instance's type; otherwise <c>false</c>.</returns>
-        </member>
         <member name="T:MonoCross.Navigation.SerializableDictionary`2">
             <summary>
             Represents a generic collection of key/value pairs with serialization logic.
@@ -3084,6 +3044,7 @@
             </summary>
             <param name="message">The message to append to the current log file.</param>
             <param name="messageType">The type of log message.  If this is less than the current logging level, the message will not be appended.</param>
+            <param name="exception">The exception to pass to <see cref="E:MonoCross.Utilities.Logging.BaseLogger.OnLogEvent"/></param>
             <param name="args">An object array that contains zero or more objects to format.</param>
         </member>
         <member name="M:MonoCross.Utilities.Logging.BaseLogger.AppendLog(System.Exception,MonoCross.Utilities.Logging.LogMessageType)">
@@ -6686,77 +6647,6 @@
             Gets the type of the content.
             </summary>
             <value>The type of the content.</value>
-        </member>
-        <member name="T:MonoCross.Utilities.Serialization.SerializableDictionary`2">
-            <summary>
-            Represents a serializable dictionary of values
-            </summary>
-            <typeparam name="TKey">The type of the key.</typeparam>
-            <typeparam name="TValue">The type of the value.</typeparam>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1})">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-            <param name="dictionary">A <see cref="T:System.Collections.Generic.IDictionary`2"/> representing the Dictionary value.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-            <param name="capacity">A <see cref="T:System.Int32"/> representing the Capacity value.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1},System.Collections.Generic.IEqualityComparer{`0})">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-            <param name="dictionary">A <see cref="T:System.Collections.Generic.IDictionary`2"/> representing the Dictionary value.</param>
-            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.#ctor(System.Int32,System.Collections.Generic.IEqualityComparer{`0})">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Serialization.SerializableDictionary`2"/> class.
-            </summary>
-            <param name="capacity">A <see cref="T:System.Int32"/> representing the Capacity value.</param>
-            <param name="comparer">A <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> representing the Comparer value.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.GetSchema">
-            <summary>
-            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
-            </summary>
-            <returns>
-            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
-            </returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.ReadXml(System.Xml.XmlReader)">
-            <summary>
-            Generates an object from its XML representation.
-            </summary>
-            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.WriteXml(System.Xml.XmlWriter)">
-            <summary>
-            Converts an object into its XML representation.
-            </summary>
-            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Serialization.SerializableDictionary`2.CreateFromXml(System.String)">
-            <summary>
-            Creates a new dictionary from XML.
-            </summary>
-            <param name="filename">A <see cref="T:System.String"/> representing the Filename value.</param>
-            <returns></returns>
         </member>
         <member name="T:MonoCross.Utilities.Serialization.SerializationFormat">
             <summary>
