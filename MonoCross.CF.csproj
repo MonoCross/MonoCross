@@ -185,9 +185,32 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>git rev-list --count HEAD &gt; buildrev.txt
-git rev-parse --abbrev-ref HEAD &gt; branch.txt
-git rev-parse --short HEAD &gt; commithash.txt</PreBuildEvent>
+    <PreBuildEvent>git rev-list --count HEAD &gt; buildrev.txt &amp;&amp; set /p BUILDREV=&lt;buildrev.txt &amp;&amp; del buildrev.txt
+git rev-parse --abbrev-ref HEAD &gt; branch.txt &amp;&amp; set /p BRANCH=&lt;branch.txt &amp;&amp; del branch.txt
+git rev-parse --short HEAD &gt; commithash.txt &amp;&amp; set /p COMMITHASH=&lt;commithash.txt &amp;&amp; del commithash.txt
+
+setlocal EnableDelayedExpansion
+set LINES=0
+for /f "delims==" %25%25I in (Properties\AssemblyInfo.cs) do (
+    set /a LINES=LINES+1    
+)
+set /a LINES=LINES-3
+
+call:PrintFirstNLine &gt; output.txt
+
+goto EOF
+
+:PrintFirstNLine
+set cur=0
+for /f "delims==" %25%25I in (Properties\AssemblyInfo.cs) do (      
+    echo %25%25I
+    set /a cur=cur+1    
+    if "!cur!"=="%25LINES%25" goto EOF
+) 
+
+:EOF 
+
+exit /b</PreBuildEvent>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "$(ProjectDir)Distribution"</PostBuildEvent>
   </PropertyGroup>
 </Project>

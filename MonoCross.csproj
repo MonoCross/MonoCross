@@ -107,8 +107,8 @@
 
     <PropertyGroup>
       <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
-      <FileVersion>4.0.0.$(BuildRev)</FileVersion>
-      <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
+      <FileVersion>$(AssemblyVersion)</FileVersion>
+      <Version>$(AssemblyVersion)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
   </Target>

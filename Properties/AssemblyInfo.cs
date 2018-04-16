@@ -9,7 +9,6 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zebra Technologies Corporation")]
 [assembly: AssemblyProduct("MonoCross")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
@@ -25,4 +24,5 @@ using System.Reflection;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("4.0.0.42")]
-[assembly: AssemblyInformationalVersion("Branch - master (Hash: Working Tree)")]
+[assembly: AssemblyInformationalVersion("4.0.0.42-master.WorkingTree")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
