@@ -191,7 +191,7 @@ git rev-parse --short HEAD &gt; commithash.txt &amp;&amp; set /p COMMITHASH=&lt;
 
 setlocal EnableDelayedExpansion
 set LINES=0
-for /f "delims==" %25%25I in ($(ProjectDir)Properties\AssemblyInfo.cs) do (
+for /f "usebackq delims==" %25%25I in ("$(ProjectDir)Properties\AssemblyInfo.cs") do (
     set /a LINES=LINES+1    
 )
 set /a LINES=LINES-3
@@ -214,7 +214,7 @@ goto EOF
 
 :PrintFirstNLine
 set cur=0
-for /f "delims==" %25%25I in ($(ProjectDir)Properties\AssemblyInfo.cs) do (
+for /f "usebackq delims==" %25%25I in ("$(ProjectDir)Properties\AssemblyInfo.cs") do (
     echo %25%25I
     set /a cur=cur+1    
     if "!cur!"=="%25LINES%25" goto EOF
