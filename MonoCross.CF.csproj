@@ -214,7 +214,7 @@ goto EOF
 
 :PrintFirstNLine
 set cur=0
-for /f "delims==" %25%25I in ("$(ProjectDir)Properties\AssemblyInfo.cs") do (
+for /f "delims==" %25%25I in ($(ProjectDir)Properties\AssemblyInfo.cs) do (
     echo %25%25I
     set /a cur=cur+1    
     if "!cur!"=="%25LINES%25" goto EOF
