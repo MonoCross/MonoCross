@@ -3,6 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BuildVersion Condition=" '$(BuildVersion)' == '' ">4.1.0</BuildVersion>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3B519F92-1F02-4EB5-BA88-D0FC2999981F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -65,9 +66,9 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
     </Exec>
     <PropertyGroup>
-      <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
-      <FileVersion>4.0.0.$(BuildRev)</FileVersion>
-      <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
+      <AssemblyVersion>$(BuildVersion).$(BuildRev)</AssemblyVersion>
+      <FileVersion>$(AssemblyVersion)</FileVersion>
+      <Version>$(AssemblyVersion)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
     <UpdateAssemblyInfo AssemblyInfo="$(ProjectDir)Properties/AssemblyInfo.cs" Version="$(FileVersion)" Branch="$(Branch)" CommitHash="$(CommitHash)" Copyright="$(Copyright)" />

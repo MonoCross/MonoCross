@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <BuildVersion Condition=" '$(BuildVersion)' == '' ">4.1.0</BuildVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Zebra Technologies Corp.</Company>
     <Description>MonoCross Framework</Description>
@@ -106,7 +107,7 @@
     </Exec>
 
     <PropertyGroup>
-      <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
+      <AssemblyVersion>$(BuildVersion).$(BuildRev)</AssemblyVersion>
       <FileVersion>$(AssemblyVersion)</FileVersion>
       <Version>$(AssemblyVersion)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>

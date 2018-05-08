@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BuildVersion Condition=" '$(BuildVersion)' == '' ">4.1.0</BuildVersion>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -14,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,29 +71,28 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
     </Exec>
     <PropertyGroup>
-      <AssemblyVersion>4.0.0.$(BuildRev)</AssemblyVersion>
-      <FileVersion>4.0.0.$(BuildRev)</FileVersion>
-      <Version>4.0.0.$(BuildRev)-$(Branch).$(CommitHash)</Version>
+      <AssemblyVersion>$(BuildVersion).$(BuildRev)</AssemblyVersion>
+      <FileVersion>$(AssemblyVersion)</FileVersion>
+      <Version>$(AssemblyVersion)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
     </PropertyGroup>
     <UpdateAssemblyInfo AssemblyInfo="$(ProjectDir)Properties/AssemblyInfo.cs" Version="$(FileVersion)" Branch="$(Branch)" CommitHash="$(CommitHash)" Copyright="$(Copyright)" />
   </Target>
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" DestinationFolder="../Distribution" />
-    <!--<Exec WorkingDirectory="$(ProjectDir)" Command="git checkout -><- Properties/AssemblyInfo.cs" />-->
   </Target>
   <UsingTask TaskName="UpdateAssemblyInfo" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
-        <AssemblyInfo ParameterType="System.String" Required="true" />
-        <Version ParameterType="System.String" Required="true" />
-        <Branch ParameterType="System.String" Required="true" />
-        <CommitHash ParameterType="System.String" Required="true" />
-        <Copyright ParameterType="System.String" Required="true" />
+      <AssemblyInfo ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Required="true" />
+      <Branch ParameterType="System.String" Required="true" />
+      <CommitHash ParameterType="System.String" Required="true" />
+      <Copyright ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
-        <Using Namespace="System.IO"/>
-        <Using Namespace="System.Diagnostics"/>
-        <Code Type="Fragment" Language="cs"><![CDATA[
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Diagnostics" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
 	var lines = File.ReadAllLines(AssemblyInfo);
 	File.WriteAllLines(AssemblyInfo, lines.Take(lines.Length - 4).Union(new[] {
 		"[assembly: AssemblyVersion(\"" + Version + "\")]",
