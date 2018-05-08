@@ -1,6 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BuildVersion Condition=" '$(BuildVersion)' == '' ">4.1.0</BuildVersion>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -206,8 +207,8 @@ FOR /F "tokens=1-3 delims=/-" %%A IN ("%Today%") DO (
 )
 
 echo "%Year%")]&gt;&gt; output.txt
-echo [assembly: AssemblyVersion("4.0.0.%BUILDREV%")]&gt;&gt; output.txt
-echo [assembly: AssemblyInformationalVersion("4.0.0.%BUILDREV%-%BRANCH%.%COMMITHASH%")]&gt;&gt; output.txt
+echo [assembly: AssemblyVersion("$(BuildVersion).%BUILDREV%")]&gt;&gt; output.txt
+echo [assembly: AssemblyInformationalVersion("$(BuildVersion).%BUILDREV%-%BRANCH%.%COMMITHASH%")]&gt;&gt; output.txt
 move output.txt "$(ProjectDir)Properties\AssemblyInfo.cs"
 
 goto EOF
