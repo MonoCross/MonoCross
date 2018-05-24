@@ -152,10 +152,7 @@
     <Compile Include="Utilities\Serialization\SerializerJson.cs" />
     <Compile Include="Utilities\Serialization\SerializerOdata.cs" />
     <Compile Include="Utilities\Serialization\SerializerXml.cs" />
-    <Compile Include="Utilities\Storage\BaseFile.cs" />
     <Compile Include="Utilities\Storage\BasicFile.cs" />
-    <Compile Include="Utilities\Storage\FileFactory.cs" />
-    <Compile Include="Utilities\Storage\FileHelper.cs" />
     <Compile Include="Utilities\Storage\IFile.cs" />
     <Compile Include="Utilities\Storage\NullFile.cs" />
     <Compile Include="Utilities\SyncQueue.cs" />

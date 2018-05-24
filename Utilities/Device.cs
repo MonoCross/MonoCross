@@ -243,7 +243,7 @@ namespace MonoCross.Utilities
         /// <value>File system access as an <see cref="IFile"/> instance.</value>
         public static IFile File
         {
-            get { return FileFactory.Create(); }
+            get { return MXContainer.Resolve<IFile>(); }
             set { MXContainer.RegisterSingleton<IFile>(value); }
         }
 
