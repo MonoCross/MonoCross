@@ -7219,273 +7219,6 @@
             <param name="value">The serialized list value.</param>
             <returns></returns>
         </member>
-        <member name="T:MonoCross.Utilities.Storage.BaseFile">
-            <summary>
-            Represents a base class for file system utilities.  This class is abstract.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:MonoCross.Utilities.Storage.BaseFile"/> class.
-            </summary>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String)">
-            <summary>
-            Reads the specified file and returns its contents as a byte array.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String,MonoCross.Utilities.EncryptionMode)">
-            <summary>
-            Reads the specified file and returns its contents as a byte array.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <param name="mode">The encryption mode to use when reading the file.</param>
-            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Read(System.String,System.String,System.Byte[])">
-            <summary>
-            Reads the specified file and returns its contents as a byte array.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <param name="key">The keyword to derive the encryption key from.</param>
-            <param name="salt">The key salt to derive the encryption key from.</param>
-            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadClear(System.String)">
-            <summary>
-            Reads the specified file and returns its contents as a byte array.
-            </summary>
-            <param name="filename">The file to read.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String)">
-            <summary>
-            Reads the specified file and returns its contents as a string.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String,MonoCross.Utilities.EncryptionMode)">
-            <summary>
-            Reads the specified file and returns its contents as a string.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <param name="mode">The encryption mode to use when reading the file.</param>
-            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadString(System.String,System.String,System.Byte[])">
-            <summary>
-            Reads the specified file and returns its contents as a string.
-            </summary>
-            <param name="filename">The file to read.</param>
-            <param name="key">The keyword to derive the encryption key from.</param>
-            <param name="salt">The key salt to derive the encryption key from.</param>
-            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.ReadStringClear(System.String)">
-            <summary>
-            Reads the specified file and returns its contents as a string.
-            </summary>
-            <param name="filename">The file to read.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Length(System.String)">
-            <summary>
-            Returns the character length of the specified file.
-            </summary>
-            <param name="filename">The file to get the length of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Delete(System.String)">
-            <summary>
-            Deletes the specified file.
-            </summary>
-            <param name="filename">The file to delete.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Move(System.String,System.String)">
-            <summary>
-            Moves the specified file to the specified destination.
-            </summary>
-            <param name="sourcefilename">The file to move.</param>
-            <param name="destinationfilename">The destination of the file being moved.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Copy(System.String,System.String)">
-            <summary>
-            Copies the specified file to the specified destination.
-            </summary>
-            <param name="sourcefilename">The file to copy.</param>
-            <param name="destinationfilename">The destination of the file being copied.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.CreateDirectory(System.String)">
-            <summary>
-            Creates a directory with the specified name.
-            </summary>
-            <param name="directoryName">The name of the directory to create.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.DeleteDirectory(System.String)">
-            <summary>
-            Deletes the specified directory.
-            </summary>
-            <param name="directoryName">The directory to delete.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.DeleteDirectory(System.String,System.Boolean)">
-            <summary>
-            Deletes the specified directory and optionally deletes all files and subdirectories within the directory.
-            </summary>
-            <param name='directoryName'>The directory to delete.</param>
-            <param name='recursive'>Whether to delete all files and subdirectories within the directory.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.MoveDirectory(System.String,System.String)">
-            <summary>
-            Moves the specified directory to the specified destination.
-            </summary>
-            <param name="sourceDirectoryName">The directory to move.</param>
-            <param name="destinationDirectoryName">The destination of the directory being moved.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.CopyDirectory(System.String,System.String)">
-            <summary>
-            Copies the specified directory to the specified destination.
-            </summary>
-            <param name="sourceDirectoryName">The directory to copy.</param>
-            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.CopyDirectory(System.String,System.String,System.Boolean)">
-            <summary>
-            Copies the specified directory to the specified destination.
-            </summary>
-            <param name="sourceDirectoryName">The directory to copy.</param>
-            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
-            <param name="overwriteExisting">Whether to overwrite any directory that is already at the destination.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.GetFileNames(System.String)">
-            <summary>
-            Returns the names of the files that are inside of the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the files of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.DirectoryName(System.String)">
-            <summary>
-            Returns the name of the directory that contains the specified file.
-            </summary>
-            <param name="filename">The file to get the directory of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Exists(System.String)">
-            <summary>
-            Returns a value indicating whether or not the specified file exists.
-            </summary>
-            <param name="filename">The file to check for.</param>
-            <returns><c>true</c> if the specified file exists; otherwise <c>false</c>.</returns>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.EnsureDirectoryExists(System.String)">
-            <summary>
-            Ensures that all directories in the specified path exist.
-            </summary>
-            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.EnsureDirectoryExistsForFile(System.String)">
-            <summary>
-            Ensures that all directories in the specified path exist.
-            </summary>
-            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.GetDirectoryNames(System.String)">
-            <summary>
-            Returns the names of subdirectories within the specified directory.
-            </summary>
-            <param name="directoryName">The directory to get the subdirectories of.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String)">
-            <summary>
-            Writes the specified contents to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The contents to write to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String,MonoCross.Utilities.EncryptionMode)">
-            <summary>
-            Writes the specified contents to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The contents to write to the file.</param>
-            <param name="mode">The encryption mode to use when writing to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.String,System.String,System.Byte[])">
-            <summary>
-            Writes the specified contents to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The contents to write to the file.</param>
-            <param name="key">The keyword to derive the encryption key from.</param>
-            <param name="salt">The key salt to derive the encryption key from.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.String)">
-            <summary>
-            Writes the specified contents to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The contents to write to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream)">
-            <summary>
-            Writes the contents of the specified stream to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The stream containing the contents to write to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream,MonoCross.Utilities.EncryptionMode)">
-            <summary>
-            Writes the contents of the specified stream to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The stream containing the contents to write to the file.</param>
-            <param name="mode">The encryption mode to use when writing to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.IO.Stream,System.String,System.Byte[])">
-            <summary>
-            Writes the contents of the specified stream to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The stream containing the contents to write to the file.</param>
-            <param name="key">The keyword to derive the encryption key from.</param>
-            <param name="salt">The key salt to derive the encryption key from.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.IO.Stream)">
-            <summary>
-            Writes the contents of the specified stream to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The stream containing the contents to write to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[])">
-            <summary>
-            Writes the contents of the specified byte array to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The byte array containing the contents to write to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[],MonoCross.Utilities.EncryptionMode)">
-            <summary>
-            Writes the contents of the specified byte array to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The byte array containing the contents to write to the file.</param>
-            <param name="mode">The encryption mode to use when writing to the file.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.Save(System.String,System.Byte[],System.String,System.Byte[])">
-            <summary>
-            Writes the contents of the specified byte array to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The byte array containing the contents to write to the file.</param>
-            <param name="key">The keyword to derive the encryption key from.</param>
-            <param name="salt">The key salt to derive the encryption key from.</param>
-        </member>
-        <member name="M:MonoCross.Utilities.Storage.BaseFile.SaveClear(System.String,System.Byte[])">
-            <summary>
-            Writes the contents of the specified byte array to the specified file.
-            </summary>
-            <param name="filename">The file to write the contents to.</param>
-            <param name="contents">The byte array containing the contents to write to the file.</param>
-        </member>
         <member name="T:MonoCross.Utilities.Storage.BasicFile">
             <summary>
             Represents a file system utility with basic functionality that works across multiple platforms.
@@ -7500,6 +7233,21 @@
             Initializes a new instance of the <see cref="T:MonoCross.Utilities.Storage.BasicFile"/> class.
             </summary>
         </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Read(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Read(System.String,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="mode">The encryption mode to use when reading the file.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
         <member name="M:MonoCross.Utilities.Storage.BasicFile.Read(System.String,System.String,System.Byte[])">
             <summary>
             Reads the specified file and returns its contents as a byte array.
@@ -7507,6 +7255,110 @@
             <param name="filename">The file to read.</param>
             <param name="key">The keyword to derive the encryption key from.</param>
             <param name="salt">The key salt to derive the encryption key from.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.ReadClear(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a byte array.
+            </summary>
+            <param name="filename">The file to read.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.ReadString(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.ReadString(System.String,MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="mode">The encryption mode to use when reading the file.</param>
+            <remarks>Internally calls the ReadClear protected virtual method for encryption or the ReadStringClear virtual method for no encryption.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.ReadString(System.String,System.String,System.Byte[])">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+            <remarks>Internally calls the ReadClear protected virtual method.</remarks>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.ReadStringClear(System.String)">
+            <summary>
+            Reads the specified file and returns its contents as a string.
+            </summary>
+            <param name="filename">The file to read.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Length(System.String)">
+            <summary>
+            Returns the character length of the specified file.
+            </summary>
+            <param name="filename">The file to get the length of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Delete(System.String)">
+            <summary>
+            Deletes the specified file.
+            </summary>
+            <param name="filename">The file to delete.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Move(System.String,System.String)">
+            <summary>
+            Moves the specified file to the specified destination.
+            </summary>
+            <param name="sourcefilename">The file to move.</param>
+            <param name="destinationfilename">The destination of the file being moved.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Copy(System.String,System.String)">
+            <summary>
+            Copies the specified file to the specified destination.
+            </summary>
+            <param name="sourcefilename">The file to copy.</param>
+            <param name="destinationfilename">The destination of the file being copied.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.CreateDirectory(System.String)">
+            <summary>
+            Creates a directory with the specified name.
+            </summary>
+            <param name="directoryName">The name of the directory to create.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.DeleteDirectory(System.String)">
+            <summary>
+            Deletes the specified directory.
+            </summary>
+            <param name="directoryName">The directory to delete.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.DeleteDirectory(System.String,System.Boolean)">
+            <summary>
+            Deletes the specified directory and optionally deletes all files and subdirectories within the directory.
+            </summary>
+            <param name='directoryName'>The directory to delete.</param>
+            <param name='recursive'>Whether to delete all files and subdirectories within the directory.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.MoveDirectory(System.String,System.String)">
+            <summary>
+            Moves the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to move.</param>
+            <param name="destinationDirectoryName">The destination of the directory being moved.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.CopyDirectory(System.String,System.String)">
+            <summary>
+            Copies the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to copy.</param>
+            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.CopyDirectory(System.String,System.String,System.Boolean)">
+            <summary>
+            Copies the specified directory to the specified destination.
+            </summary>
+            <param name="sourceDirectoryName">The directory to copy.</param>
+            <param name="destinationDirectoryName">The destination of the directory being copied.</param>
+            <param name="overwriteExisting">Whether to overwrite any directory that is already at the destination.</param>
         </member>
         <member name="M:MonoCross.Utilities.Storage.BasicFile.GetFileNames(System.String)">
             <summary>
@@ -7514,55 +7366,129 @@
             </summary>
             <param name="directoryName">The directory to get the files of.</param>
         </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.DirectoryName(System.String)">
+            <summary>
+            Returns the name of the directory that contains the specified file.
+            </summary>
+            <param name="filename">The file to get the directory of.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Exists(System.String)">
+            <summary>
+            Returns a value indicating whether or not the specified file exists.
+            </summary>
+            <param name="filename">The file to check for.</param>
+            <returns><c>true</c> if the specified file exists; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.EnsureDirectoryExists(System.String)">
+            <summary>
+            Ensures that all directories in the specified path exist.
+            </summary>
+            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.EnsureDirectoryExistsForFile(System.String)">
+            <summary>
+            Ensures that all directories in the specified path exist.
+            </summary>
+            <param name='filename'>The full path of the file or directory to check.  If passing a directory, a trailing slash is required.</param>
+        </member>
         <member name="M:MonoCross.Utilities.Storage.BasicFile.GetDirectoryNames(System.String)">
             <summary>
-            Gets the names of subdirectories within the specified directory.
+            Returns the names of subdirectories within the specified directory.
             </summary>
             <param name="directoryName">The directory to get the subdirectories of.</param>
         </member>
-        <member name="T:MonoCross.Utilities.Storage.FileFactory">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.String)">
             <summary>
-            Factory for the creation of a file access strategy.
+            Writes the specified contents to the specified file.
             </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.String,MonoCross.Utilities.EncryptionMode)">
             <summary>
-            Creates an IFile instance.
+            Writes the specified contents to the specified file.
             </summary>
-            <returns></returns>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Storage.FileFactory.Create(MonoCross.Utilities.Storage.FileType)">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.String,System.String,System.Byte[])">
             <summary>
-            Creates an IFile instance of the specified file type.
+            Writes the specified contents to the specified file.
             </summary>
-            <param name="fileType">Type of the file.</param>
-            <returns></returns>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
         </member>
-        <member name="T:MonoCross.Utilities.Storage.FileType">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.SaveClear(System.String,System.String)">
             <summary>
-            Indicates the file type to use
+            Writes the specified contents to the specified file.
             </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The contents to write to the file.</param>
         </member>
-        <member name="F:MonoCross.Utilities.Storage.FileType.BasicFile">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.IO.Stream)">
             <summary>
-            Basic file type (default).
+            Writes the contents of the specified stream to the specified file.
             </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Storage.FileHelper.AppendText(System.IO.FileStream,System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.IO.Stream,MonoCross.Utilities.EncryptionMode)">
             <summary>
-            Appends text to the FileStream using a StreamWriter.
-            StreamWriter similar to FileStream shall be fine for all platforms.
+            Writes the contents of the specified stream to the specified file.
             </summary>
-            <param name="fs">A <see cref="T:System.IO.FileStream"/> representing the Fs value.</param>
-            <param name="value">A <see cref="T:System.String"/> representing the Value value.</param>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
         </member>
-        <member name="M:MonoCross.Utilities.Storage.FileHelper.AppendText(System.String,System.String)">
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.IO.Stream,System.String,System.Byte[])">
             <summary>
-            Appends text to the FileStream using a StreamWriter.
-            StreamWriter similar to FileStream shall be fine for all platforms.
+            Writes the contents of the specified stream to the specified file.
             </summary>
-            <param name="filename">A <see cref="T:System.String"/> representing the file location.</param>
-            <param name="value">A <see cref="T:System.String"/> representing the Value value.</param>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.SaveClear(System.String,System.IO.Stream)">
+            <summary>
+            Writes the contents of the specified stream to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The stream containing the contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.Byte[],MonoCross.Utilities.EncryptionMode)">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+            <param name="mode">The encryption mode to use when writing to the file.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.Save(System.String,System.Byte[],System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
+            <param name="key">The keyword to derive the encryption key from.</param>
+            <param name="salt">The key salt to derive the encryption key from.</param>
+        </member>
+        <member name="M:MonoCross.Utilities.Storage.BasicFile.SaveClear(System.String,System.Byte[])">
+            <summary>
+            Writes the contents of the specified byte array to the specified file.
+            </summary>
+            <param name="filename">The file to write the contents to.</param>
+            <param name="contents">The byte array containing the contents to write to the file.</param>
         </member>
         <member name="T:MonoCross.Utilities.Storage.IFile">
              <summary>
