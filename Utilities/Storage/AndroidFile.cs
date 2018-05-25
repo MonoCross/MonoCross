@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Android.Content.Res;
 using Android.Util;
@@ -9,7 +10,7 @@ using MonoCross.Utilities.Network;
 
 namespace MonoCross.Utilities.Storage
 {
-    public class AndroidFile : BaseFile
+    public class AndroidFile : BasicFile
     {
         [Android.Runtime.Preserve]
         public AndroidFile() { }
@@ -105,72 +106,117 @@ namespace MonoCross.Utilities.Storage
             Save(destinationfilename, file);
         }
 
+        public override void CopyDirectory(string sourceDirectoryName, string destinationDirectoryName, bool overwriteExisting)
+        {
+            if (sourceDirectoryName == null) throw new ArgumentNullException(nameof(sourceDirectoryName), "Must specify source directory");
+            if (destinationDirectoryName == null) throw new ArgumentNullException(nameof(destinationDirectoryName), "Must specify destination directory");
+
+            if (base.Exists(sourceDirectoryName))
+            {
+                base.CopyDirectory(sourceDirectoryName, destinationDirectoryName, overwriteExisting);
+                return;
+            }
+
+            // Create the destination folder if needed
+            CreateDirectory(destinationDirectoryName);
+
+            // Copy the files and overwrite destination files if they already exist.
+            foreach (string fls in GetFileNames(sourceDirectoryName))
+            {
+                var destFile = Path.Combine(destinationDirectoryName, fls);
+                if (overwriteExisting || !base.Exists(destFile))
+                {
+                    Copy(sourceDirectoryName.AppendPath(fls), destFile);
+                }
+            }
+
+            // Copy all subfolders by calling CopyDirectory recursively
+            foreach (string drs in GetDirectoryNames(sourceDirectoryName))
+            {
+                DirectoryInfo drInfo = new DirectoryInfo(drs);
+                CopyDirectory(drs, Path.Combine(destinationDirectoryName, drInfo.Name), overwriteExisting);
+            }
+        }
+
         protected override byte[] ReadClear(string filename)
         {
             if (filename == null) throw new ArgumentNullException(nameof(filename));
-            if (filename == string.Empty) throw new ArgumentException(nameof(filename));
 
-            if (!filename.StartsWith("/"))
+            byte[] file = null;
+            if (base.Exists(filename))
+            {
+                file = base.ReadClear(filename);
+            }
+            else
             {
                 using (var input = GetAsset(filename))
                 {
                     if (input != null)
-                    {
-                        using (var output = new MemoryStream())
-                        {
-                            input.CopyTo(output);
-                            return RemoveBOM(output.ToArray());
-                        }
-                    }
+                        file = NetworkUtils.StreamToByteArray(input);
                 }
+            }
+
+            if (file == null)
+            {
                 int resource = ResourceFromFileName(filename);
                 if (resource > 0)
                 {
                     var stream = _resources.OpenRawResource(resource);
-                    return RemoveBOM(NetworkUtils.StreamToByteArray(stream));
+                    file = NetworkUtils.StreamToByteArray(stream);
                 }
             }
 
-            if (base.Exists(filename))
+            if (file == null)
             {
-                return RemoveBOM(base.ReadClear(filename));
+                throw new FileNotFoundException("File not found.", filename);
             }
-            throw new FileNotFoundException("File not found.", filename);
+
+            return file;
         }
 
         public override string ReadStringClear(string filename)
         {
             if (filename == null) throw new ArgumentNullException(nameof(filename));
-            return NetworkUtils.ByteArrayToStr(ReadClear(filename));
+            byte[] contents = ReadClear(filename);
+            return Encoding.Unicode.GetString(contents);
         }
 
         public override long Length(string filename)
         {
             if (filename == null) throw new ArgumentNullException(nameof(filename));
-            return ReadClear(filename).Length;
+            return ReadStringClear(filename).Length;
         }
 
         /// <summary>
-        /// Gets the file names for a directory.
+        /// Returns the names of the files that are inside of the specified directory.
         /// </summary>
-        /// <param name="directoryName">Name of the directory.</param>
-        /// <returns></returns>
+        /// <param name="directoryName">The directory to get the files of.</param>
         public override string[] GetFileNames(string directoryName)
         {
             if (directoryName == null) throw new ArgumentNullException(nameof(directoryName));
-            return !directoryName.StartsWith(Device.ApplicationPath) ? Directory.GetFiles(directoryName) :
-                AssetManager.List(directoryName.Substring(Device.ApplicationPath.Length).Trim('/')).Select(directoryName.AppendPath).ToArray();
+            return !directoryName.StartsWith(Device.ApplicationPath) ? base.GetFileNames(directoryName) :
+                AssetManager.List(directoryName.Substring(Device.ApplicationPath.Length).Trim('/'))
+                .Select(directoryName.AppendPath).Where(d =>
+                {
+                    try { return AssetManager.List(d).Length == 0; }
+                    catch { return true; }
+                }).ToArray();
         }
 
         /// <summary>
-        /// Gets the directory names for a directory.
+        /// Returns the name of the directory that contains the specified file.
         /// </summary>
-        /// <param name="directoryName">Name of the directory.</param>
-        /// <returns></returns>
+        /// <param name="filename">The file to get the directory of.</param>
         public override string[] GetDirectoryNames(string directoryName)
         {
             if (directoryName == null) throw new ArgumentNullException(nameof(directoryName));
-            return Directory.GetDirectories(directoryName);
+            return !directoryName.StartsWith(Device.ApplicationPath) ? base.GetDirectoryNames(directoryName) :
+                AssetManager.List(directoryName.Substring(Device.ApplicationPath.Length).Trim('/'))
+                .Select(directoryName.AppendPath).Where(d =>
+                {
+                    try { return AssetManager.List(d).Length > 0; }
+                    catch { return false; }
+                }).ToArray();
         }
 
         /// <summary>
@@ -188,18 +234,5 @@ namespace MonoCross.Utilities.Storage
         }
 
         #endregion
-
-        /// <summary>
-        /// Removes leading byte-order marks from a UTF-8 byte array, if present.
-        /// </summary>
-        /// <param name="bytes">The input bytes to be sanitized.</param>
-        /// <returns>The bytes without a leading byte-order mark.</returns>
-        private static byte[] RemoveBOM(byte[] bytes)
-        {
-            if (bytes.Length > 2 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
-                return bytes.Skip(3).ToArray();
-
-            return bytes;
-        }
     }
 }

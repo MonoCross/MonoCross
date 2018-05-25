@@ -235,7 +235,7 @@ namespace MonoCross.Utilities.Storage
         public virtual string ReadString(string filename, string key, byte[] salt)
         {
             byte[] contents = Read(filename, key, salt);
-            return Encoding.Unicode.GetString(contents);
+            return Encoding.Unicode.GetString(contents, 0, contents.Length);
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace MonoCross.Utilities.Storage
         public virtual string ReadStringClear(string filename)
         {
             byte[] contents = ReadClear(filename);
-            return Encoding.Unicode.GetString(contents);
+            return Encoding.Unicode.GetString(contents, 0, contents.Length);
         }
 
         #endregion
@@ -368,15 +368,9 @@ namespace MonoCross.Utilities.Storage
             if (sourceDirectoryName == null) { throw new ArgumentNullException("sourceDirectoryName", "Must specify source directory"); }
             else if (destinationDirectoryName == null) { throw new ArgumentNullException("destinationDirectoryName", "Must specify destination directory"); }
 
-
-            // Make sure the source exists first
-            //if (!Directory.Exists(sourceDirectoryName)) 
-            //    return;
-
             // Create the destination folder if needed
             CreateDirectory(destinationDirectoryName);
 
-#if !SILVERLIGHT
             // Copy the files and overwrite destination files if they already exist.
             foreach (string fls in Directory.GetFiles(sourceDirectoryName))
             {
@@ -384,7 +378,6 @@ namespace MonoCross.Utilities.Storage
                 flInfo.CopyTo(Path.Combine(destinationDirectoryName, flInfo.Name), overwriteExisting);
             }
 
-#endif
             // Copy all subfolders by calling CopyDirectory recursively
             foreach (string drs in GetDirectoryNames(sourceDirectoryName))
             {
