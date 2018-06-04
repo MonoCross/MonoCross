@@ -123,10 +123,11 @@ namespace MonoCross.Utilities.Storage
             // Copy the files and overwrite destination files if they already exist.
             foreach (string fls in GetFileNames(sourceDirectoryName))
             {
-                var destFile = Path.Combine(destinationDirectoryName, fls);
+                FileInfo flInfo = new FileInfo(fls);
+                var destFile = Path.Combine(destinationDirectoryName, flInfo.Name);
                 if (overwriteExisting || !base.Exists(destFile))
                 {
-                    Copy(sourceDirectoryName.AppendPath(fls), destFile);
+                    Copy(sourceDirectoryName.AppendPath(flInfo.Name), destFile);
                 }
             }
 
@@ -194,13 +195,7 @@ namespace MonoCross.Utilities.Storage
         public override string[] GetFileNames(string directoryName)
         {
             if (directoryName == null) throw new ArgumentNullException(nameof(directoryName));
-            return !directoryName.StartsWith(Device.ApplicationPath) ? base.GetFileNames(directoryName) :
-                AssetManager.List(directoryName.Substring(Device.ApplicationPath.Length).Trim('/'))
-                .Select(directoryName.AppendPath).Where(d =>
-                {
-                    try { return AssetManager.List(d).Length == 0; }
-                    catch { return true; }
-                }).ToArray();
+            return directoryName.StartsWith(Device.ApplicationPath) ? GetNames(directoryName, true) : base.GetFileNames(directoryName);
         }
 
         /// <summary>
@@ -210,13 +205,14 @@ namespace MonoCross.Utilities.Storage
         public override string[] GetDirectoryNames(string directoryName)
         {
             if (directoryName == null) throw new ArgumentNullException(nameof(directoryName));
-            return !directoryName.StartsWith(Device.ApplicationPath) ? base.GetDirectoryNames(directoryName) :
-                AssetManager.List(directoryName.Substring(Device.ApplicationPath.Length).Trim('/'))
-                .Select(directoryName.AppendPath).Where(d =>
-                {
-                    try { return AssetManager.List(d).Length > 0; }
-                    catch { return false; }
-                }).ToArray();
+            return directoryName.StartsWith(Device.ApplicationPath) ? GetNames(directoryName, false) : base.GetDirectoryNames(directoryName);
+        }
+
+        private string[] GetNames(string directoryName, bool fileList)
+        {
+            string baseDir = directoryName.Substring(Device.ApplicationPath.Length).Trim('/');
+            return AssetManager.List(baseDir).Where(d => (AssetManager.List(baseDir.AppendPath(d)).Length == 0) == fileList)
+                .Select(directoryName.AppendPath).ToArray();
         }
 
         /// <summary>
