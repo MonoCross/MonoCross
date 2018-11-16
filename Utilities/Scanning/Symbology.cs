@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MonoCross.Utilities.Barcode
+﻿namespace MonoCross.Utilities.Barcode
 {
     // enumaration of 1 Dimensional barcode symbologies
     public enum Symbology
@@ -22,5 +18,7 @@ namespace MonoCross.Utilities.Barcode
         Sticky,             // redlaser (no idea what this is but redlaser supports it)
         // others supported by koamtec 300i
         // GS1-128 (UCC/EAN128), MSI, Plessey, PosiCode, GS1 DataBar (Omni/Limited/Expanded), S2of5IA, S2of5ID, TLC39, Telepen, Trioptic
+        DataMatrix,         // EMDK 2D barcode
+        QRCode,             // EMDK 2D barcode
     }
 }

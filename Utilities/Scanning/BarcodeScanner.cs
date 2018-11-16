@@ -95,9 +95,9 @@ namespace MonoCross.Utilities.Barcode
         {
             return _enabled.Contains(symbology);
         }
-        public bool EnableSymbologies(List<Symbology> symbologies)
+        public bool EnableSymbologies(IEnumerable<Symbology> symbologies)
         {
-            if (symbologies.Count == 0)
+            if (!symbologies.Any())
             {
                 throw new ArgumentException("You haven't specified any symbologies", "symbologies");
             }
