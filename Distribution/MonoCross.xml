@@ -6059,7 +6059,7 @@
             <param name="symbology"></param>
             <returns></returns>
         </member>
-        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbologies(System.Collections.Generic.List{MonoCross.Utilities.Barcode.Symbology})">
+        <member name="M:MonoCross.Utilities.Barcode.IBarcodeScanner.EnableSymbologies(System.Collections.Generic.IEnumerable{MonoCross.Utilities.Barcode.Symbology})">
             <summary>
             Sets the symbologies to ONLY those specified, disabling all others
             </summary>
