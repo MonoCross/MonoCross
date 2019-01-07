@@ -64,7 +64,16 @@ namespace MonoCross.Utilities.Storage
             // replace invaild characters
             resourceName = Regex.Replace(resourceName, "[^a-zA-Z\\d_$]", "_").ToLowerInvariant();
             PrepareResources();
-            return _resources.GetIdentifier(resourceName, isDrawable ? "drawable" : "raw", _packageName);
+            if (isDrawable)
+            {
+                var retval = _resources.GetIdentifier(resourceName, "drawable", _packageName);
+                if (retval == 0)
+                {
+                    return _resources.GetIdentifier(resourceName, "mipmap", _packageName);
+                }
+                return retval;
+            }
+            return _resources.GetIdentifier(resourceName, "raw", _packageName);
         }
 
         private void PrepareResources()
