@@ -113,27 +113,5 @@ namespace MonoCross.Utilities
             if (del == null) return null;
             return del.GetInvocationList();
         }
-
-        /// <summary>
-        /// Gets an object that represents the method represented by the specified delegate.
-        /// </summary>
-        /// <param name="method">The delegate to examine.</param>
-        /// <returns>An object that represents the method.</returns>
-        public static MethodInfo GetMethodInfo(this Delegate method)
-        {
-            return method.Method;
-        }
-
-        /// <summary>
-        /// Creates a delegate of the specified type that represents the specified static or instance method, with the specified first argument.
-        /// </summary>
-        /// <param name="method">The <see cref="MethodInfo"/> describing the static or instance method the delegate is to represent.</param>
-        /// <param name="type">The <see cref="Type"/> of delegate to create. </param>
-        /// <param name="firstArgument">The object to which the delegate is bound, or <c>null</c> to treat <paramref name="method"/> as <c>static</c>.</param>
-        /// <returns>A delegate of the specified type that represents the specified static or instance method.</returns>
-        public static Delegate CreateDelegate(this MethodInfo method, Type type, object firstArgument)
-        {
-            return Delegate.CreateDelegate(type, firstArgument, method);
-        }
     }
 }
