@@ -521,9 +521,8 @@ namespace MonoCross.Utilities.Network
                     }
                     else if (key.ToLower() == "host")
                     {
-                        Exception ex;
                         //TODO: add the URL explaining PCL incompatibility
-                        ex = new ArgumentException("Host header value cannot be set in PCL libraries.");
+                        Exception ex = new ArgumentException("Host header value cannot be set in PCL libraries.");
                         Device.Log.Error(ex);
                         throw ex;
                     }
