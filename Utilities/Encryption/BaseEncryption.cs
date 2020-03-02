@@ -43,7 +43,6 @@ namespace MonoCross.Utilities.Encryption
 
         #endregion
 
-#if !NETCF
         /// <summary>
         /// Returns an <see cref="AesManaged"/> instance with the specified key and key salt.
         /// </summary>
@@ -90,7 +89,6 @@ namespace MonoCross.Utilities.Encryption
                 IV = iv
             };
         }
-#endif
 
         #region String Encryption/Decryption Methods
 

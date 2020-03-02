@@ -78,7 +78,6 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
-    <None Remove="build-CF.cmd" />
     <None Remove="build.cmd" />
     <None Remove="build.xml" />
     <None Remove="MonoCross.nuspec" />

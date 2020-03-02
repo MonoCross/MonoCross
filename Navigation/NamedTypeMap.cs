@@ -10,25 +10,19 @@ namespace MonoCross.Navigation
     /// <summary>
     /// Represents a mapping of abstract types to native class types to each platform that the abstract types represent.
     /// </summary>
-#if !NETCF
     [DebuggerDisplay("Count = {Count}")]
-#endif
     public class NamedTypeMap : IDictionary<Type, Type>
     {
         /// <summary>
         /// The map from a named type to a type loader.
         /// </summary>
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#endif
         public IDictionary<NamedType, TypeLoader> Items
         {
             get { return _items; }
         }
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#endif
         private readonly IDictionary<NamedType, TypeLoader> _items;
 
         /// <summary>
@@ -271,25 +265,19 @@ namespace MonoCross.Navigation
                 Remove(item.Key);
         }
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#endif
         bool ICollection<KeyValuePair<Type, Type>>.IsReadOnly
         {
             get { return _items.IsReadOnly; }
         }
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#endif
         ICollection<Type> IDictionary<Type, Type>.Keys
         {
             get { return _items.Keys.Select(k => k.Type).ToList(); }
         }
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#endif
         ICollection<Type> IDictionary<Type, Type>.Values
         {
             get { return _items.Values.Select(k => k.Type).ToList(); }

@@ -26,10 +26,6 @@
         /// </summary>
         iPad,
         /// <summary>
-        /// A Microsoft Windows Mobile device (v. 6.1 and earlier).
-        /// </summary>
-        WindowsMobile,
-        /// <summary>
         /// A WebOS device like the Palm Pre or Pixi.
         /// </summary>
         WebOS,
@@ -41,13 +37,5 @@
         /// A Microsoft Internet Explorer browser.
         /// </summary>
         WindowsIE,
-        /// <summary>
-        /// A Microsoft Silverlight browser.
-        /// </summary>
-        Silverlight,
-        /// <summary>
-        /// A Microsoft Windows Phone device.
-        /// </summary>
-        WinPhone,
     }
 }

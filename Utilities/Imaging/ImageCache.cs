@@ -47,9 +47,7 @@ namespace MonoCross
             get { return cache.Count; }
         }
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
         private Dictionary<string, CacheEntry> cache;
         private readonly object cacheLock = new object();
 

@@ -6,8 +6,6 @@ using System.Security.Cryptography;
 
 namespace MonoCross.Utilities.Encryption
 {
-#if !NETCF
-
     /// <summary>
     /// Represents a static mapping of expiring encryption modules.
     /// </summary>
@@ -173,6 +171,4 @@ namespace MonoCross.Utilities.Encryption
             }
         }
     }
-
-#endif
 }

@@ -135,9 +135,7 @@ namespace MonoCross.Utilities.Serialization
                 if (writer != null)
                 {
                     writer.Close();
-#if !NETCF
                     writer.Dispose();
-#endif
                 }
             }
 
@@ -338,9 +336,7 @@ namespace MonoCross.Utilities.Serialization
                 if (writer != null)
                 {
                     writer.Close();
-#if !NETCF
                     writer.Dispose();
-#endif
                 }
             }
 

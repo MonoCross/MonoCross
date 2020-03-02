@@ -119,9 +119,7 @@ namespace MonoCross.Utilities.Storage
                 {
                     Device.Log.Error("error in file read", cexc);
                     var exc = new Exception("error in file read", cexc);
-#if !NETCF
                     exc.Data.Add("filename", filename);
-#endif
                     throw exc;
                 }
             }

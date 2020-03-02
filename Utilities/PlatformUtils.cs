@@ -22,8 +22,6 @@ namespace MonoCross
             var pre = new Regex("Pre");
 
             var windowsnt = new Regex("Windows NT");
-            var windowsce = new Regex("Windows CE");
-            var winPhone = new Regex("IEMobile");
             var windowsie = new Regex("IE");
 
             if (blackberry.IsMatch(userAgent))
@@ -38,10 +36,6 @@ namespace MonoCross
                 return MobilePlatform.iPad;
             if (windowsnt.IsMatch(userAgent))
                 return MobilePlatform.Windows;
-            if (windowsce.IsMatch(userAgent))
-                return MobilePlatform.WindowsMobile;
-            if (winPhone.IsMatch(userAgent))
-                return MobilePlatform.WinPhone;
             if (windowsie.IsMatch(userAgent))
                 return MobilePlatform.WindowsIE;
             else

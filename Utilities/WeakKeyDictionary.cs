@@ -12,19 +12,13 @@ namespace MonoCross.Utilities
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-#if !NETCF
     [DebuggerDisplay("Count = {Count}")]
-#endif
     public sealed class WeakKeyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
         private readonly Dictionary<WeakKeyReference, TValue> items;
 
-#if !NETCF
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
         private long lastMemoryMarker = 0;
 
         /// <summary>

@@ -183,11 +183,7 @@ namespace MonoCross.Utilities.Network
 
             // WaitOne returns true if autoEvent were signaled (i.e. process completed before timeout expired)
             // WaitOne returns false it the timeout expired before the process completed.
-#if NETCF
-            if ( !autoEvent.WaitOne( timeout, false ) )
-#else
             if (!autoEvent.WaitOne(timeout))
-#endif
             {
                 string message = "FetcherAsynch call to FetchAsynch timed out. uri " + fetchParameters.Uri;
                 Device.Log.Metric("FetchAsynch timed out: Uri: {0} Time: {1:F0} milliseconds ", uri, DateTime.UtcNow.Subtract(dtMetric).TotalMilliseconds);
@@ -197,7 +193,7 @@ namespace MonoCross.Utilities.Network
                     Message = message,
                     URI = fetchParameters.Uri,
                     StatusCode = HttpStatusCode.RequestTimeout,
-                    WebExceptionStatusCode = (WebExceptionStatus)(14),  // 14 = timeout, not available in silverlight
+                    WebExceptionStatusCode = WebExceptionStatus.Timeout,
                     ResponseString = string.Empty,
                     Expiration = DateTime.MinValue.ToUniversalTime(),
                     AttemptToRefresh = DateTime.MinValue.ToUniversalTime(),
@@ -325,12 +321,7 @@ namespace MonoCross.Utilities.Network
                     }
                     else if (key.ToLower() == "host")
                     {
-                        Exception ex;
-#if NETCF
-                        ex = new ArgumentException("Host header value cannot be set in Compact Frameword libraries.");
-#else
-                        ex = new ArgumentException("Host header value cannot be set in PCL libraries.");
-#endif
+                        Exception ex = new ArgumentException("Host header value cannot be set in PCL libraries.");
                         Device.Log.Error(ex);
                         throw ex;
                     }
@@ -354,11 +345,7 @@ namespace MonoCross.Utilities.Network
             {
                 // Start the asynchronous request.
                 IAsyncResult result = request.BeginGetResponse(new AsyncCallback(ResponseCallback), state);
-#if NETCF
-                if (!allDone.WaitOne(fetchParameters.Timeout, false))
-#else
                 if (!allDone.WaitOne(fetchParameters.Timeout))
-#endif
                 {
                     try { request.Abort(); } catch (Exception) { } // .Abort() always throws exception
                     return;
@@ -383,10 +370,8 @@ namespace MonoCross.Utilities.Network
 
                 // End the Asynchronous response and get the actual response object
                 state.Response = (HttpWebResponse)request.EndGetResponse(result);
-#if !NETCF
                 state.Expiration = state.Response.Headers["Expires"].TryParseDateTimeUtc();
                 state.AttemptToRefresh = state.Response.Headers["MonoCross-Attempt-Refresh"].TryParseDateTimeUtc();
-#endif
                 // apply web response headers to data collection.
                 // TODO: evaluate which headers are actually needed and skip those that aren't. So, what's our logic for "needed headers" ?
                 foreach (string key in state.Response.Headers.AllKeys)
@@ -428,10 +413,8 @@ namespace MonoCross.Utilities.Network
             catch (WebException ex)
             {
                 string StatusDescription = string.Empty;
-#if !NETCF
                 ex.Data.Add("Uri", state.Request.RequestUri);
                 ex.Data.Add("Verb", state.Request.Method);
-#endif
                 if (ex.Response != null)
                 {
                     state.StatusCode = ((HttpWebResponse)ex.Response).StatusCode;
@@ -448,11 +431,9 @@ namespace MonoCross.Utilities.Network
                     state.StatusCode = (HttpStatusCode)(-2);
                 }
                 state.WebExceptionStatusCode = ex.Status;
-#if !NETCF
                 ex.Data.Add("StatusCode", state.StatusCode);
                 ex.Data.Add("WebException.Status", ex.Status);
                 ex.Data.Add("StatusDescription", StatusDescription);
-#endif
                 state.ErrorMessage = string.Format("Call to {0} had a Webexception. {1}   Status: {2}   Desc: {3}", state.Request.RequestUri, ex.Message, ex.Status, StatusDescription);
                 state.Exception = ex;
                 state.Expiration = DateTime.UtcNow;
@@ -462,10 +443,8 @@ namespace MonoCross.Utilities.Network
             }
             catch (Exception ex)
             {
-#if !NETCF
                 ex.Data.Add("Uri", state.Request.RequestUri);
                 ex.Data.Add("Verb", state.Request.Method);
-#endif
                 state.ErrorMessage = string.Format("Call to {0} had an Exception. {1}", state.Request.RequestUri, ex.Message);
                 state.Exception = ex;
                 state.StatusCode = (HttpStatusCode)(-1);

@@ -90,11 +90,7 @@ namespace MonoCross.Utilities.Threading
             get { lock (_queue) { return _threadCount; } }
         }
 
-#if NETCF
-        private static int _threadCount;
-#else
         private static long _threadCount;
-#endif
 
         private bool IsIdle
         {

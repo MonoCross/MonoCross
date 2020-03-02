@@ -114,8 +114,6 @@ namespace MonoCross.Utilities
             return del.GetInvocationList();
         }
 
-#if NETCF
-
         /// <summary>
         /// Gets an object that represents the method represented by the specified delegate.
         /// </summary>
@@ -137,6 +135,5 @@ namespace MonoCross.Utilities
         {
             return Delegate.CreateDelegate(type, firstArgument, method);
         }
-#endif
     }
 }

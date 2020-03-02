@@ -2298,6 +2298,22 @@
             <param name="eventName">The name of the event.</param>
             <returns><c>true</c> if the event is present, otherwise <c>false</c>.</returns>
         </member>
+        <member name="M:MonoCross.Utilities.Events.GetMethodInfo(System.Delegate)">
+            <summary>
+            Gets an object that represents the method represented by the specified delegate.
+            </summary>
+            <param name="method">The delegate to examine.</param>
+            <returns>An object that represents the method.</returns>
+        </member>
+        <member name="M:MonoCross.Utilities.Events.CreateDelegate(System.Reflection.MethodInfo,System.Type,System.Object)">
+            <summary>
+            Creates a delegate of the specified type that represents the specified static or instance method, with the specified first argument.
+            </summary>
+            <param name="method">The <see cref="T:System.Reflection.MethodInfo"/> describing the static or instance method the delegate is to represent.</param>
+            <param name="type">The <see cref="T:System.Type"/> of delegate to create. </param>
+            <param name="firstArgument">The object to which the delegate is bound, or <c>null</c> to treat <paramref name="method"/> as <c>static</c>.</param>
+            <returns>A delegate of the specified type that represents the specified static or instance method.</returns>
+        </member>
         <member name="T:MonoCross.Utilities.StringExtensions">
             <summary>
             Represents methods for manipulating strings.
@@ -8938,11 +8954,6 @@
             An Apple iPad device.
             </summary>
         </member>
-        <member name="F:MonoCross.MobilePlatform.WindowsMobile">
-            <summary>
-            A Microsoft Windows Mobile device (v. 6.1 and earlier).
-            </summary>
-        </member>
         <member name="F:MonoCross.MobilePlatform.WebOS">
             <summary>
             A WebOS device like the Palm Pre or Pixi.
@@ -8956,16 +8967,6 @@
         <member name="F:MonoCross.MobilePlatform.WindowsIE">
             <summary>
             A Microsoft Internet Explorer browser.
-            </summary>
-        </member>
-        <member name="F:MonoCross.MobilePlatform.Silverlight">
-            <summary>
-            A Microsoft Silverlight browser.
-            </summary>
-        </member>
-        <member name="F:MonoCross.MobilePlatform.WinPhone">
-            <summary>
-            A Microsoft Windows Phone device.
             </summary>
         </member>
         <member name="T:MonoCross.NetworkResponse">

@@ -3,37 +3,6 @@ using System.Threading;
 
 namespace MonoCross.Utilities.Threading
 {
-#if NETCF
-    public class SynchronizationContext
-    {
-        public static SynchronizationContext Current
-        {
-            get
-            {
-                return new SynchronizationContext();
-            }
-        }
-        public static void SetSynchronizationContext(SynchronizationContext current)
-        { }
-        public void Post(ParameterizedThreadStart threadStart, object parameter)
-        {
-            Device.Thread.ExecuteOnMainThread(threadStart, parameter);
-        }
-    }
-
-    public static class DelegateExtensions
-    {
-        public static void DynamicInvoke(this Delegate dlg, params object[] args)
-        {
-            var list = dlg.GetInvocationList();
-            foreach (var del in list)
-            {
-                del.Method.Invoke(del.Target, System.Reflection.BindingFlags.Default, null, args, null);
-            }
-        }
-    }
-#endif
-
     /// <summary>
     /// Represents a basic threading utility that works across multiple platforms.
     /// </summary>

@@ -43,11 +43,7 @@ namespace MonoCross.Utilities
             T element;
             try
             {
-#if NETCF
-                if (handles.Length > 0 && WaitForMultipleObjects(handles.Length, handles.Select(w => w.Handle).ToArray(), true, timeout_milliseconds) == 0)
-#else
                 if (WaitHandle.WaitAny(handles, timeout_milliseconds) == 0)
-#endif
                 {
                     lock (_q)
                     {
@@ -68,10 +64,6 @@ namespace MonoCross.Utilities
             }
         }
 
-#if NETCF
-        [System.Runtime.InteropServices.DllImport("coredll.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode, SetLastError = false)]
-        public static extern int WaitForMultipleObjects(int count, IntPtr[] handle, bool waitAll, int milliseconds);
-#endif
 
         public T Dequeue()
         {

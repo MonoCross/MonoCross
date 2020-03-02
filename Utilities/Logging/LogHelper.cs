@@ -39,11 +39,9 @@ namespace MonoCross.Utilities.Logging
                 ex.Message,
                 ex.StackTrace);
 
-#if !NETCF
             // Include the Data collection
             exMessage += "\n Data:";
             exMessage = ex.Data.Keys.Cast<object>().Aggregate(exMessage, (current, item) => current + string.Format(" key:{0}, value:{1};", item, ex.Data[item]));
-#endif
             // Are there any inner exceptions?
             while (ex.InnerException != null)
             {
@@ -60,11 +58,9 @@ namespace MonoCross.Utilities.Logging
                 string.Format("\n  [Inner Exception]\n  Message: {0}\n  Stack: {1}",
                 ex.Message,
                 ex.StackTrace);
-#if !NETCF
             // Include the Data collection
             inExMessage += "\n  Data:";
             inExMessage = ex.Data.Keys.Cast<object>().Aggregate(inExMessage, (current, item) => current + string.Format(" key:{0}, value:{1};", item, ex.Data[item]));
-#endif
             return inExMessage;
         }
     }
